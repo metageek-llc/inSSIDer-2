@@ -1,0 +1,374 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0AAD1ED7-4FDE-4768-B3FC-E9B502CDEA8A}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>inSSIDer</RootNamespace>
+    <AssemblyName>inSSIDer</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <StartupObject>
+    </StartupObject>
+    <ApplicationIcon>app-inssider.ico</ApplicationIcon>
+    <TargetFrameworkSubset>Full</TargetFrameworkSubset>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;CRASH</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Misc\Settings.cs" />
+    <Compile Include="Misc\SignalColor.cs" />
+    <Compile Include="UI\Controls\GpsGraph.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\GpsGraph.Designer.cs">
+      <DependentUpon>GpsGraph.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\SparkLineCell.cs" />
+    <Compile Include="UI\Controls\SparkLineColumn.cs" />
+    <Compile Include="UI\Forms\frmAbout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\frmAbout.designer.cs">
+      <DependentUpon>frmAbout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\ChannelView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\ChannelView.designer.cs">
+      <DependentUpon>ChannelView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\ExprParser.cs" />
+    <Compile Include="UI\Controls\FilterManager.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\FilterManager.Designer.cs">
+      <DependentUpon>FilterManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\frmFBuild.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\frmFBuild.Designer.cs">
+      <DependentUpon>frmFBuild.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\frmGpsCfg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\frmGpsCfg.Designer.cs">
+      <DependentUpon>frmGpsCfg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\frmLogConverter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\frmLogConverter.Designer.cs">
+      <DependentUpon>frmLogConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\GpsMon.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\GpsMon.Designer.cs">
+      <DependentUpon>GpsMon.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FileIO\GpxDataLogger.cs" />
+    <Compile Include="FileIO\GpxIO.cs" />
+    <Compile Include="UI\Controls\GrayButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\GrayGroupBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\GrayRadioButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\GrayToolStripRenderer.cs" />
+    <Compile Include="UI\Controls\GripSplitContainer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HTML\Download.cs" />
+    <Compile Include="HTML\HtmlControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HTML\HtmlControl.Designer.cs">
+      <DependentUpon>HtmlControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HTML\LinkHelper.cs" />
+    <Compile Include="HTML\RssConverter.cs" />
+    <Compile Include="Misc\Interfaces.cs" />
+    <Compile Include="FileIO\KmlWriter.cs" />
+    <Compile Include="Localization\Localizer.cs" />
+    <Compile Include="Localization\LocalizerResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LocalizerResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\Log.cs" />
+    <Compile Include="Scanning\NetworkDataCache.cs" />
+    <Compile Include="UI\Controls\NetworkInterfaceSelector.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\NetworkInterfaceSelector.designer.cs">
+      <DependentUpon>NetworkInterfaceSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Scanning\NetworkScanner.cs" />
+    <Compile Include="FileIO\NS1Writer.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="UI\Forms\frmAbout.resx">
+      <DependentUpon>frmAbout.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\ChannelView.resx">
+      <DependentUpon>ChannelView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\FilterManager.resx">
+      <DependentUpon>FilterManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\frmFBuild.resx">
+      <DependentUpon>frmFBuild.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\frmGpsCfg.resx">
+      <DependentUpon>frmGpsCfg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\frmLogConverter.resx">
+      <DependentUpon>frmLogConverter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\GpsMon.resx">
+      <DependentUpon>GpsMon.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HTML\HtmlControl.resx">
+      <DependentUpon>HtmlControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Localization\LocalizerResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LocalizerResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\NetworkInterfaceSelector.resx">
+      <DependentUpon>NetworkInterfaceSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\ScannerView.resx">
+      <DependentUpon>ScannerView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\TimeGraph.resx">
+      <DependentUpon>TimeGraph.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Mini\frmMini.resx">
+      <DependentUpon>frmMini.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Mini\ScannerViewMini.resx">
+      <DependentUpon>ScannerViewMini.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UnhandledException\UnhandledExDlgForm.resx">
+      <DependentUpon>UnhandledExDlgForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Version\VersionUpdateForm.resx">
+      <DependentUpon>VersionUpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Scanning\Scanner.cs" />
+    <Compile Include="UI\Controls\ScannerView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\ScannerView.designer.cs">
+      <DependentUpon>ScannerView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\SettingsMgr.cs" />
+    <Compile Include="UI\Controls\TimeGraph.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\TimeGraph.designer.cs">
+      <DependentUpon>TimeGraph.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Mini\frmMini.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Mini\frmMini.Designer.cs">
+      <DependentUpon>frmMini.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Mini\ScannerViewMini.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Mini\ScannerViewMini.designer.cs">
+      <DependentUpon>ScannerViewMini.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UnhandledException\MapiMailMessage.cs" />
+    <Compile Include="UnhandledException\SendExceptionClickEventArgs.cs" />
+    <Compile Include="UnhandledException\UnhandledExceptionDlg.cs" />
+    <Compile Include="UnhandledException\UnhandledExDlgForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UnhandledException\UnhandledExDlgForm.designer.cs">
+      <DependentUpon>UnhandledExDlgForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\Utilities.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Version\VersionInfo.cs" />
+    <Compile Include="Version\VersionUpdateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Version\VersionUpdateForm.Designer.cs">
+      <DependentUpon>VersionUpdateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\XmlHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\wifiPlay.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Resources\wifiStop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IoctlNdis\IoctlNdis.csproj">
+      <Project>{27BBAED2-FCF5-4A9E-BCFA-DE6D50F4CDBC}</Project>
+      <Name>IoctlNdis</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ManagedWifi\ManagedWifi.csproj">
+      <Project>{B290695E-0DD1-4912-88DE-7AA6DC7AF0A5}</Project>
+      <Name>ManagedWifi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetaGeek.Gps\MetaGeek.Gps.csproj">
+      <Project>{92A74448-AA21-49EF-90F6-B4AA05D092B8}</Project>
+      <Name>MetaGeek.Gps</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetaGeek.WiFi\MetaGeek.WiFi.csproj">
+      <Project>{14B730A0-6147-4767-A4B4-2AC86DD9FB8C}</Project>
+      <Name>MetaGeek.WiFi</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\longGripOff.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="HTML\Content\news.rss">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\longGripOn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app-inssider.ico" />
+    <Content Include="HTML\Content\news.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="HTML\Content\rss.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="HTML\Content\style.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\metageek-logo.bmp" />
+    <None Include="Resources\launch-inssider.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

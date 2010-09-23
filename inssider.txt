@@ -1,0 +1,9 @@
+Version:1.9.8.0923
+URL:http://www.metageek.net/forums/showthread.php?3531-Download-inSSIDer-2.0-Beta-1
+
+Description: 
+1.9.8:
+Status bar now displays # of APs
+Lots of code cleanup and refactoring...
+
+* Please test this version as it is close to final, thanks! *

@@ -1,0 +1,28 @@
+  body {
+    border: none;
+    padding: 0;
+    margin: 4px;
+    margin-left: 10px;
+    /*display: block;*/
+    background-color: #000;
+    /*color: #e6e6e6;*/
+  }
+
+  .items h1 { 
+    font-size: medium; 
+    border: 1px #555 solid;
+    border-width: 1px /*0 0 1px*/;
+    /*border-left-color: #555;  */
+    padding: 4px;
+    background-color: #222;    
+    font-weight: bold;
+    margin-top: 1em;
+  }
+  
+  .post-description {
+    margin-left: 20px;
+  }
+  
+
+/* End */
+
