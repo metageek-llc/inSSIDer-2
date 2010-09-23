@@ -468,9 +468,9 @@ namespace MetaGeek.WiFi
                     case Op.NotSet:
                         return false;
                     case Op.Equal:
-                        return cvalue.Equals(value);
+                        return cvalue.Compare(value);
                     case Op.NotEqual:
-                        return !cvalue.Equals(value);
+                        return !cvalue.Compare(value);
                     default:
                         return false;
                 }

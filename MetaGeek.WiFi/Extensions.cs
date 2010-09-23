@@ -18,14 +18,14 @@
 
 namespace MetaGeek.WiFi
 {
-/*
+
     static class Extensions
     {
         //Bool enum
-        public static bool Equals(this Bool b, bool b2)
+        public static bool Compare(this Bool b, bool b2)
         {
             return b2 && b == Bool.True;
         }
     }
-*/
+
 }
