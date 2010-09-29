@@ -100,10 +100,6 @@ namespace inSSIDer.Scanning
                         Utilities.ConvertToMbs(entry.BaseEntry.wlanRateSet.Rates, item.Rates);
                         if (entry.NSettings != null)
                         {
-                            /*item.Rates.Add(IEParser.MCSSet.GetSpeed(entry.nSettings.maxMCS,
-                                                                    entry.nSettings.ShortGI20MHz,
-                                                                    entry.nSettings.ShortGI40MHz,
-                                                                    entry.nSettings.Is40MHz));*/
                             item.NSettings = new IeParser.TypeNSettings(entry.NSettings);
 
                             //Add the extended 802.11N rates

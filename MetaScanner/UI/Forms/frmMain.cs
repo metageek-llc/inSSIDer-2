@@ -192,7 +192,12 @@ namespace inSSIDer.UI.Forms
 
             CheckForUpdate(false);
 
-            htmlControl.UpdateFile();
+            // Move news HTML to temp directory if it's not already there
+            // This allows us to update the news file
+            bool copied = CopyHtmlToTemp();
+
+            // Force update if we just copied the file over
+            htmlControl.UpdateFile(copied);
 
 #if CRASH
             crashToolStripMenuItem.Enabled = true;
@@ -456,6 +461,38 @@ namespace inSSIDer.UI.Forms
 #if CRASH
             throw new NullReferenceException("You crashed it!");
 #endif
+        }
+
+        /// <summary>
+        /// Copies HTML files to temp directory
+        /// </summary>
+        /// <returns>True if copied files, false otherwise</returns>
+        private bool CopyHtmlToTemp()
+        {
+            bool copiedFile = false;
+
+            string newsDirectory = Path.GetTempPath() + "MetaGeekNews" + Path.DirectorySeparatorChar;
+            string newsFile = newsDirectory + "news.html";
+
+            try
+            {
+                //// check whether the rss already exists
+                if (!File.Exists(newsFile))
+                {
+                    Directory.CreateDirectory(newsDirectory);
+                    File.Copy("HTML\\Content\\news.html", newsFile, true);
+                    copiedFile = true;
+                }
+                if (!File.Exists(newsDirectory + "news.css"))
+                {
+                    File.Copy("HTML\\Content\\news.css", newsDirectory + "news.css", true);
+                }
+            }
+            catch (Exception)
+            {
+            }
+
+            return copiedFile;
         }
 
         /// <summary>

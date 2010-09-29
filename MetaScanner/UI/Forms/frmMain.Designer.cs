@@ -458,7 +458,6 @@ namespace inSSIDer.UI.Forms
             this.htmlControl.AnalyticsSource = "NewsTab";
             this.htmlControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.htmlControl.IsWebBrowserContextMenuEnabled = false;
-            this.htmlControl.LocalFileName = "HTML\\\\Content\\\\news.html";
             this.htmlControl.Location = new System.Drawing.Point(0, 0);
             this.htmlControl.MinimumSize = new System.Drawing.Size(20, 20);
             this.htmlControl.Name = "htmlControl";

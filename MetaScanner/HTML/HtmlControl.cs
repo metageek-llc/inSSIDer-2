@@ -18,6 +18,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows.Forms;
 using System.IO;
 using inSSIDer.Properties;
@@ -61,22 +62,22 @@ namespace inSSIDer.HTML
         [Category("Behavior")]
         public bool OpenWebLinks { get; set; }
 
-        private string _localFileName;
-        /// <summary>
-        /// 
-        /// </summary>
-        [Category("Data")]
-        public string LocalFileName
-        {
-            get { return _localFileName; }
-            set
-            {
-                _localFileName = value;
-                // load the file if the browser is already initialized
-                if (_firstPageLoaded)
-                    OpenLocalFile();
-            }
-        }
+        private string LocalFileName { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //[Category("Data")]
+        //public string LocalFileName
+        //{
+        //    get { return _localFileName; }
+        //    set
+        //    {
+        //        _localFileName = value;
+        //        // load the file if the browser is already initialized
+        //        if (_firstPageLoaded)
+        //            OpenLocalFile();
+        //    }
+        //}
 
 
         #endregion
@@ -84,6 +85,8 @@ namespace inSSIDer.HTML
         #region Constructors
         public HtmlControl()
         {
+            LocalFileName = Path.GetTempPath() + "MetaGeekNews" + Path.DirectorySeparatorChar + "news.html";
+
             InitializeComponent();
         }
 
@@ -92,39 +95,43 @@ namespace inSSIDer.HTML
 
         #region Methods
 
-        public void UpdateFile()
+        public void UpdateFile(bool forceUpdate)
         {
+            //string htmlFile = Path.GetTempPath() + "MetaGeekNews" + Path.DirectorySeparatorChar + "news.html";
+
             if ((UpdateIntervalDays > 0) && (UpdateUrl != string.Empty))
             {
-                //It's not time to update the file yet
-                if ((DateTime.Now - File.GetLastWriteTime(LocalFileName)).TotalDays < UpdateIntervalDays)
+
+                // Skip if it's not time to update the file yet
+                if (forceUpdate || (DateTime.Now - File.GetLastWriteTime(LocalFileName)).TotalDays > UpdateIntervalDays)
                 {
-                    return;
+                    string rssFile = Path.ChangeExtension(LocalFileName, "rss");
+
+                    // BackgroundWorker runs UpdateFile() 
+                    // and then runs RunWorkerCompleted()
+                    BackgroundWorker bw = new BackgroundWorker();
+                    bw.RunWorkerCompleted += (s, e) =>
+                                                 {
+                                                     if (e.Error == null)
+                                                     {
+                                                         Refresh();
+                                                         Navigate(LocalFileName);
+
+                                                         //// this 'tries' to copy the fresh rssFile back to the original source
+                                                         //// if there is permission issue, this never gets copied :(
+                                                         //try
+                                                         //{
+                                                         //    File.Copy(rssFile, "HTML\\Content\\news.html", true);
+                                                         //}
+                                                         //catch
+                                                         //{
+                                                         //    Debug.WriteLine("Exception caught copying file");
+                                                         //}
+                                                     }
+                                                 };
+                    bw.DoWork += (s, e) => Download.UpdateFile(rssFile, UpdateUrl);
+                    bw.RunWorkerAsync();
                 }
-
-                string rssPath = Path.GetFullPath(Path.ChangeExtension(LocalFileName, "rss"));
-
-                BackgroundWorker bw = new BackgroundWorker();
-                //bw.RunWorkerCompleted += (s, e) =>
-                //{
-                //    if (e.Error == null)
-                //    {
-                //        //MyHtmlUnit.RefreshHTML(rssFile);
-
-                //        // this 'tries' to copy the fresh rssFile back to the original source
-                //        // if there is permission issue, this never gets copied :(
-                //        //try
-                //        //{
-                //        //    File.Copy(rssFile, "HTML\\Content\\news.html", true);
-                //        //}
-                //        //catch
-                //        //{
-                //        //    Debug.WriteLine("Exception caught copying file");
-                //        //}
-                //    }
-                //};
-                bw.DoWork += (s, e) => Download.UpdateFile(rssPath, UpdateUrl);
-                bw.RunWorkerAsync();
             }
         }
 
