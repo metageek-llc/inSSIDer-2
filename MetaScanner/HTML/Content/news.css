@@ -6,6 +6,9 @@ body
     font-family: "tahoma","sans-serif"; 
     margin-top: 5px; 
     margin-bottom: 0px; 
+    
+    border: none;
+    padding: 0;
 }
 
 .page { width:725px; margin-left:auto; margin-right:auto; }
@@ -55,6 +58,21 @@ p { margin: 6px auto 0px auto; }
 } 
 
 .description ul { list-style:None; }
+
+.items h1 
+{ 
+    font-size: medium; 
+    border: 1px #555 solid;
+    border-width: 1px /*0 0 1px*/;
+    padding: 4px;
+    background-color: #222;    
+    font-weight: bold;
+    margin-top: 1em;
+}
+  
+.post-description {
+    margin-left: 20px;
+}
 
 #products { width: 625px; margin-left: auto; margin-right: auto; }
 

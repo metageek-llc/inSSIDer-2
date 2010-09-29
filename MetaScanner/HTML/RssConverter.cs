@@ -73,17 +73,14 @@ namespace inSSIDer.HTML
                 // SKIP title, etc. of the feed...
                 reader.Skip();
             }
+
+            // <link type="text/css" rel="stylesheet" media="all" href="./style.css" />
             writer.AddAttribute(HtmlTextWriterAttribute.Type, "text/css");
             writer.AddAttribute(HtmlTextWriterAttribute.Rel, "stylesheet");
-            writer.AddAttribute(HtmlTextWriterAttribute.Href, "./style.css");
+            writer.AddAttribute(HtmlTextWriterAttribute.Href, "./news.css");
             writer.RenderBeginTag(HtmlTextWriterTag.Link);
             writer.RenderEndTag();
 
-            writer.AddAttribute(HtmlTextWriterAttribute.Type, "text/css");
-            writer.AddAttribute(HtmlTextWriterAttribute.Rel, "stylesheet");
-            writer.AddAttribute(HtmlTextWriterAttribute.Href, "./rss.css");
-            writer.RenderBeginTag(HtmlTextWriterTag.Link);
-            writer.RenderEndTag();
             
             writer.RenderEndTag();   // </head>
 
