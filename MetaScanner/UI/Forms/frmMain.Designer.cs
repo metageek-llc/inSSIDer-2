@@ -529,7 +529,7 @@ namespace inSSIDer.UI.Forms
             this.tab58Chan.Name = "tab58Chan";
             this.tab58Chan.Size = new System.Drawing.Size(1000, 237);
             this.tab58Chan.TabIndex = 4;
-            this.tab58Chan.Text = "5.8 GHz Channels";
+            this.tab58Chan.Text = "5 GHz Channels";
             this.tab58Chan.UseVisualStyleBackColor = true;
             // 
             // chanView58
