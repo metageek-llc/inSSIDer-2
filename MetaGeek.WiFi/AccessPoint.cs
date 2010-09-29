@@ -321,8 +321,8 @@ namespace MetaGeek.WiFi
                            Spark,
                            IsN && NSettings != null && NSettings.Is40MHz
                                ? NSettings.SecondaryChannelLower
-                                     ? Channel + " + " + (Channel > 14 ? Channel - 1 : Channel - 4)
-                                     : Channel + " + " + (Channel > 14 ? Channel + 1 : Channel + 4)
+                                     ? Channel + " + " + (Channel - 4)
+                                     : Channel + " + " + (Channel + 4)
                                : Channel.ToString(),
                            Vendor,
                            Privacy,

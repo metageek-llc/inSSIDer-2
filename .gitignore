@@ -1,0 +1,14 @@
+
+/MetaScanner/obj
+/MetaScanner/bin
+/MetaGeek.WiFi/bin
+/MetaGeek.WiFi/obj
+/MetaGeek.Gps/obj
+/MetaGeek.Gps/bin
+/ManagedWifi/obj
+/ManagedWifi/bin
+/IoctlNdis/obj
+/IoctlNdis/bin
+/_ReSharper.MetaScanner
+*.user
+/MetaScanner.suo

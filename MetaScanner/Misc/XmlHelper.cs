@@ -84,7 +84,7 @@ namespace inSSIDer.Misc
             xeMain.AppendChild(CreateElementWithText(document, "name", ssidLabel ? wp.Extensions.Ssid + ": " + wp.Extensions.Rssi : wp.Extensions.Rssi.ToString()));
 
             //Add description element
-            xeMain.AppendChild(CreateElementWithText(document, "description", wp.BuildDescription()));
+            xeMain.AppendChild(CreateElementWithText(document, "description", wp.BuildKmlDescription()));
             //Location
             //KML requires Lon,Lat,Alt. It's backwards!
             XmlElement xePoint = document.CreateElement("Point");
@@ -161,7 +161,7 @@ namespace inSSIDer.Misc
             xeMain.AppendChild(CreateElementWithText(document, "name", tempName));
 
             //Add description element
-            xeMain.AppendChild(CreateElementWithText(document, "description", wp.BuildDescription()));
+            xeMain.AppendChild(CreateElementWithText(document, "description", wp.BuildKmlDescription()));
             //Location
             //KML requires Lon,Lat,Alt. It's backwards!
             XmlElement xePoint = document.CreateElement("Point");
