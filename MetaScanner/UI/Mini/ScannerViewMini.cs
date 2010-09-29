@@ -120,7 +120,7 @@ namespace inSSIDer.UI.Mini
         private delegate void DelGo();
         public void Go()
         {
-            System.Diagnostics.Debug.WriteLineIf(Parent == null, "Orphaned control!");
+            //System.Diagnostics.Debug.WriteLineIf(Parent == null, "Orphaned control!");
             if (InvokeRequired) Invoke(new DelGo(Go));
             else
             {
@@ -174,14 +174,8 @@ namespace inSSIDer.UI.Mini
                                 row.Cells["channelColumn"].Value = ap.IsN && ap.NSettings != null &&
                                                                    ap.NSettings.Is40MHz
                                                                        ? ap.NSettings.SecondaryChannelLower
-                                                                             ? ap.Channel + " + " +
-                                                                               (ap.Channel > 14
-                                                                                    ? ap.Channel - 1
-                                                                                    : ap.Channel - 4)
-                                                                             : ap.Channel + " + " +
-                                                                               (ap.Channel > 14
-                                                                                    ? ap.Channel + 1
-                                                                                    : ap.Channel + 4)
+                                                                             ? ap.Channel + " + " + (ap.Channel - 4)
+                                                                             : ap.Channel + " + " + (ap.Channel + 4)
                                                                        : ap.Channel.ToString();
 
                                 //Update the RSSI

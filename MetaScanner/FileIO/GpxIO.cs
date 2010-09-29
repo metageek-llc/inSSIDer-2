@@ -413,12 +413,12 @@ namespace inSSIDer.FileIO
                         xtw.WriteStartElement("wpt");
                         //Latitude attribute
                         xtw.WriteStartAttribute("lat");
-                        xtw.WriteString(wp.Latitude.ToString(CultureInfo.InvariantCulture.NumberFormat));
+                        xtw.WriteString(wp.Latitude.ToString("###.######",CultureInfo.InvariantCulture.NumberFormat));
                         xtw.WriteEndAttribute();
 
                         //Longitude attribute
                         xtw.WriteStartAttribute("lon");
-                        xtw.WriteString(wp.Longitude.ToString(CultureInfo.InvariantCulture.NumberFormat));
+                        xtw.WriteString(wp.Longitude.ToString("###.######", CultureInfo.InvariantCulture.NumberFormat));
                         xtw.WriteEndAttribute();
 
                         //Elevation
@@ -568,14 +568,14 @@ namespace inSSIDer.FileIO
 
             outpoint.Cmt = gpsData.Speed.ToString(CultureInfo.InvariantCulture.NumberFormat);
 
-            outpoint.Description = string.Format(
-                "{0}\r\n[{1}]\r\nRSSI: {2} dB\r\nQuality: {3}%\r\nChannel {4}\r\nSpeed (kph): {5}\r\n{6}",
-                new object[]
-                    {
-                        XmlHelper.CleanString(data.Ssid), data.MyMacAddress.ToString(), data.Rssi, data.SignalQuality,
-                        data.Channel, gpsData.Speed,
-                        gpsData.SatelliteTime.ToString()
-                    });
+            //outpoint.Description = string.Format(
+            //    "{0}\r\n[{1}]\r\nRSSI: {2} dB\r\nQuality: {3}%\r\nChannel {4}\r\nSpeed (kph): {5}\r\n{6}",
+            //    new object[]
+            //        {
+            //            XmlHelper.CleanString(data.Ssid), data.MyMacAddress.ToString(), data.Rssi, data.SignalQuality,
+            //            data.Channel, gpsData.Speed,
+            //            gpsData.SatelliteTime.ToString()
+            //        });
 
             outpoint.Fix = gpsData.FixType;
             outpoint.SatCount = gpsData.SatellitesUsed;
@@ -608,13 +608,25 @@ namespace inSSIDer.FileIO
         public string Cmt = string.Empty; // Speed
         public string Time = string.Empty;
         public string Name = string.Empty;
-        public string Description = string.Empty;
+        public string Description
+        {
+            get
+            {
+                return string.Format(
+                    "{0}\r\n[{1}]\r\nRSSI: {2} dB\r\nQuality: {3}%\r\nChannel {4}\r\nSpeed (kph): {5}\r\n{6}",
+                    new object[]
+                    {
+                        Extensions.Ssid, Extensions.MacAddress, Extensions.Rssi, Extensions.SignalQuality,
+                        Extensions.Channel, Cmt, Time
+                    });
+            }
+        }
         public string Fix = string.Empty;
         public int SatCount;
         public readonly Extension Extensions = new Extension();
         public bool Ignore;
 
-        public string BuildDescription()
+        public string BuildKmlDescription()
         {
             //Generates the description string
             return Extensions.Ssid + " [" + Extensions.MacAddress + "]" + Environment.NewLine

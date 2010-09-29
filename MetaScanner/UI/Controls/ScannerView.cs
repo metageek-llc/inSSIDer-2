@@ -212,14 +212,8 @@ namespace inSSIDer.UI.Controls
                                 row.Cells["channelColumn"].Value = ap.IsN && ap.NSettings != null &&
                                                                    ap.NSettings.Is40MHz
                                                                        ? ap.NSettings.SecondaryChannelLower
-                                                                             ? ap.Channel + " + " +
-                                                                               (ap.Channel > 14
-                                                                                    ? ap.Channel - 1
-                                                                                    : ap.Channel - 4)
-                                                                             : ap.Channel + " + " +
-                                                                               (ap.Channel > 14
-                                                                                    ? ap.Channel + 1
-                                                                                    : ap.Channel + 4)
+                                                                             ? ap.Channel + " + " + (ap.Channel - 4)
+                                                                             : ap.Channel + " + " + (ap.Channel + 4)
                                                                        : ap.Channel.ToString();
 
                                 //Update the RSSI
@@ -232,8 +226,8 @@ namespace inSSIDer.UI.Controls
                                 row.Cells["ageColumn"].Value = ap.LastSeenTimestamp.ToLongTimeString();
 
                                 //Update Location
-                                row.Cells["latColumn"].Value = ap.GpsData.Latitude.ToString("F5");
-                                row.Cells["lonColumn"].Value = ap.GpsData.Longitude.ToString("F5");
+                                row.Cells["latColumn"].Value = ap.GpsData.Latitude.ToString("F6");
+                                row.Cells["lonColumn"].Value = ap.GpsData.Longitude.ToString("F6");
                             }
                         }
                     }
