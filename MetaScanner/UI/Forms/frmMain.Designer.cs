@@ -65,26 +65,26 @@ namespace inSSIDer.UI.Forms
             this.sdlgLog = new System.Windows.Forms.SaveFileDialog();
             this.sdlgNs1 = new System.Windows.Forms.SaveFileDialog();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.apCountLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.gpsToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.locationToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.loggingToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.gripContainer1 = new GripSplitContainer();
-            this.scannerView = new ScannerView();
-            this.apCountLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.gripContainer1 = new inSSIDer.UI.Controls.GripSplitContainer();
+            this.scannerView = new inSSIDer.UI.Controls.ScannerView();
             this.detailsTabControl = new System.Windows.Forms.TabControl();
             this.tabNews = new System.Windows.Forms.TabPage();
-            this.htmlControl = new HtmlControl();
+            this.htmlControl = new inSSIDer.HTML.HtmlControl();
             this.tabTimeGraph = new System.Windows.Forms.TabPage();
-            this.timeGraph1 = new TimeGraph();
+            this.timeGraph1 = new inSSIDer.UI.Controls.TimeGraph();
             this.tab24Chan = new System.Windows.Forms.TabPage();
-            this.chanView24 = new ChannelView();
+            this.chanView24 = new inSSIDer.UI.Controls.ChannelView();
             this.tab58Chan = new System.Windows.Forms.TabPage();
-            this.chanView58 = new ChannelView();
+            this.chanView58 = new inSSIDer.UI.Controls.ChannelView();
             this.tabFilters = new System.Windows.Forms.TabPage();
-            this.filterMgr1 = new FilterManager();
+            this.filterMgr1 = new inSSIDer.UI.Controls.FilterManager();
             this.tabGps = new System.Windows.Forms.TabPage();
-            this.gpsMon1 = new GpsMon();
-            this.networkInterfaceSelector1 = new NetworkInterfaceSelector();
+            this.gpsMon1 = new inSSIDer.UI.Controls.GpsMon();
+            this.networkInterfaceSelector1 = new inSSIDer.UI.Controls.NetworkInterfaceSelector();
             this.mainMenu.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.gripContainer1.Panel1.SuspendLayout();
@@ -341,7 +341,7 @@ namespace inSSIDer.UI.Forms
             // sdlgLog
             // 
             this.sdlgLog.DefaultExt = "gpx";
-            this.sdlgLog.Filter = "GPX log files {*.gpx)|*.gpx";
+            this.sdlgLog.Filter = "GPX log files (*.gpx)|*.gpx";
             this.sdlgLog.SupportMultiDottedExtensions = true;
             this.sdlgLog.Title = "Select where to place the log file";
             // 
@@ -365,6 +365,14 @@ namespace inSSIDer.UI.Forms
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
+            // apCountLabel
+            // 
+            this.apCountLabel.AutoSize = false;
+            this.apCountLabel.Name = "apCountLabel";
+            this.apCountLabel.Size = new System.Drawing.Size(100, 17);
+            this.apCountLabel.Text = "0 / 0 AP(s)";
+            this.apCountLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // gpsToolStripStatusLabel
             // 
             this.gpsToolStripStatusLabel.AutoSize = false;
@@ -387,14 +395,6 @@ namespace inSSIDer.UI.Forms
             this.loggingToolStripStatusLabel.Name = "loggingToolStripStatusLabel";
             this.loggingToolStripStatusLabel.Size = new System.Drawing.Size(86, 17);
             this.loggingToolStripStatusLabel.Text = "Logging Status";
-            // 
-            // apCountLabel
-            // 
-            this.apCountLabel.AutoSize = false;
-            this.apCountLabel.Name = "apCountLabel";
-            this.apCountLabel.Size = new System.Drawing.Size(100, 17);
-            this.apCountLabel.Text = "0 / 0 AP(s)";
-            this.apCountLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // gripContainer1
             // 
@@ -534,7 +534,7 @@ namespace inSSIDer.UI.Forms
             // 
             // chanView58
             // 
-            this.chanView58.Band = ChannelView.BandType.Band5000MHz;
+            this.chanView58.Band = inSSIDer.UI.Controls.ChannelView.BandType.Band5000MHz;
             this.chanView58.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chanView58.Location = new System.Drawing.Point(0, 0);
             this.chanView58.MaxAmplitude = -10F;

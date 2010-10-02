@@ -232,7 +232,8 @@ namespace inSSIDer.UI.Forms
             Settings.Default.gpxLastMaxRssi = (int)numMaxSignal.Value;
 
             //Save input file(s)
-            (Settings.Default.gpxLastInputFiles ?? (Settings.Default.gpxLastInputFiles = new StringCollection())).AddRange(openFile.FileNames);
+            //(Settings.Default.gpxLastInputFiles ?? (Settings.Default.gpxLastInputFiles = new StringCollection())).AddRange(openFile.FileNames);
+            (Settings.Default.gpxLastInputFiles = new StringCollection()).AddRange(_inFiles);
 
             Settings.Default.gpxLastOutputDir = txtOutDir.Text;
 

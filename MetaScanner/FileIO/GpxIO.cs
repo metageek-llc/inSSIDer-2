@@ -70,8 +70,11 @@ namespace inSSIDer.FileIO
                     wp = new Waypoint();
                     if (xtr.HasAttributes) // Found latitude and longitude
                     {
-                        wp.Latitude = Convert.ToDouble(xtr.GetAttribute("lat"), CultureInfo.InvariantCulture.NumberFormat);
-                        wp.Longitude = Convert.ToDouble(xtr.GetAttribute("lon"), CultureInfo.InvariantCulture.NumberFormat);
+                        string tempVal = xtr.GetAttribute("lat");
+                        wp.Latitude = Convert.ToDouble(string.IsNullOrEmpty(tempVal) ? "0" : tempVal, CultureInfo.InvariantCulture.NumberFormat);
+
+                        tempVal = xtr.GetAttribute("lon");
+                        wp.Longitude = Convert.ToDouble(string.IsNullOrEmpty(tempVal) ? "0" : tempVal, CultureInfo.InvariantCulture.NumberFormat);
                     }
 
                     //Move to next node
@@ -239,8 +242,11 @@ namespace inSSIDer.FileIO
                         wp = new Waypoint();
                         if (xtr.HasAttributes) // Found latitude and longitude
                         {
-                            wp.Latitude = Convert.ToDouble(xtr.GetAttribute("lat"), CultureInfo.InvariantCulture.NumberFormat);
-                            wp.Longitude = Convert.ToDouble(xtr.GetAttribute("lon"), CultureInfo.InvariantCulture.NumberFormat);
+                            string tempVal = xtr.GetAttribute("lat");
+                            wp.Latitude = Convert.ToDouble(string.IsNullOrEmpty(tempVal) ? "0" : tempVal, CultureInfo.InvariantCulture.NumberFormat);
+
+                            tempVal = xtr.GetAttribute("lon");
+                            wp.Longitude = Convert.ToDouble(string.IsNullOrEmpty(tempVal) ? "0" : tempVal, CultureInfo.InvariantCulture.NumberFormat);
                         }
 
                         //Move to next node
