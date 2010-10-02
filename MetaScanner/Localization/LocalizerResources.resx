@@ -223,7 +223,7 @@
     <value>Waiting for data</value>
   </data>
   <data name="WarningComprehensiveKmlExists" xml:space="preserve">
-    <value>The file \"Comprehensive.kml\" already exists in the output folder. Overwrite?</value>
+    <value>The file "Comprehensive.kml" already exists in the output folder. Overwrite?</value>
   </data>
   <data name="WarningSummaryKmlExists" xml:space="preserve">
     <value>The file "Summary.kml" already exists in the output folder. Overwrite?</value>
@@ -231,7 +231,16 @@
   <data name="WlanapiNotFound" xml:space="preserve">
     <value>Error: wlanapi.dll could not be found.</value>
   </data>
-  <data name="WzcNotFound" xml:space="preserve">
-    <value>inSSIDer requires the Wireless Zero Configuration (WZC) Service, which appears to be stopped.\n\nPlease start WZC and then run inSSIDer. Thanks!</value>
+  <data name="WlanServiceNotFound7" xml:space="preserve">
+    <value>inSSIDer requires the WLAN AutoConfig service, which appears to be stopped. 
+Please start WLAN AutoConfig and then run inSSIDer. 
+
+Thanks!</value>
+  </data>
+  <data name="WlanServiceNotFoundXP" xml:space="preserve">
+    <value>inSSIDer requires the Wireless Zero Configuration (WZC) Service, which appears to be stopped. 
+Please start WZC and then run inSSIDer. 
+
+Thanks!</value>
   </data>
 </root>

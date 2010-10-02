@@ -376,7 +376,7 @@ namespace inSSIDer.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The file \&quot;Comprehensive.kml\&quot; already exists in the output folder. Overwrite?.
+        ///   Looks up a localized string similar to The file &quot;Comprehensive.kml&quot; already exists in the output folder. Overwrite?.
         /// </summary>
         internal static string WarningComprehensiveKmlExists {
             get {
@@ -403,11 +403,26 @@ namespace inSSIDer.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to inSSIDer requires the Wireless Zero Configuration (WZC) Service, which appears to be stopped.\n\nPlease start WZC and then run inSSIDer. Thanks!.
+        ///   Looks up a localized string similar to inSSIDer requires the WLAN AutoConfig service, which appears to be stopped. 
+        ///Please start WLAN AutoConfig and then run inSSIDer. 
+        ///
+        ///Thanks!.
         /// </summary>
-        internal static string WzcNotFound {
+        internal static string WlanServiceNotFound7 {
             get {
-                return ResourceManager.GetString("WzcNotFound", resourceCulture);
+                return ResourceManager.GetString("WlanServiceNotFound7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to inSSIDer requires the Wireless Zero Configuration (WZC) Service, which appears to be stopped. 
+        ///Please start WZC and then run inSSIDer. 
+        ///
+        ///Thanks!.
+        /// </summary>
+        internal static string WlanServiceNotFoundXP {
+            get {
+                return ResourceManager.GetString("WlanServiceNotFoundXP", resourceCulture);
             }
         }
     }

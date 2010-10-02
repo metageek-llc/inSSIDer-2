@@ -166,9 +166,10 @@ namespace inSSIDer.FileIO
                 //Try to write the file
                 try
                 {
+                    //String tempName = String.Join("", lastWp.Extensions.Ssid.Split(Path.GetInvalidFileNameChars(), StringSplitOptions.RemoveEmptyEntries));
                     //filename ex. "fuji-2.kml"
                     doc.Save(string.Format("{0}\\{1}\\{2}.kml", parentDir, dir,
-                                           lastWp.Extensions.Ssid));
+                                           String.Join("", lastWp.Extensions.Ssid.Split(Path.GetInvalidFileNameChars(), StringSplitOptions.RemoveEmptyEntries))));
                 }
                 catch(XmlException)
                 {

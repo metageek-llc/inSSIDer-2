@@ -70,20 +70,23 @@ namespace inSSIDer.Misc
         {
             if (!_init) Init();
             Debug.Write(message, string.Format("[{0}-{1}-{2} {3}:{4}:{5}] {6}",
-                                            new object[]
-                                                {
-                                                    DateTime.Now.Month.ToString("D2"),
-                                                    DateTime.Now.Day.ToString("D2"),
-                                                    DateTime.Now.Year.ToString("D2"),
-                                                    DateTime.Now.Hour.ToString("D2"),
-                                                    DateTime.Now.Minute.ToString("D2"),
-                                                    DateTime.Now.Second.ToString("D2"),
-                                                    category
-                                                }));
+                                               new object[]
+                                                   {
+                                                       DateTime.Now.Month.ToString("D2"),
+                                                       DateTime.Now.Day.ToString("D2"),
+                                                       DateTime.Now.Year.ToString("D2"),
+                                                       DateTime.Now.Hour.ToString("D2"),
+                                                       DateTime.Now.Minute.ToString("D2"),
+                                                       DateTime.Now.Second.ToString("D2"),
+                                                       category
+                                                   }));
         }
 
         private static void Init()
         {
+#if !DEBUG
+            return;
+#else
             if(!_enable) return;
             string filename = string.Format("in2_{0}-{1}-{2}_{3}_{4}_{5}.log",
                                             new object[]
@@ -102,7 +105,7 @@ namespace inSSIDer.Misc
             Debug.Listeners.Add(new TextWriterTraceListener(fsLog));
             _init = true;
             WriteLine("Logging initalized","Logging subsystem");
-            
+#endif
         }
 
         public static void Start()

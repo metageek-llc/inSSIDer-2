@@ -1,4 +1,5 @@
-﻿using System;
+﻿//#define LOG
+using System;
 using System.Windows.Forms;
 using inSSIDer.Misc;
 using inSSIDer.Scanning;
@@ -87,9 +88,12 @@ namespace inSSIDer
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
-
+            //TODO: Make conmmand line option to enable logging on debug builds. Like /log
+#if DEBUG && LOG
+            Log.Start();
+#endif
             // Create new instance of UnhandledExceptionDlg:
             // NOTE: this hooks up the exception handler functions 
             UnhandledExceptionDlg exDlg = new UnhandledExceptionDlg();
@@ -135,7 +139,30 @@ namespace inSSIDer
                 scanner = null;
                 //So the error handler will catch it
                 //throw ex;
-                MessageBox.Show(Localizer.GetString("WzcNotFound"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+
+                //Log it
+                Log.WriteLine(string.Format("Exception message:\r\n\r\n{0}\r\n\r\nStack trace:\r\n{1}", ex.Message, ex.StackTrace));
+
+                if (ex is System.ComponentModel.Win32Exception)
+                {
+                    //The wireless system failed
+                    if (Utilities.IsXp())
+                    {
+                        MessageBox.Show(Localizer.GetString("WlanServiceNotFoundXP"), "Error", MessageBoxButtons.OK,
+                                        MessageBoxIcon.Hand);
+                    }
+                    else
+                    {
+                        MessageBox.Show(Localizer.GetString("WlanServiceNotFound7"), "Error", MessageBoxButtons.OK,
+                                        MessageBoxIcon.Hand);
+                    }
+                }
+                else
+                {
+                    //Any other exceptions
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK,
+                                        MessageBoxIcon.Hand);
+                }
             }
 
             if (scanner == null) return;

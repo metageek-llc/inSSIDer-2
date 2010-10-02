@@ -70,8 +70,8 @@ namespace inSSIDer.FileIO
                     wp = new Waypoint();
                     if (xtr.HasAttributes) // Found latitude and longitude
                     {
-                        wp.Latitude = Convert.ToDouble(xtr.GetAttribute("lat"), CultureInfo.InvariantCulture);
-                        wp.Longitude = Convert.ToDouble(xtr.GetAttribute("lon"), CultureInfo.InvariantCulture);
+                        wp.Latitude = Convert.ToDouble(xtr.GetAttribute("lat"), CultureInfo.InvariantCulture.NumberFormat);
+                        wp.Longitude = Convert.ToDouble(xtr.GetAttribute("lon"), CultureInfo.InvariantCulture.NumberFormat);
                     }
 
                     //Move to next node
@@ -84,7 +84,7 @@ namespace inSSIDer.FileIO
                         switch (subNodeName)
                         {
                             case "ele":
-                                wp.Elevation = Convert.ToDouble(xtr.ReadString(), CultureInfo.InvariantCulture);
+                                wp.Elevation = Convert.ToDouble(xtr.ReadString(), CultureInfo.InvariantCulture.NumberFormat);
                                 xtr.Read();
                                 break;
                             case "time":
@@ -109,19 +109,19 @@ namespace inSSIDer.FileIO
                                 xtr.Read();
                                 break;
                             case "sat":
-                                wp.SatCount = Convert.ToInt32(xtr.ReadString(), CultureInfo.InvariantCulture);
+                                wp.SatCount = Convert.ToInt32(xtr.ReadString(), CultureInfo.InvariantCulture.NumberFormat);
                                 xtr.Read();
                                 break;
                             case "vdop":
-                                wp.Vdop = Convert.ToDouble(xtr.ReadString(), CultureInfo.InvariantCulture);
+                                wp.Vdop = Convert.ToDouble(xtr.ReadString(), CultureInfo.InvariantCulture.NumberFormat);
                                 xtr.Read();
                                 break;
                             case "hdop":
-                                wp.Hdop = Convert.ToDouble(xtr.ReadString(), CultureInfo.InvariantCulture);
+                                wp.Hdop = Convert.ToDouble(xtr.ReadString(), CultureInfo.InvariantCulture.NumberFormat);
                                 xtr.Read();
                                 break;
                             case "pdop":
-                                wp.Pdop = Convert.ToDouble(xtr.ReadString(), CultureInfo.InvariantCulture);
+                                wp.Pdop = Convert.ToDouble(xtr.ReadString(), CultureInfo.InvariantCulture.NumberFormat);
                                 xtr.Read();
                                 break;
                             case "":
@@ -239,8 +239,8 @@ namespace inSSIDer.FileIO
                         wp = new Waypoint();
                         if (xtr.HasAttributes) // Found latitude and longitude
                         {
-                            wp.Latitude = Convert.ToDouble(xtr.GetAttribute("lat"), CultureInfo.InvariantCulture);
-                            wp.Longitude = Convert.ToDouble(xtr.GetAttribute("lon"), CultureInfo.InvariantCulture);
+                            wp.Latitude = Convert.ToDouble(xtr.GetAttribute("lat"), CultureInfo.InvariantCulture.NumberFormat);
+                            wp.Longitude = Convert.ToDouble(xtr.GetAttribute("lon"), CultureInfo.InvariantCulture.NumberFormat);
                         }
 
                         //Move to next node
@@ -254,7 +254,7 @@ namespace inSSIDer.FileIO
                             switch (subNodeName)
                             {
                                 case "ele":
-                                    wp.Elevation = Convert.ToDouble(xtr.ReadString(), CultureInfo.InvariantCulture);
+                                    wp.Elevation = Convert.ToDouble(xtr.ReadString(), CultureInfo.InvariantCulture.NumberFormat);
                                     xtr.Read();
                                     break;
                                 case "time":
@@ -269,7 +269,7 @@ namespace inSSIDer.FileIO
                                     wp.Cmt = xtr.ReadString();
                                     xtr.Read();
                                     break;
-                                //Description is not read from GPX. It is remade by the LogViewer.
+                                //Description is not read from GPX. It is regenerated on save
                                 case "desc":
                                     xtr.Read();
                                     xtr.Read();
@@ -280,19 +280,19 @@ namespace inSSIDer.FileIO
                                     break;
                                 case "sat":
 
-                                    wp.SatCount = Convert.ToInt32(xtr.ReadString(), CultureInfo.InvariantCulture);
+                                    wp.SatCount = Convert.ToInt32(xtr.ReadString(), CultureInfo.InvariantCulture.NumberFormat);
                                     xtr.Read();
                                     break;
                                 case "vdop":
-                                    wp.Vdop = Convert.ToDouble(xtr.ReadString(), CultureInfo.InvariantCulture);
+                                    wp.Vdop = Convert.ToDouble(xtr.ReadString(), CultureInfo.InvariantCulture.NumberFormat);
                                     xtr.Read();
                                     break;
                                 case "hdop":
-                                    wp.Hdop = Convert.ToDouble(xtr.ReadString(), CultureInfo.InvariantCulture);
+                                    wp.Hdop = Convert.ToDouble(xtr.ReadString(), CultureInfo.InvariantCulture.NumberFormat);
                                     xtr.Read();
                                     break;
                                 case "pdop":
-                                    wp.Pdop = Convert.ToDouble(xtr.ReadString(), CultureInfo.InvariantCulture);
+                                    wp.Pdop = Convert.ToDouble(xtr.ReadString(), CultureInfo.InvariantCulture.NumberFormat);
                                     xtr.Read();
                                     break;
                                 case "":
