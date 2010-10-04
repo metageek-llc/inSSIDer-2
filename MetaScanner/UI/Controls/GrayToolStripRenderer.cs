@@ -16,6 +16,8 @@
 //
 ////////////////////////////////////////////////////////////////
 
+using System.Drawing.Imaging;
+using System.Drawing.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -186,21 +188,38 @@ namespace inSSIDer.UI.Controls
 
         protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
         {
-            if (!e.Item.Enabled)
-            {
-                //e.Item.Enabled = true;
-                //e.TextColor = Color.FromArgb(204, 204, 204);
-                //base.OnRenderItemText(e);
-                //e.Item.Enabled = false;
-                using (SolidBrush brush = new SolidBrush(_disabledTextColor))
-                {
-                    e.Graphics.DrawString(e.Text, e.TextFont, brush, e.TextRectangle.Location);
-                }
-            }
-            else
-            {
-                base.OnRenderItemText(e);
-            }
+            e.TextColor = e.Item.Enabled ? e.TextColor : _disabledTextColor;
+            OnRenderItemTextNew(e);
         }
+
+        //Modification of original OnRenderItemText to allow color to be set even if the control is disabled
+        protected void OnRenderItemTextNew(ToolStripItemTextRenderEventArgs e)
+        {
+                Graphics dc = e.Graphics;
+                Color textColor = e.TextColor;
+                Font textFont = e.TextFont;
+                string text = e.Text;
+                Rectangle textRectangle = e.TextRectangle;
+                TextFormatFlags textFormat = e.TextFormat;
+                //textColor = item.Enabled ? textColor : SystemColors.GrayText;
+                if (((e.TextDirection != ToolStripTextDirection.Horizontal) && (textRectangle.Width > 0)) && (textRectangle.Height > 0))
+                {
+                    Size size = /*LayoutUtils.FlipSize(*/textRectangle.Size/*)*/;
+                    using (Bitmap bitmap = new Bitmap(size.Width, size.Height, PixelFormat.Format32bppPArgb))
+                    {
+                        using (Graphics graphics2 = Graphics.FromImage(bitmap))
+                        {
+                            graphics2.TextRenderingHint = TextRenderingHint.AntiAlias;
+                            TextRenderer.DrawText(graphics2, text, textFont, new Rectangle(Point.Empty, size), textColor, textFormat);
+                            bitmap.RotateFlip((e.TextDirection == ToolStripTextDirection.Vertical90) ? RotateFlipType.Rotate90FlipNone : RotateFlipType.Rotate270FlipNone);
+                            dc.DrawImage(bitmap, textRectangle);
+                        }
+                        return;
+                    }
+                }
+                TextRenderer.DrawText(dc, text, textFont, textRectangle, textColor, textFormat);
+            }
+
+
     }
 }
