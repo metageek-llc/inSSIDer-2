@@ -146,7 +146,13 @@ namespace inSSIDer.UI.Forms
             }
 
             //The invoke is always required
-            Invoke(new DelVoidCall(() => apCountLabel.Text = string.Format("{0} / {1} AP(s)", _scanner.Cache.Count, _scanner.Cache.TotalCount)));
+            try
+            {
+                Invoke(new DelVoidCall(() => apCountLabel.Text = string.Format("{0} / {1} AP(s)", _scanner.Cache.Count, _scanner.Cache.TotalCount)));
+            }
+            catch (InvalidOperationException)
+            {
+            }
         }
 
         private void RefreshAll()
