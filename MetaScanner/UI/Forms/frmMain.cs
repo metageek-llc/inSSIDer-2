@@ -326,7 +326,7 @@ namespace inSSIDer.UI.Forms
             }
         }
 
-        private string FormatSizeString(long sizeInBytes)
+        private static string FormatSizeString(long sizeInBytes)
         {
             string output = "0B";
             if(sizeInBytes >= 1024)//Greater than or equal to a kilobyte

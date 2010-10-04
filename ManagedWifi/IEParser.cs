@@ -162,67 +162,70 @@ namespace ManagedWifi
 
         public static TypeNSettings Parse(byte[] ies)
         {
-            int index = -1;
-
-            for (int i = 0; i < ies.Length; i++)
+            try
             {
-                //loop until we find the HT IE field 41 with length of 26 and the extended info futher down
-                //HT IE 1's signature is 2D 1A
-                //HT IE 2's signature is 3D 16
-                if ((ies[i] == 0x2D && ies[i + 1] == 0x1A) && (ies[i + 28] == 0x3D && ies[i + 29] == 0x16))
+                int index = -1;
+
+                for (int i = 0; i < ies.Length; i++)
                 {
-                    index = i;
-                    break;
+                    //loop until we find the HT IE field 41 with length of 26 and the extended info futher down
+                    //HT IE 1's signature is 2D 1A
+                    //HT IE 2's signature is 3D 16
+                    if ((ies[i] == 0x2D && ies[i + 1] == 0x1A) && (ies[i + 28] == 0x3D && ies[i + 29] == 0x16))
+                    {
+                        index = i;
+                        break;
+                    }
                 }
+
+
+                if (index == -1) return null;
+                TypeNSettings settings = new TypeNSettings
+                                             {
+                                                 Is40MHz = ((ies[index + 2] & 0x02) == 0x02),
+                                                 ShortGi20MHz = (ies[index + 2] & 0x20) == 0x20,
+                                                 ShortGi40MHz = (ies[index + 2] & 0x40) == 0x40
+                                             };
+
+                //Supported MCS indexes
+                //1 bit per index
+                byte[] bits = new byte[4];
+                Array.ConstrainedCopy(ies, index + 5, bits, 0, 4);
+
+                BitArray b = new BitArray(bits);
+                settings.Rates = new List<double>();
+                int maxIndex = -1;
+
+                for (int i = 0; i < b.Length; i++)
+                {
+                    if (b[i] == false) continue;
+                    //Update the highest MCS index
+                    if (b[i]) maxIndex = i;
+                    //Add the rate
+                    settings.Rates.Add(McsSet.GetSpeed((uint) i, settings.ShortGi20MHz, settings.ShortGi40MHz,
+                                                       settings.Is40MHz));
+                }
+                if (maxIndex == -1) return null; // there has been an error
+
+                settings.MaxMcs = (uint) maxIndex;
+                //Extended info
+                //Primary channel
+                settings.PrimaryChannel = ies[index + 30];
+
+                //Secondary channel location
+                settings.SecondaryChannelLower = (ies[index + 31] & 0x03) == 0x03;
+
+                //Check if there is no secondary channel and set 40MHz to false
+                if (settings.Is40MHz)
+                    settings.Is40MHz = (ies[index + 31] & 0x03) == 0x03 || (ies[index + 31] & 0x01) == 0x01;
+
+                return settings;
             }
-
-
-            if (index == -1) return null;
-            TypeNSettings settings = new TypeNSettings
-                                         {
-                                             Is40MHz = ((ies[index + 2] & 0x02) == 0x02),
-                                             ShortGi20MHz = (ies[index + 2] & 0x20) == 0x20,
-                                             ShortGi40MHz = (ies[index + 2] & 0x40) == 0x40
-                                         };
-
-            //Supported MCS indexes
-            //1 bit per index
-            byte[] bits = new byte[4];
-            Array.ConstrainedCopy(ies, index + 5, bits, 0, 4);
-
-            BitArray b = new BitArray(bits);
-            settings.Rates = new List<double>();
-            int maxIndex = -1;
-
-            for (int i = 0; i < b.Length; i++)
+            catch(IndexOutOfRangeException)
             {
-                if (b[i] == false) continue;
-                //Update the highest MCS index
-                if (b[i]) maxIndex = i;
-                //Add the rate
-                settings.Rates.Add(McsSet.GetSpeed((uint) i, settings.ShortGi20MHz, settings.ShortGi40MHz,
-                                                   settings.Is40MHz));
+                //We can't get the 802.11n IEs. Just return null
+                return null;
             }
-            if (maxIndex == -1) return null; // there has been an error
-
-            settings.MaxMcs = (uint) maxIndex;
-            //Extended info
-            //Primary channel
-            settings.PrimaryChannel = ies[index + 30];
-
-            //Secondary channel location
-            settings.SecondaryChannelLower = (ies[index + 31] & 0x03) == 0x03;
-
-            //Check if there is no secondary channel and set 40MHz to false
-            if (settings.Is40MHz)
-                settings.Is40MHz = (ies[index + 31] & 0x03) == 0x03 || (ies[index + 31] & 0x01) == 0x01;
-            //}
-            //catch
-            //{
-
-            //}
-
-            return settings;
         }
     }
 }
