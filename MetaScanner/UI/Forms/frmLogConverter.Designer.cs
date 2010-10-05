@@ -30,11 +30,12 @@ namespace inSSIDer.UI.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormLogConverter));
             this.openFile = new System.Windows.Forms.OpenFileDialog();
             this.fbOutput = new System.Windows.Forms.FolderBrowserDialog();
-            this.btnCancel = new GrayButton();
-            this.btnExport = new GrayButton();
-            this.grayGroupBox3 = new GrayGroupBox();
+            this.btnCancel = new inSSIDer.UI.Controls.GrayButton();
+            this.btnExport = new inSSIDer.UI.Controls.GrayButton();
+            this.grayGroupBox3 = new inSSIDer.UI.Controls.GrayGroupBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -48,19 +49,19 @@ namespace inSSIDer.UI.Forms
             this.chGPSsatCount = new System.Windows.Forms.CheckBox();
             this.chGPSFixLost = new System.Windows.Forms.CheckBox();
             this.chGPSLockup = new System.Windows.Forms.CheckBox();
-            this.grayGroupBox2 = new GrayGroupBox();
+            this.grayGroupBox2 = new inSSIDer.UI.Controls.GrayGroupBox();
             this.lblVis = new System.Windows.Forms.Label();
             this.chShowRssiMarkers = new System.Windows.Forms.CheckBox();
-            this.grayGroupBox1 = new GrayGroupBox();
+            this.grayGroupBox1 = new inSSIDer.UI.Controls.GrayGroupBox();
             this.cmbOrganize = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.chExportComp = new System.Windows.Forms.CheckBox();
             this.lblFiles = new System.Windows.Forms.Label();
             this.chExportEachAp = new System.Windows.Forms.CheckBox();
-            this.btnChangeInFiles = new GrayButton();
+            this.btnChangeInFiles = new inSSIDer.UI.Controls.GrayButton();
             this.chExportSummary = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnChangeOutdir = new GrayButton();
+            this.btnChangeOutdir = new inSSIDer.UI.Controls.GrayButton();
             this.label2 = new System.Windows.Forms.Label();
             this.txtOutDir = new System.Windows.Forms.TextBox();
             this.txtInFiles = new System.Windows.Forms.TextBox();
@@ -504,7 +505,7 @@ namespace inSSIDer.UI.Forms
             this.txtInFiles.Size = new System.Drawing.Size(226, 20);
             this.txtInFiles.TabIndex = 2;
             // 
-            // formLogConverter
+            // FormLogConverter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -516,9 +517,11 @@ namespace inSSIDer.UI.Forms
             this.Controls.Add(this.grayGroupBox2);
             this.Controls.Add(this.grayGroupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormLogConverter";
+            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "GPX log converter";
             this.Load += new System.EventHandler(this.FormLogConverterLoad);

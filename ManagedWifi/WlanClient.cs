@@ -331,13 +331,11 @@ namespace ManagedWifi
                 Wlan.WlanBssListHeader header = (Wlan.WlanBssListHeader) Marshal.PtrToStructure(bssListPtr, typeof(Wlan.WlanBssListHeader));
                 long num = bssListPtr.ToInt64() + Marshal.SizeOf(typeof(Wlan.WlanBssListHeader));
                 Wlan.WlanBssEntryN[] entryArray = new Wlan.WlanBssEntryN[header.numberOfItems];
-                //Wlan.WlanBssEntry tempEntry;
                 for (int i = 0; i < header.numberOfItems; i++)
                 {
                     entryArray[i] = new Wlan.WlanBssEntryN((Wlan.WlanBssEntry)Marshal.PtrToStructure(new IntPtr(num), typeof(Wlan.WlanBssEntry)));
-                    //entryArray[i].entry = (Wlan.WlanBssEntry)Marshal.PtrToStructure(new IntPtr(num), typeof(Wlan.WlanBssEntry));
 
-                    int size = (int)entryArray[i].BaseEntry.ieSize;//Marshal.SizeOf(typeof (Wlan.WlanBssEntry));
+                    int size = (int)entryArray[i].BaseEntry.ieSize;
                     byte[] IEs = new byte[size];
 
                     Marshal.Copy(new IntPtr(num + entryArray[i].BaseEntry.ieOffset), IEs, 0, size);

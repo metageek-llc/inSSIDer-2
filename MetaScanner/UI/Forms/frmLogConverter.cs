@@ -233,7 +233,10 @@ namespace inSSIDer.UI.Forms
 
             //Save input file(s)
             //(Settings.Default.gpxLastInputFiles ?? (Settings.Default.gpxLastInputFiles = new StringCollection())).AddRange(openFile.FileNames);
-            (Settings.Default.gpxLastInputFiles = new StringCollection()).AddRange(_inFiles);
+            if (_inFiles != null)
+            {
+                (Settings.Default.gpxLastInputFiles = new StringCollection()).AddRange(_inFiles);
+            }
 
             Settings.Default.gpxLastOutputDir = txtOutDir.Text;
 
