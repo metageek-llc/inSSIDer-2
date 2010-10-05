@@ -166,7 +166,8 @@ namespace ManagedWifi
             {
                 int index = -1;
 
-                for (int i = 0; i < ies.Length; i++)
+                //for (int i = 0; i < ies.Length; i++)
+                for (int i = 0; i < ies.Length - 31; i++)
                 {
                     //loop until we find the HT IE field 41 with length of 26 and the extended info futher down
                     //HT IE 1's signature is 2D 1A
@@ -177,9 +178,11 @@ namespace ManagedWifi
                         break;
                     }
                 }
-
-
+                
                 if (index == -1) return null;
+
+                // We know that ies.Length > index + 31 so all of the following array indexes should be in bounds
+
                 TypeNSettings settings = new TypeNSettings
                                              {
                                                  Is40MHz = ((ies[index + 2] & 0x02) == 0x02),
