@@ -128,7 +128,7 @@ namespace inSSIDer
             }
 
             //Initalize the scanner object before passing it to any interface
-            Scanner scanner = new Scanner();
+            ScannerN scanner = new ScannerN();
             Exception ex;
 
             scanner.Initalize(out ex);

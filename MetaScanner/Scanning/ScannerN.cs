@@ -22,37 +22,32 @@ using System.ComponentModel;
 using System.Linq;
 using inSSIDer.FileIO;
 using inSSIDer.Misc;
-using ManagedWifi;
+//using ManagedWifi;
 using MetaGeek.Gps;
 using MetaGeek.WiFi;
 using inSSIDer.Localization;
 using System.Timers;
+using System.Net.NetworkInformation;
 
 namespace inSSIDer.Scanning
 {
     /// <summary>
     /// This class scans for and stores WiFi AP data
     /// </summary>
-   /* public class ScannerN : IDisposable
+    public class ScannerN : IDisposable
     {
-        internal NetworkScanner NetworkScanner;
+        internal NetworkScannerN NetworkScanner;
         internal NetworkDataCacheN Cache;
         internal GpsController GpsControl;
         internal GpxDataLogger Logger;
 
-        //private WlanClient _wc;
-
-        //public event EventHandler ScanStartEvent;
-        //public event EventHandler ScanStopEvent;
-
-        //public event EventHandler GpsLocationUpdated
 
         public event EventHandler<ScanCompleteEventArgs> ScanComplete;
 
         public bool Initalize(out Exception error)
         {
             error = null;
-            NetworkScanner = new NetworkScanner();
+            NetworkScanner = new NetworkScannerN();
 
             //Set new data handler
             NetworkScanner.NewNetworkDataEvent += NetworkScannerNewNetworkDataEvent;
@@ -71,22 +66,25 @@ namespace inSSIDer.Scanning
             //Null scanning
             _tNullScan.Elapsed += TNullScanElapsed;
 
-            try
-            {
-                WlanClient = new WlanClient();
-            }
-            catch (Win32Exception exception)
-            {
-                error = exception;
-                return false;
-                //MessageBox.Show("Error Initializing Wlan Client: " + exception.Message + "\n\nWi-Fi data will not be displayed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Hand);
-            }
-            catch (DllNotFoundException)
-            {
-                error = new Exception(Localizer.GetString("WlanapiNotFound"));
-                return false;
-                //MessageBox.Show("Error: wlanapi.dll could not be found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Hand);
-            }
+            //Init the interface manager
+            InterfaceManager.Instance.Init(out error);
+
+            //try
+            //{
+            //    WlanClient = new WlanClient();
+            //}
+            //catch (Win32Exception exception)
+            //{
+            //    error = exception;
+            //    return false;
+            //    //MessageBox.Show("Error Initializing Wlan Client: " + exception.Message + "\n\nWi-Fi data will not be displayed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+            //}
+            //catch (DllNotFoundException)
+            //{
+            //    error = new Exception(Localizer.GetString("WlanapiNotFound"));
+            //    return false;
+            //    //MessageBox.Show("Error: wlanapi.dll could not be found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+            //}
 
             return true;
         }
@@ -112,18 +110,16 @@ namespace inSSIDer.Scanning
             
         }
 
-        private void StartScanning(WlanClient.WlanInterface intf, int scaninterval)
+        private void StartScanning(NetworkInterface intf, int scaninterval)
         {
             if (intf == null) return;
-            NetworkScanner.MyWlanInterface = intf;
-            NetworkScanner.Start(scaninterval);
-            return;
+            NetworkScanner.NetworkInterface = intf;
+            NetworkScanner.Start();
         }
 
         public void StartScanning(int scaninterval)
         {
             StartScanning(WlanInterface, scaninterval);
-            return;
         }
 
         /// <summary>
@@ -135,17 +131,18 @@ namespace inSSIDer.Scanning
         }
 
         /// <summary>
-        /// The WiFi interface to scan with
+        /// The interface to scan with
         /// </summary>
-        public WlanClient.WlanInterface WlanInterface { get; set; }
+        public NetworkInterface WlanInterface { get; set; }
 
         /// <summary>
-        /// Returns a list of avalible WiFi interfaces
+        /// Returns a list of avalible interfaces
         /// </summary>
-        public WlanClient.WlanInterface[] AvalibleWlanInterfaces
-        {
-            get { return WlanClient.Interfaces; }
-        }
+        //public NetworkInterface[] AvalibleWlanInterfaces
+        //{
+        //    //TODO: If using Windows Vista or 7, return WlanInterfaces
+        //    get { return NetworkInterface.GetAllNetworkInterfaces(); }
+        //}
 
 
         private void NetworkScannerNewNetworkDataEvent(object sender, IncomingDataEventArgs<NetworkData> e)
@@ -157,17 +154,18 @@ namespace inSSIDer.Scanning
             OnScanComplete(e.Data.ToArray(), GpsControl.GetCurrentGpsData());
         }
 
-        public WlanClient WlanClient { get; private set; }
+        //public WlanClient WlanClient { get; private set; }
 
         public bool SetInterface(string interfaceName)
         {
             bool status = false;
-            foreach (WlanClient.WlanInterface intf in AvalibleWlanInterfaces)
+            foreach (NetworkInterface intf in InterfaceManager.Instance.Interfaces)
             {
-                if (intf.InterfaceDescription != interfaceName) continue;
+                if (intf.Description != interfaceName) continue;
                 //We've found the interface
                 WlanInterface = intf;
                 status = true;
+                break;
             }
             return status;
         }
@@ -175,9 +173,9 @@ namespace inSSIDer.Scanning
         public bool SetInterface(Guid interfaceId)
         {
             bool status = false;
-            foreach (WlanClient.WlanInterface intf in AvalibleWlanInterfaces)
+            foreach (NetworkInterface intf in InterfaceManager.Instance.Interfaces)
             {
-                if (intf.InterfaceGuid != interfaceId) continue;
+                if (new Guid(intf.Id) != interfaceId) continue;
                 //We've found the interface
                 WlanInterface = intf;
                 status = true;
@@ -189,6 +187,8 @@ namespace inSSIDer.Scanning
         {
             if (ScanComplete != null) ScanComplete(this, new ScanCompleteEventArgs(data, gpsData));
         }
+
+        #region Null scanning
 
         private readonly Timer _tNullScan = new Timer(1000);
         private readonly List<NullNetData> _usedData = new List<NullNetData>();
@@ -279,6 +279,8 @@ namespace inSSIDer.Scanning
             public int Rssi;
         }
 
+        #endregion
+
         #region GPX logging control
 
         #endregion
@@ -291,8 +293,8 @@ namespace inSSIDer.Scanning
             NetworkScanner.Stop();
             Log.WriteLine("Dispose _ns", "Scanner.Dispose()");
             NetworkScanner.Dispose();
-            Log.WriteLine("Null out WlanClient", "Scanner.Dispose()");
-            WlanClient = null;
+            //Log.WriteLine("Null out WlanClient", "Scanner.Dispose()");
+            //WlanClient = null;
             Log.WriteLine("Null out Cache", "Scanner.Dispose()");
             Cache = null;
             Log.WriteLine("Stop GpsControl", "Scanner.Dispose()");
@@ -302,8 +304,8 @@ namespace inSSIDer.Scanning
         }
 
         #endregion
-    } */
-
+    }
+    /*
     public class ScanCompleteEventArgs : EventArgs
     {
         public ScanCompleteEventArgs(NetworkData[] data, GpsData gpsData)
@@ -316,4 +318,5 @@ namespace inSSIDer.Scanning
 
         public GpsData GpsData { get; private set; }
     }
+    */
 }

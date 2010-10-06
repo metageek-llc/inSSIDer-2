@@ -54,7 +54,7 @@ namespace inSSIDer.UI.Controls
         //The band type
         private BandType _band = BandType.Band2400MHz;
 
-        private Scanner _sc;
+        private ScannerN _sc;
 
         //The copy context menu
         private readonly ContextMenuStrip _cmsCopy;
@@ -118,7 +118,7 @@ namespace inSSIDer.UI.Controls
             }
         }
 
-        public void SetScanner(ref Scanner scanner)
+        public void SetScanner(ref ScannerN scanner)
         {
             _sc = scanner;
         }

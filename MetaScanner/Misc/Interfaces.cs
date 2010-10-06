@@ -22,6 +22,6 @@ namespace inSSIDer.Misc
 {
     public interface IScannerUi
     {
-        void Initalize(ref Scanner scanner);
+        void Initalize(ref ScannerN scanner);
     }
 }

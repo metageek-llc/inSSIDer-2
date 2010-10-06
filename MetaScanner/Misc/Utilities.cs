@@ -29,16 +29,6 @@ namespace inSSIDer.Misc
 {
     public static class Utilities
     {
-        #region Constants
-
-        private const int LowSignal = -80;
-        private const int MediumSignal = -70;
-        private const int MediumHighSignal = -55;
-        private const int HighMediumSignal = -50;
-        private const int HighSignal = -50;
-
-        #endregion Constants      
-
         #region Static Methods
 
         /// <summary>

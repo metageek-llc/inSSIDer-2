@@ -243,4 +243,9 @@ Please start WZC and then run inSSIDer.
 
 Thanks!</value>
   </data>
+  <data name="InterfaceError" xml:space="preserve">
+    <value>Error attempting to use interface.
+
+Make sure you have selected a WiFi adapter, not an Ethernet adapter.</value>
+  </data>
 </root>

@@ -214,6 +214,17 @@ namespace inSSIDer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error attempting to use interface.
+        ///
+        ///Make sure you have selected a WiFi adapter, not an Ethernet adapter..
+        /// </summary>
+        internal static string InterfaceError {
+            get {
+                return ResourceManager.GetString("InterfaceError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Latitude: {0}.
         /// </summary>
         internal static string LatitudePlusValue {

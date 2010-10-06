@@ -38,7 +38,7 @@ namespace inSSIDer.UI.Forms
 {
     public partial class FormMain : Form, IScannerUi
     {
-        private Scanner _scanner = new Scanner();
+        private ScannerN _scanner = new ScannerN();
         private Timer _gpsStatTimer = new Timer(1000);
         //private GpxDataLogger _logger;
 
@@ -75,7 +75,7 @@ namespace inSSIDer.UI.Forms
             SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
         }
 
-        public void Initalize(ref Scanner scanner)
+        public void Initalize(ref ScannerN scanner)
         {
             _scanner = scanner;
             _scanner.ScanComplete += ScannerScanComplete;
@@ -212,6 +212,9 @@ namespace inSSIDer.UI.Forms
             RefreshAll();
             //Continue scanning if we just switched and were scanning
             if(Program.WasScanning) networkInterfaceSelector1.StartScan();
+
+            //Hook the interface error event
+            _scanner.NetworkScanner.InterfaceError += NetworkScanner_InterfaceError;
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -680,6 +683,13 @@ namespace inSSIDer.UI.Forms
             if (WindowState == FormWindowState.Maximized)
             {
             }
+        }
+
+        private void NetworkScanner_InterfaceError(object sender, EventArgs e)
+        {
+            MessageBox.Show(Localizer.GetString("InterfaceError"),
+                    "Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
+            networkInterfaceSelector1.StopScan();
         }
 
     }

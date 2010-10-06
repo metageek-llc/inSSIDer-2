@@ -30,7 +30,7 @@ namespace inSSIDer.UI.Controls
 {
     public partial class FilterManager : UserControl
     {
-        private Scanner _sc;
+        private ScannerN _sc;
         //selection ignore flag - set to makes it ignore the first the auto-select when a new rows is added
         private bool _ignoreSelection = true;
 
@@ -41,7 +41,7 @@ namespace inSSIDer.UI.Controls
             InitializeComponent();
         }
 
-        public void SetScanner(ref Scanner s)
+        public void SetScanner(ref ScannerN s)
         {
             _sc = s;
             _sc.Cache.FiltersChanged += Cache_FiltersChanged;

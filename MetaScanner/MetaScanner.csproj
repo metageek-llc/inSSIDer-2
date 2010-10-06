@@ -95,6 +95,12 @@
   <ItemGroup>
     <Compile Include="Misc\Settings.cs" />
     <Compile Include="Misc\SignalColor.cs" />
+    <Compile Include="Scanning\InterfaceManager.cs" />
+    <Compile Include="Scanning\Interfaces\NdisScanInterface.cs" />
+    <Compile Include="Scanning\ScannerN.cs" />
+    <Compile Include="Scanning\Interfaces\ManagedScanInterface.cs" />
+    <Compile Include="Scanning\NetworkScannerN.cs" />
+    <Compile Include="Scanning\ScanInterfaces.cs" />
     <Compile Include="UI\Controls\GpsGraph.cs">
       <SubType>UserControl</SubType>
     </Compile>

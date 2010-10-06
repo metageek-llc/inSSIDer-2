@@ -19,6 +19,7 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Net.NetworkInformation;
 using System.Timers;
 using System.Windows.Forms;
 using inSSIDer.Misc;
@@ -42,10 +43,12 @@ namespace inSSIDer.UI.Controls
         private delegate void UpdateInterfaceListHandler();
 
         private delegate void DelInterfaceChange(object sender, InterfaceNotificationEventsArgs e);
-
         private delegate void DelInvokeNoArg();
+        private delegate void DelInvokeBool(bool value);
 
-        private Scanner _scanner;
+        private ScannerN _scanner;
+
+
 
         public NetworkInterfaceSelector()
         {
@@ -53,21 +56,28 @@ namespace inSSIDer.UI.Controls
             MaxTextLength = -1;
         }
 
-        public void Initialize(ref Scanner scanner)
+        public void Initialize(ref ScannerN scanner)
         {
             _scanner = scanner;
             if(_scanner == null) return;
+
             //NetworkController.Instance.Initialize();
+
             if (Utilities.IsXp())
             {
                 _myTimer = new System.Timers.Timer { Interval = 5000.0, Enabled = true };
                 _myTimer.Elapsed += MyTimer_Elapsed;
             }
-            else if (_scanner.WlanClient != null)
+            else
             {
-                _scanner.WlanClient.InterfaceArrivedEvent += WlanClient_InterfaceAddedEvent;
-                _scanner.WlanClient.InterfaceRemovedEvent += WlanClient_InterfaceRemoveEvent;
+                InterfaceManager.Instance.InterfaceAdded += WlanClient_InterfaceAddedEvent;
+                InterfaceManager.Instance.InterfaceRemoved += WlanClient_InterfaceRemoveEvent;
             }
+            //else if (_scanner.WlanClient != null)
+            //{
+            //    _scanner.WlanClient.InterfaceArrivedEvent += WlanClient_InterfaceAddedEvent;
+            //    _scanner.WlanClient.InterfaceRemovedEvent += WlanClient_InterfaceRemoveEvent;
+            //}
             UpdateInterfaceList();
             //if ((this.NetworkInterfaceDropDown.DropDownItems.Count > 0) && Settings.Default.AutoStartWiFi)
             //{
@@ -104,11 +114,11 @@ namespace inSSIDer.UI.Controls
 
         private void WlanClient_InterfaceRemoveEvent(object sender, InterfaceNotificationEventsArgs e)
         {
-            if(e.MyGuid == _scanner.WlanInterface.InterfaceGuid)
+            if (e.MyGuid == new Guid(_scanner.WlanInterface.Id))
             {
                 //If we were using the interface that got removed, stop scanning!
                 if (InvokeRequired)
-                    Invoke(new DelInterfaceChange(WlanClient_InterfaceRemoveEvent), new[] {sender, e});
+                    Invoke(new DelInterfaceChange(WlanClient_InterfaceRemoveEvent), new[] { sender, e });
                 else
                 {
                     StopScan();
@@ -167,15 +177,15 @@ namespace inSSIDer.UI.Controls
             {
                 lock (this)
                 {
-                    WlanClient.WlanInterface[] interfaceArray = _scanner.AvalibleWlanInterfaces;
+                    NetworkInterface[] interfaceArray = InterfaceManager.Instance.Interfaces;
                     if (interfaceArray.Length > 0)
                     {
                         if (!NetworkInterfaceDropDown.Pressed)
                         {
                             NetworkInterfaceDropDown.DropDownItems.Clear();
-                            foreach (WlanClient.WlanInterface interface2 in interfaceArray)
+                            foreach (NetworkInterface interface2 in interfaceArray)
                             {
-                                NetworkInterfaceDropDown.DropDownItems.Add(interface2.InterfaceDescription);
+                                NetworkInterfaceDropDown.DropDownItems.Add(interface2.Description);
                             }
                             NetworkInterfaceDropDown.ShowDropDownArrow = NetworkInterfaceDropDown.DropDownItems.Count > 0;
                             UpdateInterfaceListSelection();
@@ -231,7 +241,11 @@ namespace inSSIDer.UI.Controls
 
         private void UpdateScanButtonState(bool isStarted)
         {
-            if (!InvokeRequired)
+            if(InvokeRequired)
+            {
+                Invoke(new DelInvokeBool(UpdateScanButtonState), new object[] {isStarted});
+            }
+            else
             {
                 if (isStarted)
                 {
@@ -268,6 +282,15 @@ namespace inSSIDer.UI.Controls
             UpdateScanButtonState(false);
             NetworkInterfaceDropDown.Enabled = true;
             InvokeNetworkScanStopEvent();
+        }
+
+        /// <summary>
+        /// Updates the control to reflect the current scan state
+        /// </summary>
+        internal void UpdateView()
+        {
+            UpdateScanButtonState(_scanner.NetworkScanner.IsScanning);
+            NetworkInterfaceDropDown.Enabled = true;
         }
 
         /// <summary>

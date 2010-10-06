@@ -330,8 +330,8 @@ namespace MetaGeek.WiFi
                            NetworkType,
                            FirstSeenTimestamp.ToLongTimeString(),
                            LastSeenTimestamp.ToLongTimeString(),
-                           GpsData.Latitude.ToString("F5"),
-                           GpsData.Longitude.ToString("F5")
+                           GpsData.Latitude.ToString("F6"),
+                           GpsData.Longitude.ToString("F6")
                        };
         }
 

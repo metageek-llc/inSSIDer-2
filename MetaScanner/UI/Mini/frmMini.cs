@@ -37,7 +37,7 @@ namespace inSSIDer.UI.Mini
 {
     public partial class FormMini : Form, IScannerUi
     {
-        private Scanner _scanner;
+        private ScannerN _scanner;
 
         private delegate void DelVoidCall();
 
@@ -51,7 +51,7 @@ namespace inSSIDer.UI.Mini
             ToolStripManager.Renderer = new GrayToolStripRenderer(); 
         }
 
-        public void Initalize(ref Scanner scanner)
+        public void Initalize(ref ScannerN scanner)
         {
             //Init here
             _scanner = scanner;
@@ -166,6 +166,10 @@ namespace inSSIDer.UI.Mini
                 networkInterfaceSelector1.StartScan();
             }
             RefreshAll();
+
+            //Hook the interface error event
+            _scanner.NetworkScanner.InterfaceError += NetworkScanner_InterfaceError;
+
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -521,6 +525,13 @@ namespace inSSIDer.UI.Mini
             if (WindowState == FormWindowState.Maximized)
             {
             }
+        }
+
+        private void NetworkScanner_InterfaceError(object sender, EventArgs e)
+        {
+            MessageBox.Show(Localizer.GetString("InterfaceError"),
+                    "Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
+            networkInterfaceSelector1.StopScan();
         }
     }
 }

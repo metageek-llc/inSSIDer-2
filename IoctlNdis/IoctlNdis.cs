@@ -397,7 +397,7 @@ namespace MetaGeek.IoctlNdis
         /// <summary>
         /// Initiates a discovery scan of the available wireless networkds.
         /// </summary>
-        public void Scan(NetworkInterface adapter)
+        public bool Scan(NetworkInterface adapter)
         {
             try
             {
@@ -411,6 +411,14 @@ namespace MetaGeek.IoctlNdis
                     mo.Put();
                 }
             }
+            catch (ManagementException ex)
+            {
+                if(ex.ErrorCode == ManagementStatus.NotSupported)
+                {
+                    //The operation is not supported, probably not an WiFi adapter.
+                    return false;
+                }
+            }
             catch
             {
                 // TODO: Verify root cause of exception.
@@ -418,6 +426,7 @@ namespace MetaGeek.IoctlNdis
                 // there seems to be some issues with WMI on certain systems. Various exceptions have been
                 // reported from this method, which relate to problems with WMI.
             }
+            return true;
         } // End Scan()
         /// <summary>
         /// Queries the BSSID List from the NDIS layer.
