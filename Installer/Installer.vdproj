@@ -15,38 +15,38 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_3CCCB52C88B468BACE62C565F1666842"
+        "MsmKey" = "8:_07F1BC332894716F45EB2EABF16B638E"
         "OwnerKey" = "8:_D6F346BC133C4DF2A34F5B74629F4ACE"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_537AD64F14665EAAA5807C98A43A243B"
+        "MsmKey" = "8:_07F1BC332894716F45EB2EABF16B638E"
+        "OwnerKey" = "8:_9FA60DA0612E35B929C91A2DDC1BBE6E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_0C36C1B4E3644DE32950B53A2CF5E094"
         "OwnerKey" = "8:_D6F346BC133C4DF2A34F5B74629F4ACE"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_537AD64F14665EAAA5807C98A43A243B"
-        "OwnerKey" = "8:_9E98C05904131DE341620DD9EB8F850C"
+        "MsmKey" = "8:_0C36C1B4E3644DE32950B53A2CF5E094"
+        "OwnerKey" = "8:_9FA60DA0612E35B929C91A2DDC1BBE6E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_9E98C05904131DE341620DD9EB8F850C"
+        "MsmKey" = "8:_9FA60DA0612E35B929C91A2DDC1BBE6E"
         "OwnerKey" = "8:_D6F346BC133C4DF2A34F5B74629F4ACE"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_C6DF169A29DDE6B4DE355A2F75897E41"
+        "MsmKey" = "8:_BAEFBBFBDE2AB6CAE8A5C0364E5069C6"
         "OwnerKey" = "8:_D6F346BC133C4DF2A34F5B74629F4ACE"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_C6DF169A29DDE6B4DE355A2F75897E41"
-        "OwnerKey" = "8:_9E98C05904131DE341620DD9EB8F850C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -70,25 +70,25 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9E98C05904131DE341620DD9EB8F850C"
+        "OwnerKey" = "8:_9FA60DA0612E35B929C91A2DDC1BBE6E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C6DF169A29DDE6B4DE355A2F75897E41"
+        "OwnerKey" = "8:_07F1BC332894716F45EB2EABF16B638E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_537AD64F14665EAAA5807C98A43A243B"
+        "OwnerKey" = "8:_0C36C1B4E3644DE32950B53A2CF5E094"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_3CCCB52C88B468BACE62C565F1666842"
+        "OwnerKey" = "8:_BAEFBBFBDE2AB6CAE8A5C0364E5069C6"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -196,20 +196,20 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_3CCCB52C88B468BACE62C565F1666842"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_07F1BC332894716F45EB2EABF16B638E"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Metageek.IoctlNdis, Version=1.0.9.923, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:MetaGeek.Gps, Version=1.0.3.923, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_3CCCB52C88B468BACE62C565F1666842"
+                    "_07F1BC332894716F45EB2EABF16B638E"
                     {
-                    "Name" = "8:Metageek.IoctlNdis.dll"
+                    "Name" = "8:MetaGeek.Gps.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:Metageek.IoctlNdis.dll"
+            "SourcePath" = "8:MetaGeek.Gps.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_D090D03BD69940418107A0FE149BB92D"
@@ -227,14 +227,14 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_537AD64F14665EAAA5807C98A43A243B"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_0C36C1B4E3644DE32950B53A2CF5E094"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:ManagedWifi, Version=2010.9.23.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:ManagedWifi, Version=2010.10.4.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_537AD64F14665EAAA5807C98A43A243B"
+                    "_0C36C1B4E3644DE32950B53A2CF5E094"
                     {
                     "Name" = "8:ManagedWifi.dll"
                     "Attributes" = "3:512"
@@ -258,14 +258,14 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9E98C05904131DE341620DD9EB8F850C"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9FA60DA0612E35B929C91A2DDC1BBE6E"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:MetaGeek.WiFi, Version=1.0.4.920, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:MetaGeek.WiFi, Version=1.0.5.929, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_9E98C05904131DE341620DD9EB8F850C"
+                    "_9FA60DA0612E35B929C91A2DDC1BBE6E"
                     {
                     "Name" = "8:MetaGeek.WiFi.dll"
                     "Attributes" = "3:512"
@@ -289,20 +289,20 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C6DF169A29DDE6B4DE355A2F75897E41"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_BAEFBBFBDE2AB6CAE8A5C0364E5069C6"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:MetaGeek.Gps, Version=1.0.3.923, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Metageek.IoctlNdis, Version=1.0.9.923, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_C6DF169A29DDE6B4DE355A2F75897E41"
+                    "_BAEFBBFBDE2AB6CAE8A5C0364E5069C6"
                     {
-                    "Name" = "8:MetaGeek.Gps.dll"
+                    "Name" = "8:Metageek.IoctlNdis.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:MetaGeek.Gps.dll"
+            "SourcePath" = "8:Metageek.IoctlNdis.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_D090D03BD69940418107A0FE149BB92D"
@@ -407,14 +407,14 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:inSSIDer 2.0"
-        "ProductCode" = "8:{E894CEDB-643D-435C-81AC-EF19ECFE59CF}"
-        "PackageCode" = "8:{27A08670-FFB7-4681-AC66-48775E69B3CE}"
+        "ProductCode" = "8:{E5026CE8-B6E0-46CB-A63C-040B920C8611}"
+        "PackageCode" = "8:{A250E0AB-59F2-4CD3-9255-F4CFDAB93C2D}"
         "UpgradeCode" = "8:{B23D6476-E629-452B-B3DE-F11012FF064C}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:2.0.0"
+        "ProductVersion" = "8:2.0.2"
         "Manufacturer" = "8:MetaGeek"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://www.metageek.net"
@@ -533,12 +533,12 @@
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
+            "IconIndex" = "3:32512"
             "Transitive" = "11:FALSE"
             "Target" = "8:_D6F346BC133C4DF2A34F5B74629F4ACE"
             "Folder" = "8:_2D50593846FC4DF4A466955BC4700B08"
             "WorkingFolder" = "8:_D090D03BD69940418107A0FE149BB92D"
-            "Icon" = "8:"
+            "Icon" = "8:_D6F346BC133C4DF2A34F5B74629F4ACE"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_FB0CB9CE3CE146A7B882954336C12F47"
@@ -994,7 +994,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_D6F346BC133C4DF2A34F5B74629F4ACE"
             {
-            "SourcePath" = "8:..\\MetaScanner\\obj\\Debug\\inSSIDer.exe"
+            "SourcePath" = "8:..\\MetaScanner\\obj\\Release\\inSSIDer.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_D090D03BD69940418107A0FE149BB92D"
