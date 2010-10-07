@@ -149,6 +149,9 @@ namespace MetaGeek.WiFi
         /// </summary>
         public GpsData GpsData { get; set; }
 
+        /// <summary>
+        /// Gets the network type of this AP
+        /// </summary>
         public string NetworkType { get { return _orignalData.NetworkType; } }
 
         /// <summary>
@@ -174,6 +177,14 @@ namespace MetaGeek.WiFi
                     return sparks;
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets the connection status of this AP
+        /// </summary>
+        public bool Connected
+        {
+            get { return LastData.Connected; }
         }
 
         #endregion Members and Properties

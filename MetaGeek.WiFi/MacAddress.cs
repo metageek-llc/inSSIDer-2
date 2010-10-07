@@ -18,6 +18,8 @@
 
 using System;
 using System.Text;
+using System.Net.NetworkInformation;
+using System.Linq;
 
 namespace MetaGeek.WiFi
 {
@@ -139,6 +141,23 @@ namespace MetaGeek.WiFi
         // this is here so that resharper doesn't whine, it just hacks MyValue down to 32 bits
         public override int GetHashCode() {
             return (int)MyValue;
+        }
+
+        /// <summary>
+        /// Compares this MacAddress to a PhysicalAddress
+        /// </summary>
+        /// <param name="address">The PhysicalAddress to compare to</param>
+        /// <returns>true if equal, otherwise false</returns>
+        public bool CompareToPhysicalAddress(PhysicalAddress address)
+        {
+            try
+            {
+                return address != null && Bytes.SequenceEqual(address.GetAddressBytes());
+            }
+            catch(NullReferenceException)
+            {
+                return false;
+            }
         }
 
         #endregion Methods

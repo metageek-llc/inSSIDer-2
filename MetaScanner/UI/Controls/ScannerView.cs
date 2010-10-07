@@ -196,6 +196,13 @@ namespace inSSIDer.UI.Controls
                                     newrow.Cells["checkColumn"].Value = false;
                                     ap.Graph = false;
                                 }
+
+                                //Connection State
+                                if(ap.Connected)
+                                {
+                                    newrow.DefaultCellStyle.BackColor = Color.Green;
+                                    newrow.DefaultCellStyle.SelectionBackColor = Color.Green;
+                                }
                             }
                             else
                             {

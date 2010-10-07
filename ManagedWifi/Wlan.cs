@@ -169,7 +169,9 @@ namespace ManagedWifi
             {
                 get
                 {
-                    return new PhysicalAddress(dot11Bssid);
+                    return dot11Bssid != null
+                               ? new PhysicalAddress(dot11Bssid)
+                               : new PhysicalAddress(new byte[] {0, 0, 0, 0, 0, 0});
                 }
             }
         }
@@ -263,10 +265,10 @@ namespace ManagedWifi
         [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Unicode)]
         public struct WlanConnectionAttributes
         {
-            private readonly WlanInterfaceState isState;
-            private readonly WlanConnectionMode wlanConnectionMode;
+            public readonly WlanInterfaceState isState;
+            public readonly WlanConnectionMode wlanConnectionMode;
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst=0x100)] private readonly string profileName;
-            private readonly WlanAssociationAttributes wlanAssociationAttributes;
+            public readonly WlanAssociationAttributes wlanAssociationAttributes;
             private readonly WlanSecurityAttributes wlanSecurityAttributes;
         }
 

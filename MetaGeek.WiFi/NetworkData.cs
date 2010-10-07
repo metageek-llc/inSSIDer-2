@@ -125,6 +125,7 @@ namespace MetaGeek.WiFi
             }
         }
 
+        public bool Connected { get; set; }
 
         #endregion Members and Properties
 
@@ -134,6 +135,7 @@ namespace MetaGeek.WiFi
         {
             Rates = new List<double>();
             MyTimestamp = DateTime.Now;
+            Connected = false;
         }
 
         public NetworkData(byte[] macAddress)

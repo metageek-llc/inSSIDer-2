@@ -595,15 +595,24 @@ namespace ManagedWifi
                     int num;
                     IntPtr ptr;
                     Wlan.WlanOpcodeValueType type;
-                    Wlan.WlanConnectionAttributes attributes;
-                    Wlan.ThrowIfError(Wlan.WlanQueryInterface(_client._clientHandle, _info.interfaceGuid, Wlan.WlanIntfOpcode.CurrentConnection, IntPtr.Zero, out num, out ptr, out type));
-                    try
+                    Wlan.WlanConnectionAttributes attributes = new Wlan.WlanConnectionAttributes();
+                    int code = Wlan.WlanQueryInterface(_client._clientHandle, _info.interfaceGuid,
+                                                       Wlan.WlanIntfOpcode.CurrentConnection, IntPtr.Zero, out num,
+                                                       out ptr, out type);
+                    // 0x0000139F is the code returned when not connected
+                    if (code != 0x0000139F)
                     {
-                        attributes = (Wlan.WlanConnectionAttributes) Marshal.PtrToStructure(ptr, typeof(Wlan.WlanConnectionAttributes));
-                    }
-                    finally
-                    {
-                        Wlan.WlanFreeMemory(ptr);
+                        Wlan.ThrowIfError(code);
+                        try
+                        {
+                            attributes =
+                                (Wlan.WlanConnectionAttributes)
+                                Marshal.PtrToStructure(ptr, typeof (Wlan.WlanConnectionAttributes));
+                        }
+                        finally
+                        {
+                            Wlan.WlanFreeMemory(ptr);
+                        }
                     }
                     return attributes;
                 }

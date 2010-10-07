@@ -52,6 +52,18 @@ namespace inSSIDer.Scanning.Interfaces
                 _interface.GetAvailableNetworkList(Wlan.WlanGetAvailableNetworkFlags.IncludeAllManualHiddenProfiles);
             if ((networkBssList != null) && (availableNetworkList != null))
             {
+                //Get connected to AP
+                Wlan.WlanAssociationAttributes connectedAP = new Wlan.WlanAssociationAttributes();
+                //try
+                //{
+                    if (_interface.CurrentConnection.isState == Wlan.WlanInterfaceState.Connected)
+                    {
+                        connectedAP = _interface.CurrentConnection.wlanAssociationAttributes;
+                    }
+                //}
+                //catch (Win32Exception) { /*Not connected*/ }
+
+
                 Wlan.WlanAvailableNetwork foundNetwork = new Wlan.WlanAvailableNetwork();
                 foreach (Wlan.WlanBssEntryN entry in networkBssList)
                 {
@@ -59,6 +71,7 @@ namespace inSSIDer.Scanning.Interfaces
                                                            (int)entry.BaseEntry.dot11Ssid.SSIDLength);
                     if (FindNetwork(ssid, availableNetworkList, ref foundNetwork))
                     {
+                        
                         NetworkData item = new NetworkData(entry.BaseEntry.dot11Bssid);
 
                         Utilities.ConvertToMbs(entry.BaseEntry.wlanRateSet.Rates, item.Rates);
@@ -80,6 +93,10 @@ namespace inSSIDer.Scanning.Interfaces
                         item.Privacy = Utilities.CreatePrivacyString(foundNetwork.dot11DefaultAuthAlgorithm,
                                                                      foundNetwork.dot11DefaultCipherAlgorithm);
                         item.SignalQuality = foundNetwork.wlanSignalQuality;
+
+                        //Check to see if this AP is the connected one
+                        item.Connected = item.MyMacAddress.CompareToPhysicalAddress(connectedAP.Dot11Bssid);
+
                         list.Add(item);
                     }
                 }
