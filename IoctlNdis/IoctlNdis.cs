@@ -488,6 +488,68 @@ namespace MetaGeek.IoctlNdis
 
         } // End QueryBssidList
 
+        /// <summary>
+        /// Queries the BSSID of the currently connected AP from the NDIS layer.
+        /// </summary>
+        /// <param name="adapter">object representing the adapter's name</param>
+        /// <returns>a byte array representing the BSSID of the connected AP</returns>
+        public byte[] QueryConnected(NetworkInterface adapter)
+        {
+            byte[] bssid = new byte[] {0, 0, 0, 0, 0, 0};
+
+            IntPtr deviceHandle = OpenDevice(adapter.Id);
+            try
+            {
+                IntPtr oidBuffer = Marshal.AllocHGlobal(sizeof(byte) * 6);
+                try
+                {
+                    int bytesReturned = new int();
+                    bool success = QueryGlobalStats(
+                        deviceHandle,
+                        Oid.Oid80211Bssid,
+                        oidBuffer,
+                        sizeof(byte) * 6,
+                        ref bytesReturned);
+                    if (success)
+                    {
+                        bssid = ConvertToByteArray(oidBuffer, bytesReturned);
+                    }
+                }
+                finally
+                {
+                    Marshal.FreeHGlobal(oidBuffer);
+                }
+            }
+            finally
+            {
+                bool closed = CloseHandle(deviceHandle);
+                if (!closed)
+                {
+                    Debug.WriteLine("Unable to close handle with error code " + Marshal.GetLastWin32Error());
+                }
+            }
+
+            return (bssid);
+        } // End QueryConnected()
+
+        /// <summary>
+        /// Converts an intPtr into a byte array.
+        /// </summary>
+        /// <param name="intPtr">unmanaged memory pointer</param>
+        /// <param name="bytes">number of bytes</param>
+        /// <returns>abyte array</returns>
+        private byte[] ConvertToByteArray(IntPtr intPtr, int bytes)
+        {
+            int arraySize = bytes / sizeof(byte);
+            byte[] array = new byte[arraySize];
+
+            for (int i = 0; i < arraySize; ++i)
+            {
+                array[i] = Marshal.ReadByte(intPtr, i * sizeof(byte));
+            }
+            return (array);
+        } // End ConvertToByteArray()
+
 /*
         /// <summary>
         /// Gets the authenticaion mode for a particular adapter.

@@ -235,6 +235,29 @@ namespace inSSIDer.UI.Controls
                                 //Update Location
                                 row.Cells["latColumn"].Value = ap.GpsData.Latitude.ToString("F6");
                                 row.Cells["lonColumn"].Value = ap.GpsData.Longitude.ToString("F6");
+
+                                //Connection State
+                                if (ap.Connected)
+                                {
+                                    row.DefaultCellStyle.BackColor = Color.Green;
+                                    row.DefaultCellStyle.SelectionBackColor = Color.Green;
+                                }
+                                else
+                                {
+                                    if (row.Index % 2 == 0)
+                                    {
+                                        row.DefaultCellStyle.BackColor = scannerGrid.DefaultCellStyle.BackColor;
+                                        row.DefaultCellStyle.SelectionBackColor =
+                                            scannerGrid.DefaultCellStyle.SelectionBackColor;
+                                    }
+                                    else
+                                    {
+                                        row.DefaultCellStyle.BackColor =
+                                            scannerGrid.AlternatingRowsDefaultCellStyle.BackColor;
+                                        row.DefaultCellStyle.SelectionBackColor =
+                                            scannerGrid.AlternatingRowsDefaultCellStyle.SelectionBackColor;
+                                    }
+                                }
                             }
                         }
                     }

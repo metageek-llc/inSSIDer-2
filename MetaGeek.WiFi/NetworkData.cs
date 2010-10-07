@@ -196,7 +196,8 @@ namespace MetaGeek.WiFi
                 Channel = Channel,
                 MyTimestamp = MyTimestamp,
                 NSettings = NSettings,
-                IsTypeN = IsTypeN
+                IsTypeN = IsTypeN,
+                Connected = Connected
             };
             foreach (double num in Rates)
             {

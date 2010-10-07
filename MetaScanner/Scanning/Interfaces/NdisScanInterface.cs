@@ -41,6 +41,9 @@ namespace inSSIDer.Scanning.Interfaces
         {
             List<NetworkData> list = new List<NetworkData>();
             IEnumerable<NdisWlanBssidEx> exArray = Ndis.QueryBssidList(_interface);
+
+            //Gets the connected AP BSSID
+            byte[] connectedBssid = Ndis.QueryConnected(_interface);
             if (exArray != null)
             {
                 foreach (NdisWlanBssidEx ex in exArray)
@@ -82,6 +85,10 @@ namespace inSSIDer.Scanning.Interfaces
                     item.Ssid = str;
                     item.Privacy = Ndis.GetPrivacyString(ex);
                     item.NetworkType = Utilities.FindValueString(Utilities.InfrastructureText, (int)ex.InfrastructureMode);
+
+                    //Check to see if this AP is the connected one
+                    item.Connected = item.MyMacAddress.Bytes.SequenceEqual(connectedBssid);
+
                     list.Add(item);
                 }
             }
