@@ -132,7 +132,8 @@ namespace inSSIDer.UI.Controls
             ToolStripMenuItem clickedItem = e.ClickedItem as ToolStripMenuItem;
             if (clickedItem != null)
             {
-                NetworkInterfaceDropDown.Text = clickedItem.Text;
+                //NetworkInterfaceDropDown.Text = clickedItem.Text;
+                NetworkInterfaceDropDown.Text = MaxTextLength > -1 && clickedItem.Text.Length > MaxTextLength ? clickedItem.Text.Remove(MaxTextLength - 1) + "..." : clickedItem.Text;
                 UpdateInterfaceListSelection();
             }
         }

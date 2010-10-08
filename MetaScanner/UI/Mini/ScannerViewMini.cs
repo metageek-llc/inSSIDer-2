@@ -71,7 +71,8 @@ namespace inSSIDer.UI.Mini
             gradientBrush.Dispose();
 
             // paint rest of cell 
-            e.Paint(e.CellBounds, DataGridViewPaintParts.Border | DataGridViewPaintParts.ContentForeground);
+            //e.Paint(e.CellBounds, DataGridViewPaintParts.Border | DataGridViewPaintParts.ContentForeground);
+            e.Paint(e.CellBounds, DataGridViewPaintParts.Border | DataGridViewPaintParts.ContentForeground | DataGridViewPaintParts.ContentBackground);
             e.Handled = true;
             //Update the checkbox position
             ScannerViewUpdateHeaderCheckBoxPos();
@@ -110,8 +111,8 @@ namespace inSSIDer.UI.Mini
             //Location sorting, they are doubles, not ints
             if (e.Column == scannerGrid.Columns["latColumn"] || e.Column == scannerGrid.Columns["lonColumn"])
             {
-                if (Convert.ToDouble(e.CellValue1) > Convert.ToInt32(e.CellValue2)) { e.SortResult = 1; }
-                else if (Convert.ToDouble(e.CellValue1) < Convert.ToInt32(e.CellValue2)) { e.SortResult = -1; }
+                if (Convert.ToDouble(e.CellValue1) > Convert.ToDouble(e.CellValue2)) { e.SortResult = 1; }
+                else if (Convert.ToDouble(e.CellValue1) < Convert.ToDouble(e.CellValue2)) { e.SortResult = -1; }
                 else { e.SortResult = 0; }
                 e.Handled = true;
             }
