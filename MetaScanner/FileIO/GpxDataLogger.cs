@@ -279,11 +279,13 @@ namespace inSSIDer.FileIO
 
         public void Stop()
         {
+            if(!Enabled || _fsOutput == null) return;
             SaveLogFile();
             try
             {
                 //Close the stream
                 _fsOutput.Close();
+                _fsOutput.Dispose();
                 Enabled = false;
             }
             catch (Exception)

@@ -557,7 +557,7 @@ namespace inSSIDer.UI.Forms
 
         private void GpsStatToolStripMenuItemClick(object sender, EventArgs e)
         {
-            //If GPS has no port specified or shift was held down, configure it 
+            //If GPS has no port specified, configure it 
             //If cancel is clicked on the configure button, the GPS will use the last settings.
             //Also stop the GPX logger if GPS is disabled while logging
             if (string.IsNullOrEmpty(_scanner.GpsControl.PortName))

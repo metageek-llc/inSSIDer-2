@@ -395,6 +395,7 @@ namespace inSSIDer.FileIO
 
         public static void WriteGpx(Stream filename, IEnumerable<Waypoint> waypoints)
         {
+            if (filename == null || !filename.CanWrite) return;
             //Reset the stream
             filename.SetLength(0);
             filename.Position = 0;
