@@ -84,12 +84,12 @@ namespace inSSIDer.Scanning.Interfaces
                         {
                             item.IsTypeN = true;
                             item.NSettings = IeParser.Parse(ex.IEs);
-                            //item.Rates.Add(IEParser.MCSSet.GetSpeed(item.NSettings.maxMCS, item.NSettings.ShortGI20MHz,
-                            //                                        item.NSettings.ShortGI40MHz, item.NSettings.Is40MHz));
-
-                            //Add the extended 802.11N rates
-                            item.Rates.AddRange(item.NSettings.Rates.Where(f => !item.Rates.Contains(f)));
-                            item.Rates.Sort();
+                            if (item.NSettings != null)
+                            {
+                                //Add the extended 802.11N rates
+                                item.Rates.AddRange(item.NSettings.Rates.Where(f => !item.Rates.Contains(f)));
+                                item.Rates.Sort();
+                            }
                         }
                     }
                     Utilities.ConvertToMbs(ex.SupportedRates, item.Rates, item.IsTypeN);
