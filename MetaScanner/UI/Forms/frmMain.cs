@@ -152,6 +152,8 @@ namespace inSSIDer.UI.Forms
             }
             catch (InvalidOperationException)
             {
+                // Exception thrown if UI isn't fully initialized yet. Ignore for now and let the next ScannerScanComplete() call
+                //update the UI.
             }
         }
 
