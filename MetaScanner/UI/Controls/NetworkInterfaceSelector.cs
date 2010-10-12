@@ -107,8 +107,16 @@ namespace inSSIDer.UI.Controls
             //If we are not scanning and a new interface is added, use it!
             if (!_scanner.NetworkScanner.IsScanning && _scanner.SetInterface(e.MyGuid))
             {
-                //This will always need to be invoked
-                Invoke(new DelInvokeNoArg(StartScan));
+                try
+                {
+                    //This will always need to be invoked
+                    Invoke(new DelInvokeNoArg(StartScan));
+                }
+                catch (InvalidOperationException)
+                {
+                    // Exception thrown if UI isn't fully initialized yet. Ignore for now and let the next ScannerScanComplete() call
+                    //update the UI.
+                }
             }
         }
 

@@ -19,6 +19,7 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.IO;
 using inSSIDer.Properties;
@@ -95,8 +96,10 @@ namespace inSSIDer.HTML
 
         #region Methods
 
-        public void UpdateFile(bool forceUpdate)
+        public bool UpdateFile(bool forceUpdate)
         {
+            bool displayingFile = true;
+
             //string htmlFile = Path.GetTempPath() + "MetaGeekNews" + Path.DirectorySeparatorChar + "news.html";
 
             if ((UpdateIntervalDays > 0) && (UpdateUrl != string.Empty))
@@ -107,32 +110,32 @@ namespace inSSIDer.HTML
                 {
                     string rssFile = Path.ChangeExtension(LocalFileName, "rss");
 
-                    // BackgroundWorker runs UpdateFile() 
-                    // and then runs RunWorkerCompleted()
-                    BackgroundWorker bw = new BackgroundWorker();
-                    bw.RunWorkerCompleted += (s, e) =>
-                                                 {
-                                                     if (e.Error == null)
-                                                     {
-                                                         Refresh();
-                                                         Navigate(LocalFileName);
+                    try
+                    {
 
-                                                         //// this 'tries' to copy the fresh rssFile back to the original source
-                                                         //// if there is permission issue, this never gets copied :(
-                                                         //try
-                                                         //{
-                                                         //    File.Copy(rssFile, "HTML\\Content\\news.html", true);
-                                                         //}
-                                                         //catch
-                                                         //{
-                                                         //    Debug.WriteLine("Exception caught copying file");
-                                                         //}
-                                                     }
-                                                 };
-                    bw.DoWork += (s, e) => Download.UpdateFile(rssFile, UpdateUrl);
-                    bw.RunWorkerAsync();
+                        // BackgroundWorker runs UpdateFile() 
+                        // and then runs RunWorkerCompleted()
+                        BackgroundWorker bw = new BackgroundWorker();
+                        bw.RunWorkerCompleted += (s, e) =>
+                                                     {
+                                                         if (e.Error == null)
+                                                         {
+                                                             //Refresh();
+                                                             Navigate(LocalFileName);
+                                                         }
+                                                     };
+                        bw.DoWork += (s, e) => Download.UpdateFile(rssFile, UpdateUrl);
+                        bw.RunWorkerAsync();
+                    }
+                    catch (COMException)
+                    {
+                        // thrown on some machines.. no good solution found online...
+                        displayingFile = false;
+                    }
                 }
             }
+
+            return displayingFile;
         }
 
         private void OpenLocalFile()
