@@ -1,9 +1,7 @@
-Version:1.9.8.0923
-URL:http://www.metageek.net/forums/showthread.php?3531-Download-inSSIDer-2.0-Beta-1
-
+Version:2.0.3.1012
+URL:http://www.metageek.net/products/inssider
 Description: 
-1.9.8:
-Status bar now displays # of APs
-Lots of code cleanup and refactoring...
-
-* Please test this version as it is close to final, thanks! *
+Bug fixes...
+Fixed GPX logging crash when stopping GPS after logging was disabled
+Fixed 802.11n rates parsing crash
+Fixed latitude and longitude sort crash

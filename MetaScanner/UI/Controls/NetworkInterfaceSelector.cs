@@ -63,6 +63,7 @@ namespace inSSIDer.UI.Controls
 
             //NetworkController.Instance.Initialize();
 
+            // We have to manually check for new interfaces in Windows XP
             if (Utilities.IsXp())
             {
                 _myTimer = new System.Timers.Timer { Interval = 5000.0, Enabled = true };
@@ -114,8 +115,8 @@ namespace inSSIDer.UI.Controls
                 }
                 catch (InvalidOperationException)
                 {
-                    // Exception thrown if UI isn't fully initialized yet. Ignore for now and let the next ScannerScanComplete() call
-                    //update the UI.
+                    // Exception thrown if UI isn't fully initialized yet. 
+                    // Ignoring this exception will force the user to manually click the "Start" button
                 }
             }
         }

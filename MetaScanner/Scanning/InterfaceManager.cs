@@ -81,14 +81,18 @@ namespace inSSIDer.Scanning
 
         private void OnInterfaceRemoved(Guid id)
         {
-            if (InterfaceRemoved == null) return;
-            InterfaceRemoved(this,new InterfaceNotificationEventsArgs(id));
+            if (InterfaceRemoved != null)
+            {
+                InterfaceRemoved(this, new InterfaceNotificationEventsArgs(id));
+            }
         }
 
         private void OnInterfaceAdded(Guid id)
         {
-            if (InterfaceAdded == null) return;
-            InterfaceAdded(this, new InterfaceNotificationEventsArgs(id));
+            if (InterfaceAdded != null)
+            {
+                InterfaceAdded(this, new InterfaceNotificationEventsArgs(id));
+            }
         }
 
         public NetworkInterface[] Interfaces
