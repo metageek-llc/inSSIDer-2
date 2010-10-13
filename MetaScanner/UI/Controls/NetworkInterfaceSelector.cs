@@ -63,6 +63,7 @@ namespace inSSIDer.UI.Controls
 
             //NetworkController.Instance.Initialize();
 
+            // We have to manually check for new interfaces in Windows XP
             if (Utilities.IsXp())
             {
                 _myTimer = new System.Timers.Timer { Interval = 5000.0, Enabled = true };
@@ -107,8 +108,16 @@ namespace inSSIDer.UI.Controls
             //If we are not scanning and a new interface is added, use it!
             if (!_scanner.NetworkScanner.IsScanning && _scanner.SetInterface(e.MyGuid))
             {
-                //This will always need to be invoked
-                Invoke(new DelInvokeNoArg(StartScan));
+                try
+                {
+                    //This will always need to be invoked
+                    Invoke(new DelInvokeNoArg(StartScan));
+                }
+                catch (InvalidOperationException)
+                {
+                    // Exception thrown if UI isn't fully initialized yet. 
+                    // Ignoring this exception will force the user to manually click the "Start" button
+                }
             }
         }
 

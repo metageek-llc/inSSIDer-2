@@ -195,7 +195,7 @@ namespace inSSIDer
                 form.Initalize(ref scanner);
                 try
                 {
-                    Application.Run((Form)form);
+                    Application.Run(form as Form);
                 }
                 catch (ObjectDisposedException)
                 {

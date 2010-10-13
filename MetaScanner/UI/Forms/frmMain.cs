@@ -152,6 +152,8 @@ namespace inSSIDer.UI.Forms
             }
             catch (InvalidOperationException)
             {
+                // Exception thrown if UI isn't fully initialized yet. Ignore for now and let the next ScannerScanComplete() call
+                //update the UI.
             }
         }
 
@@ -203,7 +205,12 @@ namespace inSSIDer.UI.Forms
             bool copied = CopyHtmlToTemp();
 
             // Force update if we just copied the file over
-            htmlControl.UpdateFile(copied);
+            bool newsDisplayedProperly = htmlControl.UpdateFile(copied);
+            if (!newsDisplayedProperly)
+            {
+                //tabNews.Visible = false;
+                detailsTabControl.Controls.Remove(tabNews);
+            }
 
 #if CRASH
             crashToolStripMenuItem.Enabled = true;

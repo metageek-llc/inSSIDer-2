@@ -231,7 +231,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:ManagedWifi, Version=2010.10.4.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:ManagedWifi, Version=2010.10.5.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_0C36C1B4E3644DE32950B53A2CF5E094"
@@ -407,14 +407,14 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:inSSIDer 2.0"
-        "ProductCode" = "8:{E5026CE8-B6E0-46CB-A63C-040B920C8611}"
-        "PackageCode" = "8:{A250E0AB-59F2-4CD3-9255-F4CFDAB93C2D}"
+        "ProductCode" = "8:{6133183D-FA87-4924-8D50-1777222C05EA}"
+        "PackageCode" = "8:{01072A8E-C976-4B76-A758-B324522821D8}"
         "UpgradeCode" = "8:{B23D6476-E629-452B-B3DE-F11012FF064C}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:2.0.2"
+        "ProductVersion" = "8:2.0.3"
         "Manufacturer" = "8:MetaGeek"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://www.metageek.net"
@@ -994,7 +994,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_D6F346BC133C4DF2A34F5B74629F4ACE"
             {
-            "SourcePath" = "8:..\\MetaScanner\\obj\\Release\\inSSIDer.exe"
+            "SourcePath" = "8:..\\MetaScanner\\obj\\Debug\\inSSIDer.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_D090D03BD69940418107A0FE149BB92D"
