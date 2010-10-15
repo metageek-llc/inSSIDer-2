@@ -31,24 +31,37 @@ namespace inSSIDer.Scanning
     public class InterfaceManager
     {
         //Static instance
-        public static readonly InterfaceManager Instance = new InterfaceManager();
+        //public static readonly InterfaceManager Instance = new InterfaceManager();
 
         public event EventHandler<InterfaceNotificationEventsArgs> InterfaceRemoved;
         public event EventHandler<InterfaceNotificationEventsArgs> InterfaceAdded;
 
-        private void InitXP()
+        private static int _instanceCount;
+        private static InterfaceManager _instance;
+        public static InterfaceManager Instance
         {
-            
+            get
+            {
+                lock (typeof(InterfaceManager))
+                {
+                    if (_instance == null)
+                    {
+                        ++_instanceCount;
+                        if (_instanceCount > 1)
+                        {
+                            throw new Exception("circular reference");
+                        }
+                        _instance = new InterfaceManager();
+                    }
+                    return _instance;
+                }
+            }
         }
 
         public void Init(out Exception error)
         {
             error = null;
             if(Utilities.IsXp()) return;
-            //{
-            //    InitXP();
-            //    return;
-            //}
 
             try
             {

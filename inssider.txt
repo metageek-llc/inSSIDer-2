@@ -1,7 +1,6 @@
 Version:2.0.3.1012
 URL:http://www.metageek.net/products/inssider
 Description: 
-Bug fixes...
-Fixed GPX logging crash when stopping GPS after logging was disabled
-Fixed 802.11n rates parsing crash
-Fixed latitude and longitude sort crash
+Working on Windows XP compatibility (removing WZC requirement)
+Fixed COMException in HtmlControl
+Fixed InvalidOperationException at startup
