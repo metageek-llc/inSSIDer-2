@@ -113,20 +113,6 @@ namespace inSSIDer
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            //The main form will run unless mini is specified
-            IScannerUi form;
-
-            if(Settings.Default.lastMini)
-            {
-                form = new FormMini();
-                SettingsMgr.ApplyMiniFormSettings((Form)form);
-            }
-            else
-            {
-                form = new FormMain();
-                SettingsMgr.ApplyMainFormSettings((Form)form);
-            }
-
             //Initalize the scanner object before passing it to any interface
             ScannerN scanner = new ScannerN();
             Exception error;
@@ -166,6 +152,20 @@ namespace inSSIDer
             }
 
             if (scanner == null) return;
+
+            //The main form will run unless mini is specified
+            IScannerUi form;
+
+            if(Settings.Default.lastMini)
+            {
+                form = new FormMini();
+                SettingsMgr.ApplyMiniFormSettings((Form)form);
+            }
+            else
+            {
+                form = new FormMain();
+                SettingsMgr.ApplyMainFormSettings((Form)form);
+            }
 
             //Apply settings now 
             SettingsMgr.ApplyGpsSettings(scanner.GpsControl);
