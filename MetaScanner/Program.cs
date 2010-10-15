@@ -113,26 +113,12 @@ namespace inSSIDer
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            //The main form will run unless mini is specified
-            IScannerUi form;
-
-            if(Settings.Default.lastMini)
-            {
-                form = new FormMini();
-                SettingsMgr.ApplyMiniFormSettings((Form)form);
-            }
-            else
-            {
-                form = new FormMain();
-                SettingsMgr.ApplyMainFormSettings((Form)form);
-            }
-
             //Initalize the scanner object before passing it to any interface
             ScannerN scanner = new ScannerN();
-            Exception ex;
+            Exception error;
 
-            scanner.Initalize(out ex);
-            if (ex != null)
+            scanner.Initalize(out error);
+            if (error != null)
             {
                 //An error!
                 scanner.Dispose();
@@ -141,9 +127,9 @@ namespace inSSIDer
                 //throw ex;
 
                 //Log it
-                Log.WriteLine(string.Format("Exception message:\r\n\r\n{0}\r\n\r\nStack trace:\r\n{1}", ex.Message, ex.StackTrace));
+                Log.WriteLine(string.Format("Exception message:\r\n\r\n{0}\r\n\r\nStack trace:\r\n{1}", error.Message, error.StackTrace));
 
-                if (ex is System.ComponentModel.Win32Exception)
+                if (error is System.ComponentModel.Win32Exception)
                 {
                     //The wireless system failed
                     if (Utilities.IsXp())
@@ -160,12 +146,26 @@ namespace inSSIDer
                 else
                 {
                     //Any other exceptions
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK,
+                    MessageBox.Show(error.Message, "Error", MessageBoxButtons.OK,
                                         MessageBoxIcon.Hand);
                 }
             }
 
             if (scanner == null) return;
+
+            //The main form will run unless mini is specified
+            IScannerUi form;
+
+            if(Settings.Default.lastMini)
+            {
+                form = new FormMini();
+                SettingsMgr.ApplyMiniFormSettings((Form)form);
+            }
+            else
+            {
+                form = new FormMain();
+                SettingsMgr.ApplyMainFormSettings((Form)form);
+            }
 
             //Apply settings now 
             SettingsMgr.ApplyGpsSettings(scanner.GpsControl);
