@@ -662,9 +662,8 @@ namespace ManagedWifi
             {
                 get
                 {
-                    foreach (
-                        NetworkInterface interface2 in
-                            NetworkInterface.GetAllNetworkInterfaces())
+                    var nd = NetworkInterface.GetAllNetworkInterfaces();
+                    foreach (NetworkInterface interface2 in nd)
                     {
                         if (interface2.NetworkInterfaceType != NetworkInterfaceType.Loopback)
                         {
@@ -675,7 +674,10 @@ namespace ManagedWifi
                             }
                         }
                     }
-                    return null;
+                    //We haven't found one yet, create one.
+                    return new SudoInterface.SudoInterface(this);
+
+                    //return null;
                 }
             }
 
