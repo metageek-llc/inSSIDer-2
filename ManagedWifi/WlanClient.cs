@@ -675,7 +675,7 @@ namespace ManagedWifi
                         }
                     }
                     //We haven't found one yet, create one.
-                    return new SudoInterface.SudoInterface(this);
+                    return new SudoInterface.NullInterface(this);
 
                     //return null;
                 }

@@ -112,7 +112,7 @@
     </Compile>
     <Compile Include="IEParser.cs" />
     <Compile Include="InterfaceNotificationEventsArgs.cs" />
-    <Compile Include="SudoInterface.cs" />
+    <Compile Include="NullInterface.cs" />
     <Compile Include="Wlan.cs" />
     <Compile Include="WlanClient.cs" />
   </ItemGroup>
