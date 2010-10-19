@@ -160,16 +160,16 @@ namespace inSSIDer.UI.Mini
         {
             base.OnLoad(e);
 
+            RefreshAll();
+
             //Continue scanning if we just switched and were scanning
             if (Program.WasScanning)
             {
                 networkInterfaceSelector1.StartScan();
             }
-            RefreshAll();
 
             //Hook the interface error event
             _scanner.NetworkScanner.InterfaceError += NetworkScanner_InterfaceError;
-
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)

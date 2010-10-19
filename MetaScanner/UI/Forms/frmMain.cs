@@ -223,6 +223,7 @@ namespace inSSIDer.UI.Forms
             detailsTabControl.SelectedIndex = Settings.Default.formTabIndex;
 
             RefreshAll();
+
             //Continue scanning if we just switched and were scanning
             if(Program.WasScanning) networkInterfaceSelector1.StartScan();
 

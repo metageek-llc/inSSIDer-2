@@ -187,21 +187,31 @@ namespace inSSIDer.UI.Controls
             {
                 lock (this)
                 {
-                    NetworkInterface[] interfaceArray = InterfaceManager.Instance.Interfaces;
-                    if (interfaceArray.Length > 0)
+                    NetworkInterface[] interfaceArray = (NetworkInterface[])InterfaceManager.Instance.Interfaces.Clone();
+                    bool clearList = true;
+
+                    try
                     {
-                        if (!NetworkInterfaceDropDown.Pressed)
+                        if (interfaceArray.Length > 0)
                         {
-                            NetworkInterfaceDropDown.DropDownItems.Clear();
-                            foreach (NetworkInterface interface2 in interfaceArray)
+                            if (!NetworkInterfaceDropDown.Pressed)
                             {
-                                NetworkInterfaceDropDown.DropDownItems.Add(interface2.Description);
+                                NetworkInterfaceDropDown.DropDownItems.Clear();
+                                foreach (NetworkInterface networkInterface in interfaceArray)
+                                {
+                                    NetworkInterfaceDropDown.DropDownItems.Add(networkInterface.Description);
+                                }
+                                NetworkInterfaceDropDown.ShowDropDownArrow =
+                                    NetworkInterfaceDropDown.DropDownItems.Count > 0;
+                                UpdateInterfaceListSelection();
                             }
-                            NetworkInterfaceDropDown.ShowDropDownArrow = NetworkInterfaceDropDown.DropDownItems.Count > 0;
-                            UpdateInterfaceListSelection();
+                            clearList = false;
                         }
                     }
-                    else
+                    catch(NullReferenceException)
+                    {
+                    }
+                    if (clearList)
                     {
                         NetworkInterfaceDropDown.DropDownItems.Clear();
                         NetworkInterfaceDropDown.Text = Localizer.GetString("NoWiFiInterfacesFound");
