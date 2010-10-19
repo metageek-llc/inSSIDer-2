@@ -18,11 +18,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
-using inSSIDer.Localization;
 using inSSIDer.Misc;
 using ManagedWifi;
 using MetaGeek.WiFi;
@@ -32,7 +30,7 @@ namespace inSSIDer.Scanning.Interfaces
     public class ManagedScanInterface : IScanningInterface
     {
         //private WlanClient _wlanClient;
-        private WlanClient.WlanInterface _interface;
+        private WlanInterface _interface;
 
         public void Init(NetworkInterface wlanInterface, out Exception error)
         {
@@ -42,7 +40,7 @@ namespace inSSIDer.Scanning.Interfaces
 
             Guid interfaceId = new Guid(wlanInterface.Id);
             //Translate the NetworkInterface to a WlanInterface
-            foreach (WlanClient.WlanInterface wlan in InterfaceManager.Instance.WlanClient.Interfaces)
+            foreach (WlanInterface wlan in InterfaceManager.Instance.WlanClient.Interfaces)
             {
                 if (!wlan.InterfaceGuid.Equals(interfaceId)) continue;
 

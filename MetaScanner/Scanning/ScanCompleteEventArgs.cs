@@ -16,12 +16,22 @@
 //
 ////////////////////////////////////////////////////////////////
 
-using inSSIDer.Scanning;
+using System;
+using MetaGeek.Gps;
+using MetaGeek.WiFi;
 
-namespace inSSIDer.Misc
+namespace inSSIDer.Scanning
 {
-    public interface IScannerUi
+    public class ScanCompleteEventArgs : EventArgs
     {
-        void Initalize(ref ScanController scanner);
+        public ScanCompleteEventArgs(NetworkData[] data, GpsData gpsData)
+        {
+            Data = data;
+            GpsData = gpsData;
+        }
+
+        public NetworkData[] Data { get; private set; }
+
+        public GpsData GpsData { get; private set; }
     }
 }

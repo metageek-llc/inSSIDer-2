@@ -46,7 +46,7 @@ namespace inSSIDer.UI.Controls
         private delegate void DelInvokeNoArg();
         private delegate void DelInvokeBool(bool value);
 
-        private ScannerN _scanner;
+        private ScanController _scanner;
 
 
 
@@ -56,7 +56,7 @@ namespace inSSIDer.UI.Controls
             MaxTextLength = -1;
         }
 
-        public void Initialize(ref ScannerN scanner)
+        public void Initialize(ref ScanController scanner)
         {
             _scanner = scanner;
             if(_scanner == null) return;
@@ -123,7 +123,7 @@ namespace inSSIDer.UI.Controls
 
         private void WlanClient_InterfaceRemoveEvent(object sender, InterfaceNotificationEventsArgs e)
         {
-            if (e.MyGuid == new Guid(_scanner.WlanInterface.Id))
+            if (e.MyGuid == new Guid(_scanner.Interface.Id))
             {
                 //If we were using the interface that got removed, stop scanning!
                 if (InvokeRequired)
@@ -242,7 +242,7 @@ namespace inSSIDer.UI.Controls
             if (!flag)
             {
                 _scanner.StopScanning();
-                _scanner.WlanInterface = null;
+                _scanner.Interface = null;
                 if (NetworkInterfaceDropDown.DropDownItems.Count > 0)
                 {
                     string text = NetworkInterfaceDropDown.DropDownItems[0].Text;
@@ -277,7 +277,7 @@ namespace inSSIDer.UI.Controls
                     ScanButton.Text = Localizer.GetString("Start");
                     ScanButton.Image = _myStartImage;
                 }
-                ScanButton.Enabled = _scanner.WlanInterface != null;
+                ScanButton.Enabled = _scanner.Interface != null;
             }
         }
 

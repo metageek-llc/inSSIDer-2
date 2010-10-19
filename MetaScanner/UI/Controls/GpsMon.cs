@@ -25,7 +25,7 @@ namespace inSSIDer.UI.Controls
 {
     public partial class GpsMon : UserControl
     {
-        private ScannerN _scanner;
+        private ScanController _scanner;
 
         private delegate void DelUpdateView();
 
@@ -37,7 +37,7 @@ namespace inSSIDer.UI.Controls
             lblNoGps.Dock = DockStyle.Fill;
         }
 
-        public void SetScanner(ref ScannerN scanner)
+        public void SetScanner(ref ScanController scanner)
         {
             _scanner = scanner;
             _scanner.GpsControl.GpsStatUpdated += GpsControl_GpsStatUpdated;

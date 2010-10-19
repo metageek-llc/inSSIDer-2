@@ -127,7 +127,10 @@
     <Compile Include="Misc\SignalColor.cs" />
     <Compile Include="Scanning\InterfaceManager.cs" />
     <Compile Include="Scanning\Interfaces\NdisScanInterface.cs" />
-    <Compile Include="Scanning\ScannerN.cs" />
+    <Compile Include="Scanning\ScanCompleteEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Scanning\ScanController.cs" />
     <Compile Include="Scanning\Interfaces\ManagedScanInterface.cs" />
     <Compile Include="Scanning\NetworkScannerN.cs" />
     <Compile Include="Scanning\ScanInterfaces.cs" />
@@ -228,7 +231,6 @@
     <Compile Include="UI\Controls\NetworkInterfaceSelector.designer.cs">
       <DependentUpon>NetworkInterfaceSelector.cs</DependentUpon>
     </Compile>
-    <Compile Include="Scanning\NetworkScanner.cs" />
     <Compile Include="FileIO\NS1Writer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -304,7 +306,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Scanning\Scanner.cs" />
     <Compile Include="UI\Controls\ScannerView.cs">
       <SubType>UserControl</SubType>
     </Compile>

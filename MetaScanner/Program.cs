@@ -114,7 +114,7 @@ namespace inSSIDer
             Application.SetCompatibleTextRenderingDefault(false);
 
             //Initalize the scanner object before passing it to any interface
-            ScannerN scanner = new ScannerN();
+            ScanController scanner = new ScanController();
             Exception error;
 
             scanner.Initalize(out error);
