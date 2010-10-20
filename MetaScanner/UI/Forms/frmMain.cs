@@ -38,7 +38,7 @@ namespace inSSIDer.UI.Forms
 {
     public partial class FormMain : Form, IScannerUi
     {
-        private ScannerN _scanner = new ScannerN();
+        private ScanController _scanner = new ScanController();
         private Timer _gpsStatTimer = new Timer(1000);
         //private GpxDataLogger _logger;
 
@@ -75,7 +75,7 @@ namespace inSSIDer.UI.Forms
             SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
         }
 
-        public void Initalize(ref ScannerN scanner)
+        public void Initalize(ref ScanController scanner)
         {
             _scanner = scanner;
             _scanner.ScanComplete += ScannerScanComplete;
@@ -172,7 +172,7 @@ namespace inSSIDer.UI.Forms
 
         private void NetworkInterfaceSelectorNetworkScanStartEvent(object sender, EventArgs e)
         {
-            if(_scanner.WlanInterface == null)
+            if(_scanner.Interface == null)
             {
                 
             }
@@ -223,6 +223,7 @@ namespace inSSIDer.UI.Forms
             detailsTabControl.SelectedIndex = Settings.Default.formTabIndex;
 
             RefreshAll();
+
             //Continue scanning if we just switched and were scanning
             if(Program.WasScanning) networkInterfaceSelector1.StartScan();
 

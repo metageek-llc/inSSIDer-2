@@ -105,6 +105,8 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs">
@@ -112,9 +114,10 @@
     </Compile>
     <Compile Include="IEParser.cs" />
     <Compile Include="InterfaceNotificationEventsArgs.cs" />
-    <Compile Include="NullInterface.cs" />
+    <Compile Include="SudoInterface.cs" />
     <Compile Include="Wlan.cs" />
     <Compile Include="WlanClient.cs" />
+    <Compile Include="WlanInterface.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

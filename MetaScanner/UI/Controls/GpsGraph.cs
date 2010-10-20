@@ -28,7 +28,7 @@ namespace inSSIDer.UI.Controls
 {
     public partial class GpsGraph : UserControl
     {
-        private ScannerN _sc;
+        private ScanController _sc;
         private Satellite[] _lastSats;
 
         private LinearGradientBrush _lgb;
@@ -54,7 +54,7 @@ namespace inSSIDer.UI.Controls
             DrawView(e.Graphics);
         }
 
-        public void SetScanner(ref ScannerN s)
+        public void SetScanner(ref ScanController s)
         {
             _sc = s;
         }

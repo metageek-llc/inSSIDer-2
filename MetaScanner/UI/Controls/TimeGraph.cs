@@ -57,7 +57,7 @@ namespace inSSIDer.UI.Controls
         private TimeSpan _timeSpan = TimeSpan.FromMinutes(5);
         private TimeSpan _secPerTick = TimeSpan.FromSeconds(60);
 
-        internal ScannerN _scanner;
+        internal ScanController _scanner;
 
         private readonly System.Timers.Timer _rTimer = new System.Timers.Timer(1000) { AutoReset = true };
 
@@ -453,7 +453,7 @@ namespace inSSIDer.UI.Controls
             if(oldm != RightMargin) Invalidate();
         }
 
-        public void SetScanner(ref ScannerN scanner)
+        public void SetScanner(ref ScanController scanner)
         {
             _scanner = scanner;
         }

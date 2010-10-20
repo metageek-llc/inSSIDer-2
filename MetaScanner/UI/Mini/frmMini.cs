@@ -37,7 +37,7 @@ namespace inSSIDer.UI.Mini
 {
     public partial class FormMini : Form, IScannerUi
     {
-        private ScannerN _scanner;
+        private ScanController _scanner;
 
         private delegate void DelVoidCall();
 
@@ -51,7 +51,7 @@ namespace inSSIDer.UI.Mini
             ToolStripManager.Renderer = new GrayToolStripRenderer(); 
         }
 
-        public void Initalize(ref ScannerN scanner)
+        public void Initalize(ref ScanController scanner)
         {
             //Init here
             _scanner = scanner;
@@ -112,7 +112,7 @@ namespace inSSIDer.UI.Mini
 
         private void NetworkInterfaceSelector1NetworkScanStartEvent(object sender, EventArgs e)
         {
-            if(_scanner.WlanInterface == null) return;
+            if(_scanner.Interface == null) return;
             //Start scanning with a minimum scan interval of 1 second
             _scanner.StartScanning(1000);
         }
@@ -160,16 +160,16 @@ namespace inSSIDer.UI.Mini
         {
             base.OnLoad(e);
 
+            RefreshAll();
+
             //Continue scanning if we just switched and were scanning
             if (Program.WasScanning)
             {
                 networkInterfaceSelector1.StartScan();
             }
-            RefreshAll();
 
             //Hook the interface error event
             _scanner.NetworkScanner.InterfaceError += NetworkScanner_InterfaceError;
-
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)

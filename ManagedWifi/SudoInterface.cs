@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Net.NetworkInformation;
 using ManagedWifi;
 
-namespace SudoInterface
+namespace ManagedWifi
 {
-	class NullInterface : NetworkInterface
+	class SudoInterface : NetworkInterface
 	{
 	    private string _id;
 	    private string _name;
 	    private string _desc;
 
-        public NullInterface(WlanClient.WlanInterface wlan)
+        public SudoInterface(WlanInterface wlan)
         {
             _id = wlan.InterfaceGuid.ToString();
             //Calling InterfaceName cuases an infinite loop
@@ -21,7 +18,7 @@ namespace SudoInterface
             _desc = wlan.InterfaceDescription;
         }
 
-        public NullInterface(string id, string description, string name)
+        public SudoInterface(string id, string description, string name)
         {
             _id = id;
             _name = name;
