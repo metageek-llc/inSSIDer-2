@@ -332,6 +332,7 @@
       <DependentUpon>ScannerViewMini.cs</DependentUpon>
     </Compile>
     <Compile Include="UnhandledException\MapiMailMessage.cs" />
+    <Compile Include="UnhandledException\PathRemover.cs" />
     <Compile Include="UnhandledException\SendExceptionClickEventArgs.cs" />
     <Compile Include="UnhandledException\UnhandledExceptionDlg.cs" />
     <Compile Include="UnhandledException\UnhandledExDlgForm.cs">
