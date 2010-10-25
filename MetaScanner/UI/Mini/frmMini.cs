@@ -113,8 +113,8 @@ namespace inSSIDer.UI.Mini
         private void NetworkInterfaceSelector1NetworkScanStartEvent(object sender, EventArgs e)
         {
             if(_scanner.Interface == null) return;
-            //Start scanning with a minimum scan interval of 1 second
-            _scanner.StartScanning(1000);
+
+            _scanner.StartScanning();
         }
 
         private void ScannerViewMini1RequireRefresh(object sender, EventArgs e)

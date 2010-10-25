@@ -25,6 +25,7 @@ using System.Net.NetworkInformation;
 using inSSIDer.Localization;
 using ManagedWifi;
 using inSSIDer.Misc;
+using inSSIDer.Properties;
 
 namespace inSSIDer.Scanning
 {
@@ -119,6 +120,41 @@ namespace inSSIDer.Scanning
                 }
 
                 return WlanClient.Interfaces.ToList().ConvertAll(wl => wl.NetworkInterface).ToArray();
+            }
+        }
+
+        public NetworkInterface LastInterface
+        {
+            get
+            {
+                if (Settings.Default.scanLastInterfaceId == Guid.Empty) return null;
+
+                if (Utilities.IsXp())
+                {
+                    foreach (NetworkInterface net in NetworkInterface.GetAllNetworkInterfaces())
+                    {
+                        if(new Guid(net.Id).Equals(Settings.Default.scanLastInterfaceId))
+                        {
+                            //Found it
+                            return net;
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (WlanInterface wlan in WlanClient.Interfaces)
+                    {
+                        if(wlan.InterfaceGuid.Equals(Settings.Default.scanLastInterfaceId))
+                        {
+                            //We've found the interface, return it.
+                            //Note: The ManagedScanInterface will convert the NetworkInterface object to the correct WlanInterface.
+                            return wlan.NetworkInterface;
+                        }
+                    }
+                }
+
+                //If no interface is found, return null
+                return null;
             }
         }
 

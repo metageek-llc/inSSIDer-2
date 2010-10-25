@@ -25,6 +25,7 @@ using MetaGeek.Gps;
 using MetaGeek.WiFi;
 using System.Timers;
 using System.Net.NetworkInformation;
+using inSSIDer.Properties;
 
 namespace inSSIDer.Scanning
 {
@@ -37,6 +38,8 @@ namespace inSSIDer.Scanning
         internal NetworkDataCacheN Cache;
         internal GpsController GpsControl;
         internal GpxDataLogger Logger;
+
+        private NetworkInterface _interface;
 
 
         public event EventHandler<ScanCompleteEventArgs> ScanComplete;
@@ -65,16 +68,16 @@ namespace inSSIDer.Scanning
             return true;
         }
 
-        private void StartScanning(NetworkInterface intf, int scaninterval)
+        private void StartScanning(NetworkInterface intf)
         {
             if (intf == null) return;
             NetworkScanner.NetworkInterface = intf;
             NetworkScanner.Start();
         }
 
-        public void StartScanning(int scaninterval)
+        public void StartScanning()
         {
-            StartScanning(Interface, scaninterval);
+            StartScanning(Interface);
         }
 
         /// <summary>
@@ -88,7 +91,23 @@ namespace inSSIDer.Scanning
         /// <summary>
         /// The interface to scan with
         /// </summary>
-        public NetworkInterface Interface { get; set; }
+        public NetworkInterface Interface
+        {
+            get { return _interface; }
+            set
+            {
+                _interface = value;
+
+                if (_interface == null)
+                {
+                    Settings.Default.scanLastInterfaceId = Guid.Empty;
+                    return;
+                }
+
+                //Set the last used interface
+                Settings.Default.scanLastInterfaceId = new Guid(_interface.Id);
+            }
+        }
 
 
         private void NetworkScannerNewNetworkDataEvent(object sender, IncomingDataEventArgs<NetworkData> e)
@@ -222,10 +241,6 @@ namespace inSSIDer.Scanning
             public string Ssid;
             public int Rssi;
         }
-
-        #endregion
-
-        #region GPX logging control
 
         #endregion
 

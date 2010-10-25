@@ -9,6 +9,7 @@ using inSSIDer.UnhandledException;
 using MetaGeek.Utils;
 using inSSIDer.Localization;
 using inSSIDer.Properties;
+using System.Net.NetworkInformation;
 
 namespace inSSIDer
 {
@@ -153,6 +154,17 @@ namespace inSSIDer
 
             if (scanner == null) return;
 
+            //Start the scanning if it was last time and we have the last interface
+            //Otherwise, if we only have the interface, but not scanning, just set the interface selector to the last interface.
+            NetworkInterface netInterface = InterfaceManager.Instance.LastInterface;
+            if (netInterface != null)
+            {
+                //Set the interface
+                scanner.Interface = netInterface;
+                //if (Settings.Default.scanLastEnabled)
+                //    scanner.StartScanning();
+            }
+
             //The main form will run unless mini is specified
             IScannerUi form;
 
@@ -169,6 +181,9 @@ namespace inSSIDer
 
             //Apply settings now 
             SettingsMgr.ApplyGpsSettings(scanner.GpsControl);
+            
+            //Start GPS if it was started last time
+
 
             do
             {
@@ -189,7 +204,7 @@ namespace inSSIDer
                         SettingsMgr.ApplyMiniFormSettings((Form)form);
                         break;
                 }
-                //If' we've switched, we don't need to get stuck in a loop
+                //If we've switched, we don't need to get stuck in a loop
                 Switching = Utilities.SwitchMode.None;
 
                 form.Initalize(ref scanner);
@@ -205,6 +220,9 @@ namespace inSSIDer
             } while (Switching != Utilities.SwitchMode.None);
 
             Settings.Default.lastMini = form.GetType() == typeof(FormMini);
+
+            //GPS enabled setting
+            Settings.Default.gpsEnabled = scanner.GpsControl.Enabled;
 
             //Save settings before exit
             Settings.Default.Save();

@@ -45,6 +45,12 @@ namespace inSSIDer
                 gps.PortHandshake = Settings.Default.gpsHandshake;
                 gps.PortDataBits = Settings.Default.gpsDataBits;
                 gps.PortStopBits = Settings.Default.gpsStopBits;
+
+                //Start GPS if it was last time
+                if (Settings.Default.gpsEnabled && !string.IsNullOrEmpty(gps.PortName))
+                {
+                    gps.Start();
+                }
             }
             catch (Exception)
             {
@@ -60,6 +66,7 @@ namespace inSSIDer
         {
             try
             {
+                Settings.Default.gpsEnabled = gps.Enabled;
                 if (!string.IsNullOrEmpty(gps.PortName))
                 {
                     Settings.Default.gpsSerialPort = gps.PortName;

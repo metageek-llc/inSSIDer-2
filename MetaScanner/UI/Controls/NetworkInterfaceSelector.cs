@@ -48,6 +48,8 @@ namespace inSSIDer.UI.Controls
 
         private ScanController _scanner;
 
+        private bool _checkInterfaceInit = true;
+
 
 
         public NetworkInterfaceSelector()
@@ -224,6 +226,27 @@ namespace inSSIDer.UI.Controls
         private void UpdateInterfaceListSelection()
         {
             bool flag = false;
+
+            //Check for current interface, only once
+            if (_scanner.Interface != null && _checkInterfaceInit)
+            {
+                NetworkInterfaceDropDown.Text = _scanner.Interface.Description;
+
+                foreach (ToolStripMenuItem item in NetworkInterfaceDropDown.DropDownItems)
+                {
+                    if (item.Text.Equals(NetworkInterfaceDropDown.Text))
+                    {
+                        item.Checked = true;
+                        flag = true;
+                    }
+                    else
+                    {
+                        item.Checked = false;
+                    }
+                }
+                _checkInterfaceInit = false;
+            }
+
             foreach (ToolStripMenuItem item in NetworkInterfaceDropDown.DropDownItems)
             {
                 if (item.Text.Equals(NetworkInterfaceDropDown.Text))

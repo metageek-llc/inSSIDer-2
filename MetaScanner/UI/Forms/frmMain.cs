@@ -176,7 +176,7 @@ namespace inSSIDer.UI.Forms
             {
                 
             }
-            _scanner.StartScanning(1000);
+            _scanner.StartScanning();
         }
 
         /// <summary>
