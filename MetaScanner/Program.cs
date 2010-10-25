@@ -30,7 +30,7 @@ namespace inSSIDer
                      + "[Version]\r\n" + Application.ProductVersion + "\r\n\r\n"
                      + "[WinVer]\r\n" + Environment.OSVersion.VersionString + "\r\n\r\n"
                      + "[Platform]\r\n" + Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE") + "\r\n\r\n"
-                     + "[StackTrace]\r\n" + ar.UnhandledException + "\r\n\r\n");
+                     + "[StackTrace]\r\n" + PathScrubber.Scrub(ar.UnhandledException.ToString()) + "\r\n\r\n");
             };
 
             // Add handling of OnCopytoClipbooard
@@ -48,7 +48,7 @@ namespace inSSIDer
                         body += "[Version]\r\n" + Application.ProductVersion + "\r\n\r\n";
                         body += "[WinVer]\r\n" + Environment.OSVersion.VersionString + "\r\n\r\n";
                         body += "[Platform]\r\n" + Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE") + "\r\n\r\n";
-                        body += "[StackTrace]\r\n" + ar.UnhandledException + "\r\n\r\n";
+                        body += "[StackTrace]\r\n" + PathScrubber.Scrub(ar.UnhandledException.ToString()) + "\r\n\r\n";
 
                         Clipboard.SetText(body);
                     });
@@ -73,7 +73,7 @@ namespace inSSIDer
                     body += "[Version]\r\n" + Application.ProductVersion + "\r\n\r\n";
                     body += "[WinVer]\r\n" + Environment.OSVersion.VersionString + "\r\n\r\n";
                     body += "[Platform]\r\n" + Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE") + "\r\n\r\n";
-                    body += "[StackTrace]\r\n" + ar.UnhandledException + "\r\n\r\n";
+                    body += "[StackTrace]\r\n" + PathScrubber.Scrub(ar.UnhandledException.ToString()) + "\r\n\r\n";
 
                     MapiMailMessage message = new MapiMailMessage(@"inSSIDer 2 Error Report", body);
                     message.Recipients.Add("error.reports@metageek.net");
