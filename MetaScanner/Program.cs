@@ -156,13 +156,15 @@ namespace inSSIDer
 
             //Start the scanning if it was last time and we have the last interface
             //Otherwise, if we only have the interface, but not scanning, just set the interface selector to the last interface.
+            //TODO: Actually have the auto-start as an option. :)
+
             NetworkInterface netInterface = InterfaceManager.Instance.LastInterface;
             if (netInterface != null)
             {
                 //Set the interface
                 scanner.Interface = netInterface;
-                //if (Settings.Default.scanLastEnabled)
-                //    scanner.StartScanning();
+                if (Settings.Default.scanLastEnabled)
+                    scanner.StartScanning();
             }
 
             //The main form will run unless mini is specified

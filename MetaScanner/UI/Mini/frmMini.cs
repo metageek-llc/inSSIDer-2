@@ -70,8 +70,8 @@ namespace inSSIDer.UI.Mini
             gpsMon1.SetScanner(ref _scanner);
 
             networkInterfaceSelector1.Initialize(ref _scanner);
-            networkInterfaceSelector1.NetworkScanStartEvent += NetworkInterfaceSelector1NetworkScanStartEvent;
-            networkInterfaceSelector1.NetworkScanStopEvent += NetworkInterfaceSelector1NetworkScanStopEvent;
+            //networkInterfaceSelector1.NetworkScanStartEvent += NetworkInterfaceSelector1NetworkScanStartEvent;
+            //networkInterfaceSelector1.NetworkScanStopEvent += NetworkInterfaceSelector1NetworkScanStopEvent;
 
             _scanner.GpsControl.GpsLocationUpdated += GpsControl_GpsLocationUpdated;
 
@@ -198,8 +198,8 @@ namespace inSSIDer.UI.Mini
 
             _scanner.GpsControl.GpsLocationUpdated -= GpsControl_GpsLocationUpdated;
 
-            networkInterfaceSelector1.NetworkScanStartEvent -= NetworkInterfaceSelector1NetworkScanStartEvent;
-            networkInterfaceSelector1.NetworkScanStopEvent -= NetworkInterfaceSelector1NetworkScanStopEvent;
+            //networkInterfaceSelector1.NetworkScanStartEvent -= NetworkInterfaceSelector1NetworkScanStartEvent;
+            //networkInterfaceSelector1.NetworkScanStopEvent -= NetworkInterfaceSelector1NetworkScanStopEvent;
 
             filterMgr1.ReleaseEvents();
         }

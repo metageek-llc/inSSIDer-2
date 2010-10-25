@@ -90,8 +90,8 @@ namespace inSSIDer.UI.Forms
             chanView58.SetScanner(ref _scanner);
             filterMgr1.SetScanner(ref _scanner);
             networkInterfaceSelector1.Initialize(ref _scanner);
-            networkInterfaceSelector1.NetworkScanStartEvent += NetworkInterfaceSelectorNetworkScanStartEvent;
-            networkInterfaceSelector1.NetworkScanStopEvent += NetworkInterfaceSelectorNetworkScanStopEvent;
+            //networkInterfaceSelector1.NetworkScanStartEvent += NetworkInterfaceSelectorNetworkScanStartEvent;
+            //networkInterfaceSelector1.NetworkScanStopEvent += NetworkInterfaceSelectorNetworkScanStopEvent;
 
             _gpsStatTimer = new Timer(1000);
             _gpsStatTimer.Elapsed += GpsStatTimerElapsed;
@@ -657,8 +657,8 @@ namespace inSSIDer.UI.Forms
             scannerView.RequireRefresh -= ScannerViewRequireRefresh;
             _gpsStatTimer.Stop();
 
-            networkInterfaceSelector1.NetworkScanStartEvent -= NetworkInterfaceSelectorNetworkScanStartEvent;
-            networkInterfaceSelector1.NetworkScanStopEvent -= NetworkInterfaceSelectorNetworkScanStopEvent;
+            //networkInterfaceSelector1.NetworkScanStartEvent -= NetworkInterfaceSelectorNetworkScanStartEvent;
+            //networkInterfaceSelector1.NetworkScanStopEvent -= NetworkInterfaceSelectorNetworkScanStopEvent;
 
             //Release control events too
             filterMgr1.ReleaseEvents();
