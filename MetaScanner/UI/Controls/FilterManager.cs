@@ -297,5 +297,44 @@ namespace inSSIDer.UI.Controls
         {
             _sc.Cache.FiltersChanged -= Cache_FiltersChanged;
         }
+
+        #region Age Quick Filters
+
+        private void oneSecondToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _sc.Cache.AddFilter(new Filter("Age <= 1"));
+        }
+
+        private void fiveSecondsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _sc.Cache.AddFilter(new Filter("Age <= 5"));
+        }
+
+        private void tenSecondsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _sc.Cache.AddFilter(new Filter("Age <= 10"));
+        }
+
+        private void twentySecondsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _sc.Cache.AddFilter(new Filter("Age <= 20"));
+        }
+
+        private void thirtySecondsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _sc.Cache.AddFilter(new Filter("Age <= 30"));
+        }
+
+        private void oneMinuteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _sc.Cache.AddFilter(new Filter("Age <= 60"));
+        }
+
+        private void twoMinutesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _sc.Cache.AddFilter(new Filter("Age <= 120"));
+        }
+
+        #endregion
     }
 }
