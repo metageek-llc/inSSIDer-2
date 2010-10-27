@@ -477,5 +477,29 @@ namespace inSSIDer.Properties {
                 this["gpxLastComprehensive"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("00000000-0000-0000-0000-000000000000")]
+        public global::System.Guid scanLastInterfaceId {
+            get {
+                return ((global::System.Guid)(this["scanLastInterfaceId"]));
+            }
+            set {
+                this["scanLastInterfaceId"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool scanLastEnabled {
+            get {
+                return ((bool)(this["scanLastEnabled"]));
+            }
+            set {
+                this["scanLastEnabled"] = value;
+            }
+        }
     }
 }

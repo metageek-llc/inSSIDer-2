@@ -48,6 +48,8 @@ namespace inSSIDer.UI.Controls
 
         private ScanController _scanner;
 
+        private bool _checkInterfaceInit = true;
+
 
 
         public NetworkInterfaceSelector()
@@ -74,16 +76,14 @@ namespace inSSIDer.UI.Controls
                 InterfaceManager.Instance.InterfaceAdded += WlanClient_InterfaceAddedEvent;
                 InterfaceManager.Instance.InterfaceRemoved += WlanClient_InterfaceRemoveEvent;
             }
-            //else if (_scanner.WlanClient != null)
-            //{
-            //    _scanner.WlanClient.InterfaceArrivedEvent += WlanClient_InterfaceAddedEvent;
-            //    _scanner.WlanClient.InterfaceRemovedEvent += WlanClient_InterfaceRemoveEvent;
-            //}
+            
             UpdateInterfaceList();
-            //if ((this.NetworkInterfaceDropDown.DropDownItems.Count > 0) && Settings.Default.AutoStartWiFi)
-            //{
-            //    this.StartScan();
-            //}
+
+            //If we are not on XP and only have 1 interface, start scanning
+            if (!Utilities.IsXp() && InterfaceManager.Instance.Interfaces.Length == 1)
+            {
+                StartScan();
+            }
         }
 
         private void InvokeNetworkScanStartEvent()
@@ -224,6 +224,28 @@ namespace inSSIDer.UI.Controls
         private void UpdateInterfaceListSelection()
         {
             bool flag = false;
+
+            //Check for current interface, only once
+            if (_scanner.Interface != null && _checkInterfaceInit)
+            {
+                NetworkInterfaceDropDown.Text = _scanner.Interface.Description;
+
+                foreach (ToolStripMenuItem item in NetworkInterfaceDropDown.DropDownItems)
+                {
+                    if (item.Text.Equals(NetworkInterfaceDropDown.Text))
+                    {
+                        item.Checked = true;
+                        flag = true;
+                    }
+                    else
+                    {
+                        item.Checked = false;
+                    }
+                }
+                _checkInterfaceInit = false;
+            }
+
+
             foreach (ToolStripMenuItem item in NetworkInterfaceDropDown.DropDownItems)
             {
                 if (item.Text.Equals(NetworkInterfaceDropDown.Text))
@@ -290,6 +312,8 @@ namespace inSSIDer.UI.Controls
             if (NetworkInterfaceDropDown != null)
             {
                 NetworkInterfaceDropDown.Enabled = false;
+
+                _scanner.StartScanning();
                 InvokeNetworkScanStartEvent();
             }
         }
@@ -301,6 +325,8 @@ namespace inSSIDer.UI.Controls
         {
             UpdateScanButtonState(false);
             NetworkInterfaceDropDown.Enabled = true;
+
+            _scanner.StopScanning();
             InvokeNetworkScanStopEvent();
         }
 
