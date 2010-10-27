@@ -233,6 +233,9 @@ namespace inSSIDer.Scanning
 
         public void Dispose()
         {
+            //Un-hook the event 
+            //NetworkScanner.NewNetworkDataEvent -= NetworkScannerNewNetworkDataEvent;
+
             Log.WriteLine("Stop _ns", "Scanner.Dispose()");
             NetworkScanner.Stop();
             Log.WriteLine("Dispose _ns", "Scanner.Dispose()");
