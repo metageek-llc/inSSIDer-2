@@ -120,6 +120,8 @@ namespace inSSIDer.Scanning
 
             if(error != null) return false;
 
+            MyTerminateEvent.Reset();
+
             //Create a new thread for scanning
             MyScanThread = new Thread(ScanThreadFunc);
             MyScanThread.Start();
@@ -143,7 +145,7 @@ namespace inSSIDer.Scanning
                 }
                 MyScanThread = null;
 
-                MyTerminateEvent.Reset();
+                //MyTerminateEvent.Reset();
                 MyScanThrottleEvent.Set();
             }
             IsScanning = false;
@@ -156,7 +158,8 @@ namespace inSSIDer.Scanning
                 //Wait for the terminate signal, the scan complete signal, or 3 seconds
                 //WaitHandle.WaitAll()
                 int num = WaitHandle.WaitAny(MyWaitHandleArray, 3000);
-                if ((num != 258) && (num != 1))
+
+                if (num != WaitHandle.WaitTimeout && (num != 1))
                 {
                     //Stop the scanning loop
                     break;
