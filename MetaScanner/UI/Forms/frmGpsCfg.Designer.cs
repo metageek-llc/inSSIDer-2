@@ -30,9 +30,9 @@ namespace inSSIDer.UI.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnClose = new GrayButton();
-            this.btnSave = new GrayButton();
-            this.gbSerialPort = new GrayGroupBox();
+            this.btnClose = new inSSIDer.UI.Controls.GrayButton();
+            this.btnSave = new inSSIDer.UI.Controls.GrayButton();
+            this.gbSerialPort = new inSSIDer.UI.Controls.GrayGroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -220,7 +220,7 @@ namespace inSSIDer.UI.Forms
             0});
             this.numBaudrate.Location = new System.Drawing.Point(228, 24);
             this.numBaudrate.Maximum = new decimal(new int[] {
-            38400,
+            128000,
             0,
             0,
             0});
@@ -265,7 +265,7 @@ namespace inSSIDer.UI.Forms
             this.label1.TabIndex = 1;
             this.label1.Text = "Serial port Configuration";
             // 
-            // formGpsCfg
+            // FormGpsCfg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
