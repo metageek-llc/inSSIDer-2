@@ -112,6 +112,8 @@ namespace inSSIDer.Scanning
 
         private void NetworkScannerNewNetworkDataEvent(object sender, IncomingDataEventArgs<NetworkData> e)
         {
+            if (e.Data == null || Cache == null || GpsControl == null) return;
+
             //Add data to the cache
             Cache.AddData(e.Data.ToArray(), GpsControl.GetCurrentGpsData());
 
