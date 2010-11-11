@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle57 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle58 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle60 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle59 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvFilters = new System.Windows.Forms.DataGridView();
             this.idColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.checkColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -40,6 +40,8 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.quickFiltersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.channelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TwoFourGHzBandToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FiveGHzBandToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.channel1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.channel2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.channel3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -91,23 +93,23 @@
             this.dgvFilters.AllowUserToDeleteRows = false;
             this.dgvFilters.AllowUserToOrderColumns = true;
             this.dgvFilters.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Lime;
-            dataGridViewCellStyle1.NullValue = "null!";
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.DimGray;
-            this.dgvFilters.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle57.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle57.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
+            dataGridViewCellStyle57.ForeColor = System.Drawing.Color.Lime;
+            dataGridViewCellStyle57.NullValue = "null!";
+            dataGridViewCellStyle57.SelectionBackColor = System.Drawing.Color.DimGray;
+            this.dgvFilters.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle57;
             this.dgvFilters.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvFilters.BackgroundColor = System.Drawing.Color.Black;
             this.dgvFilters.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(202)))), ((int)(((byte)(202)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(202)))), ((int)(((byte)(202)))));
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvFilters.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle58.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle58.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(202)))), ((int)(((byte)(202)))));
+            dataGridViewCellStyle58.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle58.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle58.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(202)))), ((int)(((byte)(202)))));
+            dataGridViewCellStyle58.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle58.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvFilters.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle58;
             this.dgvFilters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvFilters.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.idColumn,
@@ -124,13 +126,13 @@
             this.dgvFilters.ReadOnly = true;
             this.dgvFilters.RowHeadersVisible = false;
             this.dgvFilters.RowHeadersWidth = 50;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Lime;
-            dataGridViewCellStyle4.NullValue = "null!";
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.DimGray;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvFilters.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle60.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle60.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle60.ForeColor = System.Drawing.Color.Lime;
+            dataGridViewCellStyle60.NullValue = "null!";
+            dataGridViewCellStyle60.SelectionBackColor = System.Drawing.Color.DimGray;
+            dataGridViewCellStyle60.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvFilters.RowsDefaultCellStyle = dataGridViewCellStyle60;
             this.dgvFilters.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvFilters.ShowEditingIcon = false;
             this.dgvFilters.Size = new System.Drawing.Size(606, 177);
@@ -149,9 +151,9 @@
             // checkColumn
             // 
             this.checkColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.NullValue = false;
-            this.checkColumn.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle59.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle59.NullValue = false;
+            this.checkColumn.DefaultCellStyle = dataGridViewCellStyle59;
             this.checkColumn.FillWeight = 20F;
             this.checkColumn.HeaderText = "Enabled";
             this.checkColumn.MinimumWidth = 55;
@@ -200,12 +202,14 @@
             this.securityToolStripMenuItem,
             this.ageToolStripMenuItem});
             this.quickFiltersToolStripMenuItem.Name = "quickFiltersToolStripMenuItem";
-            this.quickFiltersToolStripMenuItem.Size = new System.Drawing.Size(77, 20);
+            this.quickFiltersToolStripMenuItem.Size = new System.Drawing.Size(84, 20);
             this.quickFiltersToolStripMenuItem.Text = "Quick Filters";
             // 
             // channelsToolStripMenuItem
             // 
             this.channelsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TwoFourGHzBandToolStripMenuItem,
+            this.FiveGHzBandToolStripMenuItem1,
             this.channel1ToolStripMenuItem,
             this.channel2ToolStripMenuItem,
             this.channel3ToolStripMenuItem,
@@ -223,91 +227,118 @@
             this.channelsToolStripMenuItem.Name = "channelsToolStripMenuItem";
             this.channelsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.channelsToolStripMenuItem.Text = "Channels";
-            this.channelsToolStripMenuItem.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.ChannelsToolStripMenuItemDropDownItemClicked);
+            // 
+            // TwoFourGHzBandToolStripMenuItem
+            // 
+            this.TwoFourGHzBandToolStripMenuItem.Name = "TwoFourGHzBandToolStripMenuItem";
+            this.TwoFourGHzBandToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.TwoFourGHzBandToolStripMenuItem.Text = "2.4 GHz Band";
+            this.TwoFourGHzBandToolStripMenuItem.Click += new System.EventHandler(this.TwoFourGHzBandToolStripMenuItem_Click);
+            // 
+            // FiveGHzBandToolStripMenuItem1
+            // 
+            this.FiveGHzBandToolStripMenuItem1.Name = "FiveGHzBandToolStripMenuItem1";
+            this.FiveGHzBandToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.FiveGHzBandToolStripMenuItem1.Text = "5 GHz Band";
+            this.FiveGHzBandToolStripMenuItem1.Click += new System.EventHandler(this.FiveGHzBandToolStripMenuItem1_Click);
             // 
             // channel1ToolStripMenuItem
             // 
             this.channel1ToolStripMenuItem.Name = "channel1ToolStripMenuItem";
-            this.channel1ToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.channel1ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.channel1ToolStripMenuItem.Text = "Channel 1";
+            this.channel1ToolStripMenuItem.Click += new System.EventHandler(this.channel1ToolStripMenuItem_Click);
             // 
             // channel2ToolStripMenuItem
             // 
             this.channel2ToolStripMenuItem.Name = "channel2ToolStripMenuItem";
-            this.channel2ToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.channel2ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.channel2ToolStripMenuItem.Text = "Channel 2";
+            this.channel2ToolStripMenuItem.Click += new System.EventHandler(this.channel2ToolStripMenuItem_Click);
             // 
             // channel3ToolStripMenuItem
             // 
             this.channel3ToolStripMenuItem.Name = "channel3ToolStripMenuItem";
-            this.channel3ToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.channel3ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.channel3ToolStripMenuItem.Text = "Channel 3";
+            this.channel3ToolStripMenuItem.Click += new System.EventHandler(this.channel3ToolStripMenuItem_Click);
             // 
             // channel4ToolStripMenuItem
             // 
             this.channel4ToolStripMenuItem.Name = "channel4ToolStripMenuItem";
-            this.channel4ToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.channel4ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.channel4ToolStripMenuItem.Text = "Channel 4";
+            this.channel4ToolStripMenuItem.Click += new System.EventHandler(this.channel4ToolStripMenuItem_Click);
             // 
             // channel5ToolStripMenuItem
             // 
             this.channel5ToolStripMenuItem.Name = "channel5ToolStripMenuItem";
-            this.channel5ToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.channel5ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.channel5ToolStripMenuItem.Text = "Channel 5";
+            this.channel5ToolStripMenuItem.Click += new System.EventHandler(this.channel5ToolStripMenuItem_Click);
             // 
             // channel6ToolStripMenuItem
             // 
             this.channel6ToolStripMenuItem.Name = "channel6ToolStripMenuItem";
-            this.channel6ToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.channel6ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.channel6ToolStripMenuItem.Text = "Channel 6";
+            this.channel6ToolStripMenuItem.Click += new System.EventHandler(this.channel6ToolStripMenuItem_Click);
             // 
             // channel7ToolStripMenuItem
             // 
             this.channel7ToolStripMenuItem.Name = "channel7ToolStripMenuItem";
-            this.channel7ToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.channel7ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.channel7ToolStripMenuItem.Text = "Channel 7";
+            this.channel7ToolStripMenuItem.Click += new System.EventHandler(this.channel7ToolStripMenuItem_Click);
             // 
             // channel8ToolStripMenuItem
             // 
             this.channel8ToolStripMenuItem.Name = "channel8ToolStripMenuItem";
-            this.channel8ToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.channel8ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.channel8ToolStripMenuItem.Text = "Channel 8";
+            this.channel8ToolStripMenuItem.Click += new System.EventHandler(this.channel8ToolStripMenuItem_Click);
             // 
             // channel9ToolStripMenuItem
             // 
             this.channel9ToolStripMenuItem.Name = "channel9ToolStripMenuItem";
-            this.channel9ToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.channel9ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.channel9ToolStripMenuItem.Text = "Channel 9";
+            this.channel9ToolStripMenuItem.Click += new System.EventHandler(this.channel9ToolStripMenuItem_Click);
             // 
             // channel10ToolStripMenuItem
             // 
             this.channel10ToolStripMenuItem.Name = "channel10ToolStripMenuItem";
-            this.channel10ToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.channel10ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.channel10ToolStripMenuItem.Text = "Channel 10";
+            this.channel10ToolStripMenuItem.Click += new System.EventHandler(this.channel10ToolStripMenuItem_Click);
             // 
             // channel11ToolStripMenuItem
             // 
             this.channel11ToolStripMenuItem.Name = "channel11ToolStripMenuItem";
-            this.channel11ToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.channel11ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.channel11ToolStripMenuItem.Text = "Channel 11";
+            this.channel11ToolStripMenuItem.Click += new System.EventHandler(this.channel11ToolStripMenuItem_Click);
             // 
             // channel12ToolStripMenuItem
             // 
             this.channel12ToolStripMenuItem.Name = "channel12ToolStripMenuItem";
-            this.channel12ToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.channel12ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.channel12ToolStripMenuItem.Text = "Channel 12";
+            this.channel12ToolStripMenuItem.Click += new System.EventHandler(this.channel12ToolStripMenuItem_Click);
             // 
             // channel13ToolStripMenuItem
             // 
             this.channel13ToolStripMenuItem.Name = "channel13ToolStripMenuItem";
-            this.channel13ToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.channel13ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.channel13ToolStripMenuItem.Text = "Channel 13";
+            this.channel13ToolStripMenuItem.Click += new System.EventHandler(this.channel13ToolStripMenuItem_Click);
             // 
             // channel14ToolStripMenuItem
             // 
             this.channel14ToolStripMenuItem.Name = "channel14ToolStripMenuItem";
-            this.channel14ToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.channel14ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.channel14ToolStripMenuItem.Text = "Channel 14";
+            this.channel14ToolStripMenuItem.Click += new System.EventHandler(this.channel14ToolStripMenuItem_Click);
             // 
             // nToolStripMenuItem
             // 
@@ -321,14 +352,14 @@
             // is80211nToolStripMenuItem
             // 
             this.is80211nToolStripMenuItem.Name = "is80211nToolStripMenuItem";
-            this.is80211nToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.is80211nToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.is80211nToolStripMenuItem.Text = "Is 802.11n";
             this.is80211nToolStripMenuItem.Click += new System.EventHandler(this.Is80211NToolStripMenuItemClick);
             // 
             // uses40MHzChannelToolStripMenuItem
             // 
             this.uses40MHzChannelToolStripMenuItem.Name = "uses40MHzChannelToolStripMenuItem";
-            this.uses40MHzChannelToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.uses40MHzChannelToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.uses40MHzChannelToolStripMenuItem.Text = "Uses 40MHz channel";
             this.uses40MHzChannelToolStripMenuItem.Click += new System.EventHandler(this.Uses40MHzChannelToolStripMenuItemClick);
             // 
@@ -349,37 +380,37 @@
             // above90ToolStripMenuItem
             // 
             this.above90ToolStripMenuItem.Name = "above90ToolStripMenuItem";
-            this.above90ToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.above90ToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.above90ToolStripMenuItem.Text = "Above -90";
             // 
             // above80ToolStripMenuItem
             // 
             this.above80ToolStripMenuItem.Name = "above80ToolStripMenuItem";
-            this.above80ToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.above80ToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.above80ToolStripMenuItem.Text = "Above -80";
             // 
             // above70ToolStripMenuItem
             // 
             this.above70ToolStripMenuItem.Name = "above70ToolStripMenuItem";
-            this.above70ToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.above70ToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.above70ToolStripMenuItem.Text = "Above -70";
             // 
             // above60ToolStripMenuItem
             // 
             this.above60ToolStripMenuItem.Name = "above60ToolStripMenuItem";
-            this.above60ToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.above60ToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.above60ToolStripMenuItem.Text = "Above -60";
             // 
             // above50ToolStripMenuItem
             // 
             this.above50ToolStripMenuItem.Name = "above50ToolStripMenuItem";
-            this.above50ToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.above50ToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.above50ToolStripMenuItem.Text = "Above -50";
             // 
             // above40ToolStripMenuItem
             // 
             this.above40ToolStripMenuItem.Name = "above40ToolStripMenuItem";
-            this.above40ToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.above40ToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.above40ToolStripMenuItem.Text = "Above -40";
             // 
             // securityToolStripMenuItem
@@ -394,14 +425,14 @@
             // onlyOpenToolStripMenuItem
             // 
             this.onlyOpenToolStripMenuItem.Name = "onlyOpenToolStripMenuItem";
-            this.onlyOpenToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.onlyOpenToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.onlyOpenToolStripMenuItem.Text = "Only Open";
             this.onlyOpenToolStripMenuItem.Click += new System.EventHandler(this.OnlyOpenToolStripMenuItemClick);
             // 
             // onlySecuredToolStripMenuItem
             // 
             this.onlySecuredToolStripMenuItem.Name = "onlySecuredToolStripMenuItem";
-            this.onlySecuredToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.onlySecuredToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.onlySecuredToolStripMenuItem.Text = "Only Secured";
             this.onlySecuredToolStripMenuItem.Click += new System.EventHandler(this.OnlySecuredToolStripMenuItemClick);
             // 
@@ -422,56 +453,56 @@
             // secondToolStripMenuItem
             // 
             this.secondToolStripMenuItem.Name = "secondToolStripMenuItem";
-            this.secondToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.secondToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.secondToolStripMenuItem.Text = "1 Second";
             this.secondToolStripMenuItem.Click += new System.EventHandler(this.oneSecondToolStripMenuItem_Click);
             // 
             // secondsToolStripMenuItem
             // 
             this.secondsToolStripMenuItem.Name = "secondsToolStripMenuItem";
-            this.secondsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.secondsToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.secondsToolStripMenuItem.Text = "5 Seconds";
             this.secondsToolStripMenuItem.Click += new System.EventHandler(this.fiveSecondsToolStripMenuItem_Click);
             // 
             // secondsToolStripMenuItem1
             // 
             this.secondsToolStripMenuItem1.Name = "secondsToolStripMenuItem1";
-            this.secondsToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.secondsToolStripMenuItem1.Size = new System.Drawing.Size(133, 22);
             this.secondsToolStripMenuItem1.Text = "10 Seconds";
             this.secondsToolStripMenuItem1.Click += new System.EventHandler(this.tenSecondsToolStripMenuItem_Click);
             // 
             // secondsToolStripMenuItem2
             // 
             this.secondsToolStripMenuItem2.Name = "secondsToolStripMenuItem2";
-            this.secondsToolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
+            this.secondsToolStripMenuItem2.Size = new System.Drawing.Size(133, 22);
             this.secondsToolStripMenuItem2.Text = "20 Seconds";
             this.secondsToolStripMenuItem2.Click += new System.EventHandler(this.twentySecondsToolStripMenuItem_Click);
             // 
             // secondsToolStripMenuItem3
             // 
             this.secondsToolStripMenuItem3.Name = "secondsToolStripMenuItem3";
-            this.secondsToolStripMenuItem3.Size = new System.Drawing.Size(152, 22);
+            this.secondsToolStripMenuItem3.Size = new System.Drawing.Size(133, 22);
             this.secondsToolStripMenuItem3.Text = "30 Seconds";
             this.secondsToolStripMenuItem3.Click += new System.EventHandler(this.thirtySecondsToolStripMenuItem_Click);
             // 
             // minuteToolStripMenuItem
             // 
             this.minuteToolStripMenuItem.Name = "minuteToolStripMenuItem";
-            this.minuteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.minuteToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.minuteToolStripMenuItem.Text = "1 Minute";
             this.minuteToolStripMenuItem.Click += new System.EventHandler(this.oneMinuteToolStripMenuItem_Click);
             // 
             // minutesToolStripMenuItem
             // 
             this.minutesToolStripMenuItem.Name = "minutesToolStripMenuItem";
-            this.minutesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.minutesToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.minutesToolStripMenuItem.Text = "2 Minutes";
             this.minutesToolStripMenuItem.Click += new System.EventHandler(this.twoMinutesToolStripMenuItem_Click);
             // 
             // createNewToolStripMenuItem
             // 
             this.createNewToolStripMenuItem.Name = "createNewToolStripMenuItem";
-            this.createNewToolStripMenuItem.Size = new System.Drawing.Size(75, 20);
+            this.createNewToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
             this.createNewToolStripMenuItem.Text = "Create New";
             this.createNewToolStripMenuItem.Click += new System.EventHandler(this.CreateNewToolStripMenuItemClick);
             // 
@@ -479,7 +510,7 @@
             // 
             this.editSelectedToolStripMenuItem.Enabled = false;
             this.editSelectedToolStripMenuItem.Name = "editSelectedToolStripMenuItem";
-            this.editSelectedToolStripMenuItem.Size = new System.Drawing.Size(82, 20);
+            this.editSelectedToolStripMenuItem.Size = new System.Drawing.Size(86, 20);
             this.editSelectedToolStripMenuItem.Text = "Edit Selected";
             this.editSelectedToolStripMenuItem.Click += new System.EventHandler(this.EditSelectedToolStripMenuItemClick);
             // 
@@ -487,7 +518,7 @@
             // 
             this.deleteSelectedToolStripMenuItem.Enabled = false;
             this.deleteSelectedToolStripMenuItem.Name = "deleteSelectedToolStripMenuItem";
-            this.deleteSelectedToolStripMenuItem.Size = new System.Drawing.Size(95, 20);
+            this.deleteSelectedToolStripMenuItem.Size = new System.Drawing.Size(99, 20);
             this.deleteSelectedToolStripMenuItem.Text = "Delete Selected";
             this.deleteSelectedToolStripMenuItem.Click += new System.EventHandler(this.DeleteSelectedToolStripMenuItemClick);
             // 
@@ -497,7 +528,7 @@
             this.toolStripSeparator1,
             this.addAllToolStripMenuItem});
             this.lastFiltersUsedToolStripMenuItem.Name = "lastFiltersUsedToolStripMenuItem";
-            this.lastFiltersUsedToolStripMenuItem.Size = new System.Drawing.Size(92, 20);
+            this.lastFiltersUsedToolStripMenuItem.Size = new System.Drawing.Size(100, 20);
             this.lastFiltersUsedToolStripMenuItem.Text = "Last filters used";
             this.lastFiltersUsedToolStripMenuItem.Visible = false;
             this.lastFiltersUsedToolStripMenuItem.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.LastFiltersUsedToolStripMenuItemDropDownItemClicked);
@@ -505,12 +536,12 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(104, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(110, 6);
             // 
             // addAllToolStripMenuItem
             // 
             this.addAllToolStripMenuItem.Name = "addAllToolStripMenuItem";
-            this.addAllToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.addAllToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
             this.addAllToolStripMenuItem.Text = "Add All";
             this.addAllToolStripMenuItem.Click += new System.EventHandler(this.AddAllToolStripMenuItemClick);
             // 
@@ -583,5 +614,7 @@
         private System.Windows.Forms.ToolStripMenuItem secondsToolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem minuteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem minutesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem TwoFourGHzBandToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem FiveGHzBandToolStripMenuItem1;
     }
 }
