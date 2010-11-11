@@ -23,6 +23,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.IO;
 using inSSIDer.Properties;
+using System.Threading;
 
 namespace inSSIDer.HTML
 {
@@ -118,6 +119,13 @@ namespace inSSIDer.HTML
                         BackgroundWorker bw = new BackgroundWorker();
                         bw.RunWorkerCompleted += (s, e) =>
                                                      {
+                                                         Stop();
+                                                         while (IsBusy)
+                                                         {
+                                                             //Simply to prevent high CPU usage.
+                                                             Thread.Sleep(300);
+                                                             Stop();
+                                                         }
                                                          if (e.Error == null)
                                                          {
                                                              //Refresh();

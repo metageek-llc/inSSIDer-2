@@ -63,9 +63,18 @@ namespace inSSIDer.Scanning.Interfaces
             //If the interface is null, return nothing
             if(_interface == null) return list;
 
-            IEnumerable<Wlan.WlanBssEntryN> networkBssList = _interface.GetNetworkBssList();
-            IEnumerable<Wlan.WlanAvailableNetwork> availableNetworkList =
-                _interface.GetAvailableNetworkList(Wlan.WlanGetAvailableNetworkFlags.IncludeAllManualHiddenProfiles);
+            IEnumerable<Wlan.WlanBssEntryN> networkBssList = null;
+            IEnumerable<Wlan.WlanAvailableNetwork> availableNetworkList = null;
+
+            try
+            {
+                networkBssList = _interface.GetNetworkBssList();
+                availableNetworkList = _interface.GetAvailableNetworkList(Wlan.WlanGetAvailableNetworkFlags.IncludeAllManualHiddenProfiles);
+            }
+            catch (NullReferenceException)
+            {
+                //Hopefully the call will succeed next time.
+            }
             if ((networkBssList != null) && (availableNetworkList != null))
             {
                 //Get connected to AP

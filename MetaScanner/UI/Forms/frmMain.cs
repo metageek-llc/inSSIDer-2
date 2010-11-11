@@ -204,6 +204,9 @@ namespace inSSIDer.UI.Forms
             // This allows us to update the news file
             bool copied = CopyHtmlToTemp();
 
+#if(DEBUG)
+            copied = true;
+#endif
             // Force update if we just copied the file over
             bool newsDisplayedProperly = htmlControl.UpdateFile(copied);
             if (!newsDisplayedProperly)
