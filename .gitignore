@@ -12,3 +12,7 @@
 /_ReSharper.MetaScanner
 *.user
 /MetaScanner.suo
+/Packager
+/SetupOutput
+/Package.bat
+/PackagerReadme.txt

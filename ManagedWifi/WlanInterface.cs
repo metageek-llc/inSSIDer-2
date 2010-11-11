@@ -124,12 +124,17 @@ namespace ManagedWifi
 
                 Marshal.Copy(new IntPtr(num + entryArray[i].BaseEntry.ieOffset), IEs, 0, size);
 
+                //IEs = System.IO.File.ReadAllBytes("ies.dat");
+
                 //Parse 802.11n IEs if avalible
                 entryArray[i].NSettings = IeParser.Parse(IEs);
 
                 //===DEBUGGING===
-                //string ssid = Encoding.ASCII.GetString(entryArray[i].entry.dot11Ssid.SSID);
-                //System.IO.File.WriteAllBytes("data" + ssid.Trim("\0".ToCharArray())  + ".dat", IEs);
+                //BitConverter.ToString(entryArray[i].BaseEntry.dot11Bssid);
+                
+                //string ssid = Encoding.ASCII.GetString(entryArray[i].BaseEntry.dot11Ssid.SSID);
+                //string mac = BitConverter.ToString(entryArray[i].BaseEntry.dot11Bssid);
+                //System.IO.File.WriteAllBytes("data" + mac.Trim("\0".ToCharArray())  + ".dat", IEs);
 
                 //Console.WriteLine(IEs.Length);
 

@@ -162,7 +162,14 @@ namespace inSSIDer.UI.Controls
             //if(this.Parent == null) Dispose();
             //return;
             System.Diagnostics.Debug.WriteLineIf(Parent == null, "Orphaned Large control!");
-            if (InvokeRequired) Invoke(new UpdateGridDelegate(UpdateGrid));
+            if (InvokeRequired)
+            {
+                try
+                {
+                    Invoke(new UpdateGridDelegate(UpdateGrid));
+                }
+                catch (InvalidOperationException) { }
+            }
             else
             {
                 try
@@ -190,7 +197,7 @@ namespace inSSIDer.UI.Controls
                                 newrow.Cells["maxrateColumn"].ToolTipText = ap.SupportedRates;
 
                                 //Check for indeterminate state of checkbox
-                                if(selectAllNetworksCheckBox.CheckState == CheckState.Indeterminate)
+                                if (selectAllNetworksCheckBox.CheckState == CheckState.Indeterminate)
                                 {
                                     //If at least one AP is unchecked, don't check this one
                                     newrow.Cells["checkColumn"].Value = false;
@@ -198,7 +205,7 @@ namespace inSSIDer.UI.Controls
                                 }
 
                                 //Connection State
-                                if(ap.Connected)
+                                if (ap.Connected)
                                 {
                                     newrow.DefaultCellStyle.BackColor = Color.Green;
                                     newrow.DefaultCellStyle.SelectionBackColor = Color.Green;
@@ -225,7 +232,7 @@ namespace inSSIDer.UI.Controls
 
                                 //Update the RSSI
                                 //row.Cells["rssiColumn"].Value = ap.Age > 10 ? -100 : ap.LastData.Rssi;
-                                
+
                                 // RWW Switching to SparklineColumn
                                 row.Cells["rssiColumn"].Value = ap.Spark;
 
@@ -262,9 +269,9 @@ namespace inSSIDer.UI.Controls
                         }
                     }
                 }
-                catch(Exception)
+                catch (Exception)
                 {
-                    
+
                 }
             }
         }

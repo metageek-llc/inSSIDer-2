@@ -31,11 +31,14 @@ namespace ManagedWifi
             public bool ShortGi40MHz;
             public uint PrimaryChannel;
             public bool SecondaryChannelLower;
-            public uint MaxMcs;
+            //public uint MaxMcs;
             public List<double> Rates;
+
+            //public static TypeNSettings Empty = new TypeNSettings() { Rates = new List<double>() };
 
             public TypeNSettings()
             {
+                Rates = new List<double>();
             }
 
             public TypeNSettings(TypeNSettings settings)
@@ -45,8 +48,25 @@ namespace ManagedWifi
                 ShortGi40MHz = settings.ShortGi40MHz;
                 PrimaryChannel = settings.PrimaryChannel;
                 SecondaryChannelLower = settings.SecondaryChannelLower;
-                MaxMcs = settings.MaxMcs;
+                //MaxMcs = settings.MaxMcs;
                 Rates = settings.Rates;
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (obj is TypeNSettings)
+                {
+                    TypeNSettings set = (TypeNSettings)obj;
+                    bool yes = set.Is40MHz == Is40MHz;
+                    yes &= set.ShortGi20MHz == ShortGi20MHz;
+                    yes &= set.ShortGi40MHz == ShortGi40MHz;
+                    yes &= set.PrimaryChannel == PrimaryChannel;
+                    yes &= set.SecondaryChannelLower == SecondaryChannelLower;
+                    //Don't compare rates
+
+                    return yes;
+                }
+                return false;
             }
         }
 
@@ -108,7 +128,7 @@ namespace ManagedWifi
                 if (index > 32) return 0f;
                 int streams = 0;
 
-                if(index >= 0 && index < 8)
+                if (index >= 0 && index < 8)
                 {
                     streams = 1;
                 }
@@ -128,9 +148,9 @@ namespace ManagedWifi
                     index -= 24;
                 }
 
-                if(fortyMHz)
+                if (fortyMHz)
                 {
-                    if(shortGi40MHz)
+                    if (shortGi40MHz)
                     {
                         output = SGiTable40[index];
                         output *= streams;
@@ -154,13 +174,13 @@ namespace ManagedWifi
                         output *= streams;
                     }
                 }
- 
+
                 return output;
             }
 
         }
 
-        public static TypeNSettings Parse(byte[] ies)
+        /*public static TypeNSettings Parse(byte[] ies)
         {
             try
             {
@@ -178,7 +198,7 @@ namespace ManagedWifi
                         break;
                     }
                 }
-                
+
                 if (index == -1) return null;
 
                 // We know that ies.Length > index + 31 so all of the following array indexes should be in bounds
@@ -205,12 +225,12 @@ namespace ManagedWifi
                     //Update the highest MCS index
                     if (b[i]) maxIndex = i;
                     //Add the rate
-                    settings.Rates.Add(McsSet.GetSpeed((uint) i, settings.ShortGi20MHz, settings.ShortGi40MHz,
+                    settings.Rates.Add(McsSet.GetSpeed((uint)i, settings.ShortGi20MHz, settings.ShortGi40MHz,
                                                        settings.Is40MHz));
                 }
                 if (maxIndex == -1) return null; // there has been an error
 
-                settings.MaxMcs = (uint) maxIndex;
+                //settings.MaxMcs = (uint)maxIndex;
                 //Extended info
                 //Primary channel
                 settings.PrimaryChannel = ies[index + 30];
@@ -224,11 +244,92 @@ namespace ManagedWifi
 
                 return settings;
             }
-            catch(IndexOutOfRangeException)
+            catch (IndexOutOfRangeException)
             {
                 //We can't get the 802.11n IEs. Just return null
                 return null;
             }
+        }*/
+
+        public static TypeNSettings Parse(byte[] ies)
+        {
+            //The indexes for both elements
+            int HtCapIndex = -1;
+            int HtInfoIndex = -1;
+
+            bool returnNull = true;
+
+            //Look for the HT Capabilities element
+            for (int i = 0; i < ies.Length - 31; i++)
+            {
+                //HT Capabilities's signature is 2D 1A
+                if ((ies[i] == 0x2D && ies[i + 1] == 0x1A) && (ies.Length >= i + 27))
+                {
+                    //Found it
+                    HtCapIndex = i;
+                }
+
+                //HT Information's signature is 3D 16
+                if ((ies[i] == 0x3D && ies[i + 1] == 0x16) && (ies.Length >= i + 24))
+                {
+                    //Found it
+                    HtInfoIndex = i;
+                }
+            }
+
+            TypeNSettings settings = new TypeNSettings();
+
+            //Parse the info blocks if we found them
+            if (HtCapIndex > -1)
+            {
+                settings.Is40MHz = ((ies[HtCapIndex + 2] & 0x02) == 0x02);
+
+                settings.ShortGi20MHz = (ies[HtCapIndex + 2] & 0x20) == 0x20;
+                settings.ShortGi40MHz = (ies[HtCapIndex + 2] & 0x40) == 0x40;
+
+                //Get supported MCS indexes
+                //1 bit per index
+
+                byte[] bits = new byte[4];
+                //Array.ConstrainedCopy(ies, index + 5, bits, 0, 4);
+                Array.Copy(ies, HtCapIndex + 5, bits, 0, 4);
+
+                BitArray b = new BitArray(bits);
+                //settings.Rates = new List<double>();
+
+                //The MCS indexes are in little endian,
+                //so this loop will start at the lowest rates
+                for (int i = 0; i < b.Length; i++)
+                {
+                    //If the MCS index bit is 0, skip it
+                    if (b[i] == false) continue;
+
+                    //Add the rate
+                    settings.Rates.Add(McsSet.GetSpeed((uint)i, settings.ShortGi20MHz, settings.ShortGi40MHz,
+                                                       settings.Is40MHz));
+                }
+
+                returnNull = false;
+            }
+
+            if (HtInfoIndex > -1)
+            {
+                //Primary channel
+                settings.PrimaryChannel = ies[HtInfoIndex + 2];
+
+                //Secondary channel location
+                settings.SecondaryChannelLower = (ies[HtInfoIndex + 3] & 0x03) == 0x03;
+
+                //Check if there is no secondary channel and set 40MHz to false
+                if (settings.Is40MHz)
+                    settings.Is40MHz = (ies[HtInfoIndex + 3] & 0x03) == 0x03 || (ies[HtInfoIndex + 3] & 0x01) == 0x01;
+
+                returnNull = false;
+            }
+
+            return returnNull ? null : settings;
+
         }
+
     }
 }

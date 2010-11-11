@@ -407,14 +407,14 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:inSSIDer 2.0"
-        "ProductCode" = "8:{CDFBD4CE-6B8C-40A5-83FD-7636A46F8116}"
-        "PackageCode" = "8:{59B77906-C907-4598-9E3F-E8014BEAC5D8}"
+        "ProductCode" = "8:{2008D105-9516-4604-9577-6C6685477F0D}"
+        "PackageCode" = "8:{0234563E-3A58-444F-BA2B-919EBB7F285A}"
         "UpgradeCode" = "8:{B23D6476-E629-452B-B3DE-F11012FF064C}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:2.0.6"
+        "ProductVersion" = "8:2.0.5"
         "Manufacturer" = "8:MetaGeek"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://www.metageek.net"
@@ -1134,7 +1134,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_D6F346BC133C4DF2A34F5B74629F4ACE"
             {
-            "SourcePath" = "8:..\\MetaScanner\\obj\\Release\\inSSIDer.exe"
+            "SourcePath" = "8:..\\MetaScanner\\obj\\Debug\\inSSIDer.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_D090D03BD69940418107A0FE149BB92D"

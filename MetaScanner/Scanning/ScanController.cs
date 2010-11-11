@@ -112,6 +112,8 @@ namespace inSSIDer.Scanning
 
         private void NetworkScannerNewNetworkDataEvent(object sender, IncomingDataEventArgs<NetworkData> e)
         {
+            if (e.Data == null || Cache == null || GpsControl == null) return;
+
             //Add data to the cache
             Cache.AddData(e.Data.ToArray(), GpsControl.GetCurrentGpsData());
 
@@ -248,6 +250,9 @@ namespace inSSIDer.Scanning
 
         public void Dispose()
         {
+            //Un-hook the event 
+            //NetworkScanner.NewNetworkDataEvent -= NetworkScannerNewNetworkDataEvent;
+
             Log.WriteLine("Stop _ns", "Scanner.Dispose()");
             NetworkScanner.Stop();
             Log.WriteLine("Dispose _ns", "Scanner.Dispose()");

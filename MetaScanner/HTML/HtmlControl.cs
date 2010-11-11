@@ -23,6 +23,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.IO;
 using inSSIDer.Properties;
+using System.Threading;
 
 namespace inSSIDer.HTML
 {
@@ -118,7 +119,16 @@ namespace inSSIDer.HTML
                         BackgroundWorker bw = new BackgroundWorker();
                         bw.RunWorkerCompleted += (s, e) =>
                                                      {
-                                                         if (e.Error == null)
+                                                         int count = 0;
+                                                         Stop();
+                                                         while (IsBusy && count < 4)
+                                                         {
+                                                             //Simply to prevent high CPU usage.
+                                                             Thread.Sleep(300);
+                                                             Stop();
+                                                             count++;
+                                                         }
+                                                         if (e.Error == null && count < 4)
                                                          {
                                                              //Refresh();
                                                              Navigate(LocalFileName);
