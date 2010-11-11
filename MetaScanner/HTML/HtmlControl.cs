@@ -119,14 +119,16 @@ namespace inSSIDer.HTML
                         BackgroundWorker bw = new BackgroundWorker();
                         bw.RunWorkerCompleted += (s, e) =>
                                                      {
+                                                         int count = 0;
                                                          Stop();
-                                                         while (IsBusy)
+                                                         while (IsBusy && count < 4)
                                                          {
                                                              //Simply to prevent high CPU usage.
                                                              Thread.Sleep(300);
                                                              Stop();
+                                                             count++;
                                                          }
-                                                         if (e.Error == null)
+                                                         if (e.Error == null && count < 4)
                                                          {
                                                              //Refresh();
                                                              Navigate(LocalFileName);
