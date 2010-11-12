@@ -380,7 +380,8 @@ namespace inSSIDer.FileIO
                 }
             }
 
-            return points;
+            //Only return points that are good.
+            return points.Where(wp => !wp.Ignore).ToArray();
         }
 
         internal static string EncryptionColor(string encryption)
