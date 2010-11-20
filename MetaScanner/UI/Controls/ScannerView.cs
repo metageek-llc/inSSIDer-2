@@ -161,7 +161,7 @@ namespace inSSIDer.UI.Controls
         {
             //if(this.Parent == null) Dispose();
             //return;
-            System.Diagnostics.Debug.WriteLineIf(Parent == null, "Orphaned Large control!");
+            //System.Diagnostics.Debug.WriteLineIf(Parent == null, "Orphaned Large control!");
             if (InvokeRequired)
             {
                 try
@@ -208,7 +208,7 @@ namespace inSSIDer.UI.Controls
                                 if (ap.Connected)
                                 {
                                     newrow.DefaultCellStyle.BackColor = Color.Green;
-                                    newrow.DefaultCellStyle.SelectionBackColor = Color.Green;
+                                    newrow.DefaultCellStyle.SelectionBackColor = Color.DarkGreen;
                                 }
                             }
                             else

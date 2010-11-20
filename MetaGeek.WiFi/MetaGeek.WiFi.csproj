@@ -91,6 +91,7 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="Filter.cs" />
     <Compile Include="IncomingDataEventArgs.cs" />
+    <Compile Include="Log.cs" />
     <Compile Include="MacAddress.cs" />
     <Compile Include="NetworkData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
