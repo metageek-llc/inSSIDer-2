@@ -21,6 +21,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using System.Linq;
 using inSSIDer.FileIO;
 using inSSIDer.HTML;
 using inSSIDer.Misc;
@@ -707,6 +708,15 @@ namespace inSSIDer.UI.Forms
             MessageBox.Show(Localizer.GetString("InterfaceError"),
                     "Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
             networkInterfaceSelector1.StopScan();
+        }
+
+        private void detailsTabControl_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Middle)
+            {
+                TabPage tp = detailsTabControl.TabPages.Cast<TabPage>().Where((tab, i) => detailsTabControl.GetTabRect(i).Contains(e.Location)).First();
+                detailsTabControl.TabPages.Remove(tp);
+            }
         }
 
     }

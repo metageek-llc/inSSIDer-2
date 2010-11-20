@@ -228,7 +228,7 @@ namespace inSSIDer.UI.Controls
             //Check for current interface, only once
             if (_scanner.Interface != null && _checkInterfaceInit)
             {
-                NetworkInterfaceDropDown.Text = _scanner.Interface.Description;
+                NetworkInterfaceDropDown.Text = MaxTextLength > -1 && _scanner.Interface.Description.Length > MaxTextLength ? _scanner.Interface.Description.Remove(MaxTextLength - 1) + "..." : _scanner.Interface.Description;
 
                 foreach (ToolStripMenuItem item in NetworkInterfaceDropDown.DropDownItems)
                 {
