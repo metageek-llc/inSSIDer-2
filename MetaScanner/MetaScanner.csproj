@@ -142,6 +142,12 @@
     </Compile>
     <Compile Include="UI\Controls\SparkLineCell.cs" />
     <Compile Include="UI\Controls\SparkLineColumn.cs" />
+    <Compile Include="UI\Controls\TabControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\TabControl.Designer.cs">
+      <DependentUpon>TabControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Forms\frmAbout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -234,6 +240,9 @@
     <Compile Include="FileIO\NS1Writer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="UI\Controls\TabControl.resx">
+      <DependentUpon>TabControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\frmAbout.resx">
       <DependentUpon>frmAbout.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -280,6 +289,9 @@
     <EmbeddedResource Include="UI\Controls\TimeGraph.resx">
       <DependentUpon>TimeGraph.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\frmTest.resx">
+      <DependentUpon>frmTest.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Mini\frmMini.resx">
       <DependentUpon>frmMini.cs</DependentUpon>
     </EmbeddedResource>
@@ -318,6 +330,12 @@
     </Compile>
     <Compile Include="UI\Controls\TimeGraph.designer.cs">
       <DependentUpon>TimeGraph.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\frmTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\frmTest.Designer.cs">
+      <DependentUpon>frmTest.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Mini\frmMini.cs">
       <SubType>Form</SubType>
