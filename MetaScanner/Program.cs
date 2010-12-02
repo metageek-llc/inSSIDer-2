@@ -92,7 +92,7 @@ namespace inSSIDer
         static void Main(string[] args)
         {
             //TODO: Make conmmand line option to enable logging on debug builds. Like /log
-#if DEBUG && LOG
+#if DEBUG //&& LOG
             Log.Start();
 #endif
             // Create new instance of UnhandledExceptionDlg:

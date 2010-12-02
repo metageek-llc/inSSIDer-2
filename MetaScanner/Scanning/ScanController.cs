@@ -123,15 +123,21 @@ namespace inSSIDer.Scanning
 
         public bool SetInterface(string interfaceName)
         {
+            Log.WriteLine("SetInterface()", "ScanController.SetInterface()");
             bool status = false;
+            Log.WriteLine("Loop through all interfaces:", "ScanController.SetInterface()");
             foreach (NetworkInterface intf in InterfaceManager.Instance.Interfaces)
             {
-                if (intf.Description != interfaceName) continue;
+                Log.WriteLine(intf.Description, "ScanController.SetInterface()");
+                if (intf.Description.Equals(interfaceName, StringComparison.InvariantCultureIgnoreCase)) continue;
+                Log.WriteLine("    Found it", "ScanController.SetInterface()");
                 //We've found the interface
                 Interface = intf;
                 status = true;
                 break;
             }
+            Log.WriteLine("Return status:", "ScanController.SetInterface()");
+            Log.WriteLine(status, "ScanController.SetInterface()");
             return status;
         }
 

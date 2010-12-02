@@ -138,9 +138,11 @@ namespace inSSIDer.UI.Controls
 
         private void NetworkInterfaceDropDown_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
+            Log.WriteLine("DropDownItem Clicked", "NetworkInterfaceSelector");
             ToolStripMenuItem clickedItem = e.ClickedItem as ToolStripMenuItem;
             if (clickedItem != null)
             {
+                Log.WriteLine("ClickedItem not null, good", "NetworkInterfaceSelector");
                 //NetworkInterfaceDropDown.Text = clickedItem.Text;
                 NetworkInterfaceDropDown.Text = MaxTextLength > -1 && clickedItem.Text.Length > MaxTextLength ? clickedItem.Text.Remove(MaxTextLength - 1) + "..." : clickedItem.Text;
                 UpdateInterfaceListSelection();
@@ -223,17 +225,22 @@ namespace inSSIDer.UI.Controls
 
         private void UpdateInterfaceListSelection()
         {
+            Log.WriteLine("UpdateInterfaceListSelection()", "NetworkInterfaceSelector.UpdateInterfaceListSelection()");
             bool flag = false;
 
             //Check for current interface, only once
             if (_scanner.Interface != null && _checkInterfaceInit)
             {
+                Log.WriteLine("Find last interface", "NetworkInterfaceSelector.UpdateInterfaceListSelection()");
                 NetworkInterfaceDropDown.Text = MaxTextLength > -1 && _scanner.Interface.Description.Length > MaxTextLength ? _scanner.Interface.Description.Remove(MaxTextLength - 1) + "..." : _scanner.Interface.Description;
 
+                Log.WriteLine("Loop through all dropdown items:", "NetworkInterfaceSelector.UpdateInterfaceListSelection()");
                 foreach (ToolStripMenuItem item in NetworkInterfaceDropDown.DropDownItems)
                 {
+                    Log.WriteLine(item.Text, "NetworkInterfaceSelector.UpdateInterfaceListSelection()");
                     if (item.Text.Equals(NetworkInterfaceDropDown.Text))
                     {
+                        Log.WriteLine("    Found it", "NetworkInterfaceSelector.UpdateInterfaceListSelection()");
                         item.Checked = true;
                         flag = true;
                     }
@@ -245,13 +252,16 @@ namespace inSSIDer.UI.Controls
                 _checkInterfaceInit = false;
             }
 
-
+            Log.WriteLine("Find selected item, Items:", "NetworkInterfaceSelector.UpdateInterfaceListSelection()");
             foreach (ToolStripMenuItem item in NetworkInterfaceDropDown.DropDownItems)
             {
+                Log.WriteLine(item.Text, "NetworkInterfaceSelector.UpdateInterfaceListSelection()");
                 if (item.Text.Equals(NetworkInterfaceDropDown.Text))
                 {
+                    Log.WriteLine("    Found it, setting", "NetworkInterfaceSelector.UpdateInterfaceListSelection()");
                     if (_scanner.SetInterface(item.Text))
                     {
+                        Log.WriteLine("Set OK", "NetworkInterfaceSelector.UpdateInterfaceListSelection()");
                         item.Checked = true;
                         flag = true;
                     }
@@ -263,6 +273,7 @@ namespace inSSIDer.UI.Controls
             }
             if (!flag)
             {
+                Log.WriteLine("Interface not found", "NetworkInterfaceSelector.UpdateInterfaceListSelection()");
                 _scanner.StopScanning();
                 _scanner.Interface = null;
                 if (NetworkInterfaceDropDown.DropDownItems.Count > 0)
