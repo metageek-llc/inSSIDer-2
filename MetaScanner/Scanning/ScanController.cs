@@ -129,7 +129,7 @@ namespace inSSIDer.Scanning
             foreach (NetworkInterface intf in InterfaceManager.Instance.Interfaces)
             {
                 Log.WriteLine(intf.Description, "ScanController.SetInterface()");
-                if (intf.Description.Equals(interfaceName, StringComparison.InvariantCultureIgnoreCase)) continue;
+                if (!intf.Description.Equals(interfaceName, StringComparison.InvariantCultureIgnoreCase)) continue;
                 Log.WriteLine("    Found it", "ScanController.SetInterface()");
                 //We've found the interface
                 Interface = intf;
