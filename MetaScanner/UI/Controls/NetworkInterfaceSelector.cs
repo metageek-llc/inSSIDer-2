@@ -110,7 +110,12 @@ namespace inSSIDer.UI.Controls
             {
                 try
                 {
-                    //This will always need to be invoked
+                    //Reset cache data
+                    _scanner.Cache.Clear();
+                    Utilities.ResetColor();
+
+                    //These will always need to be invoked
+                    Invoke(new DelInvokeNoArg(UpdateSelection));
                     Invoke(new DelInvokeNoArg(StartScan));
                 }
                 catch (InvalidOperationException)
@@ -300,6 +305,26 @@ namespace inSSIDer.UI.Controls
                     ScanButton.Image = _myStartImage;
                 }
                 ScanButton.Enabled = _scanner.Interface != null;
+            }
+        }
+
+        /// <summary>
+        /// Updates the displayed text on the interface selector. Used for auto-start on plug-in
+        /// </summary>
+        private void UpdateSelection()
+        {
+            if (_scanner == null || _scanner.Interface == null) return;
+
+            foreach (ToolStripMenuItem item in NetworkInterfaceDropDown.DropDownItems)
+            {
+                if (item.Text.Equals(_scanner.Interface.Description))
+                {
+                    NetworkInterfaceDropDown.Text = MaxTextLength > -1 && _scanner.Interface.Description.Length > MaxTextLength ? _scanner.Interface.Description.Remove(MaxTextLength - 1) + "..." : _scanner.Interface.Description;
+                }
+                else
+                {
+                    item.Checked = false;
+                }
             }
         }
 

@@ -43,6 +43,8 @@ namespace inSSIDer.UI.Controls
         //For testing
         private Guid id;
 
+        delegate void DelInvokeEvent(object sender, EventArgs e);
+
         public ScannerView()
         {
             InitializeComponent();
@@ -57,6 +59,15 @@ namespace inSSIDer.UI.Controls
 
         private void Cache_DataReset(object sender, EventArgs e)
         {
+            if (InvokeRequired)
+            {
+                try
+                {
+                    Invoke(new DelInvokeEvent(Cache_DataReset), new object[] { sender, e });
+                }
+                catch (InvalidOperationException) { }
+                return;
+            }
             scannerGrid.Rows.Clear();
             _ignoreSelection = true;
         }
