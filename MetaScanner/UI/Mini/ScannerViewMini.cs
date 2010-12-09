@@ -137,10 +137,8 @@ namespace inSSIDer.UI.Mini
                 {
                     Invoke(new DelGo(Go));
                 }
-                catch (InvalidOperationException)
-                {
-                    //Program is probably closing
-                }
+                catch (InvalidOperationException) { }
+                catch (NullReferenceException) { }
             }
             else
             {

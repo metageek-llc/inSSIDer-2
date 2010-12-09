@@ -178,6 +178,7 @@ namespace inSSIDer.UI.Controls
                     Invoke(new UpdateGridDelegate(UpdateGrid));
                 }
                 catch (InvalidOperationException) { }
+                catch (NullReferenceException) { }
             }
             else
             {
