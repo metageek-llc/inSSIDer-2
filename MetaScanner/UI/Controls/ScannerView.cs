@@ -105,12 +105,21 @@ namespace inSSIDer.UI.Controls
 
         private void scannerView_SortCompare(object sender, DataGridViewSortCompareEventArgs e)
         {
-            scannerGrid.Columns[0].HeaderCell.SortGlyphDirection = SortOrder.Ascending;
+            //scannerGrid.Columns[0].HeaderCell.SortGlyphDirection = SortOrder.Ascending;
             //Sort numeric columns like numbers
-            if (e.Column == scannerGrid.Columns["maxrateColumn"])
+            if (e.Column == scannerGrid.Columns["maxrateColumn"] || e.Column == scannerGrid.Columns["channelColumn"])
             {
-                if (Convert.ToInt32(e.CellValue1.ToString().Replace("(N)","")) > Convert.ToInt32(e.CellValue2.ToString().Replace("(N)",""))) { e.SortResult = 1; }
-                else if (Convert.ToInt32(e.CellValue1.ToString().Replace("(N)","")) < Convert.ToInt32(e.CellValue2.ToString().Replace("(N)",""))) { e.SortResult = -1; }
+                //Remove anything after a space
+                string value1 = e.CellValue1.ToString();
+                if (value1.IndexOf(' ') > 0)
+                    value1 = value1.Remove(value1.IndexOf(' '));
+
+                string value2 = e.CellValue2.ToString();
+                if (value2.IndexOf(' ') > 0)
+                    value2 = value2.Remove(value2.IndexOf(' '));
+
+                if (Convert.ToInt32(value1) > Convert.ToInt32(value2)) { e.SortResult = 1; }
+                else if (Convert.ToInt32(value1) < Convert.ToInt32(value2)) { e.SortResult = -1; }
                 else { e.SortResult = 0; }
                 e.Handled = true;
             }
@@ -127,27 +136,27 @@ namespace inSSIDer.UI.Controls
                     e.Handled = true;
                 }
             }
-            else if (e.Column == scannerGrid.Columns["channelColumn"])
-            {
-                string c1 = e.CellValue1.ToString(), c2 = e.CellValue2.ToString();
-                //Channel may have a + in it
-                if (c1.Contains("+"))
-                {
-                    c1 = c1.Remove(c1.LastIndexOf(" + "));
-                }
+            //else if (e.Column == scannerGrid.Columns["channelColumn"])
+            //{
+            //    string c1 = e.CellValue1.ToString(), c2 = e.CellValue2.ToString();
+            //    //Channel may have a + in it
+            //    if (c1.Contains("+"))
+            //    {
+            //        c1 = c1.Remove(c1.LastIndexOf(" + "));
+            //    }
 
-                if (c2.Contains("+"))
-                {
-                    c2 = c2.Remove(c2.LastIndexOf(" + "));
-                }
-                if (Convert.ToInt32(c1) > Convert.ToInt32(c2)) { e.SortResult = 1; }
-                else if (Convert.ToInt32(c1) < Convert.ToInt32(c2)) { e.SortResult = -1; }
-                else { e.SortResult = 0; }
-                e.Handled = true;
+            //    if (c2.Contains("+"))
+            //    {
+            //        c2 = c2.Remove(c2.LastIndexOf(" + "));
+            //    }
+            //    if (Convert.ToInt32(c1) > Convert.ToInt32(c2)) { e.SortResult = 1; }
+            //    else if (Convert.ToInt32(c1) < Convert.ToInt32(c2)) { e.SortResult = -1; }
+            //    else { e.SortResult = 0; }
+            //    e.Handled = true;
 
-            }
+            //}
             //Location sorting, they are doubles, not ints
-            if (e.Column == scannerGrid.Columns["latColumn"] || e.Column == scannerGrid.Columns["lonColumn"])
+            else if (e.Column == scannerGrid.Columns["latColumn"] || e.Column == scannerGrid.Columns["lonColumn"])
             {
                 if (Convert.ToDouble(e.CellValue1) > Convert.ToDouble(e.CellValue2)) { e.SortResult = 1; }
                 else if (Convert.ToDouble(e.CellValue1) < Convert.ToDouble(e.CellValue2)) { e.SortResult = -1; }

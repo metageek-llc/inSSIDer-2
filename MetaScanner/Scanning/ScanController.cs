@@ -126,7 +126,7 @@ namespace inSSIDer.Scanning
             bool status = false;
             foreach (NetworkInterface intf in InterfaceManager.Instance.Interfaces)
             {
-                if (intf.Description != interfaceName) continue;
+                if (!intf.Description.Equals(interfaceName, StringComparison.InvariantCultureIgnoreCase)) continue;
                 //We've found the interface
                 Interface = intf;
                 status = true;

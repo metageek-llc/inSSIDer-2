@@ -155,14 +155,14 @@ namespace MetaGeek.WiFi
             Channel = channel;
             Rssi = rssi;
             SignalQuality = signalQuality;
-            if (string.IsNullOrEmpty(supportedRates))
-            {
-                //-1 means no rates
-                Rates.Add(-1.0);
-            }
-            else
+            try
             {
                 Rates = supportedRates.Split(new char[] { '/' }).ToList<string>().ConvertAll<double>(Convert.ToDouble);
+            }
+            catch (FormatException)
+            {
+                //Something went wrong
+                Rates.Add(-1.0);
             }
             NetworkType = networkType;
             Age = 0;

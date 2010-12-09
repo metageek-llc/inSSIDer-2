@@ -174,7 +174,11 @@ namespace inSSIDer
             {
                 //Something went wrong, ignore
             }
-            catch(IndexOutOfRangeException)
+            catch (IndexOutOfRangeException)
+            {
+                //Something went wrong, ignore
+            }
+            catch (FormatException)
             {
                 //Something went wrong, ignore
             }
