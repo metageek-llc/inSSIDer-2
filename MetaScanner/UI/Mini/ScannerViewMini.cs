@@ -274,7 +274,10 @@ namespace inSSIDer.UI.Mini
             //    {
             //        _sc.Cache.GetAccessPointByMacAddress(row.Cells["macColumn"].Value.ToString()).Highlight = true;
             //    }
-                _sc.Cache.GetAccessPointById((long)row.Cells["idColumn"].Value).Highlight = row.Selected;
+                AccessPoint apTemp = _sc.Cache.GetAccessPointById((long) row.Cells["idColumn"].Value);
+                if(apTemp == null) continue;
+
+                apTemp.Highlight = row.Selected;
             }
             OnRequireRefresh();
             //if (scannerView.SelectedRows.Count > 0) _selectedRow = scannerView.SelectedRows[0].Index;
