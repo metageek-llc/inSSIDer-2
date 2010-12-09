@@ -71,26 +71,30 @@ namespace inSSIDer.Scanning.Interfaces
                     NetworkData item = data2;
                     if ((ex.IELength <= ex.IEs.Length) && (ex.IELength > 28))
                     {
-                        bool foundNIes = false;
-                        for (int i = 0; i < (ex.IELength/* - 29*/); i++)
-                        {
-                            if (((ex.IEs[i] == 0x2D) && (ex.IEs[i + 1] == 26)) && ((ex.IEs[i + 28] == 0x3D) && (ex.IEs[(i + 28) + 1] == 0x16)))
-                            {
-                                foundNIes = true;
-                                break;
-                            }
-                        }
-                        if (foundNIes)
-                        {
-                            item.IsTypeN = true;
-                            item.NSettings = IeParser.Parse(ex.IEs);
+                        //bool foundNIes = false;
+                        //for (int i = 0; i < (ex.IELength/* - 29*/); i++)
+                        //{
+                        //    if (((ex.IEs[i] == 0x2D) && (ex.IEs[i + 1] == 26)) && ((ex.IEs[i + 28] == 0x3D) && (ex.IEs[(i + 28) + 1] == 0x16)))
+                        //    {
+                        //        foundNIes = true;
+                        //        break;
+                        //    }
+                        //}
+                        //if (foundNIes)
+                        //{
+                            //item.IsTypeN = true;
+                        byte[] ies = new byte[ex.IELength];
+                        Array.Copy(ex.IEs, 0, ies, 0, ex.IELength);
+                        
+                            item.NSettings = IeParser.Parse(ies);
+                            item.IsTypeN = item.NSettings != null;
                             if (item.NSettings != null)
                             {
                                 //Add the extended 802.11N rates
                                 item.Rates.AddRange(item.NSettings.Rates.Where(f => !item.Rates.Contains(f)));
                                 item.Rates.Sort();
                             }
-                        }
+                        //}
                     }
                     Utilities.ConvertToMbs(ex.SupportedRates, item.Rates, item.IsTypeN);
                     item.Rssi = ex.Rssi;
