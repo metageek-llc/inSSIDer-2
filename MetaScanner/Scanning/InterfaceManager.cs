@@ -131,18 +131,23 @@ namespace inSSIDer.Scanning
 
                 if (Utilities.IsXp())
                 {
-                    // This doesn't work for some XP users... and causes a FormatException
-                    // so we're going to return null for now.
-                    return null;
-
-                    //foreach (NetworkInterface net in NetworkInterface.GetAllNetworkInterfaces())
-                    //{
-                    //    if(new Guid(net.Id).Equals(Settings.Default.scanLastInterfaceId))
-                    //    {
-                    //        //Found it
-                    //        return net;
-                    //    }
-                    //}
+                    try
+                    {
+                        foreach (NetworkInterface net in NetworkInterface.GetAllNetworkInterfaces())
+                        {
+                            if (new Guid(net.Id).Equals(Settings.Default.scanLastInterfaceId))
+                            {
+                                //Found it
+                                return net;
+                            }
+                        }
+                    }
+                    catch (FormatException)
+                    {
+                        // This doesn't work for some XP users... and causes a FormatException
+                        // so we're going to return null for now.
+                        return null;
+                    }
                 }
                 else
                 {

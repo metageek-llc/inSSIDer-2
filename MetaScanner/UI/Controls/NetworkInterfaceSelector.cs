@@ -229,7 +229,7 @@ namespace inSSIDer.UI.Controls
         private void UpdateInterfaceListSelection()
         {
             bool flag = false;
-
+            
             //Check for current interface, only once
             if (_scanner.Interface != null && _checkInterfaceInit)
             {
@@ -237,7 +237,7 @@ namespace inSSIDer.UI.Controls
 
                 foreach (ToolStripMenuItem item in NetworkInterfaceDropDown.DropDownItems)
                 {
-                    if (item.Text.Equals(NetworkInterfaceDropDown.Text))
+                    if (item.Text.StartsWith(NetworkInterfaceDropDown.Text.Replace("...", ""), StringComparison.InvariantCultureIgnoreCase))
                     {
                         item.Checked = true;
                         flag = true;
@@ -250,10 +250,9 @@ namespace inSSIDer.UI.Controls
                 _checkInterfaceInit = false;
             }
 
-
             foreach (ToolStripMenuItem item in NetworkInterfaceDropDown.DropDownItems)
             {
-                if (item.Text.Equals(NetworkInterfaceDropDown.Text))
+                if (item.Text.StartsWith(NetworkInterfaceDropDown.Text.Replace("...",""), StringComparison.InvariantCultureIgnoreCase))
                 {
                     if (_scanner.SetInterface(item.Text))
                     {

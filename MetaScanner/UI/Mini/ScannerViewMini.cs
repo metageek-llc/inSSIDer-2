@@ -174,6 +174,9 @@ namespace inSSIDer.UI.Mini
 
                                 scannerGrid.Rows.Add(newrow);
 
+                                //Replace sparkline data with RSSI
+                                newrow.Cells["rssiColumn"].Value = ap.LastData.Rssi;
+
                                 newrow.Cells["checkColumn"].Style.BackColor = ap.MyColor;
                                 newrow.Cells["checkColumn"].Style.SelectionBackColor = ap.MyColor;
                                 newrow.Cells["maxrateColumn"].ToolTipText = ap.SupportedRates;

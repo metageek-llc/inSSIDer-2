@@ -133,6 +133,16 @@ namespace inSSIDer.UI.Mini
                 _scanner.Logger.AppendEntry(e.Data, e.GpsData);
                 UpdateButtonsStatus();
             }
+
+            try
+            {
+                Invoke(new DelVoidCall(() => apCountLabel.Text = string.Format("{0} / {1} AP(s)", _scanner.Cache.Count, _scanner.Cache.TotalCount)));
+            }
+            catch (InvalidOperationException)
+            {
+                // Exception thrown if UI isn't fully initialized yet. Ignore for now and let the next ScannerScanComplete() call
+                //update the UI.
+            }
         }
 
         private void RefreshAll()
@@ -319,8 +329,8 @@ namespace inSSIDer.UI.Mini
             }
             else
             {
-                Text = Title;
                 loggingToolStripStatusLabel.Text = Localizer.GetString("LoggingOff");
+                Text = Title + " - " + loggingToolStripStatusLabel.Text;
                 startStopLoggingToolStripMenuItem.Text = Localizer.GetString("StartLogging");
             }
         }
