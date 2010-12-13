@@ -248,4 +248,8 @@ Thanks!</value>
 
 Make sure you have selected a WiFi adapter, not an Ethernet adapter.</value>
   </data>
+  <data name="ErrorExportDirectory" xml:space="preserve">
+    <value>Are you trying to export to Program Files?
+Try exporting to another directory.</value>
+  </data>
 </root>

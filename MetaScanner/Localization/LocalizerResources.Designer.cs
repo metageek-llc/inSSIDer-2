@@ -115,6 +115,16 @@ namespace inSSIDer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you trying to export to Program Files?
+        ///Try exporting to another directory..
+        /// </summary>
+        internal static string ErrorExportDirectory {
+            get {
+                return ResourceManager.GetString("ErrorExportDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You must select a directory to place the output KML files..
         /// </summary>
         internal static string ErrorKmlDirectoryMissing {

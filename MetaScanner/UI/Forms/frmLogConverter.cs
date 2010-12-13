@@ -67,9 +67,21 @@ namespace inSSIDer.UI.Forms
             int lastP = _inFiles[0].Substring(lastS).LastIndexOf('.');
             _outPath += _inFiles[0].Substring(lastS).Remove(lastP) + "\\";
 
-            //Create the output directory
-            System.IO.Directory.CreateDirectory(_outPath);
-
+            try
+            {
+                //Create the output directory
+                System.IO.Directory.CreateDirectory(_outPath);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                MessageBox.Show(string.Format("{0}\r\n\r\n{1}", ex.Message, Localizer.GetString("ErrorExportDirectory")), Localizer.GetString("Error"));
+                return;
+            }
+            catch (DirectoryNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message, Localizer.GetString("Error"));
+                return;
+            }
             
             //All is well, let's go
             Waypoint[] allPoints;
@@ -133,7 +145,6 @@ namespace inSSIDer.UI.Forms
 
         private void FormLogConverterLoad(object sender, EventArgs e)
         {
-
             //ask for input files if the settings are not saved
             if (Settings.Default.gpxLastInputFiles == null || Settings.Default.gpxLastInputFiles.Count == 0)
             {
