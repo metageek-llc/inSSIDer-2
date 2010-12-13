@@ -241,11 +241,13 @@ namespace MetaGeek.WiFi
                 section = new string(chars);
                 //Split into parts, eg. prop op value
                 p2 = section.Split(' ');
-                //Fix strings
-                p2[2] = p2[2].Replace('|', ' ');
 
+                //Check for section count, must be 3 parts
                 if (p2.Length != 3)
                     return section;
+
+                //Fix strings
+                p2[2] = p2[2].Replace('|', ' ');
 
                 //Tyler: I didn't really want to use reflection, but it reduces code repetition
 
