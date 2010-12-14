@@ -88,11 +88,22 @@ namespace inSSIDer.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The .NET Framework configuration on this computer is corrputed, inSSIDer cannot continue. Repair the configuration and then run inSSIDer again.\r\n\r\nWe&apos;re sorry for any inconvenience..
+        ///   Looks up a localized string similar to The .NET Framework configuration on this computer is corrputed, inSSIDer cannot continue. Repair the configuration and then run inSSIDer again.
+        ///
+        ///We&apos;re sorry for any inconvenience..
         /// </summary>
         internal static string ConfigSystemError {
             get {
                 return ResourceManager.GetString("ConfigSystemError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occured while attempting to copy the graph to the clipboard..
+        /// </summary>
+        internal static string CopyGraphError {
+            get {
+                return ResourceManager.GetString("CopyGraphError", resourceCulture);
             }
         }
         

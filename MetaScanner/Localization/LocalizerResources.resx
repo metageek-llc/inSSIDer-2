@@ -127,7 +127,9 @@
     <value>The application is up to date</value>
   </data>
   <data name="ConfigSystemError" xml:space="preserve">
-    <value>The .NET Framework configuration on this computer is corrputed, inSSIDer cannot continue. Repair the configuration and then run inSSIDer again.\r\n\r\nWe're sorry for any inconvenience.</value>
+    <value>The .NET Framework configuration on this computer is corrputed, inSSIDer cannot continue. Repair the configuration and then run inSSIDer again.
+
+We're sorry for any inconvenience.</value>
   </data>
   <data name="Error" xml:space="preserve">
     <value>Error</value>
@@ -251,5 +253,8 @@ Make sure you have selected a WiFi adapter, not an Ethernet adapter.</value>
   <data name="ErrorExportDirectory" xml:space="preserve">
     <value>Are you trying to export to Program Files?
 Try exporting to another directory.</value>
+  </data>
+  <data name="CopyGraphError" xml:space="preserve">
+    <value>An error occured while attempting to copy the graph to the clipboard.</value>
   </data>
 </root>

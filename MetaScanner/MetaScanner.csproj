@@ -124,6 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Misc\Settings.cs" />
+    <Compile Include="Misc\SignalBars.cs" />
     <Compile Include="Misc\SignalColor.cs" />
     <Compile Include="Scanning\InterfaceManager.cs" />
     <Compile Include="Scanning\Interfaces\NdisScanInterface.cs" />
@@ -410,6 +411,18 @@
     <Content Include="HTML\Content\news.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\Signal5E.png" />
+    <None Include="Resources\Signal5.png" />
+    <None Include="Resources\Signal4E.png" />
+    <None Include="Resources\Signal4.png" />
+    <None Include="Resources\Signal3E.png" />
+    <None Include="Resources\Signal3.png" />
+    <None Include="Resources\Signal2E.png" />
+    <None Include="Resources\Signal2.png" />
+    <None Include="Resources\Signal1E.png" />
+    <None Include="Resources\Signal1.png" />
+    <None Include="Resources\Signal0E.png" />
+    <None Include="Resources\Signal0.png" />
     <None Include="Resources\metageek-logo.bmp" />
     <None Include="Resources\launch-inssider.png" />
   </ItemGroup>

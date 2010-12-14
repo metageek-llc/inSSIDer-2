@@ -88,6 +88,90 @@ namespace inSSIDer.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap Signal0 {
+            get {
+                object obj = ResourceManager.GetObject("Signal0", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap Signal0E {
+            get {
+                object obj = ResourceManager.GetObject("Signal0E", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap Signal1 {
+            get {
+                object obj = ResourceManager.GetObject("Signal1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap Signal1E {
+            get {
+                object obj = ResourceManager.GetObject("Signal1E", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap Signal2 {
+            get {
+                object obj = ResourceManager.GetObject("Signal2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap Signal2E {
+            get {
+                object obj = ResourceManager.GetObject("Signal2E", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap Signal3 {
+            get {
+                object obj = ResourceManager.GetObject("Signal3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap Signal3E {
+            get {
+                object obj = ResourceManager.GetObject("Signal3E", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap Signal4 {
+            get {
+                object obj = ResourceManager.GetObject("Signal4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap Signal4E {
+            get {
+                object obj = ResourceManager.GetObject("Signal4E", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap Signal5 {
+            get {
+                object obj = ResourceManager.GetObject("Signal5", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap Signal5E {
+            get {
+                object obj = ResourceManager.GetObject("Signal5E", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap wifiPlay {
             get {
                 object obj = ResourceManager.GetObject("wifiPlay", resourceCulture);

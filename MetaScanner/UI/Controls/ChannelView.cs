@@ -113,7 +113,7 @@ namespace inSSIDer.UI.Controls
             }
             catch
             {
-                MessageBox.Show("An error occured while attempting to copy the graph to the clipboard.", "Error",
+                MessageBox.Show(Localizer.GetString("CopyGraphError"), Localizer.GetString("Error"),
                                 MessageBoxButtons.OK);
             }
         }
