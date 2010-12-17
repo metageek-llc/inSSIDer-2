@@ -242,6 +242,10 @@ namespace inSSIDer
             {
                 //Something went wrong, ignore
             }
+            catch (FormatException)
+            {
+                //Something went wrong, ignore
+            }
             //refresh the context menu
             view.UpdateColumnList();
         }
