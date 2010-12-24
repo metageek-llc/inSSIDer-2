@@ -207,7 +207,7 @@ namespace inSSIDer.UI.Forms
                 _tempAddOperation = "<";
             else if (rbTemp == greaterThanOrEqualButton)
                 _tempAddOperation = ">=";
-            else if (rbTemp == greaterThanOrEqualButton)
+            else if (rbTemp == lessThanOrEqualButton)
                 _tempAddOperation = "<=";
             else if (rbTemp == StartsWithButton)
                 _tempAddOperation = "sw";
