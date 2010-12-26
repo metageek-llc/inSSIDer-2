@@ -18,6 +18,7 @@ namespace inSSIDer
     {
         //Mode of switch
         public static Utilities.SwitchMode Switching = Utilities.SwitchMode.None;
+        public static Utilities.SwitchMode LastSwitch = Utilities.SwitchMode.None;
         public static bool WasScanning;
 
         static void InitializeExceptionHandler(UnhandledExceptionDlg exDlg)
@@ -169,24 +170,26 @@ namespace inSSIDer
             }
 
             //The main form will run unless mini is specified
-            IScannerUi form;
+            IScannerUi form = null;
 
-            if(Settings.Default.lastMini)
-            {
-                form = new FormMini();
-                SettingsMgr.ApplyMiniFormSettings((Form)form);
-            }
-            else
-            {
-                form = new FormMain();
-                SettingsMgr.ApplyMainFormSettings((Form)form);
-            }
+            Switching = Settings.Default.lastMini ? Utilities.SwitchMode.ToMini : Utilities.SwitchMode.ToMain;
+
+            //if(Settings.Default.lastMini)
+            //{
+            //    Switching = Utilities.SwitchMode.ToMini;
+            //    form = new FormMini();
+            //    SettingsMgr.ApplyMiniFormSettings((Form)form);
+            //}
+            //else
+            //{
+            //    Switching = Utilities.SwitchMode.ToMain;
+            //    form = new FormMain();
+            //    SettingsMgr.ApplyMainFormSettings((Form)form);
+            //}
 
             //Apply settings now 
             SettingsMgr.ApplyGpsSettings(scanner.GpsControl);
             
-            //Start GPS if it was started last time
-
 
             do
             {
@@ -207,6 +210,7 @@ namespace inSSIDer
                         SettingsMgr.ApplyMiniFormSettings((Form)form);
                         break;
                 }
+                LastSwitch = Switching;
                 //If we've switched, we don't need to get stuck in a loop
                 Switching = Utilities.SwitchMode.None;
 
@@ -218,6 +222,15 @@ namespace inSSIDer
                 catch (ObjectDisposedException)
                 {
 
+                }
+                catch (AccessViolationException)
+                {
+                    if (Application.VisualStyleState == System.Windows.Forms.VisualStyles.VisualStyleState.NonClientAreaEnabled)
+                        throw;
+                    // This could be caused by visual styles
+                    Application.VisualStyleState = System.Windows.Forms.VisualStyles.VisualStyleState.NonClientAreaEnabled;
+                    // Trigger restart
+                    Switching = LastSwitch;//Utilities.SwitchMode.ToMain;
                 }
 
             } while (Switching != Utilities.SwitchMode.None);
