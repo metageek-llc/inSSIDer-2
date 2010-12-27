@@ -11,6 +11,8 @@ using inSSIDer.Localization;
 using inSSIDer.Properties;
 using System.Net.NetworkInformation;
 using System.Linq;
+using System.Threading;
+using System.Diagnostics;
 
 namespace inSSIDer
 {
@@ -93,15 +95,18 @@ namespace inSSIDer
         [STAThread]
         static void Main(string[] args)
         {
+            Debug.WriteLine("inSSIDer 2 version " + Application.ProductVersion + " Starting");
             //TODO: Make conmmand line option to enable logging on debug builds. Like /log
 #if DEBUG && LOG
             Log.Start();
 #endif
+            Debug.WriteLine("Hook exception handlers");
             // Create new instance of UnhandledExceptionDlg:
             // NOTE: this hooks up the exception handler functions 
             UnhandledExceptionDlg exDlg = new UnhandledExceptionDlg();
             InitializeExceptionHandler(exDlg);
 
+            Debug.WriteLine("Check .NET configuration system");
             //Check for config system condition here
             if(!Settings.Default.CheckSettingsSystem())
             {
@@ -116,10 +121,17 @@ namespace inSSIDer
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+#if DEBUG && LOG
+            frmTest ft = new frmTest();
+            Thread debugThread = new Thread(() => Application.Run(ft));
+            debugThread.Start();
+#endif
+
             //Initalize the scanner object before passing it to any interface
             ScanController scanner = new ScanController();
             Exception error;
 
+            Debug.WriteLine("Initalize ScanController");
             scanner.Initalize(out error);
             if (error != null)
             {
@@ -163,6 +175,7 @@ namespace inSSIDer
             NetworkInterface netInterface = InterfaceManager.Instance.LastInterface;
             if (netInterface != null)
             {
+                Debug.WriteLine("We have a last interface, start scanning with it.");
                 //Set the interface
                 scanner.Interface = netInterface;
                 if (Settings.Default.scanLastEnabled)
@@ -201,11 +214,13 @@ namespace inSSIDer
                         break;
                     case Utilities.SwitchMode.ToMain:
                         //We're switching to the main form
+                        Debug.WriteLine("Switch to main form");
                         form = new FormMain();
                         SettingsMgr.ApplyMainFormSettings((Form)form);
                         break;
                     case Utilities.SwitchMode.ToMini:
                         //We're switching to the mini form
+                        Debug.WriteLine("Switch to mini form");
                         form = new FormMini();
                         SettingsMgr.ApplyMiniFormSettings((Form)form);
                         break;
@@ -225,6 +240,7 @@ namespace inSSIDer
                 }
                 catch (AccessViolationException)
                 {
+                    Debug.WriteLine("AccessViolationException, attempt to recover");
                     if (Application.VisualStyleState == System.Windows.Forms.VisualStyles.VisualStyleState.NonClientAreaEnabled)
                         throw;
                     // This could be caused by visual styles
@@ -248,6 +264,8 @@ namespace inSSIDer
 
             //Dispose the scanner, we're done with it
             scanner.Dispose();
+
+            Debug.WriteLine("Execution Finished, you may now close this window", "Program.Main()");
         }
     }
 }

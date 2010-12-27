@@ -25,6 +25,7 @@ using inSSIDer.Misc;
 using inSSIDer.Scanning;
 using MetaGeek.WiFi;
 using inSSIDer.Localization;
+using System.Diagnostics;
 
 namespace inSSIDer.UI.Controls
 {
@@ -407,6 +408,7 @@ namespace inSSIDer.UI.Controls
                             // 802.11b arch shape
                             if ((ap.MaxRate <= 20) && (Utilities.ConvertToFrequency(ap.Channel) < 2500))
                             {
+                                //Debug.WriteLine("Draw 802.11b arch", "ChannelView Draw");
                                 PointF[] points = new PointF[3];
                                 points[0] = new PointF(x - (halfChannelWidthMhz*_pixelsPerMHz), floorY);
                                 points[1] = new PointF(x, y);
@@ -419,41 +421,17 @@ namespace inSSIDer.UI.Controls
                                 // 802.11a/g/n plateau shape
                             else
                             {
+                                //Debug.WriteLine("Draw 802.11a/g/n plateau", "ChannelView Draw");
                                 PointF[] points = new PointF[5];
 
                                 float quarterY = (floorY - y)/4;
-                                if ((ap.NSettings == null) ? true : !ap.NSettings.Is40MHz)
+                                if (/*ap.IsN &&*/ ap.NSettings != null && ap.NSettings.Is40MHz)
                                 {
-                                    points[0] = new PointF(x - (halfChannelWidthMhz*_pixelsPerMHz), floorY);
-                                    points[1] = new PointF(x - ((halfChannelWidthMhz - 1)*_pixelsPerMHz),
-                                                           floorY - quarterY);
-                                    points[2] = new PointF(x - ((halfChannelWidthMhz - 1.5f)*_pixelsPerMHz),
-                                                           floorY - (2*quarterY));
-                                    points[3] = new PointF(x - ((halfChannelWidthMhz - 1.5f)*_pixelsPerMHz),
-                                                           points[2].Y - 5);
-                                    points[4] = new PointF(x - ((halfChannelWidthMhz - 1.5f)*_pixelsPerMHz), y);
-                                    graphics.DrawCurve(pen, points, 0.3f);
-
-                                    PointF topleft = points[4];
-
-                                    points[0].X = x + halfChannelWidthMhz*_pixelsPerMHz;
-                                    points[1].X = x + (halfChannelWidthMhz - 1)*_pixelsPerMHz;
-                                    points[2].X = x + (halfChannelWidthMhz - 1.5f)*_pixelsPerMHz;
-                                    points[3].X = x + (halfChannelWidthMhz - 1.5f)*_pixelsPerMHz;
-                                    points[4].X = x + (halfChannelWidthMhz - 1.5f)*_pixelsPerMHz;
-                                    graphics.DrawCurve(pen, points, 0.2f);
-
-                                    graphics.DrawLine(pen, points[4], topleft);
-
-                                    //Set SSID label to center on a non 40MHz channel
-                                    x = x - (int)(stringSize.Width / 2f);
-                                }
-                                else if (ap.IsN && ap.NSettings != null &&
-                                         ap.NSettings.Is40MHz)
-                                {
+                                    //Debug.WriteLine("40MHz 802.11n channel", "ChannelView Draw");
                                     //Extend for 40Mhz channel
                                     if (ap.NSettings.SecondaryChannelLower)
                                     {
+                                        //Debug.WriteLine("Secondary channel lower", "ChannelView Draw");
                                         points[0] = new PointF(x - ((halfChannelWidthMhz*3)*_pixelsPerMHz), floorY);
                                         points[1] = new PointF(x - (((halfChannelWidthMhz*3) - 1)*_pixelsPerMHz),
                                                                floorY - quarterY);
@@ -481,6 +459,7 @@ namespace inSSIDer.UI.Controls
                                     }
                                     else
                                     {
+                                        //Debug.WriteLine("Secondary channel higher", "ChannelView Draw");
                                         points[0] = new PointF(x - (halfChannelWidthMhz*_pixelsPerMHz), floorY);
                                         points[1] = new PointF(x - ((halfChannelWidthMhz - 1)*_pixelsPerMHz),
                                                                floorY - quarterY);
@@ -506,9 +485,37 @@ namespace inSSIDer.UI.Controls
                                         x = (x + (int)(halfChannelWidthMhz * _pixelsPerMHz)) - (int)(stringSize.Width / 2f);
                                     }
                                 }
+                                else // draw a 20MHz channe;
+                                {
+                                    //Debug.WriteLine("20MHz channel", "ChannelView Draw");
+                                    points[0] = new PointF(x - (halfChannelWidthMhz*_pixelsPerMHz), floorY);
+                                    points[1] = new PointF(x - ((halfChannelWidthMhz - 1)*_pixelsPerMHz),
+                                                           floorY - quarterY);
+                                    points[2] = new PointF(x - ((halfChannelWidthMhz - 1.5f)*_pixelsPerMHz),
+                                                           floorY - (2*quarterY));
+                                    points[3] = new PointF(x - ((halfChannelWidthMhz - 1.5f)*_pixelsPerMHz),
+                                                           points[2].Y - 5);
+                                    points[4] = new PointF(x - ((halfChannelWidthMhz - 1.5f)*_pixelsPerMHz), y);
+                                    graphics.DrawCurve(pen, points, 0.3f);
+
+                                    PointF topleft = points[4];
+
+                                    points[0].X = x + halfChannelWidthMhz*_pixelsPerMHz;
+                                    points[1].X = x + (halfChannelWidthMhz - 1)*_pixelsPerMHz;
+                                    points[2].X = x + (halfChannelWidthMhz - 1.5f)*_pixelsPerMHz;
+                                    points[3].X = x + (halfChannelWidthMhz - 1.5f)*_pixelsPerMHz;
+                                    points[4].X = x + (halfChannelWidthMhz - 1.5f)*_pixelsPerMHz;
+                                    graphics.DrawCurve(pen, points, 0.2f);
+
+                                    graphics.DrawLine(pen, points[4], topleft);
+
+                                    //Set SSID label to center on a non 40MHz channel
+                                    x = x - (int)(stringSize.Width / 2f);
+                                }
                             }
                             y -= 15;
 
+                            //Debug.WriteLine("Draw SSID", "ChannelView Draw");
                             brush.Color = Color.FromArgb(ap.Age * 20 < 255 ? 255 - (ap.Age * 20) : 0, ap.MyColor);
                             graphics.DrawString(ap.Ssid, ap.Highlight ? _boldFont : Font, brush, x, y);
                             //}

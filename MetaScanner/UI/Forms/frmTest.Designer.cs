@@ -28,35 +28,52 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tabControl1 = new inSSIDer.UI.Controls.TabControl();
+            this.components = new System.ComponentModel.Container();
+            this.txtDebug = new System.Windows.Forms.TextBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
-            // tabControl1
+            // txtDebug
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.BackColor = System.Drawing.Color.Black;
-            this.tabControl1.ForeColor = System.Drawing.Color.Lime;
-            this.tabControl1.Location = new System.Drawing.Point(13, 13);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.Size = new System.Drawing.Size(470, 397);
-            this.tabControl1.TabIndex = 0;
+            this.txtDebug.AcceptsReturn = true;
+            this.txtDebug.AcceptsTab = true;
+            this.txtDebug.BackColor = System.Drawing.Color.Black;
+            this.txtDebug.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtDebug.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtDebug.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDebug.ForeColor = System.Drawing.Color.Lime;
+            this.txtDebug.Location = new System.Drawing.Point(0, 0);
+            this.txtDebug.MaxLength = 2147483647;
+            this.txtDebug.Multiline = true;
+            this.txtDebug.Name = "txtDebug";
+            this.txtDebug.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtDebug.Size = new System.Drawing.Size(495, 422);
+            this.txtDebug.TabIndex = 0;
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // frmTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(495, 422);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.txtDebug);
             this.Name = "frmTest";
-            this.Text = "frmTest";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "inSSIDer Debug Output";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private inSSIDer.UI.Controls.TabControl tabControl1;
+        private System.Windows.Forms.TextBox txtDebug;
+        private System.Windows.Forms.Timer timer1;
+
     }
 }

@@ -26,6 +26,7 @@ using MetaGeek.WiFi;
 using System.Timers;
 using System.Net.NetworkInformation;
 using inSSIDer.Properties;
+using System.Diagnostics;
 
 namespace inSSIDer.Scanning
 {
