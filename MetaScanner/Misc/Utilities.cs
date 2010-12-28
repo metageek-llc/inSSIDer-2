@@ -44,7 +44,7 @@ namespace inSSIDer.Misc
         /// Infrastructure mode strings.
         /// </summary>
         public static readonly ValueString[] InfrastructureText = new[]{
-			new ValueString( (int)NetworkInfrastructure.Ndis80211Infrastructure, "Access Point" ),
+			new ValueString( (int)NetworkInfrastructure.Ndis80211Infrastructure, "Infrastructure" ),
 			new ValueString( (int)NetworkInfrastructure.Ndis80211Ibss, "Ad Hoc" ),							
             new ValueString( (int)NetworkInfrastructure.Ndis80211AutoUnknown, "Auto or unknown" )
          };

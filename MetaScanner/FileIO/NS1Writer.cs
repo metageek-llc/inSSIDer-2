@@ -67,12 +67,12 @@ namespace inSSIDer.FileIO
                 //802.11 capability flags. This just shows if the AP uses WEP and/or is AdHoc
                 if(ap.Privacy.ToLower() != "none")
                 {
-                    if(ap.NetworkType != "Infrastructure" && ap.NetworkType != "Access Point") bData.AddRange(new byte[] { 0x12, 0x00, 0x00, 0x00 });
+                    if(ap.NetworkType != "Infrastructure") bData.AddRange(new byte[] { 0x12, 0x00, 0x00, 0x00 });
                     else bData.AddRange(new byte[] { 0x11, 0x00, 0x00, 0x00 });
                 }
                 else
                 {
-                    if (ap.NetworkType != "Infrastructure" && ap.NetworkType != "Access Point") bData.AddRange(new byte[] { 0x02, 0x00, 0x00, 0x00 });
+                    if (ap.NetworkType != "Infrastructure") bData.AddRange(new byte[] { 0x02, 0x00, 0x00, 0x00 });
                     else bData.AddRange(new byte[] { 0x01, 0x00, 0x00, 0x00 });
                 }
 
