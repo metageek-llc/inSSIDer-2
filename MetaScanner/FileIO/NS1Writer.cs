@@ -65,14 +65,14 @@ namespace inSSIDer.FileIO
                 bData.AddRange(BitConverter.GetBytes(0).Reverse());
 
                 //802.11 capability flags. This just shows if the AP uses WEP and/or is AdHoc
-                if(ap.Privacy.ToLower() == "wep")
+                if(ap.Privacy.ToLower() != "none")
                 {
-                    if(ap.NetworkType != "Infrastructure") bData.AddRange(new byte[] { 0x12, 0x00, 0x00, 0x00 });
+                    if(ap.NetworkType != "Infrastructure" && ap.NetworkType != "Access Point") bData.AddRange(new byte[] { 0x12, 0x00, 0x00, 0x00 });
                     else bData.AddRange(new byte[] { 0x11, 0x00, 0x00, 0x00 });
                 }
                 else
                 {
-                    if (ap.NetworkType != "Infrastructure") bData.AddRange(new byte[] { 0x02, 0x00, 0x00, 0x00 });
+                    if (ap.NetworkType != "Infrastructure" && ap.NetworkType != "Access Point") bData.AddRange(new byte[] { 0x02, 0x00, 0x00, 0x00 });
                     else bData.AddRange(new byte[] { 0x01, 0x00, 0x00, 0x00 });
                 }
 
@@ -116,7 +116,7 @@ namespace inSSIDer.FileIO
                 bData.AddRange(BitConverter.GetBytes(0));
 
                 //Speed
-                bData.AddRange(BitConverter.GetBytes((((int)ap.MaxRate) * 1024) / 100));
+                bData.AddRange(BitConverter.GetBytes(((int)ap.MaxRate) * 10));
 
                 //IP subnet address. Not used.
                 bData.AddRange(BitConverter.GetBytes((uint)0));

@@ -425,7 +425,7 @@ namespace inSSIDer.UI.Controls
                                 PointF[] points = new PointF[5];
 
                                 float quarterY = (floorY - y)/4;
-                                if (/*ap.IsN &&*/ ap.NSettings != null && ap.NSettings.Is40MHz)
+                                if (ap.IsN && ap.NSettings != null && ap.NSettings.Is40MHz)
                                 {
                                     //Debug.WriteLine("40MHz 802.11n channel", "ChannelView Draw");
                                     //Extend for 40Mhz channel
@@ -485,7 +485,7 @@ namespace inSSIDer.UI.Controls
                                         x = (x + (int)(halfChannelWidthMhz * _pixelsPerMHz)) - (int)(stringSize.Width / 2f);
                                     }
                                 }
-                                else // draw a 20MHz channe;
+                                else if ((ap.NSettings == null) ? true : !ap.NSettings.Is40MHz)// draw a 20MHz channe;
                                 {
                                     //Debug.WriteLine("20MHz channel", "ChannelView Draw");
                                     points[0] = new PointF(x - (halfChannelWidthMhz*_pixelsPerMHz), floorY);
