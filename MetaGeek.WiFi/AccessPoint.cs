@@ -122,7 +122,7 @@ namespace MetaGeek.WiFi
         /// <summary>
         /// The channel used by this AP
         /// </summary>
-        public uint Channel { get { return MyNetworkDataCollection.Last().Channel; } }
+        public uint Channel { get { return LastData.Channel; } }
 
         /// <summary>
         /// The last data added for this AP
