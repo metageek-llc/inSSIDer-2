@@ -79,14 +79,14 @@ namespace inSSIDer.Scanning.Interfaces
             {
                 //Get connected to AP
                 Wlan.WlanAssociationAttributes connectedAP = new Wlan.WlanAssociationAttributes();
-                //try
-                //{
+                try
+                {
                     if (_interface.CurrentConnection.isState == Wlan.WlanInterfaceState.Connected)
                     {
                         connectedAP = _interface.CurrentConnection.wlanAssociationAttributes;
                     }
-                //}
-                //catch (Win32Exception) { /*Not connected*/ }
+                }
+                catch (NullReferenceException) { /*Hopefully it will work next time*/ }
 
 
                 Wlan.WlanAvailableNetwork foundNetwork = new Wlan.WlanAvailableNetwork();
@@ -131,7 +131,16 @@ namespace inSSIDer.Scanning.Interfaces
 
         public void ScanNetworks()
         {
-            _interface.Scan();
+            try
+            {
+                _interface.Scan();
+            }
+            catch (NullReferenceException)
+            {
+                // This shouldn't be throwing an exception, but it can sometimes.
+                // _interface should always be initialized by the time this call is made
+                // Init() is called before the scan loop is started and will not start scanning if the interface is null
+            }
         }
 
         private static bool FindNetwork(string ssid, IEnumerable<Wlan.WlanAvailableNetwork> networks, ref Wlan.WlanAvailableNetwork foundNetwork)
