@@ -88,6 +88,7 @@ namespace inSSIDer.Misc
                 string sep = "";
                 foreach (string s in p)
                 {
+                    chars = s.ToCharArray();
                     //Are we in a quote?
                     bool inQ = false;
 

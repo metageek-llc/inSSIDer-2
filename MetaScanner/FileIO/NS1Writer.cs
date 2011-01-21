@@ -58,11 +58,11 @@ namespace inSSIDer.FileIO
                 //RSSI
                 bData.AddRange(BitConverter.GetBytes(ap.LastData.Rssi));
 
-                //Noise - not reported
-                bData.AddRange(BitConverter.GetBytes(0).Reverse());
+                //Noise - not reported, use fake value of -100
+                bData.AddRange(BitConverter.GetBytes(-100));
 
-                //SNR - not reported
-                bData.AddRange(BitConverter.GetBytes(0).Reverse());
+                //SNR - calculate difference of RSSI and -100
+                bData.AddRange(BitConverter.GetBytes(-(-100 - ap.LastData.Rssi)));
 
                 //802.11 capability flags. This just shows if the AP uses WEP and/or is AdHoc
                 if(ap.Privacy.ToLower() != "none")
@@ -91,9 +91,30 @@ namespace inSSIDer.FileIO
                 //Longitude
                 bData.AddRange(BitConverter.GetBytes(ap.GpsData.Longitude));
 
-                //No APDATA entries.
-                //TODO: add this
-                bData.AddRange(BitConverter.GetBytes(0));
+                
+                //Number of APDATA entries.
+                bData.AddRange(BitConverter.GetBytes(ap.MyNetworkDataCollection.Count));
+
+                lock (ap.MyNetworkDataCollection)
+                {
+                    foreach (NetworkData data in ap.MyNetworkDataCollection)
+                    {
+                        // Timestamp
+                        bData.AddRange(BitConverter.GetBytes(data.MyTimestamp.ToFileTime()));
+
+                        // RSSI
+                        bData.AddRange(BitConverter.GetBytes(data.Rssi));
+
+                        // Noise not reported
+                        bData.AddRange(BitConverter.GetBytes(-100));
+
+                        // Location source, 0 = none, 2 = GPS
+                        // Since gps locations aren't stored in NetworkData objects, this will be 0
+                        bData.AddRange(BitConverter.GetBytes(0));
+
+                        // GpsData - no bytes because source is 0
+                    }
+                }
 
                 //Length of name. Not used
                 bData.Add(0);
