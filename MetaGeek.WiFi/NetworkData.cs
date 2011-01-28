@@ -157,7 +157,18 @@ namespace MetaGeek.WiFi
             SignalQuality = signalQuality;
             try
             {
-                Rates = supportedRates.Split(new char[] { '/' }).ToList<string>().ConvertAll<double>(Convert.ToDouble);
+                Rates = supportedRates.Split(new char[] { '/' }).ToList<string>().ConvertAll<double>(d =>
+                    {
+                        try
+                        {
+                            return Convert.ToDouble(d);
+                        }
+                        catch (FormatException)
+                        {
+                            // Something went wrong most likely an invalid rate string
+                            return 0;
+                        }
+                    });
             }
             catch (FormatException)
             {
