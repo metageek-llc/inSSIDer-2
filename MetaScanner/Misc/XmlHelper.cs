@@ -19,6 +19,7 @@
 using System.Text;
 using System.Xml;
 using inSSIDer.FileIO;
+using System.Globalization;
 
 namespace inSSIDer.Misc
 {
@@ -89,8 +90,10 @@ namespace inSSIDer.Misc
             //KML requires Lon,Lat,Alt. It's backwards!
             XmlElement xePoint = document.CreateElement("Point");
             xePoint.AppendChild(CreateElementWithText(document, "coordinates",
-                                                      string.Format("{0},{1},{2}", wp.Longitude, wp.Latitude,
-                                                                    wp.Elevation)));
+                                                      string.Format("{0},{1},{2}", 
+                                                            wp.Longitude.ToString(CultureInfo.InvariantCulture.NumberFormat),
+                                                            wp.Latitude.ToString(CultureInfo.InvariantCulture.NumberFormat),
+                                                            wp.Elevation.ToString(CultureInfo.InvariantCulture.NumberFormat))));
             xeMain.AppendChild(xePoint);
 
             return xeMain;
@@ -166,8 +169,10 @@ namespace inSSIDer.Misc
             //KML requires Lon,Lat,Alt. It's backwards!
             XmlElement xePoint = document.CreateElement("Point");
             xePoint.AppendChild(CreateElementWithText(document, "coordinates",
-                                                      string.Format("{0},{1},{2}", longitude, latitude,
-                                                                    elevation)));
+                                                      string.Format("{0},{1},{2}",
+                                                              longitude.ToString(CultureInfo.InvariantCulture.NumberFormat),
+                                                              latitude.ToString(CultureInfo.InvariantCulture.NumberFormat),
+                                                              elevation.ToString(CultureInfo.InvariantCulture.NumberFormat))));
             xeMain.AppendChild(xePoint);
 
             return xeMain;
