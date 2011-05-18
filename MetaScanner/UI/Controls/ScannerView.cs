@@ -24,6 +24,7 @@ using System.Linq;
 using System.Windows.Forms;
 using inSSIDer.Scanning;
 using MetaGeek.WiFi;
+using inSSIDer.Localization;
 
 namespace inSSIDer.UI.Controls
 {
@@ -213,6 +214,12 @@ namespace inSSIDer.UI.Controls
 
                                 scannerGrid.Rows.Add(newrow);
 
+                                // Check for blank SSID
+                                if (string.IsNullOrEmpty(newrow.Cells["ssidColumn"].Value.ToString()))
+                                {
+                                    newrow.Cells["ssidColumn"].Value = Localizer.GetString("UnknownSSID");
+                                }
+
                                 newrow.Cells["checkColumn"].Style.BackColor = ap.MyColor;
                                 newrow.Cells["checkColumn"].Style.SelectionBackColor = ap.MyColor;
                                 newrow.Cells["maxrateColumn"].ToolTipText = ap.SupportedRates;
@@ -239,7 +246,7 @@ namespace inSSIDer.UI.Controls
                                     row.Cells["vendorColumn"].Value = ap.Vendor;
 
                                 //It is possible that the SSID of the AP has changed
-                                row.Cells["ssidColumn"].Value = ap.Ssid;
+                                row.Cells["ssidColumn"].Value = string.IsNullOrEmpty(ap.Ssid) ? Localizer.GetString("UnknownSSID") : ap.Ssid;
 
                                 row.Cells["maxrateColumn"].Value = ap.MaxRate + (ap.IsN ? " (N)" : "");
 

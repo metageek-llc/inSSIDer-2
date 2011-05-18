@@ -165,14 +165,19 @@ namespace MetaGeek.WiFi
                         }
                         catch (FormatException)
                         {
-                            // Something went wrong most likely an invalid rate string
+                            // Something went wrong, most likely an invalid rate string
                             return 0;
                         }
                     });
             }
             catch (FormatException)
             {
-                //Something went wrong
+                // Something went wrong
+                Rates.Add(-1.0);
+            }
+            catch(OutOfMemoryException)
+            {
+                // Something went wrong
                 Rates.Add(-1.0);
             }
             NetworkType = networkType;

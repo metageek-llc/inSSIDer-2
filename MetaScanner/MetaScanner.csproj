@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{0AAD1ED7-4FDE-4768-B3FC-E9B502CDEA8A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -243,6 +243,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="UI\Controls\TabControl.resx">
       <DependentUpon>TabControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\frmAbout.resx">
       <DependentUpon>frmAbout.cs</DependentUpon>
@@ -250,34 +251,44 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\ChannelView.resx">
       <DependentUpon>ChannelView.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\FilterManager.resx">
       <DependentUpon>FilterManager.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\frmFBuild.resx">
       <DependentUpon>frmFBuild.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\frmGpsCfg.resx">
       <DependentUpon>frmGpsCfg.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\frmLogConverter.resx">
       <DependentUpon>frmLogConverter.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\GpsMon.resx">
       <DependentUpon>GpsMon.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="HTML\HtmlControl.resx">
       <DependentUpon>HtmlControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Localization\LocalizerResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LocalizerResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\NetworkInterfaceSelector.resx">
       <DependentUpon>NetworkInterfaceSelector.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -286,24 +297,31 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\ScannerView.resx">
       <DependentUpon>ScannerView.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\TimeGraph.resx">
       <DependentUpon>TimeGraph.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\frmTest.resx">
       <DependentUpon>frmTest.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Mini\frmMini.resx">
       <DependentUpon>frmMini.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Mini\ScannerViewMini.resx">
       <DependentUpon>ScannerViewMini.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UnhandledException\UnhandledExDlgForm.resx">
       <DependentUpon>UnhandledExDlgForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Version\VersionUpdateForm.resx">
       <DependentUpon>VersionUpdateForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

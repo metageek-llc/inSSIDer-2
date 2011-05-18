@@ -257,4 +257,7 @@ Try exporting to another directory.</value>
   <data name="CopyGraphError" xml:space="preserve">
     <value>An error occured while attempting to copy the graph to the clipboard.</value>
   </data>
+  <data name="UnknownSSID" xml:space="preserve">
+    <value>[Unknown]</value>
+  </data>
 </root>

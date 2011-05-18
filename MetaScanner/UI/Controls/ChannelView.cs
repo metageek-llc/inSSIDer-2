@@ -400,9 +400,10 @@ namespace inSSIDer.UI.Controls
                             }
 
                             float floorY = TopMargin + _graphHeight;
+                            string ssid = string.IsNullOrEmpty(ap.Ssid) ? Localizer.GetString("UnknownSSID") : ap.Ssid;
 
                             //Size the SSID string
-                            SizeF stringSize = graphics.MeasureString(ap.Ssid, ap.Highlight ? _boldFont : Font);
+                            SizeF stringSize = graphics.MeasureString(ssid, ap.Highlight ? _boldFont : Font);
 
 
                             // 802.11b arch shape
@@ -517,7 +518,7 @@ namespace inSSIDer.UI.Controls
 
                             //Debug.WriteLine("Draw SSID", "ChannelView Draw");
                             brush.Color = Color.FromArgb(ap.Age * 20 < 255 ? 255 - (ap.Age * 20) : 0, ap.MyColor);
-                            graphics.DrawString(ap.Ssid, ap.Highlight ? _boldFont : Font, brush, x, y);
+                            graphics.DrawString(ssid, ap.Highlight ? _boldFont : Font, brush, x, y);
                             //}
                         }
                     }

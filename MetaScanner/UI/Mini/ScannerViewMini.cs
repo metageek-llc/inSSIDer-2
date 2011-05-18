@@ -24,6 +24,7 @@ using System.Linq;
 using System.Windows.Forms;
 using inSSIDer.Scanning;
 using MetaGeek.WiFi;
+using inSSIDer.Localization;
 
 namespace inSSIDer.UI.Mini
 {
@@ -174,6 +175,12 @@ namespace inSSIDer.UI.Mini
 
                                 scannerGrid.Rows.Add(newrow);
 
+                                // Check for blank SSID
+                                if (string.IsNullOrEmpty(newrow.Cells["ssidColumn"].Value.ToString()))
+                                {
+                                    newrow.Cells["ssidColumn"].Value = Localizer.GetString("UnknownSSID");
+                                }
+
                                 //Replace sparkline data with RSSI
                                 newrow.Cells["rssiColumn"].Value = ap.LastData.Rssi;
 
@@ -198,8 +205,9 @@ namespace inSSIDer.UI.Mini
                                 if (row.Cells["vendorColumn"].Value == null)
                                     row.Cells["vendorColumn"].Value = ap.Vendor;
 
+
                                 //It is possible that the SSID of the AP has changed
-                                row.Cells["ssidColumn"].Value = ap.Ssid;
+                                row.Cells["ssidColumn"].Value = string.IsNullOrEmpty(ap.Ssid) ? Localizer.GetString("UnknownSSID") : ap.Ssid;
 
                                 row.Cells["maxrateColumn"].Value = ap.MaxRate + (ap.IsN ? " (N)" : "");
 
