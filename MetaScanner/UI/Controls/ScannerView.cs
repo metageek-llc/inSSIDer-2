@@ -130,8 +130,8 @@ namespace inSSIDer.UI.Controls
                 if (value2.IndexOf(' ') > 0)
                     value2 = value2.Remove(value2.IndexOf(' '));
 
-                if (Convert.ToInt32(value1) > Convert.ToInt32(value2)) { e.SortResult = 1; }
-                else if (Convert.ToInt32(value1) < Convert.ToInt32(value2)) { e.SortResult = -1; }
+                if (Convert.ToSingle(value1) > Convert.ToSingle(value2)) { e.SortResult = 1; }
+                else if (Convert.ToSingle(value1) < Convert.ToSingle(value2)) { e.SortResult = -1; }
                 else { e.SortResult = 0; }
                 e.Handled = true;
             }
@@ -148,25 +148,7 @@ namespace inSSIDer.UI.Controls
                     e.Handled = true;
                 }
             }
-            //else if (e.Column == scannerGrid.Columns["channelColumn"])
-            //{
-            //    string c1 = e.CellValue1.ToString(), c2 = e.CellValue2.ToString();
-            //    //Channel may have a + in it
-            //    if (c1.Contains("+"))
-            //    {
-            //        c1 = c1.Remove(c1.LastIndexOf(" + "));
-            //    }
 
-            //    if (c2.Contains("+"))
-            //    {
-            //        c2 = c2.Remove(c2.LastIndexOf(" + "));
-            //    }
-            //    if (Convert.ToInt32(c1) > Convert.ToInt32(c2)) { e.SortResult = 1; }
-            //    else if (Convert.ToInt32(c1) < Convert.ToInt32(c2)) { e.SortResult = -1; }
-            //    else { e.SortResult = 0; }
-            //    e.Handled = true;
-
-            //}
             //Location sorting, they are doubles, not ints
             else if (e.Column == scannerGrid.Columns["latColumn"] || e.Column == scannerGrid.Columns["lonColumn"])
             {
