@@ -41,7 +41,9 @@ namespace inSSIDer.UI.Forms
             this.startStopLoggingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.convertLogToKMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.exportToNS1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToNS1ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToCSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.crashToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -125,75 +127,90 @@ namespace inSSIDer.UI.Forms
             this.startStopLoggingToolStripMenuItem,
             this.convertLogToKMLToolStripMenuItem,
             this.toolStripSeparator5,
-            this.exportToNS1ToolStripMenuItem,
+            this.exportToolStripMenuItem,
             this.toolStripSeparator1,
             this.exitToolStripMenuItem,
             this.crashToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "&File";
             // 
             // configureGPSToolStripMenuItem
             // 
             this.configureGPSToolStripMenuItem.Name = "configureGPSToolStripMenuItem";
-            this.configureGPSToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.configureGPSToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.configureGPSToolStripMenuItem.Text = "Configure GPS";
             this.configureGPSToolStripMenuItem.Click += new System.EventHandler(this.ConfigureGpsToolStripMenuItemClick);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(170, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(181, 6);
             // 
             // changeLogFilenameToolStripMenuItem
             // 
             this.changeLogFilenameToolStripMenuItem.Name = "changeLogFilenameToolStripMenuItem";
-            this.changeLogFilenameToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.changeLogFilenameToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.changeLogFilenameToolStripMenuItem.Text = "Change log filename";
             this.changeLogFilenameToolStripMenuItem.Click += new System.EventHandler(this.ChangeLogFilenameToolStripMenuItemClick);
             // 
             // startStopLoggingToolStripMenuItem
             // 
             this.startStopLoggingToolStripMenuItem.Name = "startStopLoggingToolStripMenuItem";
-            this.startStopLoggingToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.startStopLoggingToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.startStopLoggingToolStripMenuItem.Text = "Start Logging";
             this.startStopLoggingToolStripMenuItem.Click += new System.EventHandler(this.StartStopLoggingToolStripMenuItemClick);
             // 
             // convertLogToKMLToolStripMenuItem
             // 
             this.convertLogToKMLToolStripMenuItem.Name = "convertLogToKMLToolStripMenuItem";
-            this.convertLogToKMLToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.convertLogToKMLToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.convertLogToKMLToolStripMenuItem.Text = "Convert GPX to KML";
             this.convertLogToKMLToolStripMenuItem.Click += new System.EventHandler(this.ConvertLogToKmlToolStripMenuItemClick);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(170, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(181, 6);
             // 
-            // exportToNS1ToolStripMenuItem
+            // exportToolStripMenuItem
             // 
-            this.exportToNS1ToolStripMenuItem.Name = "exportToNS1ToolStripMenuItem";
-            this.exportToNS1ToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
-            this.exportToNS1ToolStripMenuItem.Text = "Export to NS1";
-            this.exportToNS1ToolStripMenuItem.Click += new System.EventHandler(this.ExportToNs1ToolStripMenuItemClick);
+            this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exportToNS1ToolStripMenuItem1,
+            this.exportToCSVToolStripMenuItem});
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.exportToolStripMenuItem.Text = "Export";
+            // 
+            // exportToNS1ToolStripMenuItem1
+            // 
+            this.exportToNS1ToolStripMenuItem1.Name = "exportToNS1ToolStripMenuItem1";
+            this.exportToNS1ToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.exportToNS1ToolStripMenuItem1.Text = "Export to NS1";
+            // 
+            // exportToCSVToolStripMenuItem
+            // 
+            this.exportToCSVToolStripMenuItem.Name = "exportToCSVToolStripMenuItem";
+            this.exportToCSVToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportToCSVToolStripMenuItem.Text = "Export to CSV";
+            this.exportToCSVToolStripMenuItem.Click += new System.EventHandler(this.exportToCSVToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(170, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(181, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItemClick);
             // 
             // crashToolStripMenuItem
             // 
             this.crashToolStripMenuItem.Name = "crashToolStripMenuItem";
-            this.crashToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.crashToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.crashToolStripMenuItem.Text = "Crash";
             this.crashToolStripMenuItem.Visible = false;
             this.crashToolStripMenuItem.Click += new System.EventHandler(this.CrashToolStripMenuItemClick);
@@ -205,14 +222,14 @@ namespace inSSIDer.UI.Forms
             this.normalModeToolStripMenuItem,
             this.fullscreenToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(42, 20);
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "View";
             // 
             // switchToMiniModeToolStripMenuItem
             // 
             this.switchToMiniModeToolStripMenuItem.Name = "switchToMiniModeToolStripMenuItem";
             this.switchToMiniModeToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F10;
-            this.switchToMiniModeToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.switchToMiniModeToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.switchToMiniModeToolStripMenuItem.Text = "Mini Mode";
             this.switchToMiniModeToolStripMenuItem.Click += new System.EventHandler(this.SwitchToMiniModeToolStripMenuItemClick);
             // 
@@ -222,7 +239,7 @@ namespace inSSIDer.UI.Forms
             this.normalModeToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.normalModeToolStripMenuItem.Enabled = false;
             this.normalModeToolStripMenuItem.Name = "normalModeToolStripMenuItem";
-            this.normalModeToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.normalModeToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.normalModeToolStripMenuItem.Text = "Normal Mode";
             this.normalModeToolStripMenuItem.Click += new System.EventHandler(this.NormalModeToolStripMenuItemClick);
             // 
@@ -230,7 +247,7 @@ namespace inSSIDer.UI.Forms
             // 
             this.fullscreenToolStripMenuItem.Name = "fullscreenToolStripMenuItem";
             this.fullscreenToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F11;
-            this.fullscreenToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.fullscreenToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.fullscreenToolStripMenuItem.Text = "Fullscreen";
             this.fullscreenToolStripMenuItem.Click += new System.EventHandler(this.FullscreenToolStripMenuItemClick);
             // 
@@ -240,7 +257,7 @@ namespace inSSIDer.UI.Forms
             this.nextTabToolStripMenuItem,
             this.prevTabToolStripMenuItem});
             this.shortcutsToolStripMenuItem.Name = "shortcutsToolStripMenuItem";
-            this.shortcutsToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
+            this.shortcutsToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
             this.shortcutsToolStripMenuItem.Text = "Shortcuts";
             this.shortcutsToolStripMenuItem.Visible = false;
             // 
@@ -248,7 +265,7 @@ namespace inSSIDer.UI.Forms
             // 
             this.nextTabToolStripMenuItem.Name = "nextTabToolStripMenuItem";
             this.nextTabToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Tab)));
-            this.nextTabToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.nextTabToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
             this.nextTabToolStripMenuItem.Text = "Next Tab";
             this.nextTabToolStripMenuItem.Click += new System.EventHandler(this.NextTabToolStripMenuItemClick);
             // 
@@ -257,7 +274,7 @@ namespace inSSIDer.UI.Forms
             this.prevTabToolStripMenuItem.Name = "prevTabToolStripMenuItem";
             this.prevTabToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
                         | System.Windows.Forms.Keys.Tab)));
-            this.prevTabToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.prevTabToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
             this.prevTabToolStripMenuItem.Text = "Prev Tab";
             this.prevTabToolStripMenuItem.Click += new System.EventHandler(this.PrevTabToolStripMenuItemClick);
             // 
@@ -270,37 +287,37 @@ namespace inSSIDer.UI.Forms
             this.toolStripSeparator4,
             this.aboutInSSIDerToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // inSSIDerForumsToolStripMenuItem
             // 
             this.inSSIDerForumsToolStripMenuItem.Name = "inSSIDerForumsToolStripMenuItem";
-            this.inSSIDerForumsToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.inSSIDerForumsToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.inSSIDerForumsToolStripMenuItem.Text = "inSSIDer Forums";
             this.inSSIDerForumsToolStripMenuItem.Click += new System.EventHandler(this.InSsiDerForumsToolStripMenuItemClick);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(158, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(167, 6);
             // 
             // checkForUpdatesToolStripMenuItem
             // 
             this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
-            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.checkForUpdatesToolStripMenuItem.Text = "Check for updates";
             this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.CheckForUpdatesToolStripMenuItemClick);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(158, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(167, 6);
             // 
             // aboutInSSIDerToolStripMenuItem
             // 
             this.aboutInSSIDerToolStripMenuItem.Name = "aboutInSSIDerToolStripMenuItem";
-            this.aboutInSSIDerToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.aboutInSSIDerToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.aboutInSSIDerToolStripMenuItem.Text = "About inSSIDer";
             this.aboutInSSIDerToolStripMenuItem.Click += new System.EventHandler(this.AboutInSsiDerToolStripMenuItemClick);
             // 
@@ -310,7 +327,7 @@ namespace inSSIDer.UI.Forms
             this.gpsStatToolStripMenuItem.Image = global::inSSIDer.Properties.Resources.wifiPlay;
             this.gpsStatToolStripMenuItem.Margin = new System.Windows.Forms.Padding(0, 0, 186, 0);
             this.gpsStatToolStripMenuItem.Name = "gpsStatToolStripMenuItem";
-            this.gpsStatToolStripMenuItem.Size = new System.Drawing.Size(82, 20);
+            this.gpsStatToolStripMenuItem.Size = new System.Drawing.Size(83, 20);
             this.gpsStatToolStripMenuItem.Text = "Start GPS";
             this.gpsStatToolStripMenuItem.Click += new System.EventHandler(this.GpsStatToolStripMenuItemClick);
             // 
@@ -320,21 +337,21 @@ namespace inSSIDer.UI.Forms
             this.startNullScanningToolStripMenuItem,
             this.stopNullScanningToolStripMenuItem});
             this.developerToolStripMenuItem.Name = "developerToolStripMenuItem";
-            this.developerToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
+            this.developerToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
             this.developerToolStripMenuItem.Text = "Developer";
             this.developerToolStripMenuItem.Visible = false;
             // 
             // startNullScanningToolStripMenuItem
             // 
             this.startNullScanningToolStripMenuItem.Name = "startNullScanningToolStripMenuItem";
-            this.startNullScanningToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.startNullScanningToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.startNullScanningToolStripMenuItem.Text = "Start Null Scanning";
             this.startNullScanningToolStripMenuItem.Click += new System.EventHandler(this.StartNullScanningToolStripMenuItemClick);
             // 
             // stopNullScanningToolStripMenuItem
             // 
             this.stopNullScanningToolStripMenuItem.Name = "stopNullScanningToolStripMenuItem";
-            this.stopNullScanningToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.stopNullScanningToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.stopNullScanningToolStripMenuItem.Text = "Stop Null Scanning";
             this.stopNullScanningToolStripMenuItem.Click += new System.EventHandler(this.StopNullScanningToolStripMenuItemClick);
             // 
@@ -347,10 +364,10 @@ namespace inSSIDer.UI.Forms
             // 
             // sdlgNs1
             // 
-            this.sdlgNs1.DefaultExt = "ns1";
-            this.sdlgNs1.Filter = "NetStumbler files (*.ns1)|*.ns1";
+            this.sdlgNs1.CheckFileExists = true;
+            this.sdlgNs1.Filter = "NetStumbler files (*.ns1)|*.ns1|Comma Seperated Values (*.csv)|*.csv";
             this.sdlgNs1.SupportMultiDottedExtensions = true;
-            this.sdlgNs1.Title = "Select where to place the output NS1 file";
+            this.sdlgNs1.Title = "Select where to place the output file";
             // 
             // statusStrip1
             // 
@@ -393,7 +410,7 @@ namespace inSSIDer.UI.Forms
             // loggingToolStripStatusLabel
             // 
             this.loggingToolStripStatusLabel.Name = "loggingToolStripStatusLabel";
-            this.loggingToolStripStatusLabel.Size = new System.Drawing.Size(78, 17);
+            this.loggingToolStripStatusLabel.Size = new System.Drawing.Size(86, 17);
             this.loggingToolStripStatusLabel.Text = "Logging Status";
             // 
             // gripContainer1
@@ -659,7 +676,6 @@ namespace inSSIDer.UI.Forms
         private GpsMon gpsMon1;
         private System.Windows.Forms.SaveFileDialog sdlgLog;
         private System.Windows.Forms.ToolStripMenuItem fullscreenToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exportToNS1ToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog sdlgNs1;
         private System.Windows.Forms.TabPage tab58Chan;
         private ChannelView chanView58;
@@ -693,5 +709,8 @@ namespace inSSIDer.UI.Forms
         private System.Windows.Forms.ToolStripMenuItem startNullScanningToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stopNullScanningToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel apCountLabel;
+        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportToNS1ToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem exportToCSVToolStripMenuItem;
     }
 }

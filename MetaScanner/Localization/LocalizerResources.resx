@@ -260,4 +260,10 @@ Try exporting to another directory.</value>
   <data name="UnknownSSID" xml:space="preserve">
     <value>[Unknown]</value>
   </data>
+  <data name="ExportFailedError" xml:space="preserve">
+    <value>Export has failed with the folowing error:</value>
+  </data>
+  <data name="NoneVendor" xml:space="preserve">
+    <value>(none)</value>
+  </data>
 </root>
