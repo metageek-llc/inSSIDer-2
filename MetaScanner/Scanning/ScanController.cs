@@ -114,12 +114,18 @@ namespace inSSIDer.Scanning
         private void NetworkScannerNewNetworkDataEvent(object sender, IncomingDataEventArgs<NetworkData> e)
         {
             if (e.Data == null || Cache == null || GpsControl == null) return;
+            try
+            {
+                //Add data to the cache
+                Cache.AddData(e.Data.ToArray(), GpsControl.GetCurrentGpsData());
 
-            //Add data to the cache
-            Cache.AddData(e.Data.ToArray(), GpsControl.GetCurrentGpsData());
-
-            //Fire scan complete event
-            OnScanComplete(e.Data.ToArray(), GpsControl.GetCurrentGpsData());
+                //Fire scan complete event
+                OnScanComplete(e.Data.ToArray(), GpsControl.GetCurrentGpsData());
+            }
+            catch (NullReferenceException)
+            {
+                // This can exception for some reason, not sure why.
+            }
         }
 
         public bool SetInterface(string interfaceName)

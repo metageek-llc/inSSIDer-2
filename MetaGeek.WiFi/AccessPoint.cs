@@ -145,6 +145,11 @@ namespace MetaGeek.WiFi
         public string SupportedRates { get { return LastData.SupportedRates; } }
 
         /// <summary>
+        /// A slash delimited list of supported data rates, using invariant culture
+        /// </summary>
+        public string SupportedRatesInvariant { get { return LastData.SupportedRatesInvariant; } }
+
+        /// <summary>
         /// The GPS data for this AP.
         /// </summary>
         public GpsData GpsData { get; set; }

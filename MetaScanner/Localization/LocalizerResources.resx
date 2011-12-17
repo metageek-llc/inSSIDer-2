@@ -121,7 +121,7 @@
     <value>Altitude {0}</value>
   </data>
   <data name="AmplitudedBm" xml:space="preserve">
-    <value>Amplitude [dB]</value>
+    <value>Amplitude [dBm]</value>
   </data>
   <data name="ApplicationUpToDate" xml:space="preserve">
     <value>The application is up to date</value>
@@ -256,5 +256,14 @@ Try exporting to another directory.</value>
   </data>
   <data name="CopyGraphError" xml:space="preserve">
     <value>An error occured while attempting to copy the graph to the clipboard.</value>
+  </data>
+  <data name="UnknownSSID" xml:space="preserve">
+    <value>[Unknown]</value>
+  </data>
+  <data name="ExportFailedError" xml:space="preserve">
+    <value>Export has failed with the folowing error:</value>
+  </data>
+  <data name="NoneVendor" xml:space="preserve">
+    <value>(none)</value>
   </data>
 </root>

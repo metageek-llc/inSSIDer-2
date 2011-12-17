@@ -94,9 +94,9 @@ namespace inSSIDer.Scanning.Interfaces
                 {
                     string ssid = Encoding.ASCII.GetString(entry.BaseEntry.dot11Ssid.SSID, 0,
                                                            (int)entry.BaseEntry.dot11Ssid.SSIDLength);
+
                     if (FindNetwork(ssid, availableNetworkList, ref foundNetwork))
                     {
-                        
                         NetworkData item = new NetworkData(entry.BaseEntry.dot11Bssid);
 
                         Utilities.ConvertToMbs(entry.BaseEntry.wlanRateSet.Rates, item.Rates);
@@ -112,11 +112,33 @@ namespace inSSIDer.Scanning.Interfaces
                         item.IsTypeN = entry.BaseEntry.dot11BssPhyType == Wlan.Dot11PhyType.Ht;
                         int num = Utilities.ComputeRssi(entry.BaseEntry.linkQuality);
                         item.Rssi = (entry.BaseEntry.rssi > num) ? entry.BaseEntry.rssi : num;
+                        if (item.Rssi > 0)
+                            item.Rssi -= 256; // Sometimes there is an issure where the RSSI will become overly positive
+                                              // (e.g. going from -96 to +160), so subtracting 256 will fix it.
                         item.Ssid = ssid;
                         item.Channel = Utilities.ConvertToChannel(entry.BaseEntry.chCenterFrequency);
                         item.NetworkType = Utilities.ConvertToString(entry.BaseEntry.dot11BssType);
-                        item.Privacy = Utilities.CreatePrivacyString(foundNetwork.dot11DefaultAuthAlgorithm,
-                                                                     foundNetwork.dot11DefaultCipherAlgorithm);
+
+                        if (foundNetwork.numberOfBssids > 1)
+                        {
+                            // More than 1 network with the same SSID
+                            // Get all BSSes with the SSID
+                            Wlan.WlanBssEntryN[] secureNetworks = _interface.GetNetworkBssList(ssid, true);
+                            Wlan.WlanBssEntryN[] openNetworks = _interface.GetNetworkBssList(ssid, false);
+                            if (secureNetworks.Count(bss => bss.BaseEntry.dot11Bssid.SequenceEqual(item.MyMacAddress.Bytes)) > 0)
+                            {
+                                item.Privacy = _interface.GetPrivacyString(secureNetworks.First(bss => bss.BaseEntry.dot11Bssid.SequenceEqual(item.MyMacAddress.Bytes)).IEs, true);
+                            }
+                            else if (openNetworks.Count(bss => bss.BaseEntry.dot11Bssid.SequenceEqual(item.MyMacAddress.Bytes)) > 0)
+                            {
+                                item.Privacy = "None";
+                            }
+                        }
+                        else
+                        {
+                            item.Privacy = Utilities.CreatePrivacyString(foundNetwork.dot11DefaultAuthAlgorithm,
+                                                                         foundNetwork.dot11DefaultCipherAlgorithm);
+                        }
                         item.SignalQuality = foundNetwork.wlanSignalQuality;
 
                         //Check to see if this AP is the connected one

@@ -405,7 +405,12 @@ namespace inSSIDer.UI.Controls
             {
                 if (!ap.Graph) continue;
                 //Meassure the SSIDs to find the longest
-                SizeF tempSz = graphics.MeasureString(ap.Ssid, ap.Highlight ? _boldFont : Font);
+                SizeF tempSz = graphics.MeasureString(string.IsNullOrEmpty(ap.Ssid) 
+                                                                ? Localizer.GetString("UnknownSSID") 
+                                                                : ap.Ssid, 
+                                                            ap.Highlight 
+                                                                ? _boldFont 
+                                                                : Font);
                 if (tempSz.Width > szString.Width) szString.Width = tempSz.Width;
                 if (tempSz.Height > szString.Height) szString.Height = tempSz.Height;
                 szBox.Height += tempSz.Height + 2;
@@ -434,7 +439,14 @@ namespace inSSIDer.UI.Controls
                     graphics.DrawString("...", Font, b, x + 10, y - (szString.Height /2));
                     break;
                 }
-                graphics.DrawString(ap.Ssid, ap.Highlight ? _boldFont : Font, b, x + 10, y);
+                graphics.DrawString(string.IsNullOrEmpty(ap.Ssid) 
+                                                ? Localizer.GetString("UnknownSSID") 
+                                                : ap.Ssid, 
+                                            ap.Highlight 
+                                                ? _boldFont 
+                                                : Font, 
+                                            b, x + 10, 
+                                            y);
                 graphics.FillRectangle(new SolidBrush(ap.MyColor), x + 5, y + 5, 5, 3);
                 y += (int)szString.Height + 2;
             }

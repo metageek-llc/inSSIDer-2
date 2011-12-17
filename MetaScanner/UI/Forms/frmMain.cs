@@ -34,6 +34,7 @@ using inSSIDer.Localization;
 using System.Threading;
 using System.Globalization;
 using Timer = System.Timers.Timer;
+using System.Text;
 
 namespace inSSIDer.UI.Forms
 {
@@ -415,16 +416,6 @@ namespace inSSIDer.UI.Forms
             Close();
         }
 
-        private void ExportToNs1ToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            if(sdlgNs1.ShowDialog(this) == DialogResult.OK)
-            {
-                //Write the file
-                Ns1Writer.Write(sdlgNs1.FileName,_scanner.Cache.GetAccessPoints());
-                MessageBox.Show(Localizer.GetString("ExportComplete"),Localizer.GetString("Finished"), MessageBoxButtons.OK);
-            }
-        }
-
         private void NextTabToolStripMenuItemClick(object sender, EventArgs e)
         {
             detailsTabControl.SelectedIndex = ((detailsTabControl.SelectedIndex + 1) % detailsTabControl.TabCount);
@@ -712,10 +703,67 @@ namespace inSSIDer.UI.Forms
 
         private void detailsTabControl_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Middle)
+            //if (e.Button == MouseButtons.Middle)
+            //{
+            //    TabPage tp = detailsTabControl.TabPages.Cast<TabPage>().Where((tab, i) => detailsTabControl.GetTabRect(i).Contains(e.Location)).First();
+            //    detailsTabControl.TabPages.Remove(tp);
+            //}
+        }
+
+        private void exportToNS1ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            // 1 = NS1
+            sdlgNs1.FilterIndex = 1;
+            if (sdlgNs1.ShowDialog(this) == DialogResult.OK)
             {
-                TabPage tp = detailsTabControl.TabPages.Cast<TabPage>().Where((tab, i) => detailsTabControl.GetTabRect(i).Contains(e.Location)).First();
-                detailsTabControl.TabPages.Remove(tp);
+                //Write the file
+                Ns1Writer.Write(sdlgNs1.FileName, _scanner.Cache.GetAccessPoints());
+                MessageBox.Show(Localizer.GetString("ExportComplete"), Localizer.GetString("Finished"), MessageBoxButtons.OK);
+            }
+        }
+
+        private void exportToCSVToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // 2 = CSV
+            sdlgNs1.FilterIndex = 2;
+            if (sdlgNs1.ShowDialog(this) == DialogResult.OK)
+            {
+                // Format:
+                // MAC, SSID, RSSI, Channel, Vendor, Security, Max Rate, Type, First Seen, Last Seen, Latitude, Longitude, Is 802.11n
+
+                StringBuilder csv = new StringBuilder();
+
+                foreach (var ap in _scanner.Cache.GetAccessPoints())
+                {
+                    csv.AppendFormat("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13}\r\n",
+                        ap.MacAddress.ToString(),
+                        ap.Ssid,
+                        ap.LastData.Rssi,
+                        ap.IsN && ap.NSettings != null && ap.NSettings.Is40MHz
+                                                   ? ap.NSettings.SecondaryChannelLower
+                                                         ? ap.Channel + " + " + (ap.Channel - 4)
+                                                         : ap.Channel + " + " + (ap.Channel + 4)
+                                                   : ap.Channel.ToString(),
+                        string.IsNullOrEmpty(ap.Vendor) ? "(none)" : ap.Vendor,
+                        ap.Privacy,
+                        ap.MaxRate.ToString(CultureInfo.InvariantCulture),
+                        ap.NetworkType,
+                        ap.FirstSeenTimestamp.ToFileTimeUtc(),
+                        ap.LastSeenTimestamp.ToFileTimeUtc(),
+                        ap.GpsData.Latitude.ToString(CultureInfo.InvariantCulture),
+                        ap.GpsData.Longitude.ToString(CultureInfo.InvariantCulture),
+                        ap.IsN.ToString(CultureInfo.InvariantCulture),
+                        ap.SupportedRatesInvariant);
+                }
+                try
+                {
+                    File.WriteAllText(sdlgNs1.FileName, csv.ToString());
+                    MessageBox.Show(Localizer.GetString("ExportComplete"), Localizer.GetString("Finished"), MessageBoxButtons.OK);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(Localizer.GetString("ExportFailedError") + "\r\n" + ex.Message, Localizer.GetString("Error"), MessageBoxButtons.OK);
+                }
             }
         }
 

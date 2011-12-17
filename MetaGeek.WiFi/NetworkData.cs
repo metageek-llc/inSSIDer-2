@@ -23,6 +23,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using ManagedWifi;
+using System.Globalization;
 
 namespace MetaGeek.WiFi
 {
@@ -125,6 +126,19 @@ namespace MetaGeek.WiFi
             }
         }
 
+        [DisplayName("Supported Rates Invariant")]
+        public string SupportedRatesInvariant
+        {
+            get
+            {
+                return BuildRateString(true);
+            }
+            internal set
+            {
+                _supportedRates = value;
+            }
+        }
+
         public bool Connected { get; set; }
 
         #endregion Members and Properties
@@ -157,11 +171,27 @@ namespace MetaGeek.WiFi
             SignalQuality = signalQuality;
             try
             {
-                Rates = supportedRates.Split(new char[] { '/' }).ToList<string>().ConvertAll<double>(Convert.ToDouble);
+                Rates = supportedRates.Split(new char[] { '/' }).ToList<string>().ConvertAll<double>(d =>
+                    {
+                        try
+                        {
+                            return Convert.ToDouble(d);
+                        }
+                        catch (FormatException)
+                        {
+                            // Something went wrong, most likely an invalid rate string
+                            return 0;
+                        }
+                    });
             }
             catch (FormatException)
             {
-                //Something went wrong
+                // Something went wrong
+                Rates.Add(-1.0);
+            }
+            catch(OutOfMemoryException)
+            {
+                // Something went wrong
                 Rates.Add(-1.0);
             }
             NetworkType = networkType;
@@ -181,12 +211,17 @@ namespace MetaGeek.WiFi
 
         private string BuildRateString()
         {
+            return BuildRateString(false);
+        }
+
+        private string BuildRateString(bool invariant)
+        {
             StringBuilder builder = new StringBuilder();
             string str = "";
             foreach (double num in Rates)
             {
                 builder.Append(str);
-                builder.Append(num);
+                builder.Append(invariant ? num.ToString(CultureInfo.InvariantCulture) : num.ToString());
                 str = "/";
             }
             return builder.ToString();

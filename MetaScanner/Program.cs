@@ -96,10 +96,10 @@ namespace inSSIDer
         static void Main(string[] args)
         {
             Debug.WriteLine("inSSIDer 2 version " + Application.ProductVersion + " Starting");
-            //TODO: Make conmmand line option to enable logging on debug builds. Like /log
-#if DEBUG && LOG
-            Log.Start();
-#endif
+            //TODO: Make command line option to enable logging on debug builds. Like /log
+//#if DEBUG && LOG
+//            Log.Start();
+//#endif
             Debug.WriteLine("Hook exception handlers");
             // Create new instance of UnhandledExceptionDlg:
             // NOTE: this hooks up the exception handler functions 

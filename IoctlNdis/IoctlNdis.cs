@@ -413,14 +413,22 @@ namespace MetaGeek.IoctlNdis
             }
             catch (ManagementException ex)
             {
+                Debug.WriteLine("ManagementException: " + ex.ToString(), "IoctlNdis.Scan()");
+                Debug.WriteLine("Adapter info:");
+                Debug.WriteLine("Description: " + adapter.Description);
+                Debug.WriteLine("Type: " + adapter.NetworkInterfaceType);
+                Debug.WriteLine("Status: " + adapter.OperationalStatus);
+                Debug.WriteLine("ID: " + adapter.Id);
+
                 if(ex.ErrorCode == ManagementStatus.NotSupported)
                 {
                     //The operation is not supported, probably not an WiFi adapter.
                     return false;
                 }
             }
-            catch
+            catch(Exception ex)
             {
+                Debug.WriteLine("Exception: " + ex.ToString(), "IoctlNdis.Scan()");
                 // TODO: Verify root cause of exception.
                 // Ignore, for now
                 // there seems to be some issues with WMI on certain systems. Various exceptions have been

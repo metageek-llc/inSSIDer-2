@@ -135,9 +135,9 @@ namespace ManagedWifi
         [StructLayout(LayoutKind.Sequential)]
         public struct Dot11Ssid
         {
-            public readonly uint SSIDLength;
+            public uint SSIDLength;
             [MarshalAs(UnmanagedType.ByValArray, SizeConst=0x20)]
-            public readonly byte[] SSID;
+            public byte[] SSID;
         }
 
         [Flags]
@@ -181,17 +181,17 @@ namespace ManagedWifi
         {
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst=0x100)] private readonly string profileName;
             public Dot11Ssid dot11Ssid;
-            private readonly Dot11BssType dot11BssType;
-            private readonly uint numberOfBssids;
+            public readonly Dot11BssType dot11BssType;
+            public readonly uint numberOfBssids;
             private readonly bool networkConnectable;
             private readonly WlanReasonCode wlanNotConnectableReason;
-            private readonly uint numberOfPhyTypes;
+            public readonly uint numberOfPhyTypes;
             [MarshalAs(UnmanagedType.ByValArray, SizeConst=8)]
             private readonly Dot11PhyType[] dot11PhyTypes;
 
             private readonly bool morePhyTypes;
             public readonly uint wlanSignalQuality;
-            private readonly bool securityEnabled;
+            public readonly bool securityEnabled;
             public readonly Dot11AuthAlgorithm dot11DefaultAuthAlgorithm;
             public readonly Dot11CipherAlgorithm dot11DefaultCipherAlgorithm;
             private readonly WlanAvailableNetworkFlags flags;
@@ -248,6 +248,8 @@ namespace ManagedWifi
         {
             public WlanBssEntry BaseEntry;
             public IeParser.TypeNSettings NSettings;
+
+            public byte[] IEs;
 
             public WlanBssEntryN(WlanBssEntry bssEntry)
             {

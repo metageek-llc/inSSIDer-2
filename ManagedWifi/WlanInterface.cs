@@ -126,8 +126,16 @@ namespace ManagedWifi
 
                 //IEs = System.IO.File.ReadAllBytes("ies.dat");
 
+                // Add IEs to entry
+                entryArray[i].IEs = IEs;
+
                 //Parse 802.11n IEs if avalible
                 entryArray[i].NSettings = IeParser.Parse(IEs);
+                //System.Diagnostics.Debug.WriteLine(
+                //    string.Format("Privacy: {1} {0}", 
+                //        GetPrivacyString(IEs), 
+                //        System.Text.Encoding.ASCII.GetString(entryArray[i].BaseEntry.dot11Ssid.SSID,0,
+                //            (int)entryArray[i].BaseEntry.dot11Ssid.SSIDLength)));
 
                 //===DEBUGGING===
                 //BitConverter.ToString(entryArray[i].BaseEntry.dot11Bssid);
@@ -207,6 +215,20 @@ namespace ManagedWifi
                 Wlan.WlanFreeMemory(ptr);
             }
             return entryArray;
+        }
+
+        public Wlan.WlanBssEntryN[] GetNetworkBssList(string ssid, bool securityEnabled)
+        {
+            // Create SSID struct
+            Wlan.Dot11Ssid dSsid = new Wlan.Dot11Ssid();
+            byte[] ssidTotalBytes = new byte[0x20];
+            byte[] ssidBytes = Encoding.ASCII.GetBytes(ssid);
+            Buffer.BlockCopy(ssidBytes,0,ssidTotalBytes,0,ssidBytes.Length > ssidTotalBytes.Length ? ssidTotalBytes.Length : ssidBytes.Length);
+
+            dSsid.SSID = ssidTotalBytes;
+            dSsid.SSIDLength = (uint)ssidBytes.Length;
+
+            return GetNetworkBssList(dSsid, Wlan.Dot11BssType.Infrastructure, securityEnabled);
         }
 
         public Wlan.WlanBssEntryN[] GetNetworkBssList(Wlan.Dot11Ssid ssid, Wlan.Dot11BssType bssType, bool securityEnabled)
@@ -499,5 +521,108 @@ namespace ManagedWifi
         }
 
         public delegate void WlanReasonNotificationEventHandler(Wlan.WlanNotificationData notifyData, Wlan.WlanReasonCode reasonCode);
+
+        private const byte WlanEidRsn = 48;
+        private const byte WlanEidVendorSpecific = 221;
+        public string GetPrivacyString(byte[] IEs, bool secure)
+        {
+            string privacyMode = "None";
+
+            if (secure)
+            {
+                privacyMode = "WEP";
+                //
+                // To get the privacy information, the variable length 
+                // information elements must be inspected. Thereore, we 
+                // skip past the fixed information elements.
+                //
+                int index = 0;//Marshal.SizeOf(typeof(Ndis802Dot11FixedIes));
+
+                //
+                // Iterate through the variable information elements.
+                //
+                int length = IEs.Length - 2;
+                while ((index >= 0) && (index <= length))
+                {
+
+                    //
+                    // Get the element id and the length of the 
+                    // element.
+                    //
+                    // TODO: Should index be incremented here, since
+                    // it is incremented again down below?
+                    byte elementId = IEs[index++];
+                    byte elementLength = IEs[index++];
+
+                    //
+                    // Determine the required privacy mode.
+                    //
+                    if (WlanEidRsn == elementId)
+                    {
+                        // Parse the RSN cipher suite value
+                        if (elementLength >= 6 &&
+                             IEs[index + 0] == 0x01 &&  // version msb
+                             IEs[index + 1] == 0x00 &&  // version lsb
+                             IEs[index + 2] == 0x00 &&  // cipher suite id b1
+                             IEs[index + 3] == 0x0F &&  // cipher suite id b2
+                             IEs[index + 4] == 0xAC)
+                        { // cipher suite id b3
+
+                            // Dispatch on the cipher suite selector
+                            switch (IEs[index + 5])
+                            {
+
+                                case 1: // WEP-40
+                                    privacyMode = "WEP-40";
+                                    break;
+
+                                case 5: // WEP-104
+                                    privacyMode = "WEP-104";
+                                    break;
+
+                                case 2: // TKIP
+                                    privacyMode = "WPA-TKIP";
+                                    break;
+
+                                case 4: // CCMP
+                                    privacyMode = "WPA2-CCMP";
+                                    break;
+                                default:
+                                    privacyMode = "Unknown";
+                                    break;
+
+                            }
+                        }
+
+                        //System.Diagnostics.Debug.WriteLine("WLAN_EID_RSN : length = " + elementLength);
+                        break;
+                    }
+
+                    if (WlanEidVendorSpecific == elementId)
+                    {
+                        //System.Diagnostics.Debug.WriteLine("WLAN_EID_VENDOR_SPECIFIC");
+                        // BEGIN FM
+                        // Parse the Microsoft OUI
+                        if (elementLength >= 3 &&
+                            IEs[index + 0] == 0x00 &&
+                            IEs[index + 1] == 0x50 &&
+                            IEs[index + 2] == 0xF2 &&
+                            IEs[index + 3] == 0x01)
+                        { // 1 == WPA, 2 == WMM ???
+                            privacyMode = "WPA";
+                        }
+                        // END FM
+                    }
+                    //
+                    // Move to the next information element.
+                    //
+                    // TODO: We incremented index twice before this call. Is it valid
+                    // to increment by element length again?
+                    index += elementLength;
+                }
+            }
+
+            return privacyMode;
+        }
     }
 }

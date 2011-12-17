@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("MetaGeek, LLC")]
 [assembly: AssemblyProduct("inSSIDer2")]
-[assembly: AssemblyCopyright("Copyright © MetaGeek 2005-2010")]
+[assembly: AssemblyCopyright("Copyright © MetaGeek 2005-2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
