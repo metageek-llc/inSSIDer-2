@@ -121,7 +121,7 @@
     <value>Altitude {0}</value>
   </data>
   <data name="AmplitudedBm" xml:space="preserve">
-    <value>Amplitude [dB]</value>
+    <value>Amplitude [dBm]</value>
   </data>
   <data name="ApplicationUpToDate" xml:space="preserve">
     <value>The application is up to date</value>

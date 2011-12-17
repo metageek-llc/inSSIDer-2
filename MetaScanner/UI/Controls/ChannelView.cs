@@ -205,7 +205,7 @@ namespace inSSIDer.UI.Controls
             Matrix matrix = new Matrix();
             matrix.RotateAt(270, rotationPoint);
             graphics.Transform = matrix;
-            graphics.DrawString("Amplitude [dB]"/*Localizer.GetString("AmplitudedBm")*/, Font, brush, 8, y);
+            graphics.DrawString(Localizer.GetString("AmplitudedBm"), Font, brush, 8, y);
             matrix.RotateAt(90, rotationPoint);
             graphics.Transform = matrix;
 
