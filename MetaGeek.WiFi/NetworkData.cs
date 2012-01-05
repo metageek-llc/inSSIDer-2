@@ -1,50 +1,72 @@
 ////////////////////////////////////////////////////////////////
+
+#region Header
+
 //
 // Copyright (c) 2007-2010 MetaGeek, LLC
 //
-// Licensed under the Apache License, Version 2.0 (the "License"); 
-// you may not use this file except in compliance with the License. 
-// You may obtain a copy of the License at 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//	http://www.apache.org/licenses/LICENSE-2.0 
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
-// Unless required by applicable law or agreed to in writing, software 
-// distributed under the License is distributed on an "AS IS" BASIS, 
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-// See the License for the specific language governing permissions and 
-// limitations under the License. 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
-////////////////////////////////////////////////////////////////
 
+#endregion Header
+
+
+////////////////////////////////////////////////////////////////
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+
 using ManagedWifi;
 
 namespace MetaGeek.WiFi
 {
     public class NetworkData : ICloneable
     {
-        #region Members and Properties
-
-        public int Age { get; private set; }
-
-        [DisplayName("RSSI")]
-        public int Rssi { get; set; }
-
-        [DisplayName("Signal Quality")]
-        public uint SignalQuality { get; set; }
-
-        public uint Channel { get; set; }
-
-        public bool IsTypeN { get; set; }
-
-        public IeParser.TypeNSettings NSettings { get; set; }
+        #region Fields
 
         private double _maxRate;
+        private string _networkType = string.Empty;
+        private string _privacy = string.Empty;
+        private string _ssid;
+        private string _supportedRates;
+
+        #endregion Fields
+
+        #region Properties
+
+        public int Age
+        {
+            get; private set;
+        }
+
+        public uint Channel
+        {
+            get; set;
+        }
+
+        public bool Connected
+        {
+            get; set;
+        }
+
+        public bool IsTypeN
+        {
+            get; set;
+        }
+
         [DisplayName("Max Rate")]
         public double MaxRate
         {
@@ -63,11 +85,16 @@ namespace MetaGeek.WiFi
         }
 
         [DisplayName("MAC Address")]
-        public MacAddress MyMacAddress { get; internal set; }
+        public MacAddress MyMacAddress
+        {
+            get; internal set;
+        }
 
-        public DateTime MyTimestamp { get; set; }
+        public DateTime MyTimestamp
+        {
+            get; set;
+        }
 
-        private string _networkType = string.Empty;
         public string NetworkType
         {
             get
@@ -81,7 +108,11 @@ namespace MetaGeek.WiFi
             }
         }
 
-        private string _privacy = string.Empty;
+        public IeParser.TypeNSettings NSettings
+        {
+            get; set;
+        }
+
         public string Privacy
         {
             get
@@ -95,9 +126,23 @@ namespace MetaGeek.WiFi
             }
         }
 
-        public List<double> Rates { get; internal set; }
+        public List<double> Rates
+        {
+            get; internal set;
+        }
 
-        private string _ssid;
+        [DisplayName("RSSI")]
+        public int Rssi
+        {
+            get; set;
+        }
+
+        [DisplayName("Signal Quality")]
+        public uint SignalQuality
+        {
+            get; set;
+        }
+
         [DisplayName("SSID")]
         public string Ssid
         {
@@ -111,7 +156,6 @@ namespace MetaGeek.WiFi
             }
         }
 
-        private string _supportedRates;
         [DisplayName("Supported Rates")]
         public string SupportedRates
         {
@@ -125,9 +169,7 @@ namespace MetaGeek.WiFi
             }
         }
 
-        public bool Connected { get; set; }
-
-        #endregion Members and Properties
+        #endregion Properties
 
         #region Constructors
 
@@ -169,7 +211,7 @@ namespace MetaGeek.WiFi
         }
 
         public NetworkData(DateTime timestamp, byte[] macAddress, string privacy, string ssid, uint channel, int rssi,
-                             uint signalQuality, string supportedRates, string networkType, int age)
+            uint signalQuality, string supportedRates, string networkType, int age)
             : this(timestamp, macAddress, privacy, ssid, channel, rssi, signalQuality, supportedRates, networkType)
         {
             Age = age;
@@ -177,20 +219,7 @@ namespace MetaGeek.WiFi
 
         #endregion Constructors
 
-        #region Methods
-
-        private string BuildRateString()
-        {
-            StringBuilder builder = new StringBuilder();
-            string str = "";
-            foreach (double num in Rates)
-            {
-                builder.Append(str);
-                builder.Append(num);
-                str = "/";
-            }
-            return builder.ToString();
-        }
+        #region Public Methods
 
         public object Clone()
         {
@@ -229,7 +258,23 @@ namespace MetaGeek.WiFi
             return (MyMacAddress.GetHashCode() + Ssid.GetHashCode());
         }
 
-        #endregion Methods
+        #endregion Public Methods
+
+        #region Private Methods
+
+        private string BuildRateString()
+        {
+            StringBuilder builder = new StringBuilder();
+            string str = "";
+            foreach (double num in Rates)
+            {
+                builder.Append(str);
+                builder.Append(num);
+                str = "/";
+            }
+            return builder.ToString();
+        }
+
+        #endregion Private Methods
     }
 }
-

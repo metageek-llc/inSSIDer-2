@@ -1,44 +1,53 @@
 ﻿////////////////////////////////////////////////////////////////
+
+#region Header
+
 //
 // Copyright (c) 2007-2010 MetaGeek, LLC
 //
-// Licensed under the Apache License, Version 2.0 (the "License"); 
-// you may not use this file except in compliance with the License. 
-// You may obtain a copy of the License at 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//	http://www.apache.org/licenses/LICENSE-2.0 
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
-// Unless required by applicable law or agreed to in writing, software 
-// distributed under the License is distributed on an "AS IS" BASIS, 
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-// See the License for the specific language governing permissions and 
-// limitations under the License. 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
-////////////////////////////////////////////////////////////////
 
+#endregion Header
+
+
+////////////////////////////////////////////////////////////////
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Net.NetworkInformation;
+using System.Text;
+
 using inSSIDer.Localization;
-using ManagedWifi;
 using inSSIDer.Misc;
 using inSSIDer.Properties;
+
+using ManagedWifi;
 
 namespace inSSIDer.Scanning
 {
     public class InterfaceManager
     {
-        //Static instance
-        //public static readonly InterfaceManager Instance = new InterfaceManager();
+        #region Fields
 
-        public event EventHandler<InterfaceNotificationEventsArgs> InterfaceRemoved;
-        public event EventHandler<InterfaceNotificationEventsArgs> InterfaceAdded;
-
-        private static int _instanceCount;
         private static InterfaceManager _instance;
+        private static int _instanceCount;
+
+        #endregion Fields
+
+        #region Properties
+
         public static InterfaceManager Instance
         {
             get
@@ -56,56 +65,6 @@ namespace inSSIDer.Scanning
                     }
                     return _instance;
                 }
-            }
-        }
-
-        public void Init(out Exception error)
-        {
-            error = null;
-            if(Utilities.IsXp()) return;
-
-            try
-            {
-                WlanClient = new WlanClient();
-            }
-            catch (Win32Exception exception)
-            {
-                error = exception;
-                return;
-            }
-            catch (DllNotFoundException)
-            {
-                error = new Exception(Localizer.GetString("WlanapiNotFound"));
-                return;
-            }
-
-            WlanClient.InterfaceArrivedEvent += WlanClient_InterfaceArrivedEvent;
-            WlanClient.InterfaceRemovedEvent += WlanClient_InterfaceRemovedEvent;
-        }
-
-        private void WlanClient_InterfaceRemovedEvent(object sender, InterfaceNotificationEventsArgs e)
-        {
-            OnInterfaceRemoved(e.MyGuid);
-        }
-
-        private void WlanClient_InterfaceArrivedEvent(object sender, InterfaceNotificationEventsArgs e)
-        {
-            OnInterfaceAdded(e.MyGuid);
-        }
-
-        private void OnInterfaceRemoved(Guid id)
-        {
-            if (InterfaceRemoved != null)
-            {
-                InterfaceRemoved(this, new InterfaceNotificationEventsArgs(id));
-            }
-        }
-
-        private void OnInterfaceAdded(Guid id)
-        {
-            if (InterfaceAdded != null)
-            {
-                InterfaceAdded(this, new InterfaceNotificationEventsArgs(id));
             }
         }
 
@@ -171,6 +130,79 @@ namespace inSSIDer.Scanning
         /// Gets the Wlan Client for the manager
         /// </summary>
         /// <remarks>This is null on Windows XP</remarks>
-        public WlanClient WlanClient { get; private set; }
+        public WlanClient WlanClient
+        {
+            get; private set;
+        }
+
+        #endregion Properties
+
+        #region Events
+
+        public event EventHandler<InterfaceNotificationEventsArgs> InterfaceAdded;
+
+        //Static instance
+        //public static readonly InterfaceManager Instance = new InterfaceManager();
+        public event EventHandler<InterfaceNotificationEventsArgs> InterfaceRemoved;
+
+        #endregion Events
+
+        #region Public Methods
+
+        public void Init(out Exception error)
+        {
+            error = null;
+            if(Utilities.IsXp()) return;
+
+            try
+            {
+                WlanClient = new WlanClient();
+            }
+            catch (Win32Exception exception)
+            {
+                error = exception;
+                return;
+            }
+            catch (DllNotFoundException)
+            {
+                error = new Exception(Localizer.GetString("WlanapiNotFound"));
+                return;
+            }
+
+            WlanClient.InterfaceArrivedEvent += WlanClient_InterfaceArrivedEvent;
+            WlanClient.InterfaceRemovedEvent += WlanClient_InterfaceRemovedEvent;
+        }
+
+        #endregion Public Methods
+
+        #region Private Methods
+
+        private void OnInterfaceAdded(Guid id)
+        {
+            if (InterfaceAdded != null)
+            {
+                InterfaceAdded(this, new InterfaceNotificationEventsArgs(id));
+            }
+        }
+
+        private void OnInterfaceRemoved(Guid id)
+        {
+            if (InterfaceRemoved != null)
+            {
+                InterfaceRemoved(this, new InterfaceNotificationEventsArgs(id));
+            }
+        }
+
+        private void WlanClient_InterfaceArrivedEvent(object sender, InterfaceNotificationEventsArgs e)
+        {
+            OnInterfaceAdded(e.MyGuid);
+        }
+
+        private void WlanClient_InterfaceRemovedEvent(object sender, InterfaceNotificationEventsArgs e)
+        {
+            OnInterfaceRemoved(e.MyGuid);
+        }
+
+        #endregion Private Methods
     }
 }

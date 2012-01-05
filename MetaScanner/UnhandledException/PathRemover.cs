@@ -7,8 +7,14 @@ namespace inSSIDer.UnhandledException
 {
     public class PathScrubber
     {
+        #region Fields
+
         //This holds a list of folder names that will be the keys to finding the part of the path we don't want
         public static string[] keys = new string[] { "MetaScanner", "MetaGeek.WiFi", "MetaGeek.Gps", "ManagedWiFi", "IoctlNdis" };
+
+        #endregion Fields
+
+        #region Public Methods
 
         /// <summary>
         /// Strips the path leading up to the project folder out of the supplied text
@@ -37,6 +43,10 @@ namespace inSSIDer.UnhandledException
                 return trace;
             }
         }
+
+        #endregion Public Methods
+
+        #region Private Methods
 
         /// <summary>
         /// Strips the path leading up to the project folder out of the supplied line
@@ -69,7 +79,6 @@ namespace inSSIDer.UnhandledException
                     //insert is used because we're looping backwards
                     sbParts.Insert(0, part);
 
-
                     if (keys.ToList().Contains(part, StringComparer.InvariantCultureIgnoreCase))
                     {
                         //We found a keyword
@@ -88,5 +97,7 @@ namespace inSSIDer.UnhandledException
                 return line;
             }
         }
+
+        #endregion Private Methods
     }
 }

@@ -1,21 +1,26 @@
 ﻿////////////////////////////////////////////////////////////////
+
+#region Header
+
 //
 // Copyright (c) 2007-2010 MetaGeek, LLC
 //
-// Licensed under the Apache License, Version 2.0 (the "License"); 
-// you may not use this file except in compliance with the License. 
-// You may obtain a copy of the License at 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//	http://www.apache.org/licenses/LICENSE-2.0 
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
-// Unless required by applicable law or agreed to in writing, software 
-// distributed under the License is distributed on an "AS IS" BASIS, 
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-// See the License for the specific language governing permissions and 
-// limitations under the License. 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
-////////////////////////////////////////////////////////////////
 
+#endregion Header
+
+////////////////////////////////////////////////////////////////
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -25,19 +30,98 @@ namespace ManagedWifi
 {
     public class WlanClient
     {
+        #region Fields
+
         private readonly IntPtr _clientHandle;
+        private readonly Dictionary<Guid, WlanInterface> _ifaces = new Dictionary<Guid, WlanInterface>();
+        private uint _negotiatedVersion;
+        private readonly Wlan.WlanNotificationCallbackDelegate _wlanNotificationCallback;
+
+        #endregion Fields
+
+        #region Properties
+
+        public WlanInterface[] Interfaces
+        {
+            get
+            {
+                IntPtr ptr;
+                WlanInterface[] interfaceArray2;
+                Wlan.ThrowIfError(Wlan.WlanEnumInterfaces(_clientHandle, IntPtr.Zero, out ptr));
+                try
+                {
+                    Wlan.WlanInterfaceInfoListHeader structure = (Wlan.WlanInterfaceInfoListHeader) Marshal.PtrToStructure(ptr, typeof(Wlan.WlanInterfaceInfoListHeader));
+                    long num = ptr.ToInt64() + Marshal.SizeOf(structure);
+                    WlanInterface[] interfaceArray = new WlanInterface[structure.numberOfItems];
+                    List<Guid> list = new List<Guid>();
+                    for (int i = 0; i < structure.numberOfItems; i++)
+                    {
+                        Wlan.WlanInterfaceInfo info = (Wlan.WlanInterfaceInfo) Marshal.PtrToStructure(new IntPtr(num), typeof(Wlan.WlanInterfaceInfo));
+                        num += Marshal.SizeOf(info);
+                        list.Add(info.interfaceGuid);
+                        WlanInterface interface2 = _ifaces.ContainsKey(info.interfaceGuid) ? _ifaces[info.interfaceGuid] : new WlanInterface(this, info);
+                        interfaceArray[i] = interface2;
+                        _ifaces[info.interfaceGuid] = interface2;
+                    }
+                    Queue<Guid> queue = new Queue<Guid>();
+                    foreach (Guid guid in _ifaces.Keys)
+                    {
+                        if (!list.Contains(guid))
+                        {
+                            queue.Enqueue(guid);
+                        }
+                    }
+                    while (queue.Count != 0)
+                    {
+                        Guid key = queue.Dequeue();
+                        _ifaces.Remove(key);
+                    }
+                    interfaceArray2 = interfaceArray;
+                }
+                finally
+                {
+                    Wlan.WlanFreeMemory(ptr);
+                }
+                return interfaceArray2;
+            }
+        }
+
         public IntPtr MyClientHandle
         {
             get { return _clientHandle; }
         }
 
-        private readonly Dictionary<Guid, WlanInterface> _ifaces = new Dictionary<Guid, WlanInterface>();
-        private uint _negotiatedVersion;
-        private readonly Wlan.WlanNotificationCallbackDelegate _wlanNotificationCallback;
+        #endregion Properties
+
+        #region Events
 
         public event EventHandler<InterfaceNotificationEventsArgs> InterfaceArrivedEvent;
 
         public event EventHandler<InterfaceNotificationEventsArgs> InterfaceRemovedEvent;
+
+        #endregion Events
+
+        #region Invoke Methods
+
+        protected virtual void InvokeInterfaceArrivedEvent(InterfaceNotificationEventsArgs e)
+        {
+            if (InterfaceArrivedEvent != null)
+            {
+                InterfaceArrivedEvent(this, e);
+            }
+        }
+
+        protected virtual void InvokeInterfaceRemovedEvent(InterfaceNotificationEventsArgs e)
+        {
+            if (InterfaceRemovedEvent != null)
+            {
+                InterfaceRemovedEvent(this, e);
+            }
+        }
+
+        #endregion Invoke Methods
+
+        #region Constructors
 
         public WlanClient()
         {
@@ -60,6 +144,10 @@ namespace ManagedWifi
             Wlan.WlanCloseHandle(_clientHandle, IntPtr.Zero);
         }
 
+        #endregion Constructors
+
+        #region Public Methods
+
         public string GetStringForReasonCode(Wlan.WlanReasonCode reasonCode)
         {
             StringBuilder stringBuffer = new StringBuilder(0x400);
@@ -67,21 +155,9 @@ namespace ManagedWifi
             return stringBuffer.ToString();
         }
 
-        protected virtual void InvokeInterfaceArrivedEvent(InterfaceNotificationEventsArgs e)
-        {
-            if (InterfaceArrivedEvent != null)
-            {
-                InterfaceArrivedEvent(this, e);
-            }
-        }
+        #endregion Public Methods
 
-        protected virtual void InvokeInterfaceRemovedEvent(InterfaceNotificationEventsArgs e)
-        {
-            if (InterfaceRemovedEvent != null)
-            {
-                InterfaceRemovedEvent(this, e);
-            }
-        }
+        #region Private Methods
 
         private void OnWlanNotification(ref Wlan.WlanNotificationData notifyData, IntPtr context)
         {
@@ -161,7 +237,7 @@ namespace ManagedWifi
                     }
                     goto Label_0194;
             }
-        Label_0194:
+            Label_0194:
             if (interface2 != null)
             {
                 interface2.OnWlanNotification(notifyData);
@@ -184,51 +260,6 @@ namespace ManagedWifi
             return data;
         }
 
-        public WlanInterface[] Interfaces
-        {
-            get
-            {
-                IntPtr ptr;
-                WlanInterface[] interfaceArray2;
-                Wlan.ThrowIfError(Wlan.WlanEnumInterfaces(_clientHandle, IntPtr.Zero, out ptr));
-                try
-                {
-                    Wlan.WlanInterfaceInfoListHeader structure = (Wlan.WlanInterfaceInfoListHeader) Marshal.PtrToStructure(ptr, typeof(Wlan.WlanInterfaceInfoListHeader));
-                    long num = ptr.ToInt64() + Marshal.SizeOf(structure);
-                    WlanInterface[] interfaceArray = new WlanInterface[structure.numberOfItems];
-                    List<Guid> list = new List<Guid>();
-                    for (int i = 0; i < structure.numberOfItems; i++)
-                    {
-                        Wlan.WlanInterfaceInfo info = (Wlan.WlanInterfaceInfo) Marshal.PtrToStructure(new IntPtr(num), typeof(Wlan.WlanInterfaceInfo));
-                        num += Marshal.SizeOf(info);
-                        list.Add(info.interfaceGuid);
-                        WlanInterface interface2 = _ifaces.ContainsKey(info.interfaceGuid) ? _ifaces[info.interfaceGuid] : new WlanInterface(this, info);
-                        interfaceArray[i] = interface2;
-                        _ifaces[info.interfaceGuid] = interface2;
-                    }
-                    Queue<Guid> queue = new Queue<Guid>();
-                    foreach (Guid guid in _ifaces.Keys)
-                    {
-                        if (!list.Contains(guid))
-                        {
-                            queue.Enqueue(guid);
-                        }
-                    }
-                    while (queue.Count != 0)
-                    {
-                        Guid key = queue.Dequeue();
-                        _ifaces.Remove(key);
-                    }
-                    interfaceArray2 = interfaceArray;
-                }
-                finally
-                {
-                    Wlan.WlanFreeMemory(ptr);
-                }
-                return interfaceArray2;
-            }
-        }
-
+        #endregion Private Methods
     }
 }
-

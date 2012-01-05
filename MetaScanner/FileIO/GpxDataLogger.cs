@@ -1,25 +1,32 @@
 ﻿////////////////////////////////////////////////////////////////
+
+#region Header
+
 //
 // Copyright (c) 2007-2010 MetaGeek, LLC
 //
-// Licensed under the Apache License, Version 2.0 (the "License"); 
-// you may not use this file except in compliance with the License. 
-// You may obtain a copy of the License at 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//	http://www.apache.org/licenses/LICENSE-2.0 
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
-// Unless required by applicable law or agreed to in writing, software 
-// distributed under the License is distributed on an "AS IS" BASIS, 
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-// See the License for the specific language governing permissions and 
-// limitations under the License. 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
-////////////////////////////////////////////////////////////////
 
+#endregion Header
+
+
+////////////////////////////////////////////////////////////////
 using System;
 using System.Collections.Generic;
-using System.Xml;
 using System.IO;
+using System.Xml;
+
 using MetaGeek.Gps;
 using MetaGeek.WiFi;
 
@@ -27,21 +34,33 @@ namespace inSSIDer.FileIO
 {
     public class GpxDataLogger
     {
-        private string _filename = string.Empty;
+        #region Fields
+
         public bool AutoSave;
         public TimeSpan AutoSaveInterval = TimeSpan.FromSeconds(20);
-        private DateTime _lastSaveTime = DateTime.MinValue;
-        //private XmlDocument _doc;
-
-        private readonly List<Waypoint> _data;
-
-        private FileStream _fsOutput;
-
         public bool Enabled;
 
-        //private string _xmlHeader = @"<?xml version=""1.0""?><gpx version=""1.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns=""http://www.topografix.com/GPX/1/0"" xmlns:topografix=""http://www.topografix.com/GPX/Private/TopoGrafix/0/1"" xsi:schemaLocation=""http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd http://www.topografix.com/GPX/Private/TopoGrafix/0/1 http://www.topografix.com/GPX/Private/TopoGrafix/0/1/topografix.xsd""></gpx>";
+        //private XmlDocument _doc;
+        private readonly List<Waypoint> _data;
+        private string _filename = string.Empty;
+        private FileStream _fsOutput;
+        private DateTime _lastSaveTime = DateTime.MinValue;
 
-        
+        #endregion Fields
+
+        #region Properties
+
+        public string Filename
+        {
+            get { return _filename; }
+            set { _filename = value; SetupLog(_filename);}
+        }
+
+        #endregion Properties
+
+        #region Constructors
+
+        //private string _xmlHeader = @"<?xml version=""1.0""?><gpx version=""1.0"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns=""http://www.topografix.com/GPX/1/0"" xmlns:topografix=""http://www.topografix.com/GPX/Private/TopoGrafix/0/1"" xsi:schemaLocation=""http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd http://www.topografix.com/GPX/Private/TopoGrafix/0/1 http://www.topografix.com/GPX/Private/TopoGrafix/0/1/topografix.xsd""></gpx>";
         public GpxDataLogger()
         {
             //_doc = new XmlDocument();
@@ -50,33 +69,9 @@ namespace inSSIDer.FileIO
             _data = new List<Waypoint>();
         }
 
-/*
-        public GpxDataLogger(string filename)
-        {
-            //_doc = new XmlDocument();
-            Filename = filename;
+        #endregion Constructors
 
-            SetupLog(Filename);
-        }
-*/
-
-        private void SetupLog(string filename)
-        {
-            //Set up the file stream
-            _fsOutput = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
-
-            Reset();
-
-            if (File.Exists(filename))
-            {
-                //Load last log for appending
-                //_doc.Load(new XmlTextReader(filename));
-                lock (_data)
-                {
-                    _data.AddRange(GpxIO.ReadGpx(_fsOutput));
-                }
-            }
-        }
+        #region Public Methods
 
         /*
         public void AppendEntry(NetworkData[] aps, GpsData gpsData)
@@ -89,7 +84,7 @@ namespace inSSIDer.FileIO
 
             foreach (NetworkData ap in aps)
             {
-                
+
                 //Ignore anything -100 (or below?)
                 if(ap.Rssi <= -100) continue;
 
@@ -206,8 +201,6 @@ namespace inSSIDer.FileIO
                 _doc.GetElementsByTagName("gpx").Item(0).AppendChild(newE);
             }
 
-            
-
             //Auto save if it's enabled and had been long enough
             if(AutoSave && (DateTime.Now - _lastSaveTime >= AutoSaveInterval || _lastSaveTime == DateTime.MinValue))
             {
@@ -216,7 +209,6 @@ namespace inSSIDer.FileIO
             }
         }
         */
-
         public void AppendEntry(NetworkData[] data, GpsData gpsData)
         {
             if (data.Length < 1) return;
@@ -236,6 +228,49 @@ namespace inSSIDer.FileIO
                 _lastSaveTime = DateTime.Now;
             }
         }
+
+        public void Reset()
+        {
+            lock (_data)
+            {
+                _data.Clear();
+            }
+        }
+
+        public void Start()
+        {
+            try
+            {
+                //Set the file back up
+                SetupLog(Filename);
+                Enabled = true;
+            }
+            catch(Exception)
+            {
+
+            }
+        }
+
+        public void Stop()
+        {
+            if(!Enabled || _fsOutput == null) return;
+            SaveLogFile();
+            try
+            {
+                //Close the stream
+                _fsOutput.Close();
+                _fsOutput.Dispose();
+                Enabled = false;
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        #endregion Public Methods
+
+        #region Private Methods
 
         private void SaveLogFile()
         {
@@ -263,49 +298,33 @@ namespace inSSIDer.FileIO
             }
         }
 
-        public void Start()
+        /*
+        public GpxDataLogger(string filename)
         {
-            try
+            //_doc = new XmlDocument();
+            Filename = filename;
+
+            SetupLog(Filename);
+        }
+        */
+        private void SetupLog(string filename)
+        {
+            //Set up the file stream
+            _fsOutput = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
+
+            Reset();
+
+            if (File.Exists(filename))
             {
-                //Set the file back up
-                SetupLog(Filename);
-                Enabled = true;
-            }
-            catch(Exception)
-            {
-                
+                //Load last log for appending
+                //_doc.Load(new XmlTextReader(filename));
+                lock (_data)
+                {
+                    _data.AddRange(GpxIO.ReadGpx(_fsOutput));
+                }
             }
         }
 
-        public void Stop()
-        {
-            if(!Enabled || _fsOutput == null) return;
-            SaveLogFile();
-            try
-            {
-                //Close the stream
-                _fsOutput.Close();
-                _fsOutput.Dispose();
-                Enabled = false;
-            }
-            catch (Exception)
-            {
-
-            }
-        }
-
-        public void Reset()
-        {
-            lock (_data)
-            {
-                _data.Clear();
-            }
-        }
-
-        public string Filename
-        {
-            get { return _filename; }
-            set { _filename = value; SetupLog(_filename);}
-        }
+        #endregion Private Methods
     }
 }

@@ -1,39 +1,51 @@
 ﻿////////////////////////////////////////////////////////////////
+
+#region Header
+
 //
 // Copyright (c) 2007-2010 MetaGeek, LLC
 //
-// Licensed under the Apache License, Version 2.0 (the "License"); 
-// you may not use this file except in compliance with the License. 
-// You may obtain a copy of the License at 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//	http://www.apache.org/licenses/LICENSE-2.0 
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
-// Unless required by applicable law or agreed to in writing, software 
-// distributed under the License is distributed on an "AS IS" BASIS, 
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-// See the License for the specific language governing permissions and 
-// limitations under the License. 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
-////////////////////////////////////////////////////////////////
 
+#endregion Header
+
+
+////////////////////////////////////////////////////////////////
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
 using System.IO;
-using inSSIDer.Properties;
+using System.Runtime.InteropServices;
 using System.Threading;
+using System.Windows.Forms;
+
+using inSSIDer.Properties;
 
 namespace inSSIDer.HTML
 {
     public partial class HtmlControl : WebBrowser
     {
-        #region Members and Properties
-
-        private bool _firstPageLoaded;
+        #region Fields
 
         private string _analyticsSource = string.Empty;
+        private bool _firstPageLoaded;
+        private string _updateUrl = string.Empty;
+
+        #endregion Fields
+
+        #region Properties
+
         /// <summary>
         /// Google Analytics Source parameter to attach to all web links
         /// </summary>
@@ -44,13 +56,29 @@ namespace inSSIDer.HTML
             set { _analyticsSource = value; }
         }
 
+        private string LocalFileName
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Category("Behavior")]
+        public bool OpenWebLinks
+        {
+            get; set;
+        }
+
         /// <summary>
         /// If set to 0, then never update
         /// </summary>
         [Category("Data")]
-        public float UpdateIntervalDays { get; set; }
+        public float UpdateIntervalDays
+        {
+            get; set;
+        }
 
-        private string _updateUrl = string.Empty;
         [Category("Data")]
         public string UpdateUrl
         {
@@ -58,33 +86,10 @@ namespace inSSIDer.HTML
             set { _updateUrl = value; }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        [Category("Behavior")]
-        public bool OpenWebLinks { get; set; }
-
-        private string LocalFileName { get; set; }
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        //[Category("Data")]
-        //public string LocalFileName
-        //{
-        //    get { return _localFileName; }
-        //    set
-        //    {
-        //        _localFileName = value;
-        //        // load the file if the browser is already initialized
-        //        if (_firstPageLoaded)
-        //            OpenLocalFile();
-        //    }
-        //}
-
-
-        #endregion
+        #endregion Properties
 
         #region Constructors
+
         public HtmlControl()
         {
             LocalFileName = Path.GetTempPath() + "MetaGeekNews" + Path.DirectorySeparatorChar + "news.html";
@@ -92,10 +97,9 @@ namespace inSSIDer.HTML
             InitializeComponent();
         }
 
-        #endregion
+        #endregion Constructors
 
-
-        #region Methods
+        #region Public Methods
 
         public bool UpdateFile(bool forceUpdate)
         {
@@ -114,7 +118,7 @@ namespace inSSIDer.HTML
                     try
                     {
 
-                        // BackgroundWorker runs UpdateFile() 
+                        // BackgroundWorker runs UpdateFile()
                         // and then runs RunWorkerCompleted()
                         BackgroundWorker bw = new BackgroundWorker();
                         bw.RunWorkerCompleted += (s, e) =>
@@ -148,20 +152,9 @@ namespace inSSIDer.HTML
             return displayingFile;
         }
 
-        private void OpenLocalFile()
-        {
-            // strip anchors, etc. from any HTTP-path style local file names
-            string strippedPath = LocalFileName;
+        #endregion Public Methods
 
-            // removing anchors
-            int hashIndex = LocalFileName.IndexOf('#');
-            if (hashIndex > 0)
-                strippedPath = LocalFileName.Remove(hashIndex);
-
-            // loading for first time so set the page to the LocalFileName
-            if (File.Exists(strippedPath))
-                Navigate(Path.GetFullPath(LocalFileName));
-        }
+        #region Protected Methods
 
         /// <summary>
         /// First document won't load until about:blank has loaded
@@ -190,6 +183,41 @@ namespace inSSIDer.HTML
             }
         }
 
-        #endregion
+        #endregion Protected Methods
+
+        #region Private Methods
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //[Category("Data")]
+        //public string LocalFileName
+        //{
+        //    get { return _localFileName; }
+        //    set
+        //    {
+        //        _localFileName = value;
+        //        // load the file if the browser is already initialized
+        //        if (_firstPageLoaded)
+        //            OpenLocalFile();
+        //    }
+        //}
+
+        private void OpenLocalFile()
+        {
+            // strip anchors, etc. from any HTTP-path style local file names
+            string strippedPath = LocalFileName;
+
+            // removing anchors
+            int hashIndex = LocalFileName.IndexOf('#');
+            if (hashIndex > 0)
+                strippedPath = LocalFileName.Remove(hashIndex);
+
+            // loading for first time so set the page to the LocalFileName
+            if (File.Exists(strippedPath))
+                Navigate(Path.GetFullPath(LocalFileName));
+        }
+
+        #endregion Private Methods
     }
 }

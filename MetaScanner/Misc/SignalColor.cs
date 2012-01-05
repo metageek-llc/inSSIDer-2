@@ -1,21 +1,27 @@
 ﻿////////////////////////////////////////////////////////////////
+
+#region Header
+
 //
 // Copyright (c) 2007-2010 MetaGeek, LLC
 //
-// Licensed under the Apache License, Version 2.0 (the "License"); 
-// you may not use this file except in compliance with the License. 
-// You may obtain a copy of the License at 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//	http://www.apache.org/licenses/LICENSE-2.0 
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
-// Unless required by applicable law or agreed to in writing, software 
-// distributed under the License is distributed on an "AS IS" BASIS, 
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-// See the License for the specific language governing permissions and 
-// limitations under the License. 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
-////////////////////////////////////////////////////////////////
 
+#endregion Header
+
+
+////////////////////////////////////////////////////////////////
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -24,11 +30,37 @@ namespace inSSIDer.Misc
 {
     public static class SignalColor
     {
-        private static Dictionary<int, Color> _colors;
+        #region Fields
 
-        private const int UpperBounds = 0;
         private const int LowerBounds = -100;
         private const int Threshold = 5;
+        private const int UpperBounds = 0;
+        private static Dictionary<int, Color> _colors;
+
+        #endregion Fields
+
+        #region Public Methods
+
+        public static Color GetColor(int signal)
+        {
+            if (_colors == null) InitColors();
+
+            if(_colors == null || !_colors.ContainsKey(signal)) return Color.LightGray;
+            return _colors[signal];
+        }
+
+        public static Color GetColorThreshold(int signal)
+        {
+            if (_colors == null) InitColors();
+
+            signal = signal - (signal%Threshold);
+            if (_colors == null || !_colors.ContainsKey(signal)) return Color.LightGray;
+            return _colors[signal];
+        }
+
+        #endregion Public Methods
+
+        #region Private Methods
 
         private static void InitColors()
         {
@@ -119,21 +151,6 @@ namespace inSSIDer.Misc
             }
         }
 
-        public static Color GetColor(int signal)
-        {
-            if (_colors == null) InitColors();
-
-            if(_colors == null || !_colors.ContainsKey(signal)) return Color.LightGray;
-            return _colors[signal];
-        }
-
-        public static Color GetColorThreshold(int signal)
-        {
-            if (_colors == null) InitColors();
-
-            signal = signal - (signal%Threshold);
-            if (_colors == null || !_colors.ContainsKey(signal)) return Color.LightGray;
-            return _colors[signal];
-        }
+        #endregion Private Methods
     }
 }

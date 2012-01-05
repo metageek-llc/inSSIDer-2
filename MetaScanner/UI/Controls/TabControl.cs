@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -11,8 +11,14 @@ namespace inSSIDer.UI.Controls
 {
     public partial class TabControl : UserControl
     {
+        #region Fields
+
         private int TabMargin = 24;
         private List<string> Tabs = new List<string>();
+
+        #endregion Fields
+
+        #region Constructors
 
         public TabControl()
         {
@@ -22,6 +28,10 @@ namespace inSSIDer.UI.Controls
             Tabs.Add("Really Long Tab Name!!!");
             Tabs.Add("Extremely looooong tab name to test how well it handles it.");
         }
+
+        #endregion Constructors
+
+        #region Protected Methods
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -74,5 +84,7 @@ namespace inSSIDer.UI.Controls
 
             e.Graphics.ResetClip();
         }
+
+        #endregion Protected Methods
     }
 }

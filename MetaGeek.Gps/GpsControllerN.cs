@@ -1,21 +1,26 @@
 ﻿////////////////////////////////////////////////////////////////
+
+#region Header
+
 //
 // Copyright (c) 2007-2010 MetaGeek, LLC
 //
-// Licensed under the Apache License, Version 2.0 (the "License"); 
-// you may not use this file except in compliance with the License. 
-// You may obtain a copy of the License at 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//	http://www.apache.org/licenses/LICENSE-2.0 
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
-// Unless required by applicable law or agreed to in writing, software 
-// distributed under the License is distributed on an "AS IS" BASIS, 
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-// See the License for the specific language governing permissions and 
-// limitations under the License. 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
-////////////////////////////////////////////////////////////////
 
+#endregion Header
+
+////////////////////////////////////////////////////////////////
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,57 +31,159 @@ namespace MetaGeek.Gps
 {
     public class GpsController
     {
+        #region Fields
 
-        #region Members and Properties
+        public int PortBaudrate = 4800;
+        public int PortDataBits = 8;
+        public Handshake PortHandshake = Handshake.None;
+        public Parity PortParity = Parity.None;
+        public StopBits PortStopBits = StopBits.One;
 
-        private readonly NmeaParser _nmea;
-
-        // Thread properties        
+        // Thread properties
         private Thread _gpsThread;
-        private readonly WaitHandle[] _waitHandles;
-        readonly AutoResetEvent _terminate = new AutoResetEvent(false);
-
-
-        public bool HasTalked { get; private set; }
-
-        public bool Enabled {get; private set;}
-
-        public string PortName { get; set; }
-
-        private int MaxTimeout { get; set; }
-
-/*
-        public bool Connected { get { return _port != null && _port.IsOpen; } }
-*/
-
-        public GpsData MyGpsData { get; private set; }
-
-        // Time is set, but never used?
-        private DateTime Time { get; set; }
-
-        public bool HasFix { get; private set; }
-
-        public int SatellitesVisible { get; private set; }
-
-        public List<Satellite> Satellites { get; private set; }
-
-/*
-        public int[] SatelliteIDs { get { return _nmea._satIDs; } }
-*/
-
-        public bool AllSatellitesLoaded { get { return _nmea.GetAllSatellitesLoaded(); } }
-
-        public bool TimedOut { get; private set; }
+        private readonly NmeaParser _nmea;
 
         // Serial port settings
         private SerialPort _port;
-        public int PortBaudrate = 4800;
-        public Parity PortParity = Parity.None;
-        public int PortDataBits = 8;
-        public StopBits PortStopBits = StopBits.One;
-        public Handshake PortHandshake = Handshake.None;
+        readonly AutoResetEvent _terminate = new AutoResetEvent(false);
+        private readonly WaitHandle[] _waitHandles;
 
-        #endregion Members and Properties
+        #endregion Fields
+
+        #region Properties
+
+        /*
+        public int[] SatelliteIDs { get { return _nmea._satIDs; } }
+        */
+        public bool AllSatellitesLoaded
+        {
+            get { return _nmea.GetAllSatellitesLoaded(); }
+        }
+
+        public bool Enabled
+        {
+            get; private set;
+        }
+
+        public bool HasFix
+        {
+            get; private set;
+        }
+
+        public bool HasTalked
+        {
+            get; private set;
+        }
+
+        private int MaxTimeout
+        {
+            get; set;
+        }
+
+        /*
+        public bool Connected { get { return _port != null && _port.IsOpen; } }
+        */
+        public GpsData MyGpsData
+        {
+            get; private set;
+        }
+
+        public string PortName
+        {
+            get; set;
+        }
+
+        public List<Satellite> Satellites
+        {
+            get; private set;
+        }
+
+        public int SatellitesVisible
+        {
+            get; private set;
+        }
+
+        // Time is set, but never used?
+        private DateTime Time
+        {
+            get; set;
+        }
+
+        public bool TimedOut
+        {
+            get; private set;
+        }
+
+        #endregion Properties
+
+        #region Events
+
+        public event EventHandler<StringEventArgs> GpsError;
+
+        public event EventHandler GpsLocationUpdated;
+
+        public event EventHandler<StringEventArgs> GpsMessage;
+
+        public event EventHandler GpsStatUpdated;
+
+        public event EventHandler GpsTimeout;
+
+        public event EventHandler GpsUpdated;
+
+        #endregion Events
+
+        #region Invoke Methods
+
+        private void InvokeGpsError(string message)
+        {
+            if (null != GpsError)
+            {
+                GpsError(this, new StringEventArgs(message));
+            }
+        }
+
+        private void InvokeGpsLocationUpdated()
+        {
+            if (null != GpsLocationUpdated)
+            {
+                GpsLocationUpdated(this, EventArgs.Empty);
+            }
+        }
+
+        private void InvokeGpsMessage(string message)
+        {
+            if (null != GpsMessage)
+            {
+                GpsMessage(this, new StringEventArgs(message));
+            }
+        }
+
+        private void InvokeGpsStatUpdated()
+        {
+            if (null != GpsStatUpdated)
+            {
+                GpsStatUpdated(this, EventArgs.Empty);
+            }
+        }
+
+        private void InvokeGpsTimeout()
+        {
+            if (null != GpsTimeout)
+            {
+                TimedOut = true;
+                GpsTimeout(this, EventArgs.Empty);
+            }
+        }
+
+        private void InvokeGpsUpdated()
+        {
+            if (null != GpsUpdated)
+            {
+                GpsUpdated(this, EventArgs.Empty);
+            }
+        }
+
+        #endregion Invoke Methods
 
         #region Constructors
 
@@ -88,73 +195,43 @@ namespace MetaGeek.Gps
             //Set timeout for 45 sec.
             MaxTimeout = 90;
             _waitHandles = new WaitHandle[] { _terminate, };
-#if DEBUG
+            #if DEBUG
             _nmea.Validate = false;
-#endif
+            #endif
         }
 
         #endregion Constructors
 
-        #region Events
+        #region Public Methods
 
-        public event EventHandler GpsUpdated;
-        private void InvokeGpsUpdated()
+        /*
+        public void Restart()
         {
-            if (null != GpsUpdated)
-            {
-                GpsUpdated(this, EventArgs.Empty);
-            }
+            Stop();
+            Start();
         }
-
-        public event EventHandler GpsStatUpdated;
-        private void InvokeGpsStatUpdated()
+        */
+        public GpsData GetCurrentGpsData()
         {
-            if (null != GpsStatUpdated)
-            {
-                GpsStatUpdated(this, EventArgs.Empty);
-            }
+            return new GpsData
+                       {
+                           Altitude = MyGpsData.Altitude,
+                           Course = MyGpsData.Course,
+                           DgpsAge = MyGpsData.DgpsAge,
+                           Dgpsid = MyGpsData.Dgpsid,
+                           FixType = MyGpsData.FixType,
+                           GeoidSeperation = MyGpsData.GeoidSeperation,
+                           Hdop = MyGpsData.Hdop,
+                           Vdop = MyGpsData.Vdop,
+                           Pdop = MyGpsData.Pdop,
+                           Latitude = MyGpsData.Latitude,
+                           Longitude = MyGpsData.Longitude,
+                           MagVar = MyGpsData.MagVar,
+                           SatellitesUsed = MyGpsData.SatellitesUsed,
+                           Speed = MyGpsData.Speed,
+                           SatelliteTime = MyGpsData.SatelliteTime
+                       };
         }
-
-        public event EventHandler GpsLocationUpdated;
-        private void InvokeGpsLocationUpdated()
-        {
-            if (null != GpsLocationUpdated)
-            {
-                GpsLocationUpdated(this, EventArgs.Empty);
-            }
-        }
-
-        public event EventHandler GpsTimeout;
-        private void InvokeGpsTimeout()
-        {
-            if (null != GpsTimeout)
-            {
-                TimedOut = true;
-                GpsTimeout(this, EventArgs.Empty);
-            }
-        }
-
-        public event EventHandler<StringEventArgs> GpsError;
-        private void InvokeGpsError(string message)
-        {
-            if (null != GpsError)
-            {
-                GpsError(this, new StringEventArgs(message));
-            }
-        }
-
-        public event EventHandler<StringEventArgs> GpsMessage;
-        private void InvokeGpsMessage(string message)
-        {
-            if (null != GpsMessage)
-            {
-                GpsMessage(this, new StringEventArgs(message));
-            }
-        }
-
-        #endregion Events
-
-        #region Methods
 
         public void Start()
         {
@@ -182,15 +259,14 @@ namespace MetaGeek.Gps
             InvokeGpsMessage("GPS enabled");
         }
 
-/*
+        /*
         public void Start(SerialPort port)
         {
             if(port != null)_port = port;
             Start();
         }
-*/
-
-/*
+        */
+        /*
         public void Start(string portname,int baudrate,Handshake handshake)
         {
             PortName = portname;
@@ -198,9 +274,8 @@ namespace MetaGeek.Gps
             PortHandshake = handshake;
             Start();
         }
-*/
-
-/*
+        */
+        /*
         public void Start(string portname, int baudrate, Parity parity, int databits, StopBits stopbits, Handshake handshake)
         {
             PortName = portname;
@@ -211,42 +286,15 @@ namespace MetaGeek.Gps
             PortHandshake = handshake;
             Start();
         }
-*/
-
+        */
         public void Stop()
         {
             TerminateThread();
         }
 
-/*
-        public void Restart()
-        {
-            Stop();
-            Start();
-        }
-*/
+        #endregion Public Methods
 
-        public GpsData GetCurrentGpsData()
-        {
-            return new GpsData
-                       {
-                           Altitude = MyGpsData.Altitude,
-                           Course = MyGpsData.Course,
-                           DgpsAge = MyGpsData.DgpsAge,
-                           Dgpsid = MyGpsData.Dgpsid,
-                           FixType = MyGpsData.FixType,
-                           GeoidSeperation = MyGpsData.GeoidSeperation,
-                           Hdop = MyGpsData.Hdop,
-                           Vdop = MyGpsData.Vdop,
-                           Pdop = MyGpsData.Pdop,
-                           Latitude = MyGpsData.Latitude,
-                           Longitude = MyGpsData.Longitude,
-                           MagVar = MyGpsData.MagVar,
-                           SatellitesUsed = MyGpsData.SatellitesUsed,
-                           Speed = MyGpsData.Speed,
-                           SatelliteTime = MyGpsData.SatelliteTime
-                       };
-        }
+        #region Private Methods
 
         private void ClosePort()
         {
@@ -329,7 +377,7 @@ namespace MetaGeek.Gps
                             {
                                 //TODO: make GPS keep listening and just notify that no GPS is found, check cables and make sure the GPS is powered on
                                 // Give up after the maximum timeout is reached
-                                // The read timeout is 500ms, so the number of timeouts to seconds is a ratio of 2 timeouts for 1 second 
+                                // The read timeout is 500ms, so the number of timeouts to seconds is a ratio of 2 timeouts for 1 second
                                 if (!HasTalked && MaxTimeout <= timeoutCounter)
                                 {
                                     InvokeGpsTimeout();
@@ -383,7 +431,7 @@ namespace MetaGeek.Gps
                                     MyGpsData.Latitude = _nmea.Latitude;
                                     MyGpsData.Longitude = _nmea.Longitude;
                                     MyGpsData.Altitude = _nmea.Altitude;
-                                    
+
                                     Time = _nmea.Timestamp;
 
                                     InvokeGpsLocationUpdated();
@@ -420,16 +468,27 @@ namespace MetaGeek.Gps
             }
         }
 
-        #endregion Methods
+        #endregion Private Methods
     }
 
     public class StringEventArgs : EventArgs
     {
+        #region Properties
+
+        public string Message
+        {
+            get; private set;
+        }
+
+        #endregion Properties
+
+        #region Constructors
+
         public StringEventArgs(string message)
         {
             Message = message;
         }
 
-        public string Message  { get; private set; }
+        #endregion Constructors
     }
 }

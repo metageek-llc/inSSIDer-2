@@ -1,221 +1,95 @@
 ﻿////////////////////////////////////////////////////////////////
+
+#region Header
+
 //
 // Copyright (c) 2007-2010 MetaGeek, LLC
 //
-// Licensed under the Apache License, Version 2.0 (the "License"); 
-// you may not use this file except in compliance with the License. 
-// You may obtain a copy of the License at 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//	http://www.apache.org/licenses/LICENSE-2.0 
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
-// Unless required by applicable law or agreed to in writing, software 
-// distributed under the License is distributed on an "AS IS" BASIS, 
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-// See the License for the specific language governing permissions and 
-// limitations under the License. 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
-////////////////////////////////////////////////////////////////
 
+#endregion Header
+
+
+////////////////////////////////////////////////////////////////
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Xml;
+
 using inSSIDer.Misc;
+
 using MetaGeek.Gps;
 using MetaGeek.WiFi;
-using System.IO;
 
 namespace inSSIDer.FileIO
 {
     public static class GpxIO
     {
-        public static List<Waypoint> ReadGpxFiles(IEnumerable<string> filenames)
+        #region Public Methods
+
+        public static Waypoint ConvertNetworkDataToWaypoint(NetworkData data, GpsData gpsData)
         {
-            List<Waypoint> points = new List<Waypoint>();
-            List<Waypoint> tempPoints;
-            foreach (string filename in filenames)
-            {
-                tempPoints = ReadGpx(filename);
-                if(tempPoints == null) continue;
-                points.AddRange(tempPoints);
-                tempPoints.Clear();
-            }
-            return points;
-        }
+            Waypoint outpoint = new Waypoint();
 
-        private static List<Waypoint> ReadGpx(string filename)
-        {
-            if(!File.Exists(filename)) return null;
+            outpoint.Latitude = gpsData.Latitude;
+            outpoint.Longitude = gpsData.Longitude;
 
-            List<Waypoint> points = new List<Waypoint>();
+            outpoint.Elevation = gpsData.Altitude;
+            outpoint.Time = string.Format("{0}-{1}-{2}T{3}:{4}:{5}.{6}Z",
+                                          new object[]
+                                              {
+                                                  gpsData.SatelliteTime.Year,
+                                                  gpsData.SatelliteTime.Month.ToString("D2"),
+                                                  gpsData.SatelliteTime.Day.ToString("D2"),
+                                                  gpsData.SatelliteTime.Hour.ToString("D2"),
+                                                  gpsData.SatelliteTime.Minute.ToString("D2"),
+                                                  gpsData.SatelliteTime.Second,
+                                                  gpsData.SatelliteTime.Millisecond
+                                              });
 
-            XmlTextReader xtr = new XmlTextReader(filename);
+            outpoint.GeoidHeight = gpsData.GeoidSeperation;
+            //The SSID must be cleaned
+            outpoint.Name = XmlHelper.CleanString(data.Ssid) + " [" + data.MyMacAddress + "]";
 
-            string subNodeName;
+            outpoint.Cmt = gpsData.Speed.ToString(CultureInfo.InvariantCulture.NumberFormat);
 
-            Waypoint wp;
+            //outpoint.Description = string.Format(
+            //    "{0}\r\n[{1}]\r\nRSSI: {2} dB\r\nQuality: {3}%\r\nChannel {4}\r\nSpeed (kph): {5}\r\n{6}",
+            //    new object[]
+            //        {
+            //            XmlHelper.CleanString(data.Ssid), data.MyMacAddress.ToString(), data.Rssi, data.SignalQuality,
+            //            data.Channel, gpsData.Speed,
+            //            gpsData.SatelliteTime.ToString()
+            //        });
 
-            try
-            {
-                //Loop through all elements
-                while (xtr.Read())
-                {
-                    if (xtr.NodeType != XmlNodeType.Element && xtr.NodeType != XmlNodeType.EndElement &&
-                        xtr.NodeType != XmlNodeType.Text)
-                        continue;
+            outpoint.Fix = gpsData.FixType;
+            outpoint.SatCount = gpsData.SatellitesUsed;
+            outpoint.Hdop = gpsData.Hdop;
+            outpoint.Vdop = gpsData.Vdop;
+            outpoint.Pdop = gpsData.Pdop;
 
-                    //We're looking for waypoints
-                    if (xtr.Name != "wpt") continue;
+            outpoint.Extensions.MacAddress = data.MyMacAddress.ToString();
+            outpoint.Extensions.Ssid = XmlHelper.CleanString(data.Ssid);
+            outpoint.Extensions.Rssi = data.Rssi;
+            outpoint.Extensions.Channel = data.Channel;
+            outpoint.Extensions.Privacy = data.Privacy;
+            outpoint.Extensions.SignalQuality = data.SignalQuality;
+            outpoint.Extensions.NetworkType = data.NetworkType;
+            outpoint.Extensions.Rates = data.SupportedRates;
 
-                    wp = new Waypoint();
-                    if (xtr.HasAttributes) // Found latitude and longitude
-                    {
-                        string tempVal = xtr.GetAttribute("lat");
-                        wp.Latitude = Convert.ToDouble(string.IsNullOrEmpty(tempVal) ? "0" : tempVal, CultureInfo.InvariantCulture.NumberFormat);
-
-                        tempVal = xtr.GetAttribute("lon");
-                        wp.Longitude = Convert.ToDouble(string.IsNullOrEmpty(tempVal) ? "0" : tempVal, CultureInfo.InvariantCulture.NumberFormat);
-                    }
-
-                    //Move to next node
-                    xtr.Read();
-
-                    //Loop through sub items
-                    do
-                    {
-                        subNodeName = xtr.Name;
-                        switch (subNodeName)
-                        {
-                            case "ele":
-                                wp.Elevation = Convert.ToDouble(xtr.ReadString(), CultureInfo.InvariantCulture.NumberFormat);
-                                xtr.Read();
-                                break;
-                            case "time":
-                                wp.Time = xtr.ReadString();
-                                xtr.Read();
-                                break;
-                            case "name":
-                                wp.Name = xtr.ReadString();
-                                xtr.Read();
-                                break;
-                            case "cmt":
-                                wp.Cmt = xtr.ReadString();
-                                xtr.Read();
-                                break;
-                                //Description is not read from GPX. It is remade by the LogViewer.
-                            case "desc":
-                                xtr.Read();
-                                xtr.Read();
-                                break;
-                            case "fix":
-                                wp.Fix = xtr.ReadString();
-                                xtr.Read();
-                                break;
-                            case "sat":
-                                wp.SatCount = Convert.ToInt32(xtr.ReadString(), CultureInfo.InvariantCulture.NumberFormat);
-                                xtr.Read();
-                                break;
-                            case "vdop":
-                                wp.Vdop = Convert.ToDouble(xtr.ReadString(), CultureInfo.InvariantCulture.NumberFormat);
-                                xtr.Read();
-                                break;
-                            case "hdop":
-                                wp.Hdop = Convert.ToDouble(xtr.ReadString(), CultureInfo.InvariantCulture.NumberFormat);
-                                xtr.Read();
-                                break;
-                            case "pdop":
-                                wp.Pdop = Convert.ToDouble(xtr.ReadString(), CultureInfo.InvariantCulture.NumberFormat);
-                                xtr.Read();
-                                break;
-                            case "":
-                                //Blank tags should be ignored
-                                break;
-                            case "wpt":
-                                //Closing tag of this element.
-                                break;
-                            case "extensions":
-                                //The extensions element specifies information about our access point at this spot.
-                                xtr.Read();
-                                string subSubNodeName;
-
-                                do
-                                {
-                                    subSubNodeName = xtr.Name;
-                                    switch (subSubNodeName)
-                                    {
-                                        case "MAC":
-                                            wp.Extensions.MacAddress = xtr.ReadString();
-                                            xtr.Read();
-                                            break;
-                                        case "SSID":
-                                            wp.Extensions.Ssid = xtr.ReadString();
-                                            xtr.Read();
-                                            break;
-                                        case "RSSI":
-                                            wp.Extensions.Rssi = Convert.ToInt32(xtr.ReadString());
-                                            xtr.Read();
-                                            break;
-                                        case "ChannelID":
-                                            wp.Extensions.Channel = Convert.ToUInt32(xtr.ReadString());
-                                            xtr.Read();
-                                            break;
-                                        case "privacy":
-                                            wp.Extensions.Privacy = xtr.ReadString();
-                                            xtr.Read();
-                                            break;
-                                        case "signalQuality":
-                                            wp.Extensions.SignalQuality = Convert.ToUInt32(xtr.ReadString());
-                                            xtr.Read();
-                                            break;
-                                        case "networkType":
-                                            wp.Extensions.NetworkType = xtr.ReadString();
-                                            xtr.Read();
-                                            break;
-                                        case "rates":
-                                            wp.Extensions.Rates = xtr.ReadString();
-                                            xtr.Read();
-                                            break;
-                                            //Blank tags should be ignored.
-                                        case "":
-                                            break;
-                                            //Closing tag should be skipped over also.
-                                        case "extensions":
-                                            break;
-                                        default:
-                                            xtr.Read();
-                                            xtr.Read();
-                                            break;
-                                    }
-
-                                    xtr.Read();
-                                } while (subSubNodeName != "extensions");
-
-                                break;
-                                //Any other elements of GPX not implemented here but possibilty present in the log.
-                                //e.g. magvar, geoidheight, src, link, sym, type, ageofdgpsdata, dgpsid
-                            default:
-                                xtr.Read();
-                                xtr.Read();
-                                break;
-                        }
-                        xtr.Read();
-
-                    } while (subNodeName != "wpt");
-
-                    //Add the Waypoint to the list
-                    points.Add(wp);
-                }
-            }
-            catch(XmlException)
-            {
-                
-            }
-
-            //doc.
-
-            xtr.Close();
-
-            return points;
+            return outpoint;
         }
 
         public static IEnumerable<Waypoint> ReadGpx(Stream filename)
@@ -393,6 +267,20 @@ namespace inSSIDer.FileIO
             return points;
         }
 
+        public static List<Waypoint> ReadGpxFiles(IEnumerable<string> filenames)
+        {
+            List<Waypoint> points = new List<Waypoint>();
+            List<Waypoint> tempPoints;
+            foreach (string filename in filenames)
+            {
+                tempPoints = ReadGpx(filename);
+                if(tempPoints == null) continue;
+                points.AddRange(tempPoints);
+                tempPoints.Clear();
+            }
+            return points;
+        }
+
         public static void WriteGpx(Stream filename, IEnumerable<Waypoint> waypoints)
         {
             if (filename == null || !filename.CanWrite) return;
@@ -549,72 +437,211 @@ namespace inSSIDer.FileIO
             //xtw.Close();
         }
 
-        public static Waypoint ConvertNetworkDataToWaypoint(NetworkData data, GpsData gpsData)
+        #endregion Public Methods
+
+        #region Private Methods
+
+        private static List<Waypoint> ReadGpx(string filename)
         {
-            Waypoint outpoint = new Waypoint();
+            if(!File.Exists(filename)) return null;
 
-            outpoint.Latitude = gpsData.Latitude;
-            outpoint.Longitude = gpsData.Longitude;
+            List<Waypoint> points = new List<Waypoint>();
 
-            outpoint.Elevation = gpsData.Altitude;
-            outpoint.Time = string.Format("{0}-{1}-{2}T{3}:{4}:{5}.{6}Z",
-                                          new object[]
-                                              {
-                                                  gpsData.SatelliteTime.Year,
-                                                  gpsData.SatelliteTime.Month.ToString("D2"),
-                                                  gpsData.SatelliteTime.Day.ToString("D2"),
-                                                  gpsData.SatelliteTime.Hour.ToString("D2"),
-                                                  gpsData.SatelliteTime.Minute.ToString("D2"),
-                                                  gpsData.SatelliteTime.Second,
-                                                  gpsData.SatelliteTime.Millisecond
-                                              });
+            XmlTextReader xtr = new XmlTextReader(filename);
 
-            outpoint.GeoidHeight = gpsData.GeoidSeperation;
-            //The SSID must be cleaned
-            outpoint.Name = XmlHelper.CleanString(data.Ssid) + " [" + data.MyMacAddress + "]";
+            string subNodeName;
 
-            outpoint.Cmt = gpsData.Speed.ToString(CultureInfo.InvariantCulture.NumberFormat);
+            Waypoint wp;
 
-            //outpoint.Description = string.Format(
-            //    "{0}\r\n[{1}]\r\nRSSI: {2} dB\r\nQuality: {3}%\r\nChannel {4}\r\nSpeed (kph): {5}\r\n{6}",
-            //    new object[]
-            //        {
-            //            XmlHelper.CleanString(data.Ssid), data.MyMacAddress.ToString(), data.Rssi, data.SignalQuality,
-            //            data.Channel, gpsData.Speed,
-            //            gpsData.SatelliteTime.ToString()
-            //        });
+            try
+            {
+                //Loop through all elements
+                while (xtr.Read())
+                {
+                    if (xtr.NodeType != XmlNodeType.Element && xtr.NodeType != XmlNodeType.EndElement &&
+                        xtr.NodeType != XmlNodeType.Text)
+                        continue;
 
-            outpoint.Fix = gpsData.FixType;
-            outpoint.SatCount = gpsData.SatellitesUsed;
-            outpoint.Hdop = gpsData.Hdop;
-            outpoint.Vdop = gpsData.Vdop;
-            outpoint.Pdop = gpsData.Pdop;
+                    //We're looking for waypoints
+                    if (xtr.Name != "wpt") continue;
 
-            outpoint.Extensions.MacAddress = data.MyMacAddress.ToString();
-            outpoint.Extensions.Ssid = XmlHelper.CleanString(data.Ssid);
-            outpoint.Extensions.Rssi = data.Rssi;
-            outpoint.Extensions.Channel = data.Channel;
-            outpoint.Extensions.Privacy = data.Privacy;
-            outpoint.Extensions.SignalQuality = data.SignalQuality;
-            outpoint.Extensions.NetworkType = data.NetworkType;
-            outpoint.Extensions.Rates = data.SupportedRates;
+                    wp = new Waypoint();
+                    if (xtr.HasAttributes) // Found latitude and longitude
+                    {
+                        string tempVal = xtr.GetAttribute("lat");
+                        wp.Latitude = Convert.ToDouble(string.IsNullOrEmpty(tempVal) ? "0" : tempVal, CultureInfo.InvariantCulture.NumberFormat);
 
-            return outpoint;
+                        tempVal = xtr.GetAttribute("lon");
+                        wp.Longitude = Convert.ToDouble(string.IsNullOrEmpty(tempVal) ? "0" : tempVal, CultureInfo.InvariantCulture.NumberFormat);
+                    }
+
+                    //Move to next node
+                    xtr.Read();
+
+                    //Loop through sub items
+                    do
+                    {
+                        subNodeName = xtr.Name;
+                        switch (subNodeName)
+                        {
+                            case "ele":
+                                wp.Elevation = Convert.ToDouble(xtr.ReadString(), CultureInfo.InvariantCulture.NumberFormat);
+                                xtr.Read();
+                                break;
+                            case "time":
+                                wp.Time = xtr.ReadString();
+                                xtr.Read();
+                                break;
+                            case "name":
+                                wp.Name = xtr.ReadString();
+                                xtr.Read();
+                                break;
+                            case "cmt":
+                                wp.Cmt = xtr.ReadString();
+                                xtr.Read();
+                                break;
+                                //Description is not read from GPX. It is remade by the LogViewer.
+                            case "desc":
+                                xtr.Read();
+                                xtr.Read();
+                                break;
+                            case "fix":
+                                wp.Fix = xtr.ReadString();
+                                xtr.Read();
+                                break;
+                            case "sat":
+                                wp.SatCount = Convert.ToInt32(xtr.ReadString(), CultureInfo.InvariantCulture.NumberFormat);
+                                xtr.Read();
+                                break;
+                            case "vdop":
+                                wp.Vdop = Convert.ToDouble(xtr.ReadString(), CultureInfo.InvariantCulture.NumberFormat);
+                                xtr.Read();
+                                break;
+                            case "hdop":
+                                wp.Hdop = Convert.ToDouble(xtr.ReadString(), CultureInfo.InvariantCulture.NumberFormat);
+                                xtr.Read();
+                                break;
+                            case "pdop":
+                                wp.Pdop = Convert.ToDouble(xtr.ReadString(), CultureInfo.InvariantCulture.NumberFormat);
+                                xtr.Read();
+                                break;
+                            case "":
+                                //Blank tags should be ignored
+                                break;
+                            case "wpt":
+                                //Closing tag of this element.
+                                break;
+                            case "extensions":
+                                //The extensions element specifies information about our access point at this spot.
+                                xtr.Read();
+                                string subSubNodeName;
+
+                                do
+                                {
+                                    subSubNodeName = xtr.Name;
+                                    switch (subSubNodeName)
+                                    {
+                                        case "MAC":
+                                            wp.Extensions.MacAddress = xtr.ReadString();
+                                            xtr.Read();
+                                            break;
+                                        case "SSID":
+                                            wp.Extensions.Ssid = xtr.ReadString();
+                                            xtr.Read();
+                                            break;
+                                        case "RSSI":
+                                            wp.Extensions.Rssi = Convert.ToInt32(xtr.ReadString());
+                                            xtr.Read();
+                                            break;
+                                        case "ChannelID":
+                                            wp.Extensions.Channel = Convert.ToUInt32(xtr.ReadString());
+                                            xtr.Read();
+                                            break;
+                                        case "privacy":
+                                            wp.Extensions.Privacy = xtr.ReadString();
+                                            xtr.Read();
+                                            break;
+                                        case "signalQuality":
+                                            wp.Extensions.SignalQuality = Convert.ToUInt32(xtr.ReadString());
+                                            xtr.Read();
+                                            break;
+                                        case "networkType":
+                                            wp.Extensions.NetworkType = xtr.ReadString();
+                                            xtr.Read();
+                                            break;
+                                        case "rates":
+                                            wp.Extensions.Rates = xtr.ReadString();
+                                            xtr.Read();
+                                            break;
+                                            //Blank tags should be ignored.
+                                        case "":
+                                            break;
+                                            //Closing tag should be skipped over also.
+                                        case "extensions":
+                                            break;
+                                        default:
+                                            xtr.Read();
+                                            xtr.Read();
+                                            break;
+                                    }
+
+                                    xtr.Read();
+                                } while (subSubNodeName != "extensions");
+
+                                break;
+                                //Any other elements of GPX not implemented here but possibilty present in the log.
+                                //e.g. magvar, geoidheight, src, link, sym, type, ageofdgpsdata, dgpsid
+                            default:
+                                xtr.Read();
+                                xtr.Read();
+                                break;
+                        }
+                        xtr.Read();
+
+                    } while (subNodeName != "wpt");
+
+                    //Add the Waypoint to the list
+                    points.Add(wp);
+                }
+            }
+            catch(XmlException)
+            {
+
+            }
+
+            //doc.
+
+            xtr.Close();
+
+            return points;
         }
+
+        #endregion Private Methods
     }
 
     public class Waypoint
     {
+        #region Fields
+
+        public string Cmt = string.Empty; // Speed
+        public double Elevation;
+        public readonly Extension Extensions = new Extension();
+        public string Fix = string.Empty;
+        public double GeoidHeight;
+        public double Hdop;
+        public bool Ignore;
         public double Latitude;
         public double Longitude;
-        public double Elevation;
-        public double GeoidHeight;
-        public double Vdop;
-        public double Hdop;
-        public double Pdop;
-        public string Cmt = string.Empty; // Speed
-        public string Time = string.Empty;
         public string Name = string.Empty;
+        public double Pdop;
+        public int SatCount;
+        public string Time = string.Empty;
+        public double Vdop;
+
+        #endregion Fields
+
+        #region Properties
+
         public string Description
         {
             get
@@ -628,10 +655,10 @@ namespace inSSIDer.FileIO
                     });
             }
         }
-        public string Fix = string.Empty;
-        public int SatCount;
-        public readonly Extension Extensions = new Extension();
-        public bool Ignore;
+
+        #endregion Properties
+
+        #region Public Methods
 
         public string BuildKmlDescription()
         {
@@ -663,6 +690,7 @@ namespace inSSIDer.FileIO
             public string NetworkType = string.Empty;
             public string Rates = string.Empty;
         }
-        
+
+        #endregion Public Methods
     }
 }

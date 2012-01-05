@@ -1,50 +1,25 @@
 ﻿using System;
 using System.Net.NetworkInformation;
+
 using ManagedWifi;
 
 namespace ManagedWifi
 {
-	class SudoInterface : NetworkInterface
-	{
-	    private string _id;
-	    private string _name;
-	    private string _desc;
+    class SudoInterface : NetworkInterface
+    {
+        #region Fields
 
-        public SudoInterface(WlanInterface wlan)
-        {
-            _id = wlan.InterfaceGuid.ToString();
-            //Calling InterfaceName cuases an infinite loop
-            //_name = wlan.InterfaceName;
-            _desc = wlan.InterfaceDescription;
-        }
+        private string _desc;
+        private string _id;
+        private string _name;
 
-        public SudoInterface(string id, string description, string name)
-        {
-            _id = id;
-            _name = name;
-            _desc = description;
-        }
+        #endregion Fields
+
+        #region Properties
 
         public override string Description
         {
             get { return _desc; }
-        }
-
-        public override IPInterfaceProperties GetIPProperties()
-        {
-            //throw new NotImplementedException();
-            return null;
-        }
-
-        public override IPv4InterfaceStatistics GetIPv4Statistics()
-        {
-            throw new NotImplementedException();
-            //return null;
-        }
-
-        public override PhysicalAddress GetPhysicalAddress()
-        {
-            return PhysicalAddress.None;
         }
 
         public override string Id
@@ -77,14 +52,56 @@ namespace ManagedWifi
             get { return 0; }
         }
 
+        public override bool SupportsMulticast
+        {
+            get { return false; }
+        }
+
+        #endregion Properties
+
+        #region Constructors
+
+        public SudoInterface(WlanInterface wlan)
+        {
+            _id = wlan.InterfaceGuid.ToString();
+            //Calling InterfaceName cuases an infinite loop
+            //_name = wlan.InterfaceName;
+            _desc = wlan.InterfaceDescription;
+        }
+
+        public SudoInterface(string id, string description, string name)
+        {
+            _id = id;
+            _name = name;
+            _desc = description;
+        }
+
+        #endregion Constructors
+
+        #region Public Methods
+
+        public override IPInterfaceProperties GetIPProperties()
+        {
+            //throw new NotImplementedException();
+            return null;
+        }
+
+        public override IPv4InterfaceStatistics GetIPv4Statistics()
+        {
+            throw new NotImplementedException();
+            //return null;
+        }
+
+        public override PhysicalAddress GetPhysicalAddress()
+        {
+            return PhysicalAddress.None;
+        }
+
         public override bool Supports(NetworkInterfaceComponent networkInterfaceComponent)
         {
             return true;
         }
 
-        public override bool SupportsMulticast
-        {
-            get { return false; }
-        }
+        #endregion Public Methods
     }
 }

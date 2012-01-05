@@ -1,70 +1,205 @@
 ﻿////////////////////////////////////////////////////////////////
+
+#region Header
+
 //
 // Copyright (c) 2007-2010 MetaGeek, LLC
 //
-// Licensed under the Apache License, Version 2.0 (the "License"); 
-// you may not use this file except in compliance with the License. 
-// You may obtain a copy of the License at 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//	http://www.apache.org/licenses/LICENSE-2.0 
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
-// Unless required by applicable law or agreed to in writing, software 
-// distributed under the License is distributed on an "AS IS" BASIS, 
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-// See the License for the specific language governing permissions and 
-// limitations under the License. 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
-////////////////////////////////////////////////////////////////
 
+#endregion Header
+
+
+////////////////////////////////////////////////////////////////
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+
+using inSSIDer.Localization;
 using inSSIDer.Misc;
 using inSSIDer.Scanning;
+
 using MetaGeek.WiFi;
-using inSSIDer.Localization;
-using System.Diagnostics;
 
 namespace inSSIDer.UI.Controls
 {
     public partial class ChannelView : UserControl
     {
-        //Graph size
-        private int _graphWidth;
-        private int _graphHeight;
-
-        //Colors
-        private readonly Color _gridColor = Color.FromArgb(100, Color.Gray);
-        private readonly Color _highChannelForeColor = Color.Green;
-        private readonly Color _graphBackColor = Color.Black;
-        private readonly Color _outlineColor = Color.DimGray;
-        private readonly Color _tickColor = Color.LightGray;
-
-        //Pixel multipilers
-        private float _pixelsPerDbm = 1f;
-        private float _pixelsPerMHz = 1f;
+        #region Fields
 
         //Label spacing
         private int _amplitudeLabelSpacing = 10;
 
-        //Fonts
-        private readonly Font _boldFont;
-
         //The band type
         private BandType _band = BandType.Band2400MHz;
 
-        private ScanController _sc;
+        //Fonts
+        private readonly Font _boldFont;
 
         //The copy context menu
         private readonly ContextMenuStrip _cmsCopy;
+        private readonly Color _graphBackColor = Color.Black;
+        private int _graphHeight;
+
+        //Graph size
+        private int _graphWidth;
+
+        //Colors
+        private readonly Color _gridColor = Color.FromArgb(100, Color.Gray);
+        private readonly Color _highChannelForeColor = Color.Green;
+        private readonly Color _outlineColor = Color.DimGray;
+
+        //Pixel multipilers
+        private float _pixelsPerDbm = 1f;
+        private float _pixelsPerMHz = 1f;
+        private ScanController _sc;
+        private readonly Color _tickColor = Color.LightGray;
+
+        #endregion Fields
+
+        #region Enumerations
 
         public enum BandType
         {
             Band2400MHz = 2400,
             Band5000MHz = 5000
         }
+
+        #endregion Enumerations
+
+        #region Properties
+
+        //public void SetNetworks(AccessPoint[] networks)
+        //{
+        //    _networks = networks;
+        //    Invalidate();
+        //}
+        //Properties
+        /// <summary>
+        /// Sets the band of the graph
+        /// </summary>
+        [Category("Configuration"),
+        DefaultValue(BandType.Band2400MHz)]
+        public BandType Band
+        {
+            get { return _band; }
+            set
+            {
+                _band = value;
+
+                if (_band == BandType.Band5000MHz)
+                {
+                    MinFrequency = 5150F;
+                    MaxFrequency = 5850F;
+                }
+                else
+                {
+                    MinFrequency = 2400F;
+                    MaxFrequency = 2495F;
+                }
+
+                float viewableRange = MaxFrequency - MinFrequency + 1;
+                _pixelsPerMHz = _graphWidth / viewableRange;
+            }
+        }
+
+        /// <summary>
+        /// Pixels from bottom to place border
+        /// </summary>
+        [Category("Configuration"),
+        DefaultValue(20)]
+        public int BottomMargin
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// Pixels from left to place border
+        /// </summary>
+        [Category("Configuration"),
+        DefaultValue(55)]
+        public int LeftMargin
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// The maximum amplitude in dB
+        /// </summary>
+        [Category("Configuration"),
+        DefaultValue(-20)]
+        public float MaxAmplitude
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// The maximum (right most) frequency visible in MHz
+        /// </summary>
+        [Category("Configuration"),
+        DefaultValue(2495)]
+        public float MaxFrequency
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// The minimum amplitude in dB
+        /// </summary>
+        [Category("Configuration"),
+        DefaultValue(-100)]
+        public float MinAmplitude
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// The minimum (left most) frequency visible in MHz
+        /// </summary>
+        [Category("Configuration"),
+        DefaultValue(2400)]
+        public float MinFrequency
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// Pixels from right to place border
+        /// </summary>
+        [Category("Configuration"),
+        DefaultValue(10)]
+        public int RightMargin
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// Pixels from top to place border
+        /// </summary>
+        [Category("Configuration"),
+        DefaultValue(10)]
+        public int TopMargin
+        {
+            get; set;
+        }
+
+        #endregion Properties
+
+        #region Constructors
 
         public ChannelView()
         {
@@ -83,7 +218,6 @@ namespace inSSIDer.UI.Controls
 
             _boldFont = new Font(Font, FontStyle.Bold);
 
-
             ToolStripMenuItem copyItem = new ToolStripMenuItem("Copy to clipboard");
             copyItem.Click += CopyItemClick;
 
@@ -92,6 +226,34 @@ namespace inSSIDer.UI.Controls
             _cmsCopy.Items.Add(copyItem);
 
             ContextMenuStrip = _cmsCopy;
+        }
+
+        #endregion Constructors
+
+        #region Public Methods
+
+        public void SetScanner(ref ScanController scanner)
+        {
+            _sc = scanner;
+        }
+
+        #endregion Public Methods
+
+        #region Protected Methods
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            DrawView(e.Graphics);
+        }
+
+        #endregion Protected Methods
+
+        #region Private Methods
+
+        private void ChannelView_SizeChanged(object sender, EventArgs e)
+        {
+            UpdateGraphDimensions();
+            Invalidate();
         }
 
         private void CopyItemClick(object sender, EventArgs e)
@@ -119,72 +281,18 @@ namespace inSSIDer.UI.Controls
             }
         }
 
-        public void SetScanner(ref ScanController scanner)
+        /*
+        private int WifiChannelToX(uint channel)
         {
-            _sc = scanner;
-        }
-
-        private void ChannelView_SizeChanged(object sender, EventArgs e)
-        {
-            UpdateGraphDimensions();
-            Invalidate();
-        }
-
-        private void UpdateGraphDimensions()
-        {
-            if ((Height <= 0) || (Width <= 0)) return;
-
-            _graphWidth = (Width - LeftMargin - RightMargin);
-            _graphHeight = (Height - TopMargin - BottomMargin);
-
-            float viewableRange = MaxAmplitude - MinAmplitude + 1;
-            _pixelsPerDbm = _graphHeight / viewableRange;
-
-            if (_pixelsPerDbm < 1.1)
-            {
-                _amplitudeLabelSpacing = 20;
+            if (_band == BandType.Band5000MHz) {
+                return (LeftMargin + (int)(((5165 - MinFrequency) + (channel * 5)) * _pixelsPerMHz));
             }
-            else if (_pixelsPerDbm < 3.3)
-            {
-                _amplitudeLabelSpacing = 10;
-            }
-            else if (_pixelsPerDbm < 6.5)
-            {
-                _amplitudeLabelSpacing = 5;
-            }
-            else if (_pixelsPerDbm >= 6.5)
-            {
-                _amplitudeLabelSpacing = 2;
-            }
-
-            viewableRange = MaxFrequency - MinFrequency + 1;
-            _pixelsPerMHz = _graphWidth / viewableRange;
+            return (LeftMargin + (int)(((2407 - MinFrequency) + (channel * 5)) * _pixelsPerMHz));
         }
-
-        protected override void OnPaint(PaintEventArgs e)
+        */
+        private int DbToY(int db)
         {
-            DrawView(e.Graphics);
-        }
-
-        /// <summary>
-        /// Draws the whole graph to the specified drawing surface.
-        /// </summary>
-        /// <param name="graphics"></param>
-        private void DrawView(Graphics graphics)
-        {
-            //graphics.SmoothingMode = SmoothingMode.HighQuality;
-            //Draw the amplitude grid and labels
-            DrawGrid(graphics);
-
-            DrawLabels(graphics);
-
-            // set cropping region
-            graphics.Clip = new Region(new Rectangle(LeftMargin, TopMargin, _graphWidth, _graphHeight));
-
-            DrawNetworks(graphics);
-
-            // reset cropping region
-            graphics.ResetClip();
+            return (int)(TopMargin + _graphHeight - ((db - MinAmplitude) * _pixelsPerDbm));
         }
 
         private void DrawGrid(Graphics graphics)
@@ -261,7 +369,6 @@ namespace inSSIDer.UI.Controls
 
             // X axis labels
             int y = Height - BottomMargin + 5;
-
 
             if (_band == BandType.Band2400MHz)
             {
@@ -362,7 +469,7 @@ namespace inSSIDer.UI.Controls
                             }
                             catch (ArgumentException)
                             {
-                                
+
                             }
                             if (ap.Highlight)
                             {
@@ -403,7 +510,6 @@ namespace inSSIDer.UI.Controls
 
                             //Size the SSID string
                             SizeF stringSize = graphics.MeasureString(ap.Ssid, ap.Highlight ? _boldFont : Font);
-
 
                             // 802.11b arch shape
                             if ((ap.MaxRate <= 20) && (Utilities.ConvertToFrequency(ap.Channel) < 2500))
@@ -529,106 +635,62 @@ namespace inSSIDer.UI.Controls
             }
             catch(ArgumentException)
             {
-                
+
             }
         }
-
-/*
-        private int WifiChannelToX(uint channel)
-        {
-            if (_band == BandType.Band5000MHz) {
-                return (LeftMargin + (int)(((5165 - MinFrequency) + (channel * 5)) * _pixelsPerMHz));
-            }
-            return (LeftMargin + (int)(((2407 - MinFrequency) + (channel * 5)) * _pixelsPerMHz));
-        }
-*/
-
-        private int DbToY(int db)
-        {
-            return (int)(TopMargin + _graphHeight - ((db - MinAmplitude) * _pixelsPerDbm));
-        }
-
-        //public void SetNetworks(AccessPoint[] networks)
-        //{
-        //    _networks = networks;
-        //    Invalidate();
-        //}
-
-        //Properties
 
         /// <summary>
-        /// Sets the band of the graph
+        /// Draws the whole graph to the specified drawing surface.
         /// </summary>
-        [Category("Configuration"), DefaultValue(BandType.Band2400MHz)]
-        public BandType Band
+        /// <param name="graphics"></param>
+        private void DrawView(Graphics graphics)
         {
-            get { return _band; }
-            set
+            //graphics.SmoothingMode = SmoothingMode.HighQuality;
+            //Draw the amplitude grid and labels
+            DrawGrid(graphics);
+
+            DrawLabels(graphics);
+
+            // set cropping region
+            graphics.Clip = new Region(new Rectangle(LeftMargin, TopMargin, _graphWidth, _graphHeight));
+
+            DrawNetworks(graphics);
+
+            // reset cropping region
+            graphics.ResetClip();
+        }
+
+        private void UpdateGraphDimensions()
+        {
+            if ((Height <= 0) || (Width <= 0)) return;
+
+            _graphWidth = (Width - LeftMargin - RightMargin);
+            _graphHeight = (Height - TopMargin - BottomMargin);
+
+            float viewableRange = MaxAmplitude - MinAmplitude + 1;
+            _pixelsPerDbm = _graphHeight / viewableRange;
+
+            if (_pixelsPerDbm < 1.1)
             {
-                _band = value;
-
-                if (_band == BandType.Band5000MHz)
-                {
-                    MinFrequency = 5150F;
-                    MaxFrequency = 5850F;
-                }
-                else
-                {
-                    MinFrequency = 2400F;
-                    MaxFrequency = 2495F;
-                }
-
-                float viewableRange = MaxFrequency - MinFrequency + 1;
-                _pixelsPerMHz = _graphWidth / viewableRange;
+                _amplitudeLabelSpacing = 20;
             }
+            else if (_pixelsPerDbm < 3.3)
+            {
+                _amplitudeLabelSpacing = 10;
+            }
+            else if (_pixelsPerDbm < 6.5)
+            {
+                _amplitudeLabelSpacing = 5;
+            }
+            else if (_pixelsPerDbm >= 6.5)
+            {
+                _amplitudeLabelSpacing = 2;
+            }
+
+            viewableRange = MaxFrequency - MinFrequency + 1;
+            _pixelsPerMHz = _graphWidth / viewableRange;
         }
 
-        /// <summary>
-        /// Pixels from right to place border
-        /// </summary>
-        [Category("Configuration"), DefaultValue(10)]
-        public int RightMargin { get; set; }
-
-        /// <summary>
-        /// Pixels from left to place border
-        /// </summary>
-        [Category("Configuration"), DefaultValue(55)]
-        public int LeftMargin { get; set; }
-
-        /// <summary>
-        /// Pixels from top to place border
-        /// </summary>
-        [Category("Configuration"), DefaultValue(10)]
-        public int TopMargin { get; set; }
-
-        /// <summary>
-        /// Pixels from bottom to place border
-        /// </summary>
-        [Category("Configuration"), DefaultValue(20)]
-        public int BottomMargin { get; set; }
-
-        /// <summary>
-        /// The maximum amplitude in dB
-        /// </summary>
-        [Category("Configuration"), DefaultValue(-20)]
-        public float MaxAmplitude { get; set; }
-
-        /// <summary>
-        /// The minimum amplitude in dB
-        /// </summary>
-        [Category("Configuration"), DefaultValue(-100)]
-        public float MinAmplitude { get; set; }
-
-        /// <summary>
-        /// The maximum (right most) frequency visible in MHz
-        /// </summary>
-        [Category("Configuration"), DefaultValue(2495)]
-        public float MaxFrequency { get; set; }
-
-        /// <summary>
-        /// The minimum (left most) frequency visible in MHz
-        /// </summary>
-        [Category("Configuration"), DefaultValue(2400)]
-        public float MinFrequency { get; set; }
+        #endregion Private Methods
     }
 }

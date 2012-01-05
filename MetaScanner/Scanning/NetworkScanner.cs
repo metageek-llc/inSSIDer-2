@@ -1,29 +1,38 @@
 ﻿////////////////////////////////////////////////////////////////
+
+#region Header
+
 //
 // Copyright (c) 2007-2010 MetaGeek, LLC
 //
-// Licensed under the Apache License, Version 2.0 (the "License"); 
-// you may not use this file except in compliance with the License. 
-// You may obtain a copy of the License at 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//	http://www.apache.org/licenses/LICENSE-2.0 
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
-// Unless required by applicable law or agreed to in writing, software 
-// distributed under the License is distributed on an "AS IS" BASIS, 
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-// See the License for the specific language governing permissions and 
-// limitations under the License. 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
-////////////////////////////////////////////////////////////////
 
+#endregion Header
+
+
+////////////////////////////////////////////////////////////////
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
+
 using inSSIDer.Misc;
+
 using ManagedWifi;
+
 using MetaGeek.IoctlNdis;
 using MetaGeek.WiFi;
 
@@ -31,13 +40,113 @@ namespace inSSIDer.Scanning
 {
     public class NetworkScanner : IDisposable
     {
+        #region Fields
+
         // Fields
         private IoctlNdis _myNdis;
+
+        #endregion Fields
+
+        #region Properties
+
+        // Properties
+        public bool IsScanning
+        {
+            get; private set;
+        }
+
+        private GetNetworkDataDelegate MyGetNetworkDataDelegate
+        {
+            get; set;
+        }
+
+        private IoctlNdis MyNdis
+        {
+            get
+            {
+                return (_myNdis ?? (_myNdis = new IoctlNdis()));
+            }
+        }
+
+        private AutoResetEvent MyScanCompleteEvent
+        {
+            get
+            {
+                return _myScanCompleteEvent;
+            }
+        }
+
+        private Thread MyScannerThread
+        {
+            get; set;
+        }
+
+        private ScanNetworksDelegate MyScanNetworksDelegate
+        {
+            get; set;
+        }
+
+        private ManualResetEvent MyTerminateEvent
+        {
+            get
+            {
+                return _myTerminateEvent;
+            }
+        }
+
+        private WaitHandle[] MyWaitHandleArray
+        {
+            get; set;
+        }
+
+        public WlanClient.WlanInterface MyWlanInterface
+        {
+            get; set;
+        }
+
+        private int ScanInterval
+        {
+            get; set;
+        }
+
+        #endregion Properties
+
+        #region Event Fields
+
         private readonly AutoResetEvent _myScanCompleteEvent = new AutoResetEvent(true);
         private readonly ManualResetEvent _myTerminateEvent = new ManualResetEvent(false);
 
+        #endregion Event Fields
+
+        #region Events
+
         // Events
         public event EventHandler<IncomingDataEventArgs<NetworkData>> NewNetworkDataEvent;
+
+        #endregion Events
+
+        #region Invoke Methods
+
+        private void InvokeNewNetworkDataEvent(IEnumerable<NetworkData> dataList)
+        {
+            if (NewNetworkDataEvent != null)
+            {
+                NewNetworkDataEvent(this, new IncomingDataEventArgs<NetworkData>(dataList));
+            }
+        }
+
+        #endregion Invoke Methods
+
+        #region Delegates
+
+        // Nested Types
+        private delegate IEnumerable<NetworkData> GetNetworkDataDelegate();
+
+        private delegate void ScanNetworksDelegate();
+
+        #endregion Delegates
+
+        #region Constructors
 
         // Methods
         public NetworkScanner()
@@ -55,6 +164,10 @@ namespace inSSIDer.Scanning
             }
         }
 
+        #endregion Constructors
+
+        #region Dispose
+
         public void Dispose()
         {
             if (IsScanning)
@@ -62,6 +175,47 @@ namespace inSSIDer.Scanning
                 Stop();
             }
         }
+
+        #endregion Dispose
+
+        #region Public Methods
+
+        public void Start()
+        {
+            Start(0);
+        }
+
+        public void Start(int interval)
+        {
+            ScanInterval = interval;
+            MyWlanInterface.WlanNotification += WlanApi_WlanNotification;
+            MyScannerThread = new Thread(ScanThreadFunc);
+            MyScannerThread.Start();
+            IsScanning = true;
+        }
+
+        public void Stop()
+        {
+            if (IsScanning)
+            {
+                MyWlanInterface.WlanNotification -= WlanApi_WlanNotification;
+                if (MyScannerThread != null)
+                {
+                    _myTerminateEvent.Set();
+                    if (!MyScannerThread.Join(1000))
+                    {
+                        MyScannerThread.Abort();
+                    }
+                    _myTerminateEvent.Reset();
+                    MyScannerThread = null;
+                }
+                IsScanning = false;
+            }
+        }
+
+        #endregion Public Methods
+
+        #region Private Methods
 
         private static bool FindNetwork(string ssid, IEnumerable<Wlan.WlanAvailableNetwork> networks, ref Wlan.WlanAvailableNetwork foundNetwork)
         {
@@ -96,7 +250,7 @@ namespace inSSIDer.Scanning
                     if (FindNetwork(ssid, availableNetworkList, ref foundNetwork))
                     {
                         NetworkData item = new NetworkData(entry.BaseEntry.dot11Bssid);
-                        
+
                         Utilities.ConvertToMbs(entry.BaseEntry.wlanRateSet.Rates, item.Rates);
                         if (entry.NSettings != null)
                         {
@@ -174,14 +328,6 @@ namespace inSSIDer.Scanning
             return list;
         }
 
-        private void InvokeNewNetworkDataEvent(IEnumerable<NetworkData> dataList)
-        {
-            if (NewNetworkDataEvent != null)
-            {
-                NewNetworkDataEvent(this, new IncomingDataEventArgs<NetworkData>(dataList));
-            }
-        }
-
         private IEnumerable<NetworkData> ReadData()
         {
             IEnumerable<NetworkData> enumerable = new List<NetworkData>();
@@ -233,39 +379,6 @@ namespace inSSIDer.Scanning
             MyNdis.Scan(MyWlanInterface.NetworkInterface);
         }
 
-        public void Start()
-        {
-            Start(0);
-        }
-
-        public void Start(int interval)
-        {
-            ScanInterval = interval;
-            MyWlanInterface.WlanNotification += WlanApi_WlanNotification;
-            MyScannerThread = new Thread(ScanThreadFunc);
-            MyScannerThread.Start();
-            IsScanning = true;
-        }
-
-        public void Stop()
-        {
-            if (IsScanning)
-            {
-                MyWlanInterface.WlanNotification -= WlanApi_WlanNotification;
-                if (MyScannerThread != null)
-                {
-                    _myTerminateEvent.Set();
-                    if (!MyScannerThread.Join(1000))
-                    {
-                        MyScannerThread.Abort();
-                    }
-                    _myTerminateEvent.Reset();
-                    MyScannerThread = null;
-                }
-                IsScanning = false;
-            }
-        }
-
         private void WlanApi_WlanNotification(Wlan.WlanNotificationData notifyData)
         {
             lock (this)
@@ -283,49 +396,6 @@ namespace inSSIDer.Scanning
             }
         }
 
-        // Properties
-        public bool IsScanning { get; private set; }
-
-        private GetNetworkDataDelegate MyGetNetworkDataDelegate { get; set; }
-
-        private IoctlNdis MyNdis
-        {
-            get
-            {
-                return (_myNdis ?? (_myNdis = new IoctlNdis()));
-            }
-        }
-
-        private AutoResetEvent MyScanCompleteEvent
-        {
-            get
-            {
-                return _myScanCompleteEvent;
-            }
-        }
-
-        private Thread MyScannerThread { get; set; }
-
-        private ScanNetworksDelegate MyScanNetworksDelegate { get; set; }
-
-        private ManualResetEvent MyTerminateEvent
-        {
-            get
-            {
-                return _myTerminateEvent;
-            }
-        }
-
-        private WaitHandle[] MyWaitHandleArray { get; set; }
-
-        public WlanClient.WlanInterface MyWlanInterface { get; set; }
-
-        private int ScanInterval { get; set; }
-
-        // Nested Types
-        private delegate IEnumerable<NetworkData> GetNetworkDataDelegate();
-
-        private delegate void ScanNetworksDelegate();
+        #endregion Private Methods
     }
-
 }

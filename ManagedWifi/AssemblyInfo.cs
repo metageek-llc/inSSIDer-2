@@ -1,5 +1,4 @@
 ﻿// Assembly ManagedWifi, Version 2010.6.21.0
-
 [assembly: System.Reflection.AssemblyVersion("2010.10.27.0")]
 [assembly: System.Reflection.AssemblyConfiguration("")]
 [assembly: System.Runtime.CompilerServices.CompilationRelaxations(8)]
@@ -14,4 +13,3 @@
 [assembly: System.Runtime.InteropServices.Guid("e7646a9f-2d07-455a-b9ae-51eaf7281d2f")]
 [assembly: System.Reflection.AssemblyFileVersion("1.0.11.1027")]
 [assembly: System.Diagnostics.Debuggable(System.Diagnostics.DebuggableAttribute.DebuggingModes.IgnoreSymbolStoreSequencePoints)]
-

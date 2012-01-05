@@ -1,40 +1,53 @@
 ////////////////////////////////////////////////////////////////
+
+#region Header
+
 //
 // Copyright (c) 2007-2010 MetaGeek, LLC
 //
-// Licensed under the Apache License, Version 2.0 (the "License"); 
-// you may not use this file except in compliance with the License. 
-// You may obtain a copy of the License at 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//	http://www.apache.org/licenses/LICENSE-2.0 
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
-// Unless required by applicable law or agreed to in writing, software 
-// distributed under the License is distributed on an "AS IS" BASIS, 
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-// See the License for the specific language governing permissions and 
-// limitations under the License. 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
-////////////////////////////////////////////////////////////////
 
+#endregion Header
+
+
+////////////////////////////////////////////////////////////////
 using System;
-using System.Windows.Forms;
-using System.Net;
 using System.IO;
+using System.Net;
+using System.Windows.Forms;
 
 namespace inSSIDer.Version
 {
-	/// <summary>
-	/// Summary description for Version.
-	/// </summary>
-	public static class VersionInfo
+    /// <summary>
+    /// Summary description for Version.
+    /// </summary>
+    public static class VersionInfo
     {
-        #region Private Data
+        #region Fields
+
+        private static string _downloadUrl = string.Empty;
         private static string _latestVersion = string.Empty;
         private static string _versionDescription = string.Empty;
-        private static string _downloadUrl = string.Empty;
-        #endregion
 
-        #region Public Properties
+        #endregion Fields
+
+        #region Properties
+
+        public static string DownloadUrl
+        {
+            get { return _downloadUrl; }
+        }
 
         public static string LatestVersion
         {
@@ -46,11 +59,7 @@ namespace inSSIDer.Version
             get { return _versionDescription; }
         }
 
-        public static string DownloadUrl
-        {
-            get { return _downloadUrl; }
-        }
-        #endregion
+        #endregion Properties
 
         #region Public Methods
 
@@ -88,55 +97,17 @@ namespace inSSIDer.Version
             }
         }
 
-        #endregion
+        #endregion Public Methods
 
         #region Private Methods
 
-        private static int[] GetVersionNumbers(string versionString)
-		{
-			int[] result = new int[4];
-
-			for (int i = 0; i < result.Length; i++)
-			{
-				int periodPos = versionString.IndexOf('.');
-
-				int currentVersion;
-
-#if !DEBUG
-				try
-				{
-#endif		
-                    if (periodPos != -1)
-					{
-						currentVersion = int.Parse(versionString.Substring(0, periodPos));
-					}
-					else
-					{
-						currentVersion = int.Parse(versionString);
-					}
-#if !DEBUG			
-                }
-				catch (Exception)
-				{
-					currentVersion = 0;
-				}
-#endif
-
-				result[i] = currentVersion;
-
-				versionString = versionString.Substring(periodPos + 1);
-			}
-
-			return result;
-		}
-
-		/// <summary>
-		/// Compare two version number strings.
-		/// </summary>
-		/// <param name="version1">version number string</param>
-		/// <param name="version2">version number string</param>
-		private static bool CompareVersions(string version1, string version2)
-		{
+        /// <summary>
+        /// Compare two version number strings.
+        /// </summary>
+        /// <param name="version1">version number string</param>
+        /// <param name="version2">version number string</param>
+        private static bool CompareVersions(string version1, string version2)
+        {
             int result = 0;
 
             try
@@ -158,8 +129,46 @@ namespace inSSIDer.Version
             {
                 return true;
             }
-		    return false;
-		}
+            return false;
+        }
+
+        private static int[] GetVersionNumbers(string versionString)
+        {
+            int[] result = new int[4];
+
+            for (int i = 0; i < result.Length; i++)
+            {
+                int periodPos = versionString.IndexOf('.');
+
+                int currentVersion;
+
+            #if !DEBUG
+                try
+                {
+            #endif
+                    if (periodPos != -1)
+                    {
+                        currentVersion = int.Parse(versionString.Substring(0, periodPos));
+                    }
+                    else
+                    {
+                        currentVersion = int.Parse(versionString);
+                    }
+            #if !DEBUG
+                }
+                catch (Exception)
+                {
+                    currentVersion = 0;
+                }
+            #endif
+
+                result[i] = currentVersion;
+
+                versionString = versionString.Substring(periodPos + 1);
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// 
@@ -209,6 +218,7 @@ namespace inSSIDer.Version
             {
             }
         }
-        #endregion
+
+        #endregion Private Methods
     }
 }

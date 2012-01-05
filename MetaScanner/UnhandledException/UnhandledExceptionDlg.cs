@@ -1,28 +1,32 @@
+#region Header
+
 /*
  *                  UnhandledExceptionDlg Class v. 1.1
- * 
+ *
  *                      Copyright (c)2006 Vitaly Zayko
- * 
+ *
  * History:
- * September 26, 2006 - Added "ThreadException" handler, "SetUnhandledExceptionMode", OnShowErrorReport event 
+ * September 26, 2006 - Added "ThreadException" handler, "SetUnhandledExceptionMode", OnShowErrorReport event
  *                      and updated the Demo and code comments;
  * August 29, 2006 - Updated information about Microsoft Windows Error Reporting service and its link;
  * July 18, 2006 - Initial release.
- * 
+ *
  */
-
-/* More info on MSDN: 
+/* More info on MSDN:
  * http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnbda/html/exceptdotnet.asp
  * http://msdn2.microsoft.com/en-us/library/system.windows.forms.application.threadexception.aspx
  * http://msdn2.microsoft.com/en-us/library/system.appdomain.unhandledexception.aspx
  * http://msdn2.microsoft.com/en-us/library/system.windows.forms.unhandledexceptionmode.aspx
  */
 
+#endregion Header
+
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Windows.Forms;
 using System.Threading;
+using System.Windows.Forms;
+
 using inSSIDer.UnhandledException;
 
 namespace MetaGeek.Utils
@@ -32,10 +36,16 @@ namespace MetaGeek.Utils
     /// </summary>
     public class UnhandledExceptionDlg
     {
+        #region Fields
+
         private bool _userPrefChecked = false;
+
         //private bool _userPrefVisible = false;
         private string _userPrefText = string.Empty;
 
+        #endregion Fields
+
+        #region Properties
 
         /// <summary>
         /// Set to true if you want to restart your App after falure
@@ -46,10 +56,13 @@ namespace MetaGeek.Utils
             set { _userPrefChecked = value; }
         }
 
-        public delegate void SendExceptionClickHandler(object sender, SendExceptionClickEventArgs args);
+        #endregion Properties
+
+        #region Events
+
+        public event SendExceptionClickHandler OnCopyToClipboardClick;
 
         //public delegate void ShowErrorReportHandler(object sender, System.EventArgs args);
-
         /// <summary>
         /// Occurs when user clicks on "Send Error report" button
         /// </summary>
@@ -60,7 +73,15 @@ namespace MetaGeek.Utils
         /// </summary>
         public event SendExceptionClickHandler OnShowErrorReportClick;
 
-        public event SendExceptionClickHandler OnCopyToClipboardClick;
+        #endregion Events
+
+        #region Delegates
+
+        public delegate void SendExceptionClickHandler(object sender, SendExceptionClickEventArgs args);
+
+        #endregion Delegates
+
+        #region Constructors
 
         /// <summary>
         /// Default constructor
@@ -77,37 +98,9 @@ namespace MetaGeek.Utils
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledExceptionFunction);
         }
 
-        /// <summary>
-        /// Handle the UI exceptions by showing a dialog box
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ThreadExceptionFunction(Object sender, ThreadExceptionEventArgs e)
-        {
-            // Suppress the Dialog in Debug mode:
-            #if !DEBUG
-            //Settings.Default.UsesBeforeUpdateReminder = 0;
-            //Settings.Default.Save();            
+        #endregion Constructors
 
-            ShowUnhandledExceptionDlg(e.Exception);
-            #endif
-        }
-
-        /// <summary>
-        /// Handle the UI exceptions by showing a dialog box
-        /// </summary>
-        /// <param name="sender">Sender Object</param>
-        /// <param name="args">Passing arguments: original exception etc.</param>
-        private void UnhandledExceptionFunction(Object sender, UnhandledExceptionEventArgs args)
-        {
-            // Suppress the Dialog in Debug mode:
-            #if !DEBUG
-            //Settings.Default.UsesBeforeUpdateReminder = 0;
-            //Settings.Default.Save();            
-
-            ShowUnhandledExceptionDlg((Exception)args.ExceptionObject);
-            #endif
-        }
+        #region Private Methods
 
         /// <summary>
         /// Raise Exception Dialog box for both UI and non-UI Unhandled Exceptions
@@ -157,7 +150,6 @@ namespace MetaGeek.Utils
                     exDlgForm.buttonCopy.Enabled = false;
                 };
 
-
                 // Show the Dialog box:
                 bool sendDetails = (exDlgForm.ShowDialog() == System.Windows.Forms.DialogResult.Yes);
 
@@ -172,6 +164,39 @@ namespace MetaGeek.Utils
                 exDlgForm.Dispose();
             }
         }
-        
+
+        /// <summary>
+        /// Handle the UI exceptions by showing a dialog box
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ThreadExceptionFunction(Object sender, ThreadExceptionEventArgs e)
+        {
+            // Suppress the Dialog in Debug mode:
+            #if !DEBUG
+            //Settings.Default.UsesBeforeUpdateReminder = 0;
+            //Settings.Default.Save();
+
+            ShowUnhandledExceptionDlg(e.Exception);
+            #endif
+        }
+
+        /// <summary>
+        /// Handle the UI exceptions by showing a dialog box
+        /// </summary>
+        /// <param name="sender">Sender Object</param>
+        /// <param name="args">Passing arguments: original exception etc.</param>
+        private void UnhandledExceptionFunction(Object sender, UnhandledExceptionEventArgs args)
+        {
+            // Suppress the Dialog in Debug mode:
+            #if !DEBUG
+            //Settings.Default.UsesBeforeUpdateReminder = 0;
+            //Settings.Default.Save();
+
+            ShowUnhandledExceptionDlg((Exception)args.ExceptionObject);
+            #endif
+        }
+
+        #endregion Private Methods
     }
 }

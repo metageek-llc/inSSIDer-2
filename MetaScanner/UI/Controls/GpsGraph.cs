@@ -1,39 +1,95 @@
 ﻿////////////////////////////////////////////////////////////////
+
+#region Header
+
 //
 // Copyright (c) 2007-2010 MetaGeek, LLC
 //
-// Licensed under the Apache License, Version 2.0 (the "License"); 
-// you may not use this file except in compliance with the License. 
-// You may obtain a copy of the License at 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//	http://www.apache.org/licenses/LICENSE-2.0 
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
-// Unless required by applicable law or agreed to in writing, software 
-// distributed under the License is distributed on an "AS IS" BASIS, 
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-// See the License for the specific language governing permissions and 
-// limitations under the License. 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
-////////////////////////////////////////////////////////////////
 
+#endregion Header
+
+
+////////////////////////////////////////////////////////////////
 using System;
 using System.ComponentModel;
 using System.Drawing;
-using System.Windows.Forms;
-using inSSIDer.Scanning;
-using MetaGeek.Gps;
 using System.Drawing.Drawing2D;
+using System.Windows.Forms;
+
+using inSSIDer.Scanning;
+
+using MetaGeek.Gps;
 
 namespace inSSIDer.UI.Controls
 {
     public partial class GpsGraph : UserControl
     {
-        private ScanController _sc;
+        #region Fields
+
         private Satellite[] _lastSats;
-
         private LinearGradientBrush _lgb;
-
         private float _pxPerAmp;
+        private ScanController _sc;
+
+        #endregion Fields
+
+        #region Properties
+
+        /// <summary>
+        /// Pixels from bottom to place border
+        /// </summary>
+        [Category("Configuration"),
+        DefaultValue(30)]
+        public int BottomMargin
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// Pixels from left to place border
+        /// </summary>
+        [Category("Configuration"),
+        DefaultValue(50)]
+        public int LeftMargin
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// Pixels from right to place border
+        /// </summary>
+        [Category("Configuration"),
+        DefaultValue(5)]
+        private int RightMargin
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// Pixels from top to place border
+        /// </summary>
+        [Category("Configuration"),
+        DefaultValue(5)]
+        private int TopMargin
+        {
+            get; set;
+        }
+
+        #endregion Properties
+
+        #region Constructors
 
         public GpsGraph()
         {
@@ -49,20 +105,59 @@ namespace inSSIDer.UI.Controls
                 ControlStyles.OptimizedDoubleBuffer, true);
         }
 
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            DrawView(e.Graphics);
-        }
+        #endregion Constructors
+
+        #region Public Methods
 
         public void SetScanner(ref ScanController s)
         {
             _sc = s;
         }
 
-        private void DrawView(Graphics g)
+        #endregion Public Methods
+
+        #region Protected Methods
+
+        protected override void OnPaint(PaintEventArgs e)
         {
-            DrawBars(g);
-            DrawGrid(g);
+            DrawView(e.Graphics);
+        }
+
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            _pxPerAmp = (Height - TopMargin - BottomMargin) / 100f;
+
+            //Regenerate the gradient
+            CreateBrush();
+            base.OnSizeChanged(e);
+        }
+
+        #endregion Protected Methods
+
+        #region Private Methods
+
+        private void CreateBrush()
+        {
+            _lgb = new LinearGradientBrush(new Point(0, TopMargin), new Point(0, Height - BottomMargin), Color.Black,
+                                          Color.White);
+
+            ColorBlend cb = new ColorBlend(7)
+                                {
+                                    Colors = new[]
+                                                 {
+                                                     Color.Green, Color.Green, Color.YellowGreen, Color.Yellow,
+                                                     Color.Orange, Color.OrangeRed,
+                                                     Color.Red
+                                                 },
+                                    Positions = new[] {0, 0.5f, 0.55f, 0.7f, 0.8f, 0.9f, 1f}
+                                };
+
+            _lgb.InterpolationColors = cb;
+
+            //We need to map SNR 0..99 to a float 0..1
+
+            //
+            //0 = 0 = Red
         }
 
         private void DrawBars(Graphics g)
@@ -101,11 +196,11 @@ namespace inSSIDer.UI.Controls
                 if (satTemp.Snr < 0) satTemp.Snr = 0;
                 x += 2;
 
-                recBar = new RectangleF(x, TopMargin, barWidth, Height - TopMargin - BottomMargin);                
+                recBar = new RectangleF(x, TopMargin, barWidth, Height - TopMargin - BottomMargin);
 
                 //SNR
                 g.FillRectangle(_lgb, x, (Height - BottomMargin) - (float)(satTemp.Snr * _pxPerAmp), barWidth, (float)(satTemp.Snr * _pxPerAmp));
-                
+
                 //Gray out the unused satellites a little
                 if(!satTemp.IsUsed)
                 {
@@ -113,7 +208,6 @@ namespace inSSIDer.UI.Controls
                 }
 
                 g.DrawString(satTemp.Snr.ToString("F0"), Font, satTemp.IsUsed ? Brushes.Lime : Brushes.DarkGray, recBar, sfCenter);
-
 
                 recId = new RectangleF(x, Height - BottomMargin, barWidth, BottomMargin);
 
@@ -130,8 +224,6 @@ namespace inSSIDer.UI.Controls
 
             //for (int x = LeftMargin; x < Width - RightMargin; x+=barWidth)
             //{
-                
-
 
             //}
         }
@@ -165,62 +257,12 @@ namespace inSSIDer.UI.Controls
             g.DrawRectangle(Pens.Gray, LeftMargin+2, TopMargin, Width - LeftMargin - RightMargin, Height - TopMargin - BottomMargin);
         }
 
-        private void CreateBrush()
+        private void DrawView(Graphics g)
         {
-            _lgb = new LinearGradientBrush(new Point(0, TopMargin), new Point(0, Height - BottomMargin), Color.Black,
-                                          Color.White);
-
-
-            ColorBlend cb = new ColorBlend(7)
-                                {
-                                    Colors = new[]
-                                                 {
-                                                     Color.Green, Color.Green, Color.YellowGreen, Color.Yellow,
-                                                     Color.Orange, Color.OrangeRed,
-                                                     Color.Red
-                                                 },
-                                    Positions = new[] {0, 0.5f, 0.55f, 0.7f, 0.8f, 0.9f, 1f}
-                                };
-
-            _lgb.InterpolationColors = cb;
-
-            //We need to map SNR 0..99 to a float 0..1
-
-            //
-            //0 = 0 = Red
+            DrawBars(g);
+            DrawGrid(g);
         }
 
-        protected override void OnSizeChanged(EventArgs e)
-        {
-            _pxPerAmp = (Height - TopMargin - BottomMargin) / 100f;
-
-            //Regenerate the gradient
-            CreateBrush();
-            base.OnSizeChanged(e);
-        }
-
-        /// <summary>
-        /// Pixels from right to place border
-        /// </summary>
-        [Category("Configuration"), DefaultValue(5)]
-        private int RightMargin { get; set; }
-
-        /// <summary>
-        /// Pixels from left to place border
-        /// </summary>
-        [Category("Configuration"), DefaultValue(50)]
-        public int LeftMargin { get; set; }
-
-        /// <summary>
-        /// Pixels from top to place border
-        /// </summary>
-        [Category("Configuration"), DefaultValue(5)]
-        private int TopMargin { get; set; }
-
-        /// <summary>
-        /// Pixels from bottom to place border
-        /// </summary>
-        [Category("Configuration"), DefaultValue(30)]
-        public int BottomMargin { get; set; }
+        #endregion Private Methods
     }
 }

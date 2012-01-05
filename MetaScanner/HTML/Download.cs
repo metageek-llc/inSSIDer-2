@@ -1,21 +1,27 @@
 ﻿////////////////////////////////////////////////////////////////
+
+#region Header
+
 //
 // Copyright (c) 2007-2010 MetaGeek, LLC
 //
-// Licensed under the Apache License, Version 2.0 (the "License"); 
-// you may not use this file except in compliance with the License. 
-// You may obtain a copy of the License at 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//	http://www.apache.org/licenses/LICENSE-2.0 
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
-// Unless required by applicable law or agreed to in writing, software 
-// distributed under the License is distributed on an "AS IS" BASIS, 
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-// See the License for the specific language governing permissions and 
-// limitations under the License. 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
-////////////////////////////////////////////////////////////////
 
+#endregion Header
+
+
+////////////////////////////////////////////////////////////////
 using System;
 using System.IO;
 using System.Net;
@@ -24,16 +30,16 @@ namespace inSSIDer.HTML
 {
     public class Download
     {
-        #region Methods
+        #region Public Methods
 
         // Download new version of each file in the collection
         // Collection of files, each one is <Remote Path>|<Local Path>
         public static void UpdateFile(string localFile, string remotePath)
         {
-#if !DEBUG
+            #if !DEBUG
             try
             {
-#endif
+            #endif
                 int bytes = DownloadFile(remotePath, localFile);
 
                 // Don't adjust file if nothing was downloaded...
@@ -43,12 +49,16 @@ namespace inSSIDer.HTML
                     string convertedFile = Path.ChangeExtension(localFile, "html");
                     converter.RssToHtml(localFile, convertedFile);
                 }
-#if !DEBUG
+            #if !DEBUG
             }
             // Catch ALL exceptions silently. Updating the news should NOT crash the application EVER
             catch(Exception){};
-#endif
+            #endif
         }
+
+        #endregion Public Methods
+
+        #region Private Methods
 
         private static int DownloadFile(String remoteFilename, String localFilename)
         {
@@ -69,7 +79,7 @@ namespace inSSIDer.HTML
                 // Create a request for the specified remote file name
                 WebRequest request = WebRequest.Create(remoteFilename);
                 // Send the request to the server and retrieve the
-                // WebResponse object 
+                // WebResponse object
                 response = request.GetResponse();
                 if (response != null)
                 {
@@ -109,7 +119,7 @@ namespace inSSIDer.HTML
             //}
             finally
             {
-                // Close the response and streams objects here 
+                // Close the response and streams objects here
                 // to make sure they're closed even if an exception
                 // is thrown at some point
                 if (response != null) response.Close();
@@ -121,7 +131,6 @@ namespace inSSIDer.HTML
             return bytesProcessed;
         }
 
-
-        #endregion
+        #endregion Private Methods
     }
 }

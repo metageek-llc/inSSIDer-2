@@ -1,45 +1,115 @@
 ﻿////////////////////////////////////////////////////////////////
+
+#region Header
+
 //
 // Copyright (c) 2007-2010 MetaGeek, LLC
 //
-// Licensed under the Apache License, Version 2.0 (the "License"); 
-// you may not use this file except in compliance with the License. 
-// You may obtain a copy of the License at 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//	http://www.apache.org/licenses/LICENSE-2.0 
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
-// Unless required by applicable law or agreed to in writing, software 
-// distributed under the License is distributed on an "AS IS" BASIS, 
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-// See the License for the specific language governing permissions and 
-// limitations under the License. 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
-////////////////////////////////////////////////////////////////
 
+#endregion Header
+
+
+////////////////////////////////////////////////////////////////
 using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+
 using inSSIDer.FileIO;
 using inSSIDer.Localization;
 using inSSIDer.Properties;
-using System.IO;
 
 namespace inSSIDer.UI.Forms
 {
     public partial class FormLogConverter : Form
     {
+        #region Fields
+
         private string[] _inFiles;
         private string _outPath;
+
+        #endregion Fields
+
+        #region Constructors
+
         public FormLogConverter()
         {
             InitializeComponent();
         }
 
-        private void FormLogConverterShown(object sender, EventArgs e)
+        #endregion Constructors
+
+        #region Protected Methods
+
+        protected override void OnClosing(CancelEventArgs e)
         {
-            
+            base.OnClosing(e);
+
+            //Settings Save
+            Settings.Default.gpxLastSummary = chExportSummary.Checked;
+            Settings.Default.gpxLastComprehensive = chExportComp.Checked;
+            Settings.Default.gpxLastEachAp = chExportEachAp.Checked;
+
+            Settings.Default.gpxLastOrganizeEThenC = cmbOrganize.SelectedIndex == 0;
+
+            Settings.Default.gpxLastRssiLabels = chShowRssiMarkers.Checked;
+
+            Settings.Default.gpxLastGpsLockedup = chGPSLockup.Checked;
+            Settings.Default.gpxLastGpsFixLost = chGPSFixLost.Checked;
+            Settings.Default.gpxLastMinimumSatsEnabled = chGPSsatCount.Checked;
+            Settings.Default.gpxLastMinimumStas = (int)numSatCount.Value;
+
+            Settings.Default.gpxLastMaxSpeedEnabled = chMaxSpeed.Checked;
+            Settings.Default.gpxLastMaxSpeed = (int)numMaxSpeed.Value;
+
+            Settings.Default.gpxLastMaxRssiEnabled = chMaxSignal.Checked;
+            Settings.Default.gpxLastMaxRssi = (int)numMaxSignal.Value;
+
+            //Save input file(s)
+            //(Settings.Default.gpxLastInputFiles ?? (Settings.Default.gpxLastInputFiles = new StringCollection())).AddRange(openFile.FileNames);
+            if (_inFiles != null)
+            {
+                (Settings.Default.gpxLastInputFiles = new StringCollection()).AddRange(_inFiles);
+            }
+
+            Settings.Default.gpxLastOutputDir = txtOutDir.Text;
+        }
+
+        #endregion Protected Methods
+
+        #region Private Methods
+
+        private void CancelButtonClick(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void ChangeInputFilesButtonClick(object sender, EventArgs e)
+        {
+            if (openFile.ShowDialog(this) != DialogResult.OK) return;
+            _inFiles = openFile.FileNames;
+            txtInFiles.Text = _inFiles.Aggregate((all, next) => all + " " + next);
+        }
+
+        private void ChangeOutputDirectoryButtonClick(object sender, EventArgs e)
+        {
+            if (fbOutput.ShowDialog(this) != DialogResult.OK) return;
+            _outPath = fbOutput.SelectedPath;
+            txtOutDir.Text = _outPath;
         }
 
         private void ExportButtonClick(object sender, EventArgs e)
@@ -57,7 +127,6 @@ namespace inSSIDer.UI.Forms
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
 
             if(!txtOutDir.Text.EndsWith("\\")) txtOutDir.AppendText("\\");
             _outPath = txtOutDir.Text;
@@ -82,7 +151,7 @@ namespace inSSIDer.UI.Forms
                 MessageBox.Show(ex.Message, Localizer.GetString("Error"));
                 return;
             }
-            
+
             //All is well, let's go
             Waypoint[] allPoints;
             try
@@ -111,7 +180,6 @@ namespace inSSIDer.UI.Forms
             allPoints = KmlWriter.FilterData(allPoints, farg);
 
             ApOrganization group = (ApOrganization)cmbOrganize.SelectedIndex;
-
 
             if(chExportSummary.Checked) //Export a summary file
             {
@@ -160,7 +228,7 @@ namespace inSSIDer.UI.Forms
                 _inFiles = Settings.Default.gpxLastInputFiles.Cast<string>().ToArray();
             }
             txtInFiles.Text = _inFiles.Aggregate((all, next) => all + " " + next);
-            
+
             //Output path
             if (string.IsNullOrEmpty(Settings.Default.gpxLastOutputDir))
             {
@@ -194,63 +262,14 @@ namespace inSSIDer.UI.Forms
             chMaxSignal.Checked = Settings.Default.gpxLastMaxRssiEnabled;
             numMaxSignal.Value = Settings.Default.gpxLastMaxRssi;
 
-
             //Set default organization
             cmbOrganize.SelectedIndex = 0;
         }
 
-        private void ChangeInputFilesButtonClick(object sender, EventArgs e)
+        private void FormLogConverterShown(object sender, EventArgs e)
         {
-            if (openFile.ShowDialog(this) != DialogResult.OK) return;
-            _inFiles = openFile.FileNames;
-            txtInFiles.Text = _inFiles.Aggregate((all, next) => all + " " + next);
         }
 
-        private void ChangeOutputDirectoryButtonClick(object sender, EventArgs e)
-        {
-            if (fbOutput.ShowDialog(this) != DialogResult.OK) return;
-            _outPath = fbOutput.SelectedPath;
-            txtOutDir.Text = _outPath;
-        }
-
-        private void CancelButtonClick(object sender, EventArgs e)
-        {
-            Close();
-        }
-
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            base.OnClosing(e);
-
-            //Settings Save
-            Settings.Default.gpxLastSummary = chExportSummary.Checked;
-            Settings.Default.gpxLastComprehensive = chExportComp.Checked;
-            Settings.Default.gpxLastEachAp = chExportEachAp.Checked;
-
-            Settings.Default.gpxLastOrganizeEThenC = cmbOrganize.SelectedIndex == 0;
-
-            Settings.Default.gpxLastRssiLabels = chShowRssiMarkers.Checked;
-
-            Settings.Default.gpxLastGpsLockedup = chGPSLockup.Checked;
-            Settings.Default.gpxLastGpsFixLost = chGPSFixLost.Checked;
-            Settings.Default.gpxLastMinimumSatsEnabled = chGPSsatCount.Checked;
-            Settings.Default.gpxLastMinimumStas = (int)numSatCount.Value;
-
-            Settings.Default.gpxLastMaxSpeedEnabled = chMaxSpeed.Checked;
-            Settings.Default.gpxLastMaxSpeed = (int)numMaxSpeed.Value;
-
-            Settings.Default.gpxLastMaxRssiEnabled = chMaxSignal.Checked;
-            Settings.Default.gpxLastMaxRssi = (int)numMaxSignal.Value;
-
-            //Save input file(s)
-            //(Settings.Default.gpxLastInputFiles ?? (Settings.Default.gpxLastInputFiles = new StringCollection())).AddRange(openFile.FileNames);
-            if (_inFiles != null)
-            {
-                (Settings.Default.gpxLastInputFiles = new StringCollection()).AddRange(_inFiles);
-            }
-
-            Settings.Default.gpxLastOutputDir = txtOutDir.Text;
-
-        }
+        #endregion Private Methods
     }
 }

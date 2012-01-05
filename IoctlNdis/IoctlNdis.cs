@@ -1,39 +1,47 @@
 ////////////////////////////////////////////////////////////////
+
+#region Header
+
 //
 // Copyright (c) 2007-2008 MetaGeek, LLC
 //
-// Licensed under the Apache License, Version 2.0 (the "License"); 
-// you may not use this file except in compliance with the License. 
-// You may obtain a copy of the License at 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//	http://www.apache.org/licenses/LICENSE-2.0 
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
-// Unless required by applicable law or agreed to in writing, software 
-// distributed under the License is distributed on an "AS IS" BASIS, 
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-// See the License for the specific language governing permissions and 
-// limitations under the License. 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
-////////////////////////////////////////////////////////////////
 
+#endregion Header
+
+////////////////////////////////////////////////////////////////
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Management;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
-using System.Diagnostics;
 
 namespace MetaGeek.IoctlNdis
 {
-    /// <summary>
-    /// File share attribute flags.
-    /// </summary>
-    [Flags]
-    public enum FileShareFlags : uint
+    #region Enumerations
+
+    public enum AuthenticationMode
     {
-        FileShareRead=0x00000001,
-        FileShareWrite=0x00000002,
-        FileShareDelete=0x00000004
+        Ndis80211AuthModeOpen,
+        Ndis80211AuthModeShared,
+        Ndis80211AuthModeAutoSwitch,
+        Ndis80211AuthModeWpa,
+        Ndis80211AuthModeWpapsk,
+        Ndis80211AuthModeWpaNone,
+        Ndis80211AuthModeWpa2,
+        Ndis80211AuthModeWpa2Psk               // Not a real mode, defined as upper bound
     }
 
     /// <summary>
@@ -46,6 +54,44 @@ namespace MetaGeek.IoctlNdis
         OpenExisting=3,
         OpenAlways=4,
         TruncateExisting=5
+    }
+
+    /// <summary>
+    /// File share attribute flags.
+    /// </summary>
+    [Flags]
+    public enum FileShareFlags : uint
+    {
+        FileShareRead=0x00000001,
+        FileShareWrite=0x00000002,
+        FileShareDelete=0x00000004
+    }
+
+    /// <summary>
+    /// Information Element (IE) types
+    /// </summary>
+    public enum IeType : byte
+    {
+        HtCapabilities = 45,
+        HtExtendedCapabilities = 61
+    }
+
+    // Added new types for OFDM 5G and 2.4G
+    public enum NdisNetworkType
+    {
+        Ndis80211Fh,
+        Ndis80211Ds,
+        Ndis80211Ofdm5,
+        Ndis80211Ofdm24,
+        Ndis80211NetworkTypeMax    // not a real type, defined as an upper bound
+    }
+
+    public enum NetworkInfrastructure
+    {
+        Ndis80211Ibss,
+        Ndis80211Infrastructure,
+        Ndis80211AutoUnknown,
+        Ndis80211InfrastructureMax         // Not a real value, defined as upper bound
     }
 
     /// <summary>
@@ -120,63 +166,52 @@ namespace MetaGeek.IoctlNdis
         OidPnpEnableWakeUp=0xFD010106
     }
 
-    /// <summary>
-    /// Information Element (IE) types
-    /// </summary>
-    public enum IeType : byte
-    {
-        HtCapabilities = 45,
-        HtExtendedCapabilities = 61
-    }
+    #endregion Enumerations
 
     [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Auto, Pack=4)]
-    public struct Ndis802Dot11ConfigurationFh
+    public struct Ndis802Dot11BssidListEx
     {
-        public uint Length;             // Length of structure
-        public uint HopPattern;         // As defined by 802.11, MSB set
-        public uint HopSet;             // to one if non-802.11
-        public uint DwellTime;          // units are Kusec
+        public uint NumberOfItems; // in list below, at least 1
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst=1)]
+        public NdisWlanBssidEx[] Bssid;
     }
 
     [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Auto, Pack=4)]
     public struct Ndis802Dot11Configuration
     {
-        public uint Length;             // Lenght of structure
-        public uint BeaconPeriod;       // units are Kusec
-        public uint ATIMWindow;         // units are Kusec
-        public uint DSConfig;           // Frequency, units are kHz
+        public uint Length; // Lenght of structure
+        public uint BeaconPeriod; // units are Kusec
+        public uint ATIMWindow; // units are Kusec
+        public uint DSConfig; // Frequency, units are kHz
         public Ndis802Dot11ConfigurationFh FHConfig;
-    }// End NDIS_802_11_CONFIGURATION
+    }
 
-    // Added new types for OFDM 5G and 2.4G
-    public enum NdisNetworkType
+    [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Auto, Pack=4)]
+    public struct Ndis802Dot11ConfigurationFh
     {
-        Ndis80211Fh,
-        Ndis80211Ds,
-        Ndis80211Ofdm5,
-        Ndis80211Ofdm24,
-        Ndis80211NetworkTypeMax    // not a real type, defined as an upper bound
-    } // End NetworkType
+        public uint Length; // Length of structure
+        public uint HopPattern; // As defined by 802.11, MSB set
+        public uint HopSet; // to one if non-802.11
+        public uint DwellTime; // units are Kusec
+    }
 
-    public enum NetworkInfrastructure
+    [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Auto, Pack=1)]
+    public struct Ndis802Dot11FixedIes
     {
-        Ndis80211Ibss,
-        Ndis80211Infrastructure,
-        Ndis80211AutoUnknown,
-        Ndis80211InfrastructureMax         // Not a real value, defined as upper bound
-    }// End NetworkInfrastructure 
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst=8)]
+        public byte[] Timestamp;
+        public UInt16 BeaconInterval;
+        public UInt16 Capabilities;
+    }
 
-    public enum AuthenticationMode
+    [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Auto, Pack=1)]
+    public struct Ndis802Dot11VariableIes
     {
-        Ndis80211AuthModeOpen,
-        Ndis80211AuthModeShared,
-        Ndis80211AuthModeAutoSwitch,
-        Ndis80211AuthModeWpa,
-        Ndis80211AuthModeWpapsk,
-        Ndis80211AuthModeWpaNone,
-        Ndis80211AuthModeWpa2,
-        Ndis80211AuthModeWpa2Psk               // Not a real mode, defined as upper bound
-    } // End AuthenticationMode
+        public byte ElementId;
+        public byte Length;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst=1)]
+        public byte[] data;
+    }
 
     /// <summary>
     /// This structure maps to the NDIS_WLAN_BSSID_EX structure 
@@ -185,16 +220,16 @@ namespace MetaGeek.IoctlNdis
     [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Auto, Pack=4)]
     public struct NdisWlanBssidEx
     {
-        public UInt32 Length;             // Length of this structure
+        public UInt32 Length; // Length of this structure
         [MarshalAs(UnmanagedType.ByValArray, SizeConst=6)]
-        public byte[] MacAddress;         // BSSID        
+        public byte[] MacAddress; // BSSID
         [MarshalAs(UnmanagedType.ByValArray, SizeConst=2)]
         public byte[] Reserved;
         public UInt32 SsidLength;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst=32)]
-        public byte[] Ssid;               // SSI        
-        public UInt32 Privacy;            // WEP encryption requirement
-        public Int32 Rssi;                // receive signal strength in dBm
+        public byte[] Ssid; // SSI
+        public UInt32 Privacy; // WEP encryption requirement
+        public Int32 Rssi; // receive signal strength in dBm
         public NdisNetworkType NetworkTypeInUse;
         public Ndis802Dot11Configuration Configuration;
         public NetworkInfrastructure InfrastructureMode;
@@ -205,497 +240,19 @@ namespace MetaGeek.IoctlNdis
         public byte[] IEs;
     }
 
-    [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Auto, Pack=4)]
-    public struct Ndis802Dot11BssidListEx
-    {
-        public uint NumberOfItems;      // in list below, at least 1
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst=1)]
-        public NdisWlanBssidEx[] Bssid;
-    }// End Ndis802Dot11BssidListEx
-
-    [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Auto, Pack=1)]
-    public struct Ndis802Dot11FixedIes
-    {
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst=8)]
-        public byte[] Timestamp;
-        public UInt16 BeaconInterval;
-        public UInt16 Capabilities;
-    } // End Ndis802Dot11FixedIes
-
-    [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Auto, Pack=1)]
-    public struct Ndis802Dot11VariableIes
-    {
-        public byte ElementId;
-        public byte Length;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst=1)]
-        public byte[] data;
-    } // End Ndis802Dot11VariableIes
-    [
-        ComVisible(false),
-        System.Security.SuppressUnmanagedCodeSecurityAttribute
-    ]
+    [ComVisible(false),
+    System.Security.SuppressUnmanagedCodeSecurityAttribute]
     public class IoctlNdis
     {
+        #region Fields
+
+        public const string DevicePrefix = "\\\\.\\";
+        public const int ErrorFileNotFound = 2;
         public const byte HtCapabilitiesLength = 28;
         public const byte HtExtendedCapabilitiesLength = 24;
-
         public const int InvalidHandleValue = -1;
-        public const int StatusSuccess = 0;
-        public const int ErrorFileNotFound = 2;
-        public const string DevicePrefix = "\\\\.\\";
         public const uint IoctlNdisQueryGlobalStats = 0x00170002;
-
-        [DllImport("Kernel32.dll", CharSet=CharSet.Auto, SetLastError=true)]
-        private static extern bool DeviceIoControl(
-            [In] IntPtr deviceHandle,
-            [In] uint controlCode,
-            [In] IntPtr inBuffer,
-            [In] int oidSize,
-            [In] IntPtr outBuffer,
-            [In] int outBufferSize,
-            [In, Out] ref int bytesReturned,
-            [In] IntPtr overlapped);
-
-        [DllImport("Kernel32.dll", CharSet=CharSet.Auto, SetLastError=true)]
-        private static extern IntPtr CreateFile(
-            [In] String fileName,
-            [In] UInt32 desiredAccess,
-            [In] FileShareFlags shareMode,
-            [In, Optional] IntPtr securityAttributes,
-            [In] FileCreateFlags creationDisposition,
-            [In] UInt32 flagsAndAttributes,
-            [In] IntPtr templateFile);
-
-        [DllImport("Kernel32.dll", CharSet=CharSet.Auto, SetLastError=true)]
-        private static extern bool CloseHandle(
-            [In] IntPtr handle);
-
-        /// <summary>
-        /// Converts a pointer to a BSS list (header + entries) to an array of BSS entries.
-        /// </summary>
-        /// <returns>An array of BSS entries.</returns>
-        private NdisWlanBssidEx[] ConvertBssidListPtr(IntPtr bssidListPtr) {
-            //
-            // Marshal the bssid list structure to get the number of items plus
-            // the first bssid entry.
-            //
-            Ndis802Dot11BssidListEx bssidList =
-                (Ndis802Dot11BssidListEx)Marshal.PtrToStructure(bssidListPtr,
-                    typeof(Ndis802Dot11BssidListEx));
-            //
-            // Iterate through memory and marshal each bssid entry. We have 
-            // to marshal the individual structures one at a time, since they
-            // vary in size. 
-            //
-            NdisWlanBssidEx[] bssidEntries = null;
-            if (bssidList.NumberOfItems > 0) {
-                bssidEntries = new NdisWlanBssidEx[bssidList.NumberOfItems];
-
-                long bssidAddress = bssidListPtr.ToInt64() + Marshal.SizeOf(bssidList.NumberOfItems)
-                    + bssidList.Bssid[0].Length;
-                bssidEntries[0] = bssidList.Bssid[0];
-                //
-                // Starting from the second array entry, iterate and marshal each of the
-                // existing bssid entries.
-                //
-                for (int i = 1; i < bssidList.NumberOfItems; ++i) {
-                    //
-                    // Marshal the currently referenced bssid item and add it to the 
-                    // array.
-                    //                    
-                    NdisWlanBssidEx bssidEntry = (NdisWlanBssidEx)Marshal.PtrToStructure(
-                        new IntPtr(bssidAddress), typeof(NdisWlanBssidEx));
-                    bssidEntries[i] = bssidEntry;
-
-                    //
-                    // Move the pointer to the next bssid entry.
-                    //
-                    bssidAddress += bssidEntry.Length;
-                }
-
-                // Patch from cborn:
-                // We can receive either NDIS_WLAN_BSSID (104 bytes) or NDIS_WLAN_BSSID_EX (>=120 bytes) here
-                // More of my devices send the obsolete 104 byte one than the new one
-                // We should handle it properly, but for now I'll just set the IELength field to 0,
-                // and clear out the additional 8 supported rate fields
-                // DAV 20AUG08
-                for (int i = 0; i < bssidList.NumberOfItems; ++i) {
-                    if (bssidEntries[i].Length < 120) {
-                        bssidEntries[i].IELength = 0;
-                        for (int j = 8; j < 16; ++j)
-                            bssidEntries[i].SupportedRates[j] = 0;
-                    }
-                }
-            }
-            return bssidEntries;
-        }// End ConvertBssidListPtr        
-
-        /// <summary>
-        /// Opens a network device driver file. If this function
-        /// fails to open the device for any reason, an exception is thrown.
-        /// </summary>
-        /// <param name="serviceName">GUID service name of the device to open</param>
-        /// <returns>handle to the device.</returns>
-        private IntPtr OpenDevice(string serviceName) {
-            //
-            // Open the driver to get a device handle.
-            //
-            string fileName = DevicePrefix + serviceName;
-            IntPtr deviceHandle = CreateFile(
-                fileName,
-                0,
-                FileShareFlags.FileShareRead | FileShareFlags.FileShareWrite,
-                IntPtr.Zero,
-                FileCreateFlags.OpenExisting,
-                0,
-                IntPtr.Zero
-            );
-
-            //
-            // Raise an exception if we cannot open the device. Since we 
-            // know the adapter name, this should never happen. However, we will
-            // get this error if the network adapter is disabled when the
-            // application is running.            
-            //
-            if (deviceHandle.ToInt32() == InvalidHandleValue) {
-                String message = String.Format("Unable to open device {0}. Win32Error = {1}",
-                    fileName, Marshal.GetLastWin32Error());
-                throw new System.ComponentModel.Win32Exception(message);
-            }
-
-            return (deviceHandle);
-        } // End OpenDevice
-
-/*
-        /// <summary>
-        /// Performs a network scan for BSSIDs.
-        /// </summary>
-        /// <param name="adapter">object representing</param>
-        public void ScanBssidList(NetworkInterface adapter) {
-            IntPtr deviceHandle = OpenDevice(adapter.Id);
-            try {
-                // dummy reference variable
-                int bytesReturned = new int();
-                // tell the driver to scan the networks
-                bool success = QueryGlobalStats(
-                                        deviceHandle,
-                                        Oid.Oid80211BssidListScan,
-                                        IntPtr.Zero,
-                                        0,
-                                        ref bytesReturned
-                                    );
-                if (success) {
-                    // Nothing to do
-                }
-            }
-            finally {
-                CloseHandle(deviceHandle);
-            }
-        } */
-// End ScanBssidList()
-
-        /// <summary>
-        /// Initiates a discovery scan of the available wireless networkds.
-        /// </summary>
-        public bool Scan(NetworkInterface adapter)
-        {
-            try
-            {
-                ManagementClass mc = new ManagementClass("root\\WMI", "MSNDis_80211_BssIdListScan", null);
-                ManagementObject mo = mc.CreateInstance();
-                if (mo != null)
-                {
-                    mo["Active"] = true;
-                    mo["InstanceName"] = adapter.Description; //.Replace(" - Packet Scheduler Miniport","");
-                    mo["UnusedParameter"] = 1;
-                    mo.Put();
-                }
-            }
-            catch (ManagementException ex)
-            {
-                if(ex.ErrorCode == ManagementStatus.NotSupported)
-                {
-                    //The operation is not supported, probably not an WiFi adapter.
-                    return false;
-                }
-            }
-            catch
-            {
-                // TODO: Verify root cause of exception.
-                // Ignore, for now
-                // there seems to be some issues with WMI on certain systems. Various exceptions have been
-                // reported from this method, which relate to problems with WMI.
-            }
-            return true;
-        } // End Scan()
-        /// <summary>
-        /// Queries the BSSID List from the NDIS layer.
-        /// </summary>
-        /// <param name="adapter">object representing the adapter's name</param>
-        /// <returns>a list of BSSID</returns>
-        public IEnumerable<NdisWlanBssidEx> QueryBssidList(NetworkInterface adapter) {
-
-            NdisWlanBssidEx[] bssidList = null;
-
-            //
-            // Get a handle to the device.
-            //
-            IntPtr deviceHandle = OpenDevice(adapter.Id);
-            try {
-                //
-                // Allocate memory to hold the BSSID list
-                //
-                //int memSize = Marshal.SizeOf(typeof(Ndis802Dot11BssidListEx)) +
-                //              Marshal.SizeOf(typeof(NdisWlanBssidEx)) * 16;
-                const int memSize = 65536;
-                IntPtr bssidPtr = Marshal.AllocHGlobal(memSize);
-                try {
-                    //
-                    // Send the OID to the driver to get the 
-                    // BSSID list, which will contain information for all of the 
-                    // available networks.
-                    // Note: for more up-to-date results, you may want to 
-                    // perform a BSSID_LIST_SCAN first. This implementation
-                    // will take the information from the last scan,
-                    //
-                    int bytesReturned = new int();
-                    bool success = QueryGlobalStats(
-                        deviceHandle,
-                        Oid.Oid80211BssidList,
-                        bssidPtr,
-                        memSize,
-                        ref bytesReturned
-                    );
-                    if (success) {
-                        //
-                        // Convert the buffer to an array of BSSID
-                        // items.
-                        //
-                        bssidList = ConvertBssidListPtr(bssidPtr);
-                    }
-                }
-                finally {
-                    Marshal.FreeHGlobal(bssidPtr);
-                }
-            }
-            finally {
-                bool closed = CloseHandle(deviceHandle);
-                if (!closed) {
-                    Debug.WriteLine("Close failed with error code " + Marshal.GetLastWin32Error());
-                }
-            }
-            return (bssidList);
-
-        } // End QueryBssidList
-
-        /// <summary>
-        /// Queries the BSSID of the currently connected AP from the NDIS layer.
-        /// </summary>
-        /// <param name="adapter">object representing the adapter's name</param>
-        /// <returns>a byte array representing the BSSID of the connected AP</returns>
-        public byte[] QueryConnected(NetworkInterface adapter)
-        {
-            byte[] bssid = new byte[] {0, 0, 0, 0, 0, 0};
-
-            IntPtr deviceHandle = OpenDevice(adapter.Id);
-            try
-            {
-                IntPtr oidBuffer = Marshal.AllocHGlobal(sizeof(byte) * 6);
-                try
-                {
-                    int bytesReturned = new int();
-                    bool success = QueryGlobalStats(
-                        deviceHandle,
-                        Oid.Oid80211Bssid,
-                        oidBuffer,
-                        sizeof(byte) * 6,
-                        ref bytesReturned);
-                    if (success)
-                    {
-                        bssid = ConvertToByteArray(oidBuffer, bytesReturned);
-                    }
-                }
-                finally
-                {
-                    Marshal.FreeHGlobal(oidBuffer);
-                }
-            }
-            finally
-            {
-                bool closed = CloseHandle(deviceHandle);
-                if (!closed)
-                {
-                    Debug.WriteLine("Unable to close handle with error code " + Marshal.GetLastWin32Error());
-                }
-            }
-
-            return (bssid);
-        } // End QueryConnected()
-
-        /// <summary>
-        /// Converts an intPtr into a byte array.
-        /// </summary>
-        /// <param name="intPtr">unmanaged memory pointer</param>
-        /// <param name="bytes">number of bytes</param>
-        /// <returns>abyte array</returns>
-        private byte[] ConvertToByteArray(IntPtr intPtr, int bytes)
-        {
-            int arraySize = bytes / sizeof(byte);
-            byte[] array = new byte[arraySize];
-
-            for (int i = 0; i < arraySize; ++i)
-            {
-                array[i] = Marshal.ReadByte(intPtr, i * sizeof(byte));
-            }
-            return (array);
-        } // End ConvertToByteArray()
-
-/*
-        /// <summary>
-        /// Gets the authenticaion mode for a particular adapter.
-        /// </summary>
-        /// <param name="adapter"></param>
-        /// <returns></returns>
-        public AuthenticationMode QueryAuthenticationMode(AdapterInformation adapter) {
-            AuthenticationMode authMode = AuthenticationMode.Ndis80211AuthModeWpaNone;
-            IntPtr deviceHandle = OpenDevice(adapter.ServiceName);
-            try {
-                IntPtr authModePtr = Marshal.AllocHGlobal(sizeof(int));
-                try {
-                    int bytesReturned = new int();
-                    bool result = QueryGlobalStats(
-                        deviceHandle,
-                        Oid.Oid80211AuthenticationMode,
-                        authModePtr,
-                        sizeof(int),
-                        ref bytesReturned
-                        );
-                    if (result) {
-                        authMode = (AuthenticationMode)Marshal.ReadInt32(authModePtr);
-                    }
-                    else {
-                        Debug.WriteLine("Unable to query authentication mode. " + adapter);
-                    }
-                }
-                finally {
-                    Marshal.FreeHGlobal(authModePtr);
-                }
-            }
-            finally {
-                bool closed = CloseHandle(deviceHandle);
-                if (!closed) {
-                    Debug.WriteLine("Unable to close handle with error code " + Marshal.GetLastWin32Error());
-                }
-            }
-            return (authMode);
-        } */
-// End QueryAuthenticationMode()
-
-/*
-        /// <summary>
-        /// See OID_GEN_SUPPORTED_LIST. The OID_GEN_SUPPORTED_LIST OID specifies an array of 
-        /// OIDs for objects that the underlying driver or its NIC supports
-        /// </summary>
-        /// <param name="adapter">The Adapter to query</param>
-        /// <returns>An array of supported OIDs</returns>
-        public uint[] QuerySupportedOids(NetworkInterface adapter) {
-            uint[] oidList = null;
-
-            IntPtr deviceHandle = OpenDevice(adapter.Id);
-            try {
-                IntPtr oidBuffer = Marshal.AllocHGlobal(sizeof(uint) * 1024);
-                try {
-                    int bytesReturned = new int();
-                    bool success = QueryGlobalStats(
-                        deviceHandle,
-                        Oid.OidGenSupportedList,
-                        oidBuffer,
-                        sizeof(int) * 1024,
-                        ref bytesReturned);
-                    if (success) {
-                        oidList = ConvertToArray(oidBuffer, bytesReturned);
-                    }
-                }
-                finally {
-                    Marshal.FreeHGlobal(oidBuffer);
-                }
-            }
-            finally {
-                bool closed = CloseHandle(deviceHandle);
-                if (!closed) {
-                    Debug.WriteLine("Unable to close handle with error code " + Marshal.GetLastWin32Error());
-                }
-            }
-
-            return (oidList);
-        } */
-// End QuerySupportedOids()
-
-/*
-        /// <summary>
-        /// Converts an intPtr into an array of uint objects.
-        /// </summary>
-        /// <param name="intPtr">unmanaged memory pointer</param>
-        /// <param name="bytes">number of bytes</param>
-        /// <returns>an array of uints</returns>
-        private uint[] ConvertToArray(IntPtr intPtr, int bytes) {
-            int arraySize = bytes / sizeof(uint);
-            uint[] array = new uint[arraySize];
-            //Int64 address = intPtr.ToInt64();
-            for (int i = 0; i < arraySize; ++i) {
-                array[i] = (uint)Marshal.ReadInt32(intPtr, i * sizeof(uint));
-            }
-            return (array);
-        } */
-// End ConvertToArray()
-
-        /// <summary>
-        /// Performs a device ioctl operation to query the global stats for
-        /// the given device. <see cref="IoctlNdisQueryGlobalStats"/> in the 
-        /// DDK documentation.
-        /// </summary>
-        /// <param name="deviceHandle"></param>
-        /// <param name="oidCode"></param>
-        /// <param name="buffer"></param>
-        /// <param name="bufferSize"></param>
-        /// <param name="bytesRead"></param>
-        /// <returns></returns>
-        private bool QueryGlobalStats(IntPtr deviceHandle, Oid oidCode, IntPtr buffer, int bufferSize, ref int bytesRead) {
-
-            bool result;    // function return value            
-
-            // 
-            // Allocate a buffer to hold the OID code that 
-            // will be passed to the driver.
-            //            
-            IntPtr oidPtr = Marshal.AllocHGlobal(sizeof(int));
-            try {
-                // Get a pointer to the OID code
-                Marshal.WriteInt32(oidPtr, (int)oidCode);
-                //
-                // We successfully opened the driver, format the IOCTL to pass the
-                // driver.
-                //                              
-                result = DeviceIoControl(
-                        deviceHandle,
-                        IoctlNdisQueryGlobalStats,
-                        oidPtr,
-                        sizeof(int),
-                        buffer,
-                        bufferSize,
-                        ref bytesRead,
-                        IntPtr.Zero);
-                if (!result) {
-                    Debug.WriteLine("DeviceIoControl failed. Error = " + Marshal.GetLastWin32Error());
-                }
-
-            }
-            finally {
-                // Make sure the memory is freed
-                Marshal.FreeHGlobal(oidPtr);
-            }
-            return (result);
-        } // End QueryGlobalStats
+        public const int StatusSuccess = 0;
 
         /// <summary>
         /// Information elements
@@ -703,20 +260,25 @@ namespace MetaGeek.IoctlNdis
         private const byte WlanEidRsn = 48;
         private const byte WlanEidVendorSpecific = 221;
 
+        #endregion Fields
+
+        #region Public Methods
+
         /// <summary>
         /// Returns the string representation of the privacy mode
         /// for the specified bssid.
         /// </summary>
         /// <param name="bssidItem">bssid from which to read the privacy mode</param>
         /// <returns>a string representing the privacy mode</returns>
-        public string GetPrivacyString(NdisWlanBssidEx bssidItem) {
+        public string GetPrivacyString(NdisWlanBssidEx bssidItem)
+        {
             string privacyMode = "None";
 
             if (bssidItem.Privacy != 0) {
                 privacyMode = "WEP";
                 //
-                // To get the privacy information, the variable length 
-                // information elements must be inspected. Thereore, we 
+                // To get the privacy information, the variable length
+                // information elements must be inspected. Thereore, we
                 // skip past the fixed information elements.
                 //
                 int index = Marshal.SizeOf(typeof(Ndis802Dot11FixedIes));
@@ -728,7 +290,7 @@ namespace MetaGeek.IoctlNdis
                 while ((index >= 0) && (index <= length)) {
 
                     //
-                    // Get the element id and the length of the 
+                    // Get the element id and the length of the
                     // element.
                     //
                     // TODO: Should index be incremented here, since
@@ -741,7 +303,7 @@ namespace MetaGeek.IoctlNdis
                     //
                     if (WlanEidRsn == elementId) {
                         // Parse the RSN cipher suite value
-                        if (elementLength >= 6 && 
+                        if (elementLength >= 6 &&
                              bssidItem.IEs[index + 0] == 0x01 &&  // version msb
                              bssidItem.IEs[index + 1] == 0x00 &&  // version lsb
                              bssidItem.IEs[index + 2] == 0x00 &&  // cipher suite id b1
@@ -800,10 +362,178 @@ namespace MetaGeek.IoctlNdis
             }
 
             return (privacyMode);
-        } // End GetPrivacyString()
+        }
 
+        /// <summary>
+        /// Queries the BSSID List from the NDIS layer.
+        /// </summary>
+        /// <param name="adapter">object representing the adapter's name</param>
+        /// <returns>a list of BSSID</returns>
+        public IEnumerable<NdisWlanBssidEx> QueryBssidList(NetworkInterface adapter)
+        {
+            NdisWlanBssidEx[] bssidList = null;
 
-/*
+            //
+            // Get a handle to the device.
+            //
+            IntPtr deviceHandle = OpenDevice(adapter.Id);
+            try {
+                //
+                // Allocate memory to hold the BSSID list
+                //
+                //int memSize = Marshal.SizeOf(typeof(Ndis802Dot11BssidListEx)) +
+                //              Marshal.SizeOf(typeof(NdisWlanBssidEx)) * 16;
+                const int memSize = 65536;
+                IntPtr bssidPtr = Marshal.AllocHGlobal(memSize);
+                try {
+                    //
+                    // Send the OID to the driver to get the
+                    // BSSID list, which will contain information for all of the
+                    // available networks.
+                    // Note: for more up-to-date results, you may want to
+                    // perform a BSSID_LIST_SCAN first. This implementation
+                    // will take the information from the last scan,
+                    //
+                    int bytesReturned = new int();
+                    bool success = QueryGlobalStats(
+                        deviceHandle,
+                        Oid.Oid80211BssidList,
+                        bssidPtr,
+                        memSize,
+                        ref bytesReturned
+                    );
+                    if (success) {
+                        //
+                        // Convert the buffer to an array of BSSID
+                        // items.
+                        //
+                        bssidList = ConvertBssidListPtr(bssidPtr);
+                    }
+                }
+                finally {
+                    Marshal.FreeHGlobal(bssidPtr);
+                }
+            }
+            finally {
+                bool closed = CloseHandle(deviceHandle);
+                if (!closed) {
+                    Debug.WriteLine("Close failed with error code " + Marshal.GetLastWin32Error());
+                }
+            }
+            return (bssidList);
+        }
+
+        /// <summary>
+        /// Queries the BSSID of the currently connected AP from the NDIS layer.
+        /// </summary>
+        /// <param name="adapter">object representing the adapter's name</param>
+        /// <returns>a byte array representing the BSSID of the connected AP</returns>
+        public byte[] QueryConnected(NetworkInterface adapter)
+        {
+            byte[] bssid = new byte[] {0, 0, 0, 0, 0, 0};
+
+            IntPtr deviceHandle = OpenDevice(adapter.Id);
+            try
+            {
+                IntPtr oidBuffer = Marshal.AllocHGlobal(sizeof(byte) * 6);
+                try
+                {
+                    int bytesReturned = new int();
+                    bool success = QueryGlobalStats(
+                        deviceHandle,
+                        Oid.Oid80211Bssid,
+                        oidBuffer,
+                        sizeof(byte) * 6,
+                        ref bytesReturned);
+                    if (success)
+                    {
+                        bssid = ConvertToByteArray(oidBuffer, bytesReturned);
+                    }
+                }
+                finally
+                {
+                    Marshal.FreeHGlobal(oidBuffer);
+                }
+            }
+            finally
+            {
+                bool closed = CloseHandle(deviceHandle);
+                if (!closed)
+                {
+                    Debug.WriteLine("Unable to close handle with error code " + Marshal.GetLastWin32Error());
+                }
+            }
+
+            return (bssid);
+        }
+
+        /*
+        /// <summary>
+        /// Performs a network scan for BSSIDs.
+        /// </summary>
+        /// <param name="adapter">object representing</param>
+        public void ScanBssidList(NetworkInterface adapter) {
+            IntPtr deviceHandle = OpenDevice(adapter.Id);
+            try {
+                // dummy reference variable
+                int bytesReturned = new int();
+                // tell the driver to scan the networks
+                bool success = QueryGlobalStats(
+                                        deviceHandle,
+                                        Oid.Oid80211BssidListScan,
+                                        IntPtr.Zero,
+                                        0,
+                                        ref bytesReturned
+                                    );
+                if (success) {
+                    // Nothing to do
+                }
+            }
+            finally {
+                CloseHandle(deviceHandle);
+            }
+        } */
+        // End ScanBssidList()
+        /// <summary>
+        /// Initiates a discovery scan of the available wireless networkds.
+        /// </summary>
+        public bool Scan(NetworkInterface adapter)
+        {
+            try
+            {
+                ManagementClass mc = new ManagementClass("root\\WMI", "MSNDis_80211_BssIdListScan", null);
+                ManagementObject mo = mc.CreateInstance();
+                if (mo != null)
+                {
+                    mo["Active"] = true;
+                    mo["InstanceName"] = adapter.Description; //.Replace(" - Packet Scheduler Miniport","");
+                    mo["UnusedParameter"] = 1;
+                    mo.Put();
+                }
+            }
+            catch (ManagementException ex)
+            {
+                if(ex.ErrorCode == ManagementStatus.NotSupported)
+                {
+                    //The operation is not supported, probably not an WiFi adapter.
+                    return false;
+                }
+            }
+            catch
+            {
+                // TODO: Verify root cause of exception.
+                // Ignore, for now
+                // there seems to be some issues with WMI on certain systems. Various exceptions have been
+                // reported from this method, which relate to problems with WMI.
+            }
+            return true;
+        }
+
+        #endregion Public Methods
+
+        #region Private Methods
+
+        /*
         public static object RawDataToObject(ref byte[] rawData, Type overlayType) {
             object result;
 
@@ -818,20 +548,306 @@ namespace MetaGeek.IoctlNdis
                 //
                 IntPtr pinnedRawDataPtr = pinnedRawData.AddrOfPinnedObject();
 
-                // 
+                //
                 // overlay the data type on top of the raw data
                 //
                 result = Marshal.PtrToStructure(pinnedRawDataPtr, overlayType);
             }
             finally {
-                // 
-                // We must explicitly release 
+                //
+                // We must explicitly release
                 //
                 pinnedRawData.Free();
             }
 
             return result;
         }
-*/
+        */
+        [DllImport("Kernel32.dll", CharSet=CharSet.Auto, SetLastError=true)]
+        private static extern bool CloseHandle(
+            [In] IntPtr handle);
+
+        /// <summary>
+        /// Converts a pointer to a BSS list (header + entries) to an array of BSS entries.
+        /// </summary>
+        /// <returns>An array of BSS entries.</returns>
+        private NdisWlanBssidEx[] ConvertBssidListPtr(IntPtr bssidListPtr)
+        {
+            //
+            // Marshal the bssid list structure to get the number of items plus
+            // the first bssid entry.
+            //
+            Ndis802Dot11BssidListEx bssidList =
+                (Ndis802Dot11BssidListEx)Marshal.PtrToStructure(bssidListPtr,
+                    typeof(Ndis802Dot11BssidListEx));
+            //
+            // Iterate through memory and marshal each bssid entry. We have
+            // to marshal the individual structures one at a time, since they
+            // vary in size.
+            //
+            NdisWlanBssidEx[] bssidEntries = null;
+            if (bssidList.NumberOfItems > 0) {
+                bssidEntries = new NdisWlanBssidEx[bssidList.NumberOfItems];
+
+                long bssidAddress = bssidListPtr.ToInt64() + Marshal.SizeOf(bssidList.NumberOfItems)
+                    + bssidList.Bssid[0].Length;
+                bssidEntries[0] = bssidList.Bssid[0];
+                //
+                // Starting from the second array entry, iterate and marshal each of the
+                // existing bssid entries.
+                //
+                for (int i = 1; i < bssidList.NumberOfItems; ++i) {
+                    //
+                    // Marshal the currently referenced bssid item and add it to the
+                    // array.
+                    //
+                    NdisWlanBssidEx bssidEntry = (NdisWlanBssidEx)Marshal.PtrToStructure(
+                        new IntPtr(bssidAddress), typeof(NdisWlanBssidEx));
+                    bssidEntries[i] = bssidEntry;
+
+                    //
+                    // Move the pointer to the next bssid entry.
+                    //
+                    bssidAddress += bssidEntry.Length;
+                }
+
+                // Patch from cborn:
+                // We can receive either NDIS_WLAN_BSSID (104 bytes) or NDIS_WLAN_BSSID_EX (>=120 bytes) here
+                // More of my devices send the obsolete 104 byte one than the new one
+                // We should handle it properly, but for now I'll just set the IELength field to 0,
+                // and clear out the additional 8 supported rate fields
+                // DAV 20AUG08
+                for (int i = 0; i < bssidList.NumberOfItems; ++i) {
+                    if (bssidEntries[i].Length < 120) {
+                        bssidEntries[i].IELength = 0;
+                        for (int j = 8; j < 16; ++j)
+                            bssidEntries[i].SupportedRates[j] = 0;
+                    }
+                }
+            }
+            return bssidEntries;
+        }
+
+        /// <summary>
+        /// Converts an intPtr into a byte array.
+        /// </summary>
+        /// <param name="intPtr">unmanaged memory pointer</param>
+        /// <param name="bytes">number of bytes</param>
+        /// <returns>abyte array</returns>
+        private byte[] ConvertToByteArray(IntPtr intPtr, int bytes)
+        {
+            int arraySize = bytes / sizeof(byte);
+            byte[] array = new byte[arraySize];
+
+            for (int i = 0; i < arraySize; ++i)
+            {
+                array[i] = Marshal.ReadByte(intPtr, i * sizeof(byte));
+            }
+            return (array);
+        }
+
+        [DllImport("Kernel32.dll", CharSet=CharSet.Auto, SetLastError=true)]
+        private static extern IntPtr CreateFile(
+            [In] String fileName,
+            [In] UInt32 desiredAccess,
+            [In] FileShareFlags shareMode,
+            [In, Optional] IntPtr securityAttributes,
+            [In] FileCreateFlags creationDisposition,
+            [In] UInt32 flagsAndAttributes,
+            [In] IntPtr templateFile);
+
+        [DllImport("Kernel32.dll", CharSet=CharSet.Auto, SetLastError=true)]
+        private static extern bool DeviceIoControl(
+            [In] IntPtr deviceHandle,
+            [In] uint controlCode,
+            [In] IntPtr inBuffer,
+            [In] int oidSize,
+            [In] IntPtr outBuffer,
+            [In] int outBufferSize,
+            [In, Out] ref int bytesReturned,
+            [In] IntPtr overlapped);
+
+        /// <summary>
+        /// Opens a network device driver file. If this function
+        /// fails to open the device for any reason, an exception is thrown.
+        /// </summary>
+        /// <param name="serviceName">GUID service name of the device to open</param>
+        /// <returns>handle to the device.</returns>
+        private IntPtr OpenDevice(string serviceName)
+        {
+            //
+            // Open the driver to get a device handle.
+            //
+            string fileName = DevicePrefix + serviceName;
+            IntPtr deviceHandle = CreateFile(
+                fileName,
+                0,
+                FileShareFlags.FileShareRead | FileShareFlags.FileShareWrite,
+                IntPtr.Zero,
+                FileCreateFlags.OpenExisting,
+                0,
+                IntPtr.Zero
+            );
+
+            //
+            // Raise an exception if we cannot open the device. Since we
+            // know the adapter name, this should never happen. However, we will
+            // get this error if the network adapter is disabled when the
+            // application is running.
+            //
+            if (deviceHandle.ToInt32() == InvalidHandleValue) {
+                String message = String.Format("Unable to open device {0}. Win32Error = {1}",
+                    fileName, Marshal.GetLastWin32Error());
+                throw new System.ComponentModel.Win32Exception(message);
+            }
+
+            return (deviceHandle);
+        }
+
+        /*
+        /// <summary>
+        /// Gets the authenticaion mode for a particular adapter.
+        /// </summary>
+        /// <param name="adapter"></param>
+        /// <returns></returns>
+        public AuthenticationMode QueryAuthenticationMode(AdapterInformation adapter) {
+            AuthenticationMode authMode = AuthenticationMode.Ndis80211AuthModeWpaNone;
+            IntPtr deviceHandle = OpenDevice(adapter.ServiceName);
+            try {
+                IntPtr authModePtr = Marshal.AllocHGlobal(sizeof(int));
+                try {
+                    int bytesReturned = new int();
+                    bool result = QueryGlobalStats(
+                        deviceHandle,
+                        Oid.Oid80211AuthenticationMode,
+                        authModePtr,
+                        sizeof(int),
+                        ref bytesReturned
+                        );
+                    if (result) {
+                        authMode = (AuthenticationMode)Marshal.ReadInt32(authModePtr);
+                    }
+                    else {
+                        Debug.WriteLine("Unable to query authentication mode. " + adapter);
+                    }
+                }
+                finally {
+                    Marshal.FreeHGlobal(authModePtr);
+                }
+            }
+            finally {
+                bool closed = CloseHandle(deviceHandle);
+                if (!closed) {
+                    Debug.WriteLine("Unable to close handle with error code " + Marshal.GetLastWin32Error());
+                }
+            }
+            return (authMode);
+        } */
+        // End QueryAuthenticationMode()
+        /*
+        /// <summary>
+        /// See OID_GEN_SUPPORTED_LIST. The OID_GEN_SUPPORTED_LIST OID specifies an array of
+        /// OIDs for objects that the underlying driver or its NIC supports
+        /// </summary>
+        /// <param name="adapter">The Adapter to query</param>
+        /// <returns>An array of supported OIDs</returns>
+        public uint[] QuerySupportedOids(NetworkInterface adapter) {
+            uint[] oidList = null;
+
+            IntPtr deviceHandle = OpenDevice(adapter.Id);
+            try {
+                IntPtr oidBuffer = Marshal.AllocHGlobal(sizeof(uint) * 1024);
+                try {
+                    int bytesReturned = new int();
+                    bool success = QueryGlobalStats(
+                        deviceHandle,
+                        Oid.OidGenSupportedList,
+                        oidBuffer,
+                        sizeof(int) * 1024,
+                        ref bytesReturned);
+                    if (success) {
+                        oidList = ConvertToArray(oidBuffer, bytesReturned);
+                    }
+                }
+                finally {
+                    Marshal.FreeHGlobal(oidBuffer);
+                }
+            }
+            finally {
+                bool closed = CloseHandle(deviceHandle);
+                if (!closed) {
+                    Debug.WriteLine("Unable to close handle with error code " + Marshal.GetLastWin32Error());
+                }
+            }
+
+            return (oidList);
+        } */
+        // End QuerySupportedOids()
+        /*
+        /// <summary>
+        /// Converts an intPtr into an array of uint objects.
+        /// </summary>
+        /// <param name="intPtr">unmanaged memory pointer</param>
+        /// <param name="bytes">number of bytes</param>
+        /// <returns>an array of uints</returns>
+        private uint[] ConvertToArray(IntPtr intPtr, int bytes) {
+            int arraySize = bytes / sizeof(uint);
+            uint[] array = new uint[arraySize];
+            //Int64 address = intPtr.ToInt64();
+            for (int i = 0; i < arraySize; ++i) {
+                array[i] = (uint)Marshal.ReadInt32(intPtr, i * sizeof(uint));
+            }
+            return (array);
+        } */
+        // End ConvertToArray()
+        /// <summary>
+        /// Performs a device ioctl operation to query the global stats for
+        /// the given device. <see cref="IoctlNdisQueryGlobalStats"/> in the 
+        /// DDK documentation.
+        /// </summary>
+        /// <param name="deviceHandle"></param>
+        /// <param name="oidCode"></param>
+        /// <param name="buffer"></param>
+        /// <param name="bufferSize"></param>
+        /// <param name="bytesRead"></param>
+        /// <returns></returns>
+        private bool QueryGlobalStats(IntPtr deviceHandle, Oid oidCode, IntPtr buffer, int bufferSize, ref int bytesRead)
+        {
+            bool result;    // function return value
+
+            //
+            // Allocate a buffer to hold the OID code that
+            // will be passed to the driver.
+            //
+            IntPtr oidPtr = Marshal.AllocHGlobal(sizeof(int));
+            try {
+                // Get a pointer to the OID code
+                Marshal.WriteInt32(oidPtr, (int)oidCode);
+                //
+                // We successfully opened the driver, format the IOCTL to pass the
+                // driver.
+                //
+                result = DeviceIoControl(
+                        deviceHandle,
+                        IoctlNdisQueryGlobalStats,
+                        oidPtr,
+                        sizeof(int),
+                        buffer,
+                        bufferSize,
+                        ref bytesRead,
+                        IntPtr.Zero);
+                if (!result) {
+                    Debug.WriteLine("DeviceIoControl failed. Error = " + Marshal.GetLastWin32Error());
+                }
+
+            }
+            finally {
+                // Make sure the memory is freed
+                Marshal.FreeHGlobal(oidPtr);
+            }
+            return (result);
+        }
+
+        #endregion Private Methods
     }
 }

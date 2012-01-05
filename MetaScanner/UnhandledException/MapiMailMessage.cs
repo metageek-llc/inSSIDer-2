@@ -1,6 +1,10 @@
+#region Header
+
 //By:	Andrew Baker
 //Email http://www.vbusers.com/email/sendmail.asp?group=csharpcode&threadid=71&postid=1
 //Date:	Friday, March 10, 2006
+
+#endregion Header
 
 using System;
 using System.Collections;
@@ -11,23 +15,21 @@ using System.Threading;
 
 namespace inSSIDer.UnhandledException
 {
-    #region Public MapiMailMessage Class
-
     /// <summary>
     /// Represents an email message to be sent through MAPI.
     /// </summary>
     public class MapiMailMessage
     {
-        #region Private MapiFileDescriptor Class
+        #region Fields
 
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-        private class MapiFileDescriptor
-        {
-        }
+        private string _body;
+        private readonly ArrayList _files;
+        private readonly RecipientCollection _recipientCollection;
+        private string _subject;
 
-        #endregion Private MapiFileDescriptor Class
+        #endregion Fields
 
-        #region Enums
+        #region Enumerations
 
         /// <summary>
         /// Specifies the valid RecipientTypes for a Recipient.
@@ -48,19 +50,45 @@ namespace inSSIDer.UnhandledException
             /// Recipient will be in the BCC list.
             /// </summary>
             Bcc = 3
-        };
+        }
 
-        #endregion Enums
+        #endregion Enumerations
 
-        #region Member Variables
+        #region Properties
 
-        private string _subject;
-        private string _body;
-        private readonly RecipientCollection _recipientCollection;
-        private readonly ArrayList _files;
+        /// <summary>
+        /// Gets or sets the body of this mail message.
+        /// </summary>
+        public string Body
+        {
+            get { return _body; }
+            set { _body = value; }
+        }
+
+        /// <summary>
+        /// Gets the recipient list for this mail message.
+        /// </summary>
+        public RecipientCollection Recipients
+        {
+            get { return _recipientCollection; }
+        }
+
+        /// <summary>
+        /// Gets or sets the subject of this mail message.
+        /// </summary>
+        public string Subject
+        {
+            get { return _subject; }
+            set { _subject = value; }
+        }
+
+        #endregion Properties
+
+        #region Event Fields
+
         private readonly ManualResetEvent _manualResetEvent;
 
-        #endregion Member Variables
+        #endregion Event Fields
 
         #region Constructors
 
@@ -86,36 +114,6 @@ namespace inSSIDer.UnhandledException
 
         #endregion Constructors
 
-        #region Public Properties
-
-        /// <summary>
-        /// Gets or sets the subject of this mail message.
-        /// </summary>
-        public string Subject
-        {
-            get { return _subject; }
-            set { _subject = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the body of this mail message.
-        /// </summary>
-        public string Body
-        {
-            get { return _body; }
-            set { _body = value; }
-        }
-
-        /// <summary>
-        /// Gets the recipient list for this mail message.
-        /// </summary>
-        public RecipientCollection Recipients
-        {
-            get { return _recipientCollection; }
-        }
-
-        #endregion Public Properties
-
         #region Public Methods
 
         /// <summary>
@@ -124,7 +122,7 @@ namespace inSSIDer.UnhandledException
         public void ShowDialog(bool sync)
         {
             if (!sync)
-        {
+            {
             // Create the mail message in an STA thread
             Thread t = new Thread(new ThreadStart(_ShowMail));
             t.IsBackground = true;
@@ -134,7 +132,7 @@ namespace inSSIDer.UnhandledException
             // only return when the new thread has built it's interop representation
             _manualResetEvent.WaitOne();
             _manualResetEvent.Reset();
-        }
+            }
             else
             {
                 _ShowMail(true);
@@ -145,77 +143,56 @@ namespace inSSIDer.UnhandledException
 
         #region Private Methods
 
-        /// <summary>
-        /// Sends the mail message.
-        /// </summary>
-        private void _ShowMail(bool sync)
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+        private class MapiFileDescriptor
         {
-            MapiHelperInterop.MapiMessage message = new MapiHelperInterop.MapiMessage();
-
-            using (RecipientCollection.InteropRecipientCollection interopRecipients
-                        = _recipientCollection.GetInteropRepresentation())
-            {
-
-                message.Subject = _subject;
-                message.NoteText = _body;
-
-                message.Recipients = interopRecipients.Handle;
-                message.RecipientCount = _recipientCollection.Count;
-
-                // Check if we need to add attachments
-                if (_files.Count > 0)
-                {
-                    // Add attachments
-                    message.Files = _AllocAttachments(out message.FileCount);
-                }
-
-                if (!sync)
-                {
-                // Signal the creating thread (make the remaining code async)
-                _manualResetEvent.Set();
-                }
-
-                const int mapiDialog = 0x8;
-                //const int MAPI_LOGON_UI = 0x1;
-                const int successSuccess = 0;
-                int error = MapiHelperInterop.MAPISendMail(IntPtr.Zero, IntPtr.Zero, message, mapiDialog, 0);
-
-                if (_files.Count > 0)
-                {
-                    // Deallocate the files
-                    _DeallocFiles(message);
-                }
-
-                // Check for error
-                if (error != successSuccess)
-                {
-                    _LogErrorMapi(error);
-                }
-            }
         }
 
         /// <summary>
-        /// Deallocates the files in a message.
+        /// Internal class for calling MAPI APIs
         /// </summary>
-        /// <param name="message">The message to deallocate the files from.</param>
-        private void _DeallocFiles(MapiHelperInterop.MapiMessage message)
+        internal class MapiHelperInterop
         {
-            if (message.Files != IntPtr.Zero)
+            /// <summary>
+            /// Private constructor.
+            /// </summary>
+            private MapiHelperInterop()
             {
-                Type fileDescType = typeof(MapiFileDescriptor);
-                int fsize = Marshal.SizeOf(fileDescType);
-
-                // Get the ptr to the files
-                int runptr = (int)message.Files;
-                // Release each file
-                for (int i = 0; i < message.FileCount; i++)
-                {
-                    Marshal.DestroyStructure((IntPtr)runptr, fileDescType);
-                    runptr += fsize;
-                }
-                // Release the file
-                Marshal.FreeHGlobal(message.Files);
+                // Intenationally blank
             }
+
+            public const int MapiLogonUi = 0x1;
+
+            [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+            public class MapiMessage
+            {
+                public int Reserved = 0;
+                public string Subject = null;
+                public string NoteText = null;
+                public string MessageType = null;
+                public string DateReceived = null;
+                public string ConversationID = null;
+                public int Flags = 0;
+                public IntPtr Originator = IntPtr.Zero;
+                public int RecipientCount = 0;
+                public IntPtr Recipients = IntPtr.Zero;
+                public int FileCount = 0;
+                public IntPtr Files = IntPtr.Zero;
+            }
+
+            [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+            public class MapiRecipDesc
+            {
+                public int Reserved = 0;
+                public int RecipientClass = 0;
+                public string Name = null;
+                public string Address = null;
+                public int eIDSize = 0;
+                public IntPtr EntryID = IntPtr.Zero;
+            }
+
+            [DllImport("MAPI32.DLL")]
+            public static extern int MAPISendMail(IntPtr session, IntPtr hwnd, MapiMessage message, int flg, int rsv);
         }
 
         /// <summary>
@@ -254,13 +231,28 @@ namespace inSSIDer.UnhandledException
         }
 
         /// <summary>
-        /// Sends the mail message.
+        /// Deallocates the files in a message.
         /// </summary>
-        private void _ShowMail()
+        /// <param name="message">The message to deallocate the files from.</param>
+        private void _DeallocFiles(MapiHelperInterop.MapiMessage message)
         {
-            _ShowMail(false);
-        }
+            if (message.Files != IntPtr.Zero)
+            {
+                Type fileDescType = typeof(MapiFileDescriptor);
+                int fsize = Marshal.SizeOf(fileDescType);
 
+                // Get the ptr to the files
+                int runptr = (int)message.Files;
+                // Release each file
+                for (int i = 0; i < message.FileCount; i++)
+                {
+                    Marshal.DestroyStructure((IntPtr)runptr, fileDescType);
+                    runptr += fsize;
+                }
+                // Release the file
+                Marshal.FreeHGlobal(message.Files);
+            }
+        }
 
         /// <summary>
         /// Logs any Mapi errors.
@@ -383,86 +375,73 @@ namespace inSSIDer.UnhandledException
 
             Debug.WriteLine("Error sending MAPI Email. Error: " + error + " (code = " + errorCode + ").");
         }
-        #endregion Private Methods
-
-        #region Private MAPIHelperInterop Class
 
         /// <summary>
-        /// Internal class for calling MAPI APIs
+        /// Sends the mail message.
         /// </summary>
-        internal class MapiHelperInterop
+        private void _ShowMail(bool sync)
         {
-            #region Constructors
+            MapiHelperInterop.MapiMessage message = new MapiHelperInterop.MapiMessage();
 
-            /// <summary>
-            /// Private constructor.
-            /// </summary>
-            private MapiHelperInterop()
+            using (RecipientCollection.InteropRecipientCollection interopRecipients
+                        = _recipientCollection.GetInteropRepresentation())
             {
-                // Intenationally blank
+
+                message.Subject = _subject;
+                message.NoteText = _body;
+
+                message.Recipients = interopRecipients.Handle;
+                message.RecipientCount = _recipientCollection.Count;
+
+                // Check if we need to add attachments
+                if (_files.Count > 0)
+                {
+                    // Add attachments
+                    message.Files = _AllocAttachments(out message.FileCount);
+                }
+
+                if (!sync)
+                {
+                // Signal the creating thread (make the remaining code async)
+                _manualResetEvent.Set();
+                }
+
+                const int mapiDialog = 0x8;
+                //const int MAPI_LOGON_UI = 0x1;
+                const int successSuccess = 0;
+                int error = MapiHelperInterop.MAPISendMail(IntPtr.Zero, IntPtr.Zero, message, mapiDialog, 0);
+
+                if (_files.Count > 0)
+                {
+                    // Deallocate the files
+                    _DeallocFiles(message);
+                }
+
+                // Check for error
+                if (error != successSuccess)
+                {
+                    _LogErrorMapi(error);
+                }
             }
-
-            #endregion Constructors
-
-            #region Constants
-
-            public const int MapiLogonUi = 0x1;
-
-            #endregion Constants
-
-            #region APIs
-
-            #endregion APIs
-
-            #region Structs
-
-            [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-            public class MapiMessage
-            {
-                public int Reserved = 0;
-                public string Subject = null;
-                public string NoteText = null;
-                public string MessageType = null;
-                public string DateReceived = null;
-                public string ConversationID = null;
-                public int Flags = 0;
-                public IntPtr Originator = IntPtr.Zero;
-                public int RecipientCount = 0;
-                public IntPtr Recipients = IntPtr.Zero;
-                public int FileCount = 0;
-                public IntPtr Files = IntPtr.Zero;
-            }
-
-            [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-            public class MapiRecipDesc
-            {
-                public int Reserved = 0;
-                public int RecipientClass = 0;
-                public string Name = null;
-                public string Address = null;
-                public int eIDSize = 0;
-                public IntPtr EntryID = IntPtr.Zero;
-            }
-
-            [DllImport("MAPI32.DLL")]
-            public static extern int MAPISendMail(IntPtr session, IntPtr hwnd, MapiMessage message, int flg, int rsv);
-
-            #endregion Structs
         }
 
-        #endregion Private MAPIHelperInterop Class
+        /// <summary>
+        /// Sends the mail message.
+        /// </summary>
+        private void _ShowMail()
+        {
+            _ShowMail(false);
+        }
+
+        #endregion Private Methods
     }
-
-    #endregion Public MapiMailMessage Class
-
-    #region Public Recipient Class
 
     /// <summary>
     /// Represents a Recipient for a MapiMailMessage.
     /// </summary>
     public class Recipient
     {
-        #region Public Properties
+        #region Fields
 
         /// <summary>
         /// The email address of this recipient.
@@ -479,7 +458,7 @@ namespace inSSIDer.UnhandledException
         /// </summary>
         public readonly MapiMailMessage.RecipientType RecipientType = MapiMailMessage.RecipientType.To;
 
-        #endregion Public Properties
+        #endregion Fields
 
         #region Constructors
 
@@ -521,7 +500,7 @@ namespace inSSIDer.UnhandledException
 
         #endregion Constructors
 
-        #region Internal Methods
+        #region Private Methods
 
         /// <summary>
         /// Returns an interop representation of a recepient.
@@ -546,25 +525,30 @@ namespace inSSIDer.UnhandledException
             return interop;
         }
 
-        #endregion Internal Methods
+        #endregion Private Methods
     }
-
-    #endregion Public Recipient Class
-
-    #region Public RecipientCollection Class
 
     /// <summary>
     /// Represents a colleciton of recipients for a mail message.
     /// </summary>
     public class RecipientCollection : CollectionBase
     {
+        #region Properties
+
         /// <summary>
-        /// Adds the specified recipient to this collection.
+        /// Returns the recipient stored in this collection at the specified index.
         /// </summary>
-        private void Add(Recipient value)
+        public Recipient this[int index]
         {
-            List.Add(value);
+            get
+            {
+                return (Recipient)List[index];
+            }
         }
+
+        #endregion Properties
+
+        #region Public Methods
 
         /// <summary>
         /// Adds a new recipient with the specified address to this collection.
@@ -598,15 +582,16 @@ namespace inSSIDer.UnhandledException
             this.Add(new Recipient(address, displayName, recipientType));
         }
 
+        #endregion Public Methods
+
+        #region Private Methods
+
         /// <summary>
-        /// Returns the recipient stored in this collection at the specified index.
+        /// Adds the specified recipient to this collection.
         /// </summary>
-        public Recipient this[int index]
+        private void Add(Recipient value)
         {
-            get
-            {
-                return (Recipient)List[index];
-            }
+            List.Add(value);
         }
 
         internal InteropRecipientCollection GetInteropRepresentation()
@@ -619,14 +604,8 @@ namespace inSSIDer.UnhandledException
         /// </summary>
         internal struct InteropRecipientCollection : IDisposable
         {
-            #region Member Variables
-
             private IntPtr _handle;
             private int _count;
-
-            #endregion Member Variables
-
-            #region Constructors
 
             /// <summary>
             /// Default constructor for creating InteropRecipientCollection.
@@ -658,18 +637,10 @@ namespace inSSIDer.UnhandledException
                 }
             }
 
-            #endregion Costructors
-
-            #region Public Properties
-
             public IntPtr Handle
             {
                 get { return _handle; }
             }
-
-            #endregion Public Properties
-
-            #region Public Methods
 
             /// <summary>
             /// Disposes of resources.
@@ -696,10 +667,8 @@ namespace inSSIDer.UnhandledException
                     _count = 0;
                 }
             }
-
-            #endregion Public Methods
         }
-    }
 
-    #endregion Public RecipientCollection Class
+        #endregion Private Methods
+    }
 }

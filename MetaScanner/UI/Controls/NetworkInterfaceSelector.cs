@@ -1,62 +1,119 @@
 ﻿////////////////////////////////////////////////////////////////
+
+#region Header
+
 //
 // Copyright (c) 2007-2010 MetaGeek, LLC
 //
-// Licensed under the Apache License, Version 2.0 (the "License"); 
-// you may not use this file except in compliance with the License. 
-// You may obtain a copy of the License at 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//	http://www.apache.org/licenses/LICENSE-2.0 
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
-// Unless required by applicable law or agreed to in writing, software 
-// distributed under the License is distributed on an "AS IS" BASIS, 
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-// See the License for the specific language governing permissions and 
-// limitations under the License. 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
-////////////////////////////////////////////////////////////////
 
+#endregion Header
+
+
+////////////////////////////////////////////////////////////////
 using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Net.NetworkInformation;
 using System.Timers;
 using System.Windows.Forms;
+
+using inSSIDer.Localization;
 using inSSIDer.Misc;
 using inSSIDer.Scanning;
+
 using ManagedWifi;
-using inSSIDer.Localization;
 
 namespace inSSIDer.UI.Controls
 {
     public partial class NetworkInterfaceSelector : UserControl
     {
+        #region Fields
+
+        private bool _checkInterfaceInit = true;
         private readonly Bitmap _myStartImage = new Bitmap(Properties.Resources.wifiPlay);
         private readonly Bitmap _myStopImage = new Bitmap(Properties.Resources.wifiStop);
+        private System.Timers.Timer _myTimer;
+        private ScanController _scanner;
+
+        #endregion Fields
+
+        #region Properties
+
+        /// <summary>
+        /// Gets to sets the maximum length of an interface name
+        /// </summary>
+        [Category("Behavior"),
+        DefaultValue(-1)]
+        public int MaxTextLength
+        {
+            get; set;
+        }
+
+        #endregion Properties
+
+        #region Events
 
         public event EventHandler<EventArgs> NetworkScanStartEvent;
 
         public event EventHandler<EventArgs> NetworkScanStopEvent;
 
-        private System.Timers.Timer _myTimer;
+        #endregion Events
+
+        #region Invoke Methods
+
+        private delegate void DelInvokeBool(bool value);
+
+        private delegate void DelInvokeNoArg();
+
+        private void InvokeNetworkScanStartEvent()
+        {
+            if (NetworkScanStartEvent != null)
+            {
+                NetworkScanStartEvent(this, EventArgs.Empty);
+            }
+        }
+
+        private void InvokeNetworkScanStopEvent()
+        {
+            if (NetworkScanStopEvent != null)
+            {
+                NetworkScanStopEvent(this, EventArgs.Empty);
+            }
+        }
+
+        #endregion Invoke Methods
+
+        #region Delegates
+
+        private delegate void DelInterfaceChange(object sender, InterfaceNotificationEventsArgs e);
 
         private delegate void UpdateInterfaceListHandler();
 
-        private delegate void DelInterfaceChange(object sender, InterfaceNotificationEventsArgs e);
-        private delegate void DelInvokeNoArg();
-        private delegate void DelInvokeBool(bool value);
+        #endregion Delegates
 
-        private ScanController _scanner;
-
-        private bool _checkInterfaceInit = true;
-
-
+        #region Constructors
 
         public NetworkInterfaceSelector()
         {
             InitializeComponent();
             MaxTextLength = -1;
         }
+
+        #endregion Constructors
+
+        #region Public Methods
 
         public void Initialize(ref ScanController scanner)
         {
@@ -76,7 +133,7 @@ namespace inSSIDer.UI.Controls
                 InterfaceManager.Instance.InterfaceAdded += WlanClient_InterfaceAddedEvent;
                 InterfaceManager.Instance.InterfaceRemoved += WlanClient_InterfaceRemoveEvent;
             }
-            
+
             UpdateInterfaceList();
 
             //If we are not on XP and only have 1 interface, start scanning
@@ -86,58 +143,12 @@ namespace inSSIDer.UI.Controls
             }
         }
 
-        private void InvokeNetworkScanStartEvent()
-        {
-            if (NetworkScanStartEvent != null)
-            {
-                NetworkScanStartEvent(this, EventArgs.Empty);
-            }
-        }
+        #endregion Public Methods
 
-        private void InvokeNetworkScanStopEvent()
-        {
-            if (NetworkScanStopEvent != null)
-            {
-                NetworkScanStopEvent(this, EventArgs.Empty);
-            }
-        }
+        #region Private Methods
 
-        private void WlanClient_InterfaceAddedEvent(object sender, InterfaceNotificationEventsArgs e)
+        private void MyTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            UpdateInterfaceList();
-            //If we are not scanning and a new interface is added, use it!
-            if (!_scanner.NetworkScanner.IsScanning && _scanner.SetInterface(e.MyGuid))
-            {
-                try
-                {
-                    //Reset cache data
-                    _scanner.Cache.Clear();
-                    Utilities.ResetColor();
-
-                    //These will always need to be invoked
-                    Invoke(new DelInvokeNoArg(UpdateSelection));
-                    Invoke(new DelInvokeNoArg(StartScan));
-                }
-                catch (InvalidOperationException)
-                {
-                    // Exception thrown if UI isn't fully initialized yet. 
-                    // Ignoring this exception will force the user to manually click the "Start" button
-                }
-            }
-        }
-
-        private void WlanClient_InterfaceRemoveEvent(object sender, InterfaceNotificationEventsArgs e)
-        {
-            if (e.MyGuid == new Guid(_scanner.Interface.Id))
-            {
-                //If we were using the interface that got removed, stop scanning!
-                if (InvokeRequired)
-                    Invoke(new DelInterfaceChange(WlanClient_InterfaceRemoveEvent), new[] { sender, e });
-                else
-                {
-                    StopScan();
-                }
-            }
             UpdateInterfaceList();
         }
 
@@ -176,9 +187,31 @@ namespace inSSIDer.UI.Controls
             }
         }
 
-        private void MyTimer_Elapsed(object sender, ElapsedEventArgs e)
+        /// <summary>
+        /// Update control to reflect starting the scan and fire the scan start event
+        /// </summary>
+        internal void StartScan()
         {
-            UpdateInterfaceList();
+            UpdateScanButtonState(true);
+            if (NetworkInterfaceDropDown != null)
+            {
+                NetworkInterfaceDropDown.Enabled = false;
+
+                _scanner.StartScanning();
+                InvokeNetworkScanStartEvent();
+            }
+        }
+
+        /// <summary>
+        /// Update control to reflect stopping the scan and fire the scan stop event
+        /// </summary>
+        internal void StopScan()
+        {
+            UpdateScanButtonState(false);
+            NetworkInterfaceDropDown.Enabled = true;
+
+            _scanner.StopScanning();
+            InvokeNetworkScanStopEvent();
         }
 
         private void UpdateInterfaceList()
@@ -229,7 +262,7 @@ namespace inSSIDer.UI.Controls
         private void UpdateInterfaceListSelection()
         {
             bool flag = false;
-            
+
             //Check for current interface, only once
             if (_scanner.Interface != null && _checkInterfaceInit)
             {
@@ -328,33 +361,6 @@ namespace inSSIDer.UI.Controls
         }
 
         /// <summary>
-        /// Update control to reflect starting the scan and fire the scan start event
-        /// </summary>
-        internal void StartScan()
-        {
-            UpdateScanButtonState(true);
-            if (NetworkInterfaceDropDown != null)
-            {
-                NetworkInterfaceDropDown.Enabled = false;
-
-                _scanner.StartScanning();
-                InvokeNetworkScanStartEvent();
-            }
-        }
-
-        /// <summary>
-        /// Update control to reflect stopping the scan and fire the scan stop event
-        /// </summary>
-        internal void StopScan()
-        {
-            UpdateScanButtonState(false);
-            NetworkInterfaceDropDown.Enabled = true;
-
-            _scanner.StopScanning();
-            InvokeNetworkScanStopEvent();
-        }
-
-        /// <summary>
         /// Updates the control to reflect the current scan state
         /// </summary>
         internal void UpdateView()
@@ -363,11 +369,45 @@ namespace inSSIDer.UI.Controls
             NetworkInterfaceDropDown.Enabled = true;
         }
 
-        /// <summary>
-        /// Gets to sets the maximum length of an interface name
-        /// </summary>
-        [Category("Behavior"),DefaultValue(-1)]
-        public int MaxTextLength { get; set; }
-        
+        private void WlanClient_InterfaceAddedEvent(object sender, InterfaceNotificationEventsArgs e)
+        {
+            UpdateInterfaceList();
+            //If we are not scanning and a new interface is added, use it!
+            if (!_scanner.NetworkScanner.IsScanning && _scanner.SetInterface(e.MyGuid))
+            {
+                try
+                {
+                    //Reset cache data
+                    _scanner.Cache.Clear();
+                    Utilities.ResetColor();
+
+                    //These will always need to be invoked
+                    Invoke(new DelInvokeNoArg(UpdateSelection));
+                    Invoke(new DelInvokeNoArg(StartScan));
+                }
+                catch (InvalidOperationException)
+                {
+                    // Exception thrown if UI isn't fully initialized yet.
+                    // Ignoring this exception will force the user to manually click the "Start" button
+                }
+            }
+        }
+
+        private void WlanClient_InterfaceRemoveEvent(object sender, InterfaceNotificationEventsArgs e)
+        {
+            if (e.MyGuid == new Guid(_scanner.Interface.Id))
+            {
+                //If we were using the interface that got removed, stop scanning!
+                if (InvokeRequired)
+                    Invoke(new DelInterfaceChange(WlanClient_InterfaceRemoveEvent), new[] { sender, e });
+                else
+                {
+                    StopScan();
+                }
+            }
+            UpdateInterfaceList();
+        }
+
+        #endregion Private Methods
     }
 }

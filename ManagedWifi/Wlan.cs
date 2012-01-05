@@ -1,21 +1,26 @@
 ﻿////////////////////////////////////////////////////////////////
+
+#region Header
+
 //
 // Copyright (c) 2007-2010 MetaGeek, LLC
 //
-// Licensed under the Apache License, Version 2.0 (the "License"); 
-// you may not use this file except in compliance with the License. 
-// You may obtain a copy of the License at 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//	http://www.apache.org/licenses/LICENSE-2.0 
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
-// Unless required by applicable law or agreed to in writing, software 
-// distributed under the License is distributed on an "AS IS" BASIS, 
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-// See the License for the specific language governing permissions and 
-// limitations under the License. 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
-////////////////////////////////////////////////////////////////
 
+#endregion Header
+
+////////////////////////////////////////////////////////////////
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -25,53 +30,16 @@ using System.Text;
 
 namespace ManagedWifi
 {
-
     public static class Wlan
     {
+        #region Fields
+
         public const uint WlanClientVersionLonghorn = 2;
         public const uint WlanClientVersionXpSp2 = 1;
 
-        [DebuggerStepThrough]
-        internal static void ThrowIfError(int win32ErrorCode)
-        {
-            if (win32ErrorCode != 0)
-            {
-                throw new Win32Exception(win32ErrorCode);
-            }
-        }
+        #endregion Fields
 
-        [DllImport("wlanapi.dll")]
-        public static extern int WlanCloseHandle([In] IntPtr clientHandle, [In, Out] IntPtr pReserved);
-        [DllImport("wlanapi.dll")]
-        public static extern int WlanConnect([In] IntPtr clientHandle, [In, MarshalAs(UnmanagedType.LPStruct)] Guid interfaceGuid, [In] ref WlanConnectionParameters connectionParameters, IntPtr pReserved);
-        [DllImport("wlanapi.dll")]
-        public static extern int WlanDeleteProfile([In] IntPtr clientHandle, [In, MarshalAs(UnmanagedType.LPStruct)] Guid interfaceGuid, [In, MarshalAs(UnmanagedType.LPWStr)] string profileName, IntPtr reservedPtr);
-        [DllImport("wlanapi.dll")]
-        public static extern int WlanEnumInterfaces([In] IntPtr clientHandle, [In, Out] IntPtr pReserved, out IntPtr ppInterfaceList);
-        [DllImport("wlanapi.dll")]
-        public static extern void WlanFreeMemory(IntPtr pMemory);
-        [DllImport("wlanapi.dll")]
-        public static extern int WlanGetAvailableNetworkList([In] IntPtr clientHandle, [In, MarshalAs(UnmanagedType.LPStruct)] Guid interfaceGuid, [In] WlanGetAvailableNetworkFlags flags, [In, Out] IntPtr reservedPtr, out IntPtr availableNetworkListPtr);
-        [DllImport("wlanapi.dll")]
-        public static extern int WlanGetNetworkBssList([In] IntPtr clientHandle, [In, MarshalAs(UnmanagedType.LPStruct)] Guid interfaceGuid, [In] IntPtr dot11SsidInt, [In] Dot11BssType dot11BssType, [In] bool securityEnabled, IntPtr reservedPtr, out IntPtr wlanBssList);
-        [DllImport("wlanapi.dll")]
-        public static extern int WlanGetProfile([In] IntPtr clientHandle, [In, MarshalAs(UnmanagedType.LPStruct)] Guid interfaceGuid, [In, MarshalAs(UnmanagedType.LPWStr)] string profileName, [In] IntPtr pReserved, out IntPtr profileXml, [Optional] out WlanProfileFlags flags, [Optional] out WlanAccess grantedAccess);
-        [DllImport("wlanapi.dll")]
-        public static extern int WlanGetProfileList([In] IntPtr clientHandle, [In, MarshalAs(UnmanagedType.LPStruct)] Guid interfaceGuid, [In] IntPtr pReserved, out IntPtr profileList);
-        [DllImport("wlanapi.dll")]
-        public static extern int WlanOpenHandle([In] uint clientVersion, [In, Out] IntPtr pReserved, out uint negotiatedVersion, out IntPtr clientHandle);
-        [DllImport("wlanapi.dll")]
-        public static extern int WlanQueryInterface([In] IntPtr clientHandle, [In, MarshalAs(UnmanagedType.LPStruct)] Guid interfaceGuid, [In] WlanIntfOpcode opCode, [In, Out] IntPtr pReserved, out int dataSize, out IntPtr ppData, out WlanOpcodeValueType wlanOpcodeValueType);
-        [DllImport("wlanapi.dll")]
-        public static extern int WlanReasonCodeToString([In] WlanReasonCode reasonCode, [In] int bufferSize, [In, Out] StringBuilder stringBuffer, IntPtr pReserved);
-        [DllImport("wlanapi.dll")]
-        public static extern int WlanRegisterNotification([In] IntPtr clientHandle, [In] WlanNotificationSource notifSource, [In] bool ignoreDuplicate, [In] WlanNotificationCallbackDelegate funcCallback, [In] IntPtr callbackContext, [In] IntPtr reserved, out WlanNotificationSource prevNotifSource);
-        [DllImport("wlanapi.dll")]
-        public static extern int WlanScan([In] IntPtr clientHandle, [In, MarshalAs(UnmanagedType.LPStruct)] Guid interfaceGuid, [In] IntPtr pDot11Ssid, [In] IntPtr pIeData, [In, Out] IntPtr pReserved);
-        [DllImport("wlanapi.dll")]
-        public static extern int WlanSetInterface([In] IntPtr clientHandle, [In, MarshalAs(UnmanagedType.LPStruct)] Guid interfaceGuid, [In] WlanIntfOpcode opCode, [In] uint dataSize, [In] IntPtr pData, [In, Out] IntPtr pReserved);
-        [DllImport("wlanapi.dll")]
-        public static extern int WlanSetProfile([In] IntPtr clientHandle, [In, MarshalAs(UnmanagedType.LPStruct)] Guid interfaceGuid, [In] WlanProfileFlags flags, [In, MarshalAs(UnmanagedType.LPWStr)] string profileXml, [In, Optional, MarshalAs(UnmanagedType.LPWStr)] string allUserProfileSecurity, [In] bool overwrite, [In] IntPtr pReserved, out WlanReasonCode reasonCode);
+        #region Enumerations
 
         public enum Dot11AuthAlgorithm : uint
         {
@@ -132,14 +100,6 @@ namespace ManagedWifi
             Unknown = 0
         }
 
-        [StructLayout(LayoutKind.Sequential)]
-        public struct Dot11Ssid
-        {
-            public readonly uint SSIDLength;
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst=0x20)]
-            public readonly byte[] SSID;
-        }
-
         [Flags]
         public enum WlanAccess
         {
@@ -152,124 +112,6 @@ namespace ManagedWifi
         {
             Formed,
             Connected
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct WlanAssociationAttributes
-        {
-            private readonly Dot11Ssid dot11Ssid;
-            private readonly Dot11BssType dot11BssType;
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst=6)] private readonly byte[] dot11Bssid;
-            private readonly Dot11PhyType dot11PhyType;
-            private readonly uint dot11PhyIndex;
-            private readonly uint wlanSignalQuality;
-            private readonly uint rxRate;
-            private readonly uint txRate;
-            public PhysicalAddress Dot11Bssid
-            {
-                get
-                {
-                    return dot11Bssid != null
-                               ? new PhysicalAddress(dot11Bssid)
-                               : new PhysicalAddress(new byte[] {0, 0, 0, 0, 0, 0});
-                }
-            }
-        }
-
-        [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Unicode)]
-        public struct WlanAvailableNetwork
-        {
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst=0x100)] private readonly string profileName;
-            public Dot11Ssid dot11Ssid;
-            private readonly Dot11BssType dot11BssType;
-            private readonly uint numberOfBssids;
-            private readonly bool networkConnectable;
-            private readonly WlanReasonCode wlanNotConnectableReason;
-            private readonly uint numberOfPhyTypes;
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst=8)]
-            private readonly Dot11PhyType[] dot11PhyTypes;
-
-            private readonly bool morePhyTypes;
-            public readonly uint wlanSignalQuality;
-            private readonly bool securityEnabled;
-            public readonly Dot11AuthAlgorithm dot11DefaultAuthAlgorithm;
-            public readonly Dot11CipherAlgorithm dot11DefaultCipherAlgorithm;
-            private readonly WlanAvailableNetworkFlags flags;
-            private readonly uint reserved;
-            public Dot11PhyType[] Dot11PhyTypes
-            {
-                get
-                {
-                    Dot11PhyType[] destinationArray = new Dot11PhyType[numberOfPhyTypes];
-                    Array.Copy(dot11PhyTypes, destinationArray, numberOfPhyTypes);
-                    return destinationArray;
-                }
-            }
-        }
-
-        [Flags]
-        private enum WlanAvailableNetworkFlags
-        {
-            Connected = 1,
-            HasProfile = 2
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        internal struct WlanAvailableNetworkListHeader
-        {
-            public readonly uint numberOfItems;
-            private uint index;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct WlanBssEntry
-        {
-            public Dot11Ssid dot11Ssid;
-            private readonly uint phyId;
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst=6)]
-            public readonly byte[] dot11Bssid;
-            public readonly Dot11BssType dot11BssType;
-            public readonly Dot11PhyType dot11BssPhyType;
-            public readonly int rssi;
-            public readonly uint linkQuality;
-            private readonly bool inRegDomain;
-            private readonly ushort beaconPeriod;
-            private readonly ulong timestamp;
-            private readonly ulong hostTimestamp;
-            private readonly ushort capabilityInformation;
-            public readonly uint chCenterFrequency;
-            public WlanRateSet wlanRateSet;
-            public readonly uint ieOffset;
-            public readonly uint ieSize;
-        }
-
-        //Added 7-29-10 by Tyler
-        public class WlanBssEntryN
-        {
-            public WlanBssEntry BaseEntry;
-            public IeParser.TypeNSettings NSettings;
-
-            public WlanBssEntryN(WlanBssEntry bssEntry)
-            {
-                BaseEntry = bssEntry;
-            }
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        internal struct WlanBssListHeader
-        {
-            private readonly uint totalSize;
-            internal readonly uint numberOfItems;
-        }
-
-        [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Unicode)]
-        public struct WlanConnectionAttributes
-        {
-            public readonly WlanInterfaceState isState;
-            public readonly WlanConnectionMode wlanConnectionMode;
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst=0x100)] private readonly string profileName;
-            public readonly WlanAssociationAttributes wlanAssociationAttributes;
-            private readonly WlanSecurityAttributes wlanSecurityAttributes;
         }
 
         [Flags]
@@ -291,34 +133,7 @@ namespace ManagedWifi
             Invalid
         }
 
-        [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Unicode)]
-        public struct WlanConnectionNotificationData
-        {
-            private readonly WlanConnectionMode wlanConnectionMode;
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst=0x20)]
-            public readonly string profileName;
-
-            private readonly Dot11Ssid dot11Ssid;
-            private readonly Dot11BssType dot11BssType;
-            private readonly bool securityEnabled;
-            public readonly WlanReasonCode wlanReasonCode;
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst=1)]
-            public string profileXml;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct WlanConnectionParameters
-        {
-            public WlanConnectionMode wlanConnectionMode;
-            [MarshalAs(UnmanagedType.LPWStr)]
-            public string profile;
-            public IntPtr dot11SsidPtr;
-            private IntPtr desiredBssidListPtr;
-            public Dot11BssType dot11BssType;
-            public WlanConnectionFlags flags;
-        }
-
-/*
+        /*
         public class WlanException : Exception
         {
             private readonly Wlan.WlanReasonCode reasonCode;
@@ -349,30 +164,12 @@ namespace ManagedWifi
                 }
             }
         }
-*/
-
+        */
         [Flags]
         public enum WlanGetAvailableNetworkFlags
         {
             IncludeAllAdhocProfiles = 1,
             IncludeAllManualHiddenProfiles = 2
-        }
-
-        [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Unicode)]
-        public struct WlanInterfaceInfo
-        {
-            public Guid interfaceGuid;
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst=0x100)]
-            public readonly string interfaceDescription;
-
-            private readonly WlanInterfaceState isState;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        internal struct WlanInterfaceInfoListHeader
-        {
-            public readonly uint numberOfItems;
-            private readonly uint index;
         }
 
         public enum WlanInterfaceState
@@ -408,8 +205,6 @@ namespace ManagedWifi
             SupportedCountryOrRegionStringList = 11,
             SupportedInfrastructureAuthCipherPairs = 9
         }
-
-        public delegate void WlanNotificationCallbackDelegate(ref Wlan.WlanNotificationData notificationData, IntPtr context);
 
         public enum WlanNotificationCodeAcm
         {
@@ -455,31 +250,6 @@ namespace ManagedWifi
             SignalQualityChange = 8
         }
 
-        [StructLayout(LayoutKind.Sequential)]
-        public struct WlanNotificationData
-        {
-            public readonly WlanNotificationSource notificationSource;
-            public readonly int notificationCode;
-            public Guid interfaceGuid;
-            public readonly int dataSize;
-            public IntPtr dataPtr;
-            public object NotificationCode
-            {
-                get
-                {
-                    if (notificationSource == WlanNotificationSource.Msm)
-                    {
-                        return (WlanNotificationCodeMsm) notificationCode;
-                    }
-                    if (notificationSource == WlanNotificationSource.Acm)
-                    {
-                        return (WlanNotificationCodeAcm) notificationCode;
-                    }
-                    return notificationCode;
-                }
-            }
-        }
-
         [Flags]
         public enum WlanNotificationSource
         {
@@ -505,41 +275,6 @@ namespace ManagedWifi
             AllUser,
             GroupPolicy,
             User
-        }
-
-        [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Unicode)]
-        public struct WlanProfileInfo
-        {
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst=0x100)] private readonly string profileName;
-            private readonly WlanProfileFlags profileFlags;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        internal struct WlanProfileInfoListHeader
-        {
-            public readonly uint numberOfItems;
-            private readonly uint index;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct WlanRateSet
-        {
-            private readonly uint rateSetLength;
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst=0x7e)]
-            private readonly ushort[] rateSet;
-            public ushort[] Rates
-            {
-                get
-                {
-                    ushort[] destinationArray = new ushort[rateSetLength];
-                    Array.Copy(rateSet, destinationArray, destinationArray.Length);
-                    return destinationArray;
-                }
-            }
-            public double GetRateInMbps(int rate)
-            {
-                return ((rateSet[rate] & 0x7fff) * 0.5);
-            }
         }
 
         public enum WlanReasonCode
@@ -676,14 +411,324 @@ namespace ManagedWifi
             UserNotRespond = 0x2800e
         }
 
+        [Flags]
+        private enum WlanAvailableNetworkFlags
+        {
+            Connected = 1,
+            HasProfile = 2
+        }
+
+        #endregion Enumerations
+
+        #region Delegates
+
+        public delegate void WlanNotificationCallbackDelegate(ref Wlan.WlanNotificationData notificationData, IntPtr context);
+
+        #endregion Delegates
+
+        #region Public Methods
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct Dot11Ssid
+        {
+            public readonly uint SSIDLength;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst=0x20)]
+            public readonly byte[] SSID;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct WlanAssociationAttributes
+        {
+            private readonly Dot11Ssid dot11Ssid;
+            private readonly Dot11BssType dot11BssType;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst=6)]
+            private readonly byte[] dot11Bssid;
+            private readonly Dot11PhyType dot11PhyType;
+            private readonly uint dot11PhyIndex;
+            private readonly uint wlanSignalQuality;
+            private readonly uint rxRate;
+            private readonly uint txRate;
+
+            public PhysicalAddress Dot11Bssid
+            {
+                get
+                {
+                    return dot11Bssid != null
+                               ? new PhysicalAddress(dot11Bssid)
+                               : new PhysicalAddress(new byte[] {0, 0, 0, 0, 0, 0});
+                }
+            }
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Unicode)]
+        public struct WlanAvailableNetwork
+        {
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst=0x100)]
+            private readonly string profileName;
+            public Dot11Ssid dot11Ssid;
+            private readonly Dot11BssType dot11BssType;
+            private readonly uint numberOfBssids;
+            private readonly bool networkConnectable;
+            private readonly WlanReasonCode wlanNotConnectableReason;
+            private readonly uint numberOfPhyTypes;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst=8)]
+            private readonly Dot11PhyType[] dot11PhyTypes;
+            private readonly bool morePhyTypes;
+            public readonly uint wlanSignalQuality;
+            private readonly bool securityEnabled;
+            public readonly Dot11AuthAlgorithm dot11DefaultAuthAlgorithm;
+            public readonly Dot11CipherAlgorithm dot11DefaultCipherAlgorithm;
+            private readonly WlanAvailableNetworkFlags flags;
+            private readonly uint reserved;
+
+            public Dot11PhyType[] Dot11PhyTypes
+            {
+                get
+                {
+                    Dot11PhyType[] destinationArray = new Dot11PhyType[numberOfPhyTypes];
+                    Array.Copy(dot11PhyTypes, destinationArray, numberOfPhyTypes);
+                    return destinationArray;
+                }
+            }
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct WlanBssEntry
+        {
+            public Dot11Ssid dot11Ssid;
+            private readonly uint phyId;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst=6)]
+            public readonly byte[] dot11Bssid;
+            public readonly Dot11BssType dot11BssType;
+            public readonly Dot11PhyType dot11BssPhyType;
+            public readonly int rssi;
+            public readonly uint linkQuality;
+            private readonly bool inRegDomain;
+            private readonly ushort beaconPeriod;
+            private readonly ulong timestamp;
+            private readonly ulong hostTimestamp;
+            private readonly ushort capabilityInformation;
+            public readonly uint chCenterFrequency;
+            public WlanRateSet wlanRateSet;
+            public readonly uint ieOffset;
+            public readonly uint ieSize;
+        }
+
+        //Added 7-29-10 by Tyler
+        public class WlanBssEntryN
+        {
+            public WlanBssEntry BaseEntry;
+            public IeParser.TypeNSettings NSettings;
+
+            public WlanBssEntryN(WlanBssEntry bssEntry)
+            {
+                BaseEntry = bssEntry;
+            }
+        }
+
+        [DllImport("wlanapi.dll")]
+        public static extern int WlanCloseHandle([In] IntPtr clientHandle, [In, Out] IntPtr pReserved);
+
+        [DllImport("wlanapi.dll")]
+        public static extern int WlanConnect([In] IntPtr clientHandle, [In, MarshalAs(UnmanagedType.LPStruct)] Guid interfaceGuid, [In] ref WlanConnectionParameters connectionParameters, IntPtr pReserved);
+
+        [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Unicode)]
+        public struct WlanConnectionAttributes
+        {
+            public readonly WlanInterfaceState isState;
+            public readonly WlanConnectionMode wlanConnectionMode;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst=0x100)]
+            private readonly string profileName;
+            public readonly WlanAssociationAttributes wlanAssociationAttributes;
+            private readonly WlanSecurityAttributes wlanSecurityAttributes;
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Unicode)]
+        public struct WlanConnectionNotificationData
+        {
+            private readonly WlanConnectionMode wlanConnectionMode;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst=0x20)]
+            public readonly string profileName;
+            private readonly Dot11Ssid dot11Ssid;
+            private readonly Dot11BssType dot11BssType;
+            private readonly bool securityEnabled;
+            public readonly WlanReasonCode wlanReasonCode;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst=1)]
+            public string profileXml;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct WlanConnectionParameters
+        {
+            public WlanConnectionMode wlanConnectionMode;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            public string profile;
+            public IntPtr dot11SsidPtr;
+            private IntPtr desiredBssidListPtr;
+            public Dot11BssType dot11BssType;
+            public WlanConnectionFlags flags;
+        }
+
+        [DllImport("wlanapi.dll")]
+        public static extern int WlanDeleteProfile([In] IntPtr clientHandle, [In, MarshalAs(UnmanagedType.LPStruct)] Guid interfaceGuid, [In, MarshalAs(UnmanagedType.LPWStr)] string profileName, IntPtr reservedPtr);
+
+        [DllImport("wlanapi.dll")]
+        public static extern int WlanEnumInterfaces([In] IntPtr clientHandle, [In, Out] IntPtr pReserved, out IntPtr ppInterfaceList);
+
+        [DllImport("wlanapi.dll")]
+        public static extern void WlanFreeMemory(IntPtr pMemory);
+
+        [DllImport("wlanapi.dll")]
+        public static extern int WlanGetAvailableNetworkList([In] IntPtr clientHandle, [In, MarshalAs(UnmanagedType.LPStruct)] Guid interfaceGuid, [In] WlanGetAvailableNetworkFlags flags, [In, Out] IntPtr reservedPtr, out IntPtr availableNetworkListPtr);
+
+        [DllImport("wlanapi.dll")]
+        public static extern int WlanGetNetworkBssList([In] IntPtr clientHandle, [In, MarshalAs(UnmanagedType.LPStruct)] Guid interfaceGuid, [In] IntPtr dot11SsidInt, [In] Dot11BssType dot11BssType, [In] bool securityEnabled, IntPtr reservedPtr, out IntPtr wlanBssList);
+
+        [DllImport("wlanapi.dll")]
+        public static extern int WlanGetProfile([In] IntPtr clientHandle, [In, MarshalAs(UnmanagedType.LPStruct)] Guid interfaceGuid, [In, MarshalAs(UnmanagedType.LPWStr)] string profileName, [In] IntPtr pReserved, out IntPtr profileXml, [Optional] out WlanProfileFlags flags, [Optional] out WlanAccess grantedAccess);
+
+        [DllImport("wlanapi.dll")]
+        public static extern int WlanGetProfileList([In] IntPtr clientHandle, [In, MarshalAs(UnmanagedType.LPStruct)] Guid interfaceGuid, [In] IntPtr pReserved, out IntPtr profileList);
+
+        [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Unicode)]
+        public struct WlanInterfaceInfo
+        {
+            public Guid interfaceGuid;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst=0x100)]
+            public readonly string interfaceDescription;
+            private readonly WlanInterfaceState isState;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct WlanNotificationData
+        {
+            public readonly WlanNotificationSource notificationSource;
+            public readonly int notificationCode;
+            public Guid interfaceGuid;
+            public readonly int dataSize;
+            public IntPtr dataPtr;
+
+            public object NotificationCode
+            {
+                get
+                {
+                    if (notificationSource == WlanNotificationSource.Msm)
+                    {
+                        return (WlanNotificationCodeMsm) notificationCode;
+                    }
+                    if (notificationSource == WlanNotificationSource.Acm)
+                    {
+                        return (WlanNotificationCodeAcm) notificationCode;
+                    }
+                    return notificationCode;
+                }
+            }
+        }
+
+        [DllImport("wlanapi.dll")]
+        public static extern int WlanOpenHandle([In] uint clientVersion, [In, Out] IntPtr pReserved, out uint negotiatedVersion, out IntPtr clientHandle);
+
+        [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Unicode)]
+        public struct WlanProfileInfo
+        {
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst=0x100)]
+            private readonly string profileName;
+            private readonly WlanProfileFlags profileFlags;
+        }
+
+        [DllImport("wlanapi.dll")]
+        public static extern int WlanQueryInterface([In] IntPtr clientHandle, [In, MarshalAs(UnmanagedType.LPStruct)] Guid interfaceGuid, [In] WlanIntfOpcode opCode, [In, Out] IntPtr pReserved, out int dataSize, out IntPtr ppData, out WlanOpcodeValueType wlanOpcodeValueType);
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct WlanRateSet
+        {
+            private readonly uint rateSetLength;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst=0x7e)]
+            private readonly ushort[] rateSet;
+
+            public ushort[] Rates
+            {
+                get
+                {
+                    ushort[] destinationArray = new ushort[rateSetLength];
+                    Array.Copy(rateSet, destinationArray, destinationArray.Length);
+                    return destinationArray;
+                }
+            }
+
+            public double GetRateInMbps(int rate)
+            {
+                return ((rateSet[rate] & 0x7fff) * 0.5);
+            }
+        }
+
+        [DllImport("wlanapi.dll")]
+        public static extern int WlanReasonCodeToString([In] WlanReasonCode reasonCode, [In] int bufferSize, [In, Out] StringBuilder stringBuffer, IntPtr pReserved);
+
+        [DllImport("wlanapi.dll")]
+        public static extern int WlanRegisterNotification([In] IntPtr clientHandle, [In] WlanNotificationSource notifSource, [In] bool ignoreDuplicate, [In] WlanNotificationCallbackDelegate funcCallback, [In] IntPtr callbackContext, [In] IntPtr reserved, out WlanNotificationSource prevNotifSource);
+
+        [DllImport("wlanapi.dll")]
+        public static extern int WlanScan([In] IntPtr clientHandle, [In, MarshalAs(UnmanagedType.LPStruct)] Guid interfaceGuid, [In] IntPtr pDot11Ssid, [In] IntPtr pIeData, [In, Out] IntPtr pReserved);
+
+        [DllImport("wlanapi.dll")]
+        public static extern int WlanSetInterface([In] IntPtr clientHandle, [In, MarshalAs(UnmanagedType.LPStruct)] Guid interfaceGuid, [In] WlanIntfOpcode opCode, [In] uint dataSize, [In] IntPtr pData, [In, Out] IntPtr pReserved);
+
+        [DllImport("wlanapi.dll")]
+        public static extern int WlanSetProfile([In] IntPtr clientHandle, [In, MarshalAs(UnmanagedType.LPStruct)] Guid interfaceGuid, [In] WlanProfileFlags flags, [In, MarshalAs(UnmanagedType.LPWStr)] string profileXml, [In, Optional, MarshalAs(UnmanagedType.LPWStr)] string allUserProfileSecurity, [In] bool overwrite, [In] IntPtr pReserved, out WlanReasonCode reasonCode);
+
+        #endregion Public Methods
+
+        #region Private Methods
+
+        [DebuggerStepThrough]
+        internal static void ThrowIfError(int win32ErrorCode)
+        {
+            if (win32ErrorCode != 0)
+            {
+                throw new Win32Exception(win32ErrorCode);
+            }
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct WlanAvailableNetworkListHeader
+        {
+            public readonly uint numberOfItems;
+            private uint index;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct WlanBssListHeader
+        {
+            private readonly uint totalSize;
+            internal readonly uint numberOfItems;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct WlanInterfaceInfoListHeader
+        {
+            public readonly uint numberOfItems;
+            private readonly uint index;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct WlanProfileInfoListHeader
+        {
+            public readonly uint numberOfItems;
+            private readonly uint index;
+        }
+
         [StructLayout(LayoutKind.Sequential)]
         private struct WlanSecurityAttributes
         {
-            [MarshalAs(UnmanagedType.Bool)] private readonly bool securityEnabled;
-            [MarshalAs(UnmanagedType.Bool)] private readonly bool oneXEnabled;
+            [MarshalAs(UnmanagedType.Bool)]
+            private readonly bool securityEnabled;
+            [MarshalAs(UnmanagedType.Bool)]
+            private readonly bool oneXEnabled;
             private readonly Dot11AuthAlgorithm dot11AuthAlgorithm;
             private readonly Dot11CipherAlgorithm dot11CipherAlgorithm;
         }
+
+        #endregion Private Methods
     }
 }
-

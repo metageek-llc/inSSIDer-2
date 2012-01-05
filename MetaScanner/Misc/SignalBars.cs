@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Drawing;
+
 using inSSIDer.Properties;
 
 namespace inSSIDer.Misc
 {
     public class SignalBars
     {
+        #region Public Methods
+
         public static Image GetImage(int rssi, bool secure)
         {
             if (rssi >= -54)
@@ -36,5 +39,7 @@ namespace inSSIDer.Misc
                 return secure ? Resources.Signal0E : Resources.Signal0;
             }
         }
+
+        #endregion Public Methods
     }
 }

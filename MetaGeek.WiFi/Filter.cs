@@ -1,96 +1,160 @@
 ﻿////////////////////////////////////////////////////////////////
+
+#region Header
+
 //
 // Copyright (c) 2007-2010 MetaGeek, LLC
 //
-// Licensed under the Apache License, Version 2.0 (the "License"); 
-// you may not use this file except in compliance with the License. 
-// You may obtain a copy of the License at 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//	http://www.apache.org/licenses/LICENSE-2.0 
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
-// Unless required by applicable law or agreed to in writing, software 
-// distributed under the License is distributed on an "AS IS" BASIS, 
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-// See the License for the specific language governing permissions and 
-// limitations under the License. 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
-////////////////////////////////////////////////////////////////
 
+#endregion Header
+
+
+////////////////////////////////////////////////////////////////
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Reflection;
+using System.Text;
 
 namespace MetaGeek.WiFi
 {
+    #region Enumerations
+
+    public enum Bool
+    {
+        True, False, Nil
+    }
+
+    /// <summary>
+    /// Operator
+    /// </summary>
+    public enum Op
+    {
+        /// <summary>
+        /// Not Set
+        /// </summary>
+        NotSet,
+        /// <summary>
+        /// Equal (any)
+        /// </summary>
+        Equal,
+        /// <summary>
+        /// Not Equal (any)
+        /// </summary>
+        NotEqual,
+        /// <summary>
+        /// Greater Than (int)
+        /// </summary>
+        GreaterThan,
+        /// <summary>
+        /// Less Than (int)
+        /// </summary>
+        LessThan,
+        /// <summary>
+        /// Greater Or Equal (int)
+        /// </summary>
+        GreaterThanOrEqual,
+        /// <summary>
+        /// Less Or Equal (int)
+        /// </summary>
+        LessThanOrEqual,
+        /// <summary>
+        /// Starts With (string)
+        /// </summary>
+        StartsWith,
+        /// <summary>
+        /// Ends With (string)
+        /// </summary>
+        EndsWith,
+        /// <summary>
+        /// Does not start with
+        /// </summary>
+        NotStartsWith,
+        /// <summary>
+        /// Does not end with
+        /// </summary>
+        NotEndsWith
+    }
+
+    public enum SecurityType
+    {
+        None = 0,
+        Wep = 1,
+        WpaTkip = 2,
+        WpaCcmp = 3,
+        Wpa2Tkip = 4,
+        Wpa2Ccmp = 5
+    }
+
+    #endregion Enumerations
+
     /// <summary>
     /// Specifies Parameters for filtering AccessPoints
     /// </summary>
     public class Filter
     {
-        #region Members and Properties
+        #region Fields
+
+        public int Age = -1;
+        public string Alias = String.Empty;
+        public int Channel = -1;
+        public static Filter Empty = new Filter();
+        public bool Enabled = true;
 
         //Unique Id
         public Guid Id;
-
-        public bool Enabled = true;
-
-        public int Age = -1;
-        public Op OpAge = Op.NotSet;
-
-        public string Alias = String.Empty;
-        public Op OpAlias = Op.NotSet;
-
-        public int Channel = -1;
-        public Op OpChannel = Op.NotSet;
-
-        public Bool IsTypeN = Bool.Nil;
-        public Op OpIsTypeN = Op.NotSet;
-
         public Bool Is40MHz = Bool.Nil;
-        public Op OpIs40MHz = Op.NotSet;
-
+        public Bool IsTypeN = Bool.Nil;
         public string MacAddress = String.Empty;
-        public Op OpMacAddress = Op.NotSet;
-
         public int MaxRate = -1;
-        public Op OpMaxRate = Op.NotSet;
-
         public string NetworkType = String.Empty;
+        public Op OpAge = Op.NotSet;
+        public Op OpAlias = Op.NotSet;
+        public Op OpChannel = Op.NotSet;
+        public Op OpIs40MHz = Op.NotSet;
+        public Op OpIsTypeN = Op.NotSet;
+        public Op OpMacAddress = Op.NotSet;
+        public Op OpMaxRate = Op.NotSet;
         public Op OpNetworkType = Op.NotSet;
-
-        public string Security = String.Empty;
-        public Op OpSecurity = Op.NotSet;
-
-        public int Rssi = -101;
         public Op OpRssi = Op.NotSet;
-
-        public string Ssid = String.Empty;
+        public Op OpSecurity = Op.NotSet;
         public Op OpSsid = Op.NotSet;
-
-        public string Vendor = String.Empty;
         public Op OpVendor = Op.NotSet;
+        public int Rssi = -101;
+        public string Security = String.Empty;
+        public string Ssid = String.Empty;
+        public string Vendor = String.Empty;
 
-        public static Filter Empty = new Filter();
+        #endregion Fields
 
-        #endregion Members and Properties
-
-        #region Constructor
+        #region Constructors
 
         public Filter()
         {
             Id = Guid.NewGuid();
         }
 
-        public Filter(string expr) : this()
+        public Filter(string expr)
+            : this()
         {
             SetExpression(expr);
         }
 
-        #endregion Constructor
+        #endregion Constructors
 
-        #region Methods
+        #region Public Methods
 
         public bool Eval(AccessPoint ap)
         {
@@ -127,7 +191,7 @@ namespace MetaGeek.WiFi
                 status &= CompInt(SecurityRanking(ap.Privacy), OpSecurity, SecurityRanking(Security));
 
             //Rssi
-            if (Rssi > -101 && OpRssi != Op.NotSet) 
+            if (Rssi > -101 && OpRssi != Op.NotSet)
                 status &= CompInt(ap.LastData.Rssi, OpRssi, Rssi);
 
             //Ssid
@@ -142,63 +206,9 @@ namespace MetaGeek.WiFi
             return status;
         }
 
-        /// <summary>
-        /// Gets the expression representation of the filter
-        /// </summary>
-        /// <returns>The expression</returns>
-        private string GetExpression()
+        public object[] GetData()
         {
-            List<string> exprs = new List<string>();
-
-            if (Age != -1 && OpAge != Op.NotSet)
-                exprs.Add(string.Format("Age {0} {1}", OpToString(OpAge), Age));
-
-            if (!string.IsNullOrEmpty(Alias) && OpAlias != Op.NotSet)
-                exprs.Add(string.Format("Alias {0} \"{1}\"", OpToString(OpAlias), Alias));
-
-            if (Channel != -1 && OpChannel != Op.NotSet)
-                exprs.Add(string.Format("Channel {0} {1}", OpToString(OpChannel), Channel));
-
-            if (IsTypeN != Bool.Nil && OpIsTypeN != Op.NotSet)
-                exprs.Add(string.Format("IsTypeN {0} {1}", OpToString(OpIsTypeN), IsTypeN));
-
-            if (Is40MHz != Bool.Nil && OpIs40MHz != Op.NotSet)
-                exprs.Add(string.Format("Is40MHz {0} {1}", OpToString(OpIs40MHz), Is40MHz));
-
-            if (!string.IsNullOrEmpty(MacAddress) && OpMacAddress != Op.NotSet)
-                exprs.Add(string.Format("MacAddress {0} \"{1}\"", OpToString(OpMacAddress), MacAddress));
-
-            if (MaxRate != -1 && OpMaxRate != Op.NotSet)
-                exprs.Add(string.Format("MaxRate {0} {1}", OpToString(OpMaxRate), MaxRate));
-
-            if (!string.IsNullOrEmpty(Security) && OpSecurity != Op.NotSet)
-                exprs.Add(string.Format("Security {0} {1}", OpToString(OpSecurity), Security));
-
-            if (Rssi != -1 && OpRssi != Op.NotSet)
-                exprs.Add(string.Format("Rssi {0} {1}", OpToString(OpRssi), Rssi));
-
-            if (!string.IsNullOrEmpty(Ssid) && OpSsid != Op.NotSet)
-                exprs.Add(string.Format("Ssid {0} \"{1}\"", OpToString(OpSsid), Ssid));
-
-            if (!string.IsNullOrEmpty(Vendor) && OpVendor != Op.NotSet)
-                exprs.Add(string.Format("Vendor {0} \"{1}\"", OpToString(OpVendor), Vendor));
-
-            if (!string.IsNullOrEmpty(NetworkType) && OpNetworkType != Op.NotSet)
-                exprs.Add(string.Format("NetworkType {0} \"{1}\"", OpToString(OpNetworkType), NetworkType));
-
-            if (exprs.Count == 0) return String.Empty;
-            if (exprs.Count == 1) return exprs[0];
-
-            StringBuilder sbout = new StringBuilder();
-
-            string sep = "";
-            foreach (string s in exprs)
-            {
-                sbout.Append(sep);
-                sbout.Append(s);
-                sep = " && ";
-            }
-            return sbout.ToString();
+            return new object[] {Id, Enabled, GetExpression(), 0};
         }
 
         /// <summary>
@@ -259,7 +269,7 @@ namespace MetaGeek.WiFi
                 FieldInfo fi = type.GetField(p2[0]);
                 Op operation = StringToOp(p2[1]);
                 if(operation == Op.NotSet) return section;
-                
+
                 type.GetField("Op" + p2[0]).SetValue(this, operation);
                 if (fi.Name == "Security")
                 {
@@ -280,124 +290,42 @@ namespace MetaGeek.WiFi
                     fi.SetValue(this, StringToBool(p2[2]));
                 else
                     return section;
-                
+
             }
             Enabled = true;
             return string.Empty;
         }
 
-        private bool FieldExists(string name)
+        /// <summary>
+        /// Gets the string expression for this filter
+        /// </summary>
+        /// <returns>The string expression</returns>
+        public override string ToString()
         {
-            return typeof (Filter).GetFields().Where(f => f.Name == name).Count() == 1;
+            return GetExpression();
         }
 
-        private Bool StringToBool(string s)
-        {
-            switch (s.ToLower())
-            {
-                case "true":
-                    return Bool.True;
-                case "false":
-                    return Bool.False;
-                default:
-                    return Bool.Nil;
-            }
-        }
+        #endregion Public Methods
 
-        private string OpToString(Op op)
-        {
-            switch (op)
-            {
-                case Op.Equal:
-                    return "==";
-                case Op.NotEqual:
-                    return "!=";
-                case Op.GreaterThan:
-                    return ">";
-                case Op.LessThan:
-                    return "<";
-                case Op.GreaterThanOrEqual:
-                    return ">=";
-                case Op.LessThanOrEqual:
-                    return "<=";
-                case Op.StartsWith:
-                    return "sw";
-                case Op.EndsWith:
-                    return "ew";
-                case Op.NotStartsWith:
-                    return "!sw";
-                case Op.NotEndsWith:
-                    return "!ew";
-                default:
-                    throw new ArgumentOutOfRangeException("op");
-            }
-        }
+        #region Private Methods
 
-        private Op StringToOp(string op)
+        private bool CompBool(bool value, Op op, Bool cvalue)
         {
-            //Op outp = Op.NotSet;
-            op = op.ToLower().Trim();
-            if(op.Length > 3) op = op.Remove(3);
-
-            switch (op)
+            if(cvalue != Bool.Nil)
             {
-                case "==":
-                    return Op.Equal;
-                case "!=":
-                    return Op.NotEqual;
-                case ">":
-                    return Op.GreaterThan;
-                case "<":
-                    return Op.LessThan;
-                case ">=":
-                    return Op.GreaterThanOrEqual;
-                case "<=":
-                    return Op.LessThanOrEqual;
-                case "sw":
-                    return Op.StartsWith;
-                case "ew":
-                    return Op.EndsWith;
-                case "!sw":
-                    return Op.NotStartsWith;
-                case "!ew":
-                    return Op.NotEndsWith;
-                default:
-                    return Op.NotSet;
-            }
-        }
-
-        //None, WEP, WPA_TKIP, WPA_CCMP, WPA2_TKIP, WPA2_CCMP
-        private int SecurityRanking(string security)
-        {
-            security = security.ToLower();
-            if (security.Contains("tkip"))
-            {
-                if (security.Contains("wpa2") || security.Contains("rsna"))
+                switch (op)
                 {
-                    return (int)SecurityType.Wpa2Tkip;
-                }
-                if (security.Contains("wpa"))
-                {
-                    return (int)SecurityType.WpaTkip;
+                    case Op.NotSet:
+                        return false;
+                    case Op.Equal:
+                        return cvalue.Compare(value);
+                    case Op.NotEqual:
+                        return !cvalue.Compare(value);
+                    default:
+                        return false;
                 }
             }
-            else if (security.Contains("ccmp") || security.Contains("aes"))
-            {
-                if (security.Contains("wpa2") || security.Contains("rsna"))
-                {
-                    return (int)SecurityType.Wpa2Ccmp;
-                }
-                if (security.Contains("wpa"))
-                {
-                    return (int)SecurityType.WpaCcmp;
-                }
-            }
-            else if (security.StartsWith("wpa2") || security.StartsWith("rsna")) return (int)SecurityType.Wpa2Ccmp;
-            else if (security.StartsWith("wpa")) return (int)SecurityType.WpaTkip;
-            else if (security.StartsWith("wep")) return (int)SecurityType.Wep;
-            else if (security.StartsWith("none")) return (int)SecurityType.None;
-
-            return -1;
+            return false;
         }
 
         private bool CompInt(int value, Op op, int cvalue)
@@ -461,105 +389,179 @@ namespace MetaGeek.WiFi
             return false;
         }
 
-        private bool CompBool(bool value, Op op, Bool cvalue)
+        private bool FieldExists(string name)
         {
-            if(cvalue != Bool.Nil)
+            return typeof (Filter).GetFields().Where(f => f.Name == name).Count() == 1;
+        }
+
+        /// <summary>
+        /// Gets the expression representation of the filter
+        /// </summary>
+        /// <returns>The expression</returns>
+        private string GetExpression()
+        {
+            List<string> exprs = new List<string>();
+
+            if (Age != -1 && OpAge != Op.NotSet)
+                exprs.Add(string.Format("Age {0} {1}", OpToString(OpAge), Age));
+
+            if (!string.IsNullOrEmpty(Alias) && OpAlias != Op.NotSet)
+                exprs.Add(string.Format("Alias {0} \"{1}\"", OpToString(OpAlias), Alias));
+
+            if (Channel != -1 && OpChannel != Op.NotSet)
+                exprs.Add(string.Format("Channel {0} {1}", OpToString(OpChannel), Channel));
+
+            if (IsTypeN != Bool.Nil && OpIsTypeN != Op.NotSet)
+                exprs.Add(string.Format("IsTypeN {0} {1}", OpToString(OpIsTypeN), IsTypeN));
+
+            if (Is40MHz != Bool.Nil && OpIs40MHz != Op.NotSet)
+                exprs.Add(string.Format("Is40MHz {0} {1}", OpToString(OpIs40MHz), Is40MHz));
+
+            if (!string.IsNullOrEmpty(MacAddress) && OpMacAddress != Op.NotSet)
+                exprs.Add(string.Format("MacAddress {0} \"{1}\"", OpToString(OpMacAddress), MacAddress));
+
+            if (MaxRate != -1 && OpMaxRate != Op.NotSet)
+                exprs.Add(string.Format("MaxRate {0} {1}", OpToString(OpMaxRate), MaxRate));
+
+            if (!string.IsNullOrEmpty(Security) && OpSecurity != Op.NotSet)
+                exprs.Add(string.Format("Security {0} {1}", OpToString(OpSecurity), Security));
+
+            if (Rssi != -1 && OpRssi != Op.NotSet)
+                exprs.Add(string.Format("Rssi {0} {1}", OpToString(OpRssi), Rssi));
+
+            if (!string.IsNullOrEmpty(Ssid) && OpSsid != Op.NotSet)
+                exprs.Add(string.Format("Ssid {0} \"{1}\"", OpToString(OpSsid), Ssid));
+
+            if (!string.IsNullOrEmpty(Vendor) && OpVendor != Op.NotSet)
+                exprs.Add(string.Format("Vendor {0} \"{1}\"", OpToString(OpVendor), Vendor));
+
+            if (!string.IsNullOrEmpty(NetworkType) && OpNetworkType != Op.NotSet)
+                exprs.Add(string.Format("NetworkType {0} \"{1}\"", OpToString(OpNetworkType), NetworkType));
+
+            if (exprs.Count == 0) return String.Empty;
+            if (exprs.Count == 1) return exprs[0];
+
+            StringBuilder sbout = new StringBuilder();
+
+            string sep = "";
+            foreach (string s in exprs)
             {
-                switch (op)
+                sbout.Append(sep);
+                sbout.Append(s);
+                sep = " && ";
+            }
+            return sbout.ToString();
+        }
+
+        private string OpToString(Op op)
+        {
+            switch (op)
+            {
+                case Op.Equal:
+                    return "==";
+                case Op.NotEqual:
+                    return "!=";
+                case Op.GreaterThan:
+                    return ">";
+                case Op.LessThan:
+                    return "<";
+                case Op.GreaterThanOrEqual:
+                    return ">=";
+                case Op.LessThanOrEqual:
+                    return "<=";
+                case Op.StartsWith:
+                    return "sw";
+                case Op.EndsWith:
+                    return "ew";
+                case Op.NotStartsWith:
+                    return "!sw";
+                case Op.NotEndsWith:
+                    return "!ew";
+                default:
+                    throw new ArgumentOutOfRangeException("op");
+            }
+        }
+
+        //None, WEP, WPA_TKIP, WPA_CCMP, WPA2_TKIP, WPA2_CCMP
+        private int SecurityRanking(string security)
+        {
+            security = security.ToLower();
+            if (security.Contains("tkip"))
+            {
+                if (security.Contains("wpa2") || security.Contains("rsna"))
                 {
-                    case Op.NotSet:
-                        return false;
-                    case Op.Equal:
-                        return cvalue.Compare(value);
-                    case Op.NotEqual:
-                        return !cvalue.Compare(value);
-                    default:
-                        return false;
+                    return (int)SecurityType.Wpa2Tkip;
+                }
+                if (security.Contains("wpa"))
+                {
+                    return (int)SecurityType.WpaTkip;
                 }
             }
-            return false;
+            else if (security.Contains("ccmp") || security.Contains("aes"))
+            {
+                if (security.Contains("wpa2") || security.Contains("rsna"))
+                {
+                    return (int)SecurityType.Wpa2Ccmp;
+                }
+                if (security.Contains("wpa"))
+                {
+                    return (int)SecurityType.WpaCcmp;
+                }
+            }
+            else if (security.StartsWith("wpa2") || security.StartsWith("rsna")) return (int)SecurityType.Wpa2Ccmp;
+            else if (security.StartsWith("wpa")) return (int)SecurityType.WpaTkip;
+            else if (security.StartsWith("wep")) return (int)SecurityType.Wep;
+            else if (security.StartsWith("none")) return (int)SecurityType.None;
+
+            return -1;
         }
 
-        public object[] GetData()
+        private Bool StringToBool(string s)
         {
-            return new object[] {Id, Enabled, GetExpression(), 0};
+            switch (s.ToLower())
+            {
+                case "true":
+                    return Bool.True;
+                case "false":
+                    return Bool.False;
+                default:
+                    return Bool.Nil;
+            }
         }
 
-        /// <summary>
-        /// Gets the string expression for this filter
-        /// </summary>
-        /// <returns>The string expression</returns>
-        public override string ToString()
+        private Op StringToOp(string op)
         {
-            return GetExpression();
+            //Op outp = Op.NotSet;
+            op = op.ToLower().Trim();
+            if(op.Length > 3) op = op.Remove(3);
+
+            switch (op)
+            {
+                case "==":
+                    return Op.Equal;
+                case "!=":
+                    return Op.NotEqual;
+                case ">":
+                    return Op.GreaterThan;
+                case "<":
+                    return Op.LessThan;
+                case ">=":
+                    return Op.GreaterThanOrEqual;
+                case "<=":
+                    return Op.LessThanOrEqual;
+                case "sw":
+                    return Op.StartsWith;
+                case "ew":
+                    return Op.EndsWith;
+                case "!sw":
+                    return Op.NotStartsWith;
+                case "!ew":
+                    return Op.NotEndsWith;
+                default:
+                    return Op.NotSet;
+            }
         }
 
-        #endregion Methods
-    }
-
-    public enum SecurityType
-    {
-        None = 0,
-        Wep = 1,
-        WpaTkip = 2,
-        WpaCcmp = 3,
-        Wpa2Tkip = 4,
-        Wpa2Ccmp = 5
-    }
-
-    public enum Bool
-    {
-        True, False, Nil
-    }
-
-    /// <summary>
-    /// Operator
-    /// </summary>
-    public enum Op
-    {
-        /// <summary>
-        /// Not Set
-        /// </summary>
-        NotSet,
-        /// <summary>
-        /// Equal (any)
-        /// </summary>
-        Equal,
-        /// <summary>
-        /// Not Equal (any)
-        /// </summary>
-        NotEqual,
-        /// <summary>
-        /// Greater Than (int)
-        /// </summary>
-        GreaterThan,
-        /// <summary>
-        /// Less Than (int)
-        /// </summary>
-        LessThan,
-        /// <summary>
-        /// Greater Or Equal (int)
-        /// </summary>
-        GreaterThanOrEqual,
-        /// <summary>
-        /// Less Or Equal (int)
-        /// </summary>
-        LessThanOrEqual,
-        /// <summary>
-        /// Starts With (string)
-        /// </summary>
-        StartsWith,
-        /// <summary>
-        /// Ends With (string)
-        /// </summary>
-        EndsWith,
-        /// <summary>
-        /// Does not start with
-        /// </summary>
-        NotStartsWith,
-        /// <summary>
-        /// Does not end with
-        /// </summary>
-        NotEndsWith
+        #endregion Private Methods
     }
 }

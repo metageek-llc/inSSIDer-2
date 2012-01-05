@@ -1,24 +1,32 @@
 ﻿////////////////////////////////////////////////////////////////
+
+#region Header
+
 //
 // Copyright (c) 2009-2010 MetaGeek, LLC
 //
-// Licensed under the Apache License, Version 2.0 (the "License"); 
-// you may not use this file except in compliance with the License. 
-// You may obtain a copy of the License at 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//	http://www.apache.org/licenses/LICENSE-2.0 
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
-// Unless required by applicable law or agreed to in writing, software 
-// distributed under the License is distributed on an "AS IS" BASIS, 
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-// See the License for the specific language governing permissions and 
-// limitations under the License. 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
-////////////////////////////////////////////////////////////////
 
-using System.Windows.Forms;
+#endregion Header
+
+
+////////////////////////////////////////////////////////////////
 using System.Drawing;
+using System.Windows.Forms;
+
 using inSSIDer.Misc;
+
 using MetaGeek.WiFi;
 
 namespace inSSIDer.UI.Controls
@@ -30,13 +38,14 @@ namespace inSSIDer.UI.Controls
     /// </summary>
     public class SparkLineCell : DataGridViewTextBoxCell
     {
-        #region Constants
+        #region Fields
 
         private const int LeftPadding = 4;
         private const int RightPadding = 28;
-        #endregion Constants      
 
-        #region Methods
+        #endregion Fields
+
+        #region Protected Methods
 
         protected override void Paint(
             Graphics graphics,
@@ -51,7 +60,6 @@ namespace inSSIDer.UI.Controls
             DataGridViewAdvancedBorderStyle advancedBorderStyle,
             DataGridViewPaintParts paintParts)
         {
-
             // paint the content cell
             if (rowIndex >= 0)
             {
@@ -120,6 +128,6 @@ namespace inSSIDer.UI.Controls
             }
         }
 
-        #endregion 
+        #endregion Protected Methods
     }
 }

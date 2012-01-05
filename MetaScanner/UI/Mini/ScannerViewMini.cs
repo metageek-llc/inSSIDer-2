@@ -1,145 +1,83 @@
 ﻿////////////////////////////////////////////////////////////////
+
+#region Header
+
 //
 // Copyright (c) 2007-2010 MetaGeek, LLC
 //
-// Licensed under the Apache License, Version 2.0 (the "License"); 
-// you may not use this file except in compliance with the License. 
-// You may obtain a copy of the License at 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//	http://www.apache.org/licenses/LICENSE-2.0 
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
-// Unless required by applicable law or agreed to in writing, software 
-// distributed under the License is distributed on an "AS IS" BASIS, 
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-// See the License for the specific language governing permissions and 
-// limitations under the License. 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
-////////////////////////////////////////////////////////////////
 
+#endregion Header
+
+
+////////////////////////////////////////////////////////////////
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
+
 using inSSIDer.Scanning;
+
 using MetaGeek.WiFi;
 
 namespace inSSIDer.UI.Mini
 {
     public partial class ScannerViewMini : UserControl
     {
-        private ScanController _sc;
+        #region Fields
+
         //selection ignore flag - set to makes it ignore the first the auto-select when a new rows is added
         private bool _ignoreSelection = true;
-
-        private int _selectedRow = -1;
+        private ScanController _sc;
 
         // Checkbox for the "select all networks"
         private CheckBox _selectAllNetworksCheckBox;
+        private int _selectedRow = -1;
+
+        #endregion Fields
+
+        #region Events
 
         public event EventHandler RequireRefresh;
 
+        #endregion Events
+
+        #region Invoke Methods
+
         delegate void DelInvokeEvent(object sender, EventArgs e);
+
+        #endregion Invoke Methods
+
+        #region Delegates
+
+        private delegate void DelGo();
+
+        #endregion Delegates
+
+        #region Constructors
 
         public ScannerViewMini()
         {
             InitializeComponent();
         }
 
-        public void SetScanner(ref ScanController scanner)
-        {
-            _sc = scanner;
-            _sc.Cache.DataReset += Cache_DataReset;
-        }
+        #endregion Constructors
 
-        private void Cache_DataReset(object sender, EventArgs e)
-        {
-            if (InvokeRequired)
-            {
-                try
-                {
-                    Invoke(new DelInvokeEvent(Cache_DataReset), new object[] { sender, e });
-                }
-                catch (InvalidOperationException) { }
-                return;
-            }
+        #region Public Methods
 
-            scannerGrid.Rows.Clear();
-            _ignoreSelection = true;
-        }
-
-        private void ScannerViewCellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            //Header!
-            if (e.RowIndex != -1) return;
-            // fill gradient background 
-            LinearGradientBrush gradientBrush = new LinearGradientBrush(
-                e.CellBounds,
-                Color.FromArgb(202, 202, 202),
-                Color.FromArgb(158, 158, 158),
-                LinearGradientMode.Vertical);
-            e.Graphics.FillRectangle(gradientBrush, e.CellBounds);
-            gradientBrush.Dispose();
-
-            // paint rest of cell 
-            //e.Paint(e.CellBounds, DataGridViewPaintParts.Border | DataGridViewPaintParts.ContentForeground);
-            e.Paint(e.CellBounds, DataGridViewPaintParts.Border | DataGridViewPaintParts.ContentForeground | DataGridViewPaintParts.ContentBackground);
-            e.Handled = true;
-            //Update the checkbox position
-            ScannerViewUpdateHeaderCheckBoxPos();
-        }
-
-        private void ScannerViewSortCompare(object sender, DataGridViewSortCompareEventArgs e)
-        {
-            //Sort numeric columns like numbers
-            if (e.Column == scannerGrid.Columns["rssiColumn"] || e.Column == scannerGrid.Columns["maxrateColumn"] || e.Column == scannerGrid.Columns["channelColumn"])
-            {
-                //Remove anything after a space
-                string value1 = e.CellValue1.ToString();
-                if(value1.IndexOf(' ') > 0)
-                    value1 = value1.Remove(value1.IndexOf(' '));
-
-                string value2 = e.CellValue2.ToString();
-                if (value2.IndexOf(' ') > 0)
-                    value2 = value2.Remove(value2.IndexOf(' '));
-
-                if (Convert.ToInt32(value1) > Convert.ToInt32(value2)) { e.SortResult = 1; }
-                else if (Convert.ToInt32(value1) < Convert.ToInt32(value2)) { e.SortResult = -1; }
-                else { e.SortResult = 0; }
-                e.Handled = true;
-            }
-
-            //else if (e.Column == scannerGrid.Columns["channelColumn"])
-            //{
-            //    string c1 = e.CellValue1.ToString(), c2 = e.CellValue2.ToString();
-            //    //Channel may have a + in it
-            //    if (c1.Contains("+"))
-            //    {
-            //        c1 = c1.Remove(c1.LastIndexOf(" + "));
-            //    }
-
-            //    if (c2.Contains("+"))
-            //    {
-            //        c2 = c2.Remove(c2.LastIndexOf(" + "));
-            //    }
-            //    if (Convert.ToInt32(c1) > Convert.ToInt32(c2)) { e.SortResult = 1; }
-            //    else if (Convert.ToInt32(c1) < Convert.ToInt32(c2)) { e.SortResult = -1; }
-            //    else { e.SortResult = 0; }
-            //    e.Handled = true;
-
-            //}
-            //Location sorting, they are doubles, not ints
-            else if (e.Column == scannerGrid.Columns["latColumn"] || e.Column == scannerGrid.Columns["lonColumn"])
-            {
-                if (Convert.ToDouble(e.CellValue1) > Convert.ToDouble(e.CellValue2)) { e.SortResult = 1; }
-                else if (Convert.ToDouble(e.CellValue1) < Convert.ToDouble(e.CellValue2)) { e.SortResult = -1; }
-                else { e.SortResult = 0; }
-                e.Handled = true;
-            }
-        }
-
-        private delegate void DelGo();
         public void Go()
         {
             //System.Diagnostics.Debug.WriteLineIf(Parent == null, "Orphaned control!");
@@ -226,21 +164,55 @@ namespace inSSIDer.UI.Mini
                 }
                 catch(Exception)
                 {
-                    
+
                 }
             }
         }
 
-        private DataGridViewRow FindRow(AccessPoint ap)
+        public void SetScanner(ref ScanController scanner)
         {
-            foreach (DataGridViewRow row in scannerGrid.Rows)
+            _sc = scanner;
+            _sc.Cache.DataReset += Cache_DataReset;
+        }
+
+        public void UpdateColumnList()
+        {
+            if (scannerGrid != null)
             {
-                if (row.Cells["macColumn"].Value.ToString() == ap.MacAddress.ToString())
-                {
-                    return row;
-                }
+                mACAddressToolStripMenuItem.Checked = scannerGrid.Columns["macColumn"].Visible;
+                sSIDToolStripMenuItem.Checked = scannerGrid.Columns["ssidColumn"].Visible;
+                rSSIToolStripMenuItem.Checked = scannerGrid.Columns["rssiColumn"].Visible;
+                channelToolStripMenuItem.Checked = scannerGrid.Columns["channelColumn"].Visible;
+                vendorToolStripMenuItem.Checked = scannerGrid.Columns["vendorColumn"].Visible;
+                privacyToolStripMenuItem.Checked = scannerGrid.Columns["privacyColumn"].Visible;
+                maxRateToolStripMenuItem.Checked = scannerGrid.Columns["maxrateColumn"].Visible;
+                networkTypeToolStripMenuItem.Checked = scannerGrid.Columns["networktypeColumn"].Visible;
+                firstSeenToolStripMenuItem.Checked = scannerGrid.Columns["firstseenColumn"].Visible;
+                lastSeenToolStripMenuItem.Checked = scannerGrid.Columns["ageColumn"].Visible;
+                latitudeToolStripMenuItem.Checked = scannerGrid.Columns["latColumn"].Visible;
+                longitudeToolStripMenuItem.Checked = scannerGrid.Columns["lonColumn"].Visible;
+                cmsColumns.Invalidate();
             }
-            return null;
+        }
+
+        #endregion Public Methods
+
+        #region Private Methods
+
+        private void Cache_DataReset(object sender, EventArgs e)
+        {
+            if (InvokeRequired)
+            {
+                try
+                {
+                    Invoke(new DelInvokeEvent(Cache_DataReset), new object[] { sender, e });
+                }
+                catch (InvalidOperationException) { }
+                return;
+            }
+
+            scannerGrid.Rows.Clear();
+            _ignoreSelection = true;
         }
 
         private void CleanRows()
@@ -268,39 +240,87 @@ namespace inSSIDer.UI.Mini
             rowsToRemove.Clear();
         }
 
-        private void ScannerViewSelectionChanged(object sender, EventArgs e)
+        private DataGridViewRow FindRow(AccessPoint ap)
         {
-            //if(scannerView.SelectedRows.Count > 0) Console.WriteLine(scannerView.SelectedRows[0]);
-            if(_ignoreSelection)
-            {
-                //scannerView.SelectedRows.Clear();
-                foreach (DataGridViewRow row in scannerGrid.Rows)
-                {
-                    row.Selected = false;
-                }
-                _ignoreSelection = false;
-            }
-
             foreach (DataGridViewRow row in scannerGrid.Rows)
             {
-            //    if(row.Selected)
-            //    {
-            //        _sc.Cache.GetAccessPointByMacAddress(row.Cells["macColumn"].Value.ToString()).Highlight = true;
-            //    }
-                AccessPoint apTemp = _sc.Cache.GetAccessPointById((long) row.Cells["idColumn"].Value);
-                if(apTemp == null) continue;
-
-                apTemp.Highlight = row.Selected;
+                if (row.Cells["macColumn"].Value.ToString() == ap.MacAddress.ToString())
+                {
+                    return row;
+                }
             }
-            OnRequireRefresh();
-            //if (scannerView.SelectedRows.Count > 0) _selectedRow = scannerView.SelectedRows[0].Index;
+            return null;
+        }
+
+        private void MacAddressToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            if(sender as ToolStripMenuItem == null || scannerGrid == null) return;
+
+            switch ((sender as ToolStripMenuItem).Name)
+            {
+                case "mACAddressToolStripMenuItem":
+                    scannerGrid.Columns["macColumn"].Visible = mACAddressToolStripMenuItem.Checked;
+                    break;
+                case "sSIDToolStripMenuItem":
+                    scannerGrid.Columns["ssidColumn"].Visible = sSIDToolStripMenuItem.Checked;
+                    break;
+                case "rSSIToolStripMenuItem":
+                    scannerGrid.Columns["rssiColumn"].Visible = rSSIToolStripMenuItem.Checked;
+                    break;
+                case "channelToolStripMenuItem":
+                    scannerGrid.Columns["channelColumn"].Visible = channelToolStripMenuItem.Checked;
+                    break;
+                case "vendorToolStripMenuItem":
+                    scannerGrid.Columns["vendorColumn"].Visible = vendorToolStripMenuItem.Checked;
+                    break;
+                case "privacyToolStripMenuItem":
+                    scannerGrid.Columns["privacyColumn"].Visible = privacyToolStripMenuItem.Checked;
+                    break;
+                case "maxRateToolStripMenuItem":
+                    scannerGrid.Columns["maxrateColumn"].Visible = maxRateToolStripMenuItem.Checked;
+                    break;
+                case "networkTypeToolStripMenuItem":
+                    scannerGrid.Columns["networktypeColumn"].Visible = networkTypeToolStripMenuItem.Checked;
+                    break;
+                case "firstSeenToolStripMenuItem":
+                    scannerGrid.Columns["firstseenColumn"].Visible = firstSeenToolStripMenuItem.Checked;
+                    break;
+                case "lastSeenToolStripMenuItem":
+                    scannerGrid.Columns["ageColumn"].Visible = lastSeenToolStripMenuItem.Checked;
+                    break;
+                case "latitudeToolStripMenuItem":
+                    scannerGrid.Columns["latColumn"].Visible = latitudeToolStripMenuItem.Checked;
+                    break;
+                case "longitudeToolStripMenuItem":
+                    scannerGrid.Columns["lonColumn"].Visible = longitudeToolStripMenuItem.Checked;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void OnRequireRefresh()
+        {
+            if(RequireRefresh != null)
+            {
+                RequireRefresh(this, EventArgs.Empty);
+            }
+        }
+
+        private void ScannerGridColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Right)
+            {
+                UpdateColumnList();
+                cmsColumns.Show(Cursor.Position);
+            }
         }
 
         private void ScannerViewCellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             //return;
             //Console.WriteLine(e.ColumnIndex);
-            // Clicked on row selector 
+            // Clicked on row selector
             if (e.RowIndex == -1)
             {
                 _ignoreSelection = true;
@@ -361,6 +381,123 @@ namespace inSSIDer.UI.Mini
                                                               : CheckState.Indeterminate);
         }
 
+        private void ScannerViewCellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            //Header!
+            if (e.RowIndex != -1) return;
+            // fill gradient background
+            LinearGradientBrush gradientBrush = new LinearGradientBrush(
+                e.CellBounds,
+                Color.FromArgb(202, 202, 202),
+                Color.FromArgb(158, 158, 158),
+                LinearGradientMode.Vertical);
+            e.Graphics.FillRectangle(gradientBrush, e.CellBounds);
+            gradientBrush.Dispose();
+
+            // paint rest of cell
+            //e.Paint(e.CellBounds, DataGridViewPaintParts.Border | DataGridViewPaintParts.ContentForeground);
+            e.Paint(e.CellBounds, DataGridViewPaintParts.Border | DataGridViewPaintParts.ContentForeground | DataGridViewPaintParts.ContentBackground);
+            e.Handled = true;
+            //Update the checkbox position
+            ScannerViewUpdateHeaderCheckBoxPos();
+        }
+
+        private void ScannerViewColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+        {
+            ScannerViewUpdateHeaderCheckBoxPos();
+        }
+
+        private void ScannerViewSelectionChanged(object sender, EventArgs e)
+        {
+            //if(scannerView.SelectedRows.Count > 0) Console.WriteLine(scannerView.SelectedRows[0]);
+            if(_ignoreSelection)
+            {
+                //scannerView.SelectedRows.Clear();
+                foreach (DataGridViewRow row in scannerGrid.Rows)
+                {
+                    row.Selected = false;
+                }
+                _ignoreSelection = false;
+            }
+
+            foreach (DataGridViewRow row in scannerGrid.Rows)
+            {
+            //    if(row.Selected)
+            //    {
+            //        _sc.Cache.GetAccessPointByMacAddress(row.Cells["macColumn"].Value.ToString()).Highlight = true;
+            //    }
+                AccessPoint apTemp = _sc.Cache.GetAccessPointById((long) row.Cells["idColumn"].Value);
+                if(apTemp == null) continue;
+
+                apTemp.Highlight = row.Selected;
+            }
+            OnRequireRefresh();
+            //if (scannerView.SelectedRows.Count > 0) _selectedRow = scannerView.SelectedRows[0].Index;
+        }
+
+        private void ScannerViewSortCompare(object sender, DataGridViewSortCompareEventArgs e)
+        {
+            //Sort numeric columns like numbers
+            if (e.Column == scannerGrid.Columns["rssiColumn"] || e.Column == scannerGrid.Columns["maxrateColumn"] || e.Column == scannerGrid.Columns["channelColumn"])
+            {
+                //Remove anything after a space
+                string value1 = e.CellValue1.ToString();
+                if(value1.IndexOf(' ') > 0)
+                    value1 = value1.Remove(value1.IndexOf(' '));
+
+                string value2 = e.CellValue2.ToString();
+                if (value2.IndexOf(' ') > 0)
+                    value2 = value2.Remove(value2.IndexOf(' '));
+
+                if (Convert.ToInt32(value1) > Convert.ToInt32(value2)) { e.SortResult = 1; }
+                else if (Convert.ToInt32(value1) < Convert.ToInt32(value2)) { e.SortResult = -1; }
+                else { e.SortResult = 0; }
+                e.Handled = true;
+            }
+
+            //else if (e.Column == scannerGrid.Columns["channelColumn"])
+            //{
+            //    string c1 = e.CellValue1.ToString(), c2 = e.CellValue2.ToString();
+            //    //Channel may have a + in it
+            //    if (c1.Contains("+"))
+            //    {
+            //        c1 = c1.Remove(c1.LastIndexOf(" + "));
+            //    }
+
+            //    if (c2.Contains("+"))
+            //    {
+            //        c2 = c2.Remove(c2.LastIndexOf(" + "));
+            //    }
+            //    if (Convert.ToInt32(c1) > Convert.ToInt32(c2)) { e.SortResult = 1; }
+            //    else if (Convert.ToInt32(c1) < Convert.ToInt32(c2)) { e.SortResult = -1; }
+            //    else { e.SortResult = 0; }
+            //    e.Handled = true;
+
+            //}
+            //Location sorting, they are doubles, not ints
+            else if (e.Column == scannerGrid.Columns["latColumn"] || e.Column == scannerGrid.Columns["lonColumn"])
+            {
+                if (Convert.ToDouble(e.CellValue1) > Convert.ToDouble(e.CellValue2)) { e.SortResult = 1; }
+                else if (Convert.ToDouble(e.CellValue1) < Convert.ToDouble(e.CellValue2)) { e.SortResult = -1; }
+                else { e.SortResult = 0; }
+                e.Handled = true;
+            }
+        }
+
+        private void ScannerViewUpdateHeaderCheckBoxPos()
+        {
+            if (scannerGrid == null || _selectAllNetworksCheckBox == null || scannerGrid.Columns == null) return;
+
+            Rectangle rect = scannerGrid.GetColumnDisplayRectangle(scannerGrid.Columns["checkColumn"].Index, true);
+            _selectAllNetworksCheckBox.Size = new Size(13, 13);
+            rect.X += 3;
+            rect.Y += 5;
+
+            //Change the location of the CheckBox to make it stay on the header
+            _selectAllNetworksCheckBox.Location = rect.Location;
+            _selectAllNetworksCheckBox.Invalidate();
+        }
+
         private void ScannerViewVisibleChanged(object sender, EventArgs e)
         {
             if (!scannerGrid.Visible) return;
@@ -412,113 +549,12 @@ namespace inSSIDer.UI.Mini
                     foreach (DataGridViewRow row in scannerGrid.Rows)
                     {
                         row.Cells["checkColumn"].Value = true;
-                    } 
+                    }
                     OnRequireRefresh();
                     break;
             }
         }
 
-        private void ScannerViewUpdateHeaderCheckBoxPos()
-        {
-            if (scannerGrid == null || _selectAllNetworksCheckBox == null || scannerGrid.Columns == null) return;
-
-            Rectangle rect = scannerGrid.GetColumnDisplayRectangle(scannerGrid.Columns["checkColumn"].Index, true);
-            _selectAllNetworksCheckBox.Size = new Size(13, 13);
-            rect.X += 3;
-            rect.Y += 5;
-
-            //Change the location of the CheckBox to make it stay on the header
-            _selectAllNetworksCheckBox.Location = rect.Location;
-            _selectAllNetworksCheckBox.Invalidate();
-        }
-
-        private void ScannerViewColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
-        {
-            ScannerViewUpdateHeaderCheckBoxPos();
-        }
-
-        private void OnRequireRefresh()
-        {
-            if(RequireRefresh != null)
-            {
-                RequireRefresh(this, EventArgs.Empty);
-            }
-        }
-
-        private void ScannerGridColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if(e.Button == MouseButtons.Right)
-            {
-                UpdateColumnList();
-                cmsColumns.Show(Cursor.Position);
-            }
-        }
-
-        private void MacAddressToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            if(sender as ToolStripMenuItem == null || scannerGrid == null) return;
-
-            switch ((sender as ToolStripMenuItem).Name)
-            {
-                case "mACAddressToolStripMenuItem":
-                    scannerGrid.Columns["macColumn"].Visible = mACAddressToolStripMenuItem.Checked;
-                    break;
-                case "sSIDToolStripMenuItem":
-                    scannerGrid.Columns["ssidColumn"].Visible = sSIDToolStripMenuItem.Checked;
-                    break;
-                case "rSSIToolStripMenuItem":
-                    scannerGrid.Columns["rssiColumn"].Visible = rSSIToolStripMenuItem.Checked;
-                    break;
-                case "channelToolStripMenuItem":
-                    scannerGrid.Columns["channelColumn"].Visible = channelToolStripMenuItem.Checked;
-                    break;
-                case "vendorToolStripMenuItem":
-                    scannerGrid.Columns["vendorColumn"].Visible = vendorToolStripMenuItem.Checked;
-                    break;
-                case "privacyToolStripMenuItem":
-                    scannerGrid.Columns["privacyColumn"].Visible = privacyToolStripMenuItem.Checked;
-                    break;
-                case "maxRateToolStripMenuItem":
-                    scannerGrid.Columns["maxrateColumn"].Visible = maxRateToolStripMenuItem.Checked;
-                    break;
-                case "networkTypeToolStripMenuItem":
-                    scannerGrid.Columns["networktypeColumn"].Visible = networkTypeToolStripMenuItem.Checked;
-                    break;
-                case "firstSeenToolStripMenuItem":
-                    scannerGrid.Columns["firstseenColumn"].Visible = firstSeenToolStripMenuItem.Checked;
-                    break;
-                case "lastSeenToolStripMenuItem":
-                    scannerGrid.Columns["ageColumn"].Visible = lastSeenToolStripMenuItem.Checked;
-                    break;
-                case "latitudeToolStripMenuItem":
-                    scannerGrid.Columns["latColumn"].Visible = latitudeToolStripMenuItem.Checked;
-                    break;
-                case "longitudeToolStripMenuItem":
-                    scannerGrid.Columns["lonColumn"].Visible = longitudeToolStripMenuItem.Checked;
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        public void UpdateColumnList()
-        {
-            if (scannerGrid != null)
-            {
-                mACAddressToolStripMenuItem.Checked = scannerGrid.Columns["macColumn"].Visible;
-                sSIDToolStripMenuItem.Checked = scannerGrid.Columns["ssidColumn"].Visible;
-                rSSIToolStripMenuItem.Checked = scannerGrid.Columns["rssiColumn"].Visible;
-                channelToolStripMenuItem.Checked = scannerGrid.Columns["channelColumn"].Visible;
-                vendorToolStripMenuItem.Checked = scannerGrid.Columns["vendorColumn"].Visible;
-                privacyToolStripMenuItem.Checked = scannerGrid.Columns["privacyColumn"].Visible;
-                maxRateToolStripMenuItem.Checked = scannerGrid.Columns["maxrateColumn"].Visible;
-                networkTypeToolStripMenuItem.Checked = scannerGrid.Columns["networktypeColumn"].Visible;
-                firstSeenToolStripMenuItem.Checked = scannerGrid.Columns["firstseenColumn"].Visible;
-                lastSeenToolStripMenuItem.Checked = scannerGrid.Columns["ageColumn"].Visible;
-                latitudeToolStripMenuItem.Checked = scannerGrid.Columns["latColumn"].Visible;
-                longitudeToolStripMenuItem.Checked = scannerGrid.Columns["lonColumn"].Visible;
-                cmsColumns.Invalidate();
-            }
-        }
+        #endregion Private Methods
     }
 }

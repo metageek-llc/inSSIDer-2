@@ -1,35 +1,46 @@
 ﻿////////////////////////////////////////////////////////////////
+
+#region Header
+
 //
 // Copyright (c) 2007-2010 MetaGeek, LLC
 //
-// Licensed under the Apache License, Version 2.0 (the "License"); 
-// you may not use this file except in compliance with the License. 
-// You may obtain a copy of the License at 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//	http://www.apache.org/licenses/LICENSE-2.0 
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
-// Unless required by applicable law or agreed to in writing, software 
-// distributed under the License is distributed on an "AS IS" BASIS, 
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-// See the License for the specific language governing permissions and 
-// limitations under the License. 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
-////////////////////////////////////////////////////////////////
 
+#endregion Header
+
+
+////////////////////////////////////////////////////////////////
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using System.ComponentModel;
 
 namespace inSSIDer.UI.Controls
 {
     public class GrayRadioButton : RadioButton
     {
-        #region Members and Properties
-        private bool _isOver;
+        #region Fields
 
         private Color _hoverColor = Color.LightGray;
+        private bool _isOver;
+
+        #endregion Fields
+
+        #region Properties
+
         [Category("Appearance")]
         [Description("Color of text when mouse hovers over the button")]
         public Color HoverColor
@@ -38,9 +49,21 @@ namespace inSSIDer.UI.Controls
             set { _hoverColor = value; }
         }
 
-        #endregion
+        #endregion Properties
 
-        #region Methods
+        #region Protected Methods
+
+        protected override void OnMouseEnter(EventArgs e)
+        {
+            _isOver = true;
+            base.OnMouseEnter(e);
+        }
+
+        protected override void OnMouseLeave(EventArgs e)
+        {
+            _isOver = false;
+            base.OnMouseLeave(e);
+        }
 
         protected override void OnPaint(PaintEventArgs pevent)
         {
@@ -68,7 +91,6 @@ namespace inSSIDer.UI.Controls
             pevent.Graphics.FillRectangle(Brushes.Black, rect.Width - 5, rect.Height - 5, 5, 5);
             pevent.Graphics.FillEllipse(lgb, rect.Width - 11, rect.Height - 11, 10, 10);
 
-
             rect.Width -= 4;
             rect.Height -= 4;
 
@@ -86,22 +108,8 @@ namespace inSSIDer.UI.Controls
 
             pevent.Graphics.DrawString(Text, Font, new SolidBrush(textColor), rect,
                                        new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
-
-
         }
 
-        protected override void OnMouseEnter(EventArgs e)
-        {
-            _isOver = true;
-            base.OnMouseEnter(e);
-        }
-
-        protected override void OnMouseLeave(EventArgs e)
-        {
-            _isOver = false;
-            base.OnMouseLeave(e);
-        }
-
-        #endregion
+        #endregion Protected Methods
     }
 }

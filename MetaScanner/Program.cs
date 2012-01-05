@@ -1,27 +1,41 @@
-﻿//#define LOG
+﻿#region Header
+
+//#define LOG
+
+#endregion Header
+
 using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Net.NetworkInformation;
+using System.Threading;
 using System.Windows.Forms;
+
+using inSSIDer.Localization;
 using inSSIDer.Misc;
+using inSSIDer.Properties;
 using inSSIDer.Scanning;
 using inSSIDer.UI.Forms;
 using inSSIDer.UI.Mini;
 using inSSIDer.UnhandledException;
+
 using MetaGeek.Utils;
-using inSSIDer.Localization;
-using inSSIDer.Properties;
-using System.Net.NetworkInformation;
-using System.Linq;
-using System.Threading;
-using System.Diagnostics;
 
 namespace inSSIDer
 {
     static class Program
     {
+        #region Fields
+
+        public static Utilities.SwitchMode LastSwitch = Utilities.SwitchMode.None;
+
         //Mode of switch
         public static Utilities.SwitchMode Switching = Utilities.SwitchMode.None;
-        public static Utilities.SwitchMode LastSwitch = Utilities.SwitchMode.None;
         public static bool WasScanning;
+
+        #endregion Fields
+
+        #region Private Methods
 
         static void InitializeExceptionHandler(UnhandledExceptionDlg exDlg)
         {
@@ -97,12 +111,12 @@ namespace inSSIDer
         {
             Debug.WriteLine("inSSIDer 2 version " + Application.ProductVersion + " Starting");
             //TODO: Make conmmand line option to enable logging on debug builds. Like /log
-#if DEBUG && LOG
+            #if DEBUG && LOG
             Log.Start();
-#endif
+            #endif
             Debug.WriteLine("Hook exception handlers");
             // Create new instance of UnhandledExceptionDlg:
-            // NOTE: this hooks up the exception handler functions 
+            // NOTE: this hooks up the exception handler functions
             UnhandledExceptionDlg exDlg = new UnhandledExceptionDlg();
             InitializeExceptionHandler(exDlg);
 
@@ -117,15 +131,14 @@ namespace inSSIDer
                 return;
             }
 
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-#if DEBUG && LOG
+            #if DEBUG && LOG
             frmTest ft = new frmTest();
             Thread debugThread = new Thread(() => Application.Run(ft));
             debugThread.Start();
-#endif
+            #endif
 
             //Initalize the scanner object before passing it to any interface
             ScanController scanner = new ScanController();
@@ -200,9 +213,8 @@ namespace inSSIDer
             //    SettingsMgr.ApplyMainFormSettings((Form)form);
             //}
 
-            //Apply settings now 
+            //Apply settings now
             SettingsMgr.ApplyGpsSettings(scanner.GpsControl);
-            
 
             do
             {
@@ -255,7 +267,7 @@ namespace inSSIDer
 
             //GPS enabled setting
             Settings.Default.gpsEnabled = scanner.GpsControl.Enabled;
-			
+
             // Save Filters
             SettingsMgr.SaveFilterList(scanner.Cache.Filters.ToArray());
 
@@ -267,5 +279,7 @@ namespace inSSIDer
 
             Debug.WriteLine("Execution Finished, you may now close this window", "Program.Main()");
         }
+
+        #endregion Private Methods
     }
 }

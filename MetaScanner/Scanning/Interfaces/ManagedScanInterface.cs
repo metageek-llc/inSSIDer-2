@@ -1,60 +1,59 @@
 ﻿////////////////////////////////////////////////////////////////
+
+#region Header
+
 //
 // Copyright (c) 2007-2010 MetaGeek, LLC
 //
-// Licensed under the Apache License, Version 2.0 (the "License"); 
-// you may not use this file except in compliance with the License. 
-// You may obtain a copy of the License at 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//	http://www.apache.org/licenses/LICENSE-2.0 
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
-// Unless required by applicable law or agreed to in writing, software 
-// distributed under the License is distributed on an "AS IS" BASIS, 
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-// See the License for the specific language governing permissions and 
-// limitations under the License. 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
-////////////////////////////////////////////////////////////////
 
+#endregion Header
+
+
+////////////////////////////////////////////////////////////////
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
+
 using inSSIDer.Misc;
+
 using ManagedWifi;
+
 using MetaGeek.WiFi;
 
 namespace inSSIDer.Scanning.Interfaces
 {
     public class ManagedScanInterface : IScanningInterface
     {
+        #region Fields
+
         //private WlanClient _wlanClient;
         private WlanInterface _interface;
 
-        public void Init(NetworkInterface wlanInterface, out Exception error)
-        {
-            error = null;
-            _interface = null;
-            
+        #endregion Fields
 
-            Guid interfaceId = new Guid(wlanInterface.Id);
-            //Translate the NetworkInterface to a WlanInterface
-            foreach (WlanInterface wlan in InterfaceManager.Instance.WlanClient.Interfaces)
-            {
-                if (!wlan.InterfaceGuid.Equals(interfaceId)) continue;
+        #region Events
 
-                _interface = wlan;
-                break;
-            }
-            if(_interface == null)
-            {
-                error = new ArgumentException("Invalid wireless interface", "wlanInterface");
-                return;
-            }
+        public event EventHandler InterfaceError;
 
-            _interface.WlanNotification += WlanApi_WlanNotification;
-        }
+        public event EventHandler ScanComplete;
+
+        #endregion Events
+
+        #region Public Methods
 
         public IEnumerable<NetworkData> GetNetworkData()
         {
@@ -88,7 +87,6 @@ namespace inSSIDer.Scanning.Interfaces
                 }
                 catch (NullReferenceException) { /*Hopefully it will work next time*/ }
 
-
                 Wlan.WlanAvailableNetwork foundNetwork = new Wlan.WlanAvailableNetwork();
                 foreach (Wlan.WlanBssEntryN entry in networkBssList)
                 {
@@ -96,7 +94,7 @@ namespace inSSIDer.Scanning.Interfaces
                                                            (int)entry.BaseEntry.dot11Ssid.SSIDLength);
                     if (FindNetwork(ssid, availableNetworkList, ref foundNetwork))
                     {
-                        
+
                         NetworkData item = new NetworkData(entry.BaseEntry.dot11Bssid);
 
                         Utilities.ConvertToMbs(entry.BaseEntry.wlanRateSet.Rates, item.Rates);
@@ -129,6 +127,29 @@ namespace inSSIDer.Scanning.Interfaces
             return list;
         }
 
+        public void Init(NetworkInterface wlanInterface, out Exception error)
+        {
+            error = null;
+            _interface = null;
+
+            Guid interfaceId = new Guid(wlanInterface.Id);
+            //Translate the NetworkInterface to a WlanInterface
+            foreach (WlanInterface wlan in InterfaceManager.Instance.WlanClient.Interfaces)
+            {
+                if (!wlan.InterfaceGuid.Equals(interfaceId)) continue;
+
+                _interface = wlan;
+                break;
+            }
+            if(_interface == null)
+            {
+                error = new ArgumentException("Invalid wireless interface", "wlanInterface");
+                return;
+            }
+
+            _interface.WlanNotification += WlanApi_WlanNotification;
+        }
+
         public void ScanNetworks()
         {
             try
@@ -142,6 +163,10 @@ namespace inSSIDer.Scanning.Interfaces
                 // Init() is called before the scan loop is started and will not start scanning if the interface is null
             }
         }
+
+        #endregion Public Methods
+
+        #region Private Methods
 
         private static bool FindNetwork(string ssid, IEnumerable<Wlan.WlanAvailableNetwork> networks, ref Wlan.WlanAvailableNetwork foundNetwork)
         {
@@ -158,6 +183,18 @@ namespace inSSIDer.Scanning.Interfaces
                 }
             }
             return false;
+        }
+
+        private void OnInterfaceError()
+        {
+            if (InterfaceError == null) return;
+            InterfaceError(this, EventArgs.Empty);
+        }
+
+        private void OnScanComplete()
+        {
+            if(ScanComplete == null) return;
+            ScanComplete(this, EventArgs.Empty);
         }
 
         private void WlanApi_WlanNotification(Wlan.WlanNotificationData notifyData)
@@ -177,24 +214,6 @@ namespace inSSIDer.Scanning.Interfaces
             }
         }
 
-        #region Events and triggers
-
-        public event EventHandler ScanComplete;
-
-        private void OnScanComplete()
-        {
-            if(ScanComplete == null) return;
-            ScanComplete(this, EventArgs.Empty);
-        }
-
-        public event EventHandler InterfaceError;
-
-        private void OnInterfaceError()
-        {
-            if (InterfaceError == null) return;
-            InterfaceError(this, EventArgs.Empty);
-        }
-
-        #endregion
+        #endregion Private Methods
     }
 }

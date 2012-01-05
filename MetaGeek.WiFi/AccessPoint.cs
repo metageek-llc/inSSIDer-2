@@ -1,40 +1,170 @@
 ////////////////////////////////////////////////////////////////
+
+#region Header
+
 //
 // Copyright (c) 2007-2010 MetaGeek, LLC
 //
-// Licensed under the Apache License, Version 2.0 (the "License"); 
-// you may not use this file except in compliance with the License. 
-// You may obtain a copy of the License at 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//	http://www.apache.org/licenses/LICENSE-2.0 
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
-// Unless required by applicable law or agreed to in writing, software 
-// distributed under the License is distributed on an "AS IS" BASIS, 
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-// See the License for the specific language governing permissions and 
-// limitations under the License. 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
-////////////////////////////////////////////////////////////////
 
+#endregion Header
+
+////////////////////////////////////////////////////////////////
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Drawing;
-using MetaGeek.Gps;
+using System.Linq;
+
 using ManagedWifi;
+
+using MetaGeek.Gps;
 
 namespace MetaGeek.WiFi
 {
     public class AccessPoint
     {
-        #region Members and Properties
+        #region Fields
 
+        public const int MaxDataPoints = 20;
         private static long _counter;
         private readonly List<NetworkData> _networkData;
-
         private NetworkData _orignalData;
-        public const int MaxDataPoints = 20;
+
+        #endregion Fields
+
+        #region Properties
+
+        /// <summary>
+        /// How many seconds it has been since the AP was last heard from
+        /// </summary>
+        public int Age
+        {
+            get { return (int)(Timestamp.Subtract(LastSeenTimestamp)).TotalSeconds; }
+        }
+
+        /// <summary>
+        /// The alias of this AP. FOR FUTURE USE.
+        /// </summary>
+        public string Alias
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// The channel used by this AP
+        /// </summary>
+        public uint Channel
+        {
+            get { return LastData.Channel; }
+        }
+
+        /// <summary>
+        /// Gets the connection status of this AP
+        /// </summary>
+        public bool Connected
+        {
+            get { return LastData.Connected; }
+        }
+
+        /// <summary>
+        /// The first time the AP was heard from
+        /// </summary>
+        public DateTime FirstSeenTimestamp
+        {
+            get { return _orignalData.MyTimestamp; }
+        }
+
+        /// <summary>
+        /// The GPS data for this AP.
+        /// </summary>
+        public GpsData GpsData
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// Determines if the AP shows up on any graphs
+        /// </summary>
+        public bool Graph
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// Determines of the AP is highlighted on the graphs
+        /// </summary>
+        public bool Highlight
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// The index of the AP
+        /// </summary>
+        public long Index
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// Is this AP operating in 802.11N mode
+        /// </summary>
+        public bool IsN
+        {
+            get { return _orignalData.IsTypeN; }
+        }
+
+        /// <summary>
+        /// The last data added for this AP
+        /// </summary>
+        public NetworkData LastData
+        {
+            get { return MyNetworkDataCollection.Last(); }
+        }
+
+        /// <summary>
+        /// The last time the AP was heard from
+        /// </summary>
+        public DateTime LastSeenTimestamp
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// The MAC address of the AP
+        /// </summary>
+        public MacAddress MacAddress
+        {
+            get { return _orignalData.MyMacAddress; }
+        }
+
+        /// <summary>
+        /// The Maximum data rate supported by this AP
+        /// </summary>
+        public double MaxRate
+        {
+            get { return _orignalData.MaxRate; }
+        }
+
+        /// <summary>
+        /// The color to draw the AP
+        /// </summary>
+        public Color MyColor
+        {
+            get; set;
+        }
 
         /// <summary>
         /// Historic access point information
@@ -45,114 +175,36 @@ namespace MetaGeek.WiFi
         }
 
         /// <summary>
-        /// The SSID of the AP
+        /// Gets the network type of this AP
         /// </summary>
-        public string Ssid { get { return LastData.Ssid; } }
-
-        /// <summary>
-        /// The MAC address of the AP
-        /// </summary>
-        public MacAddress MacAddress { get { return _orignalData.MyMacAddress; } }
-
-        /// <summary>
-        /// The AP vendor
-        /// </summary>
-        public string Vendor { get; set; }
-
-        /// <summary>
-        /// The color to draw the AP
-        /// </summary>
-        public Color MyColor { get; set; }
-
-        /// <summary>
-        /// The index of the AP
-        /// </summary>
-        public long Index { get; set; }
-
-        /// <summary>
-        /// Determines if the AP shows up on any graphs
-        /// </summary>
-        public bool Graph { get; set; }
-
-        /// <summary>
-        /// Determines of the AP is highlighted on the graphs
-        /// </summary>
-        public bool Highlight { get; set; }
-
-        /// <summary>
-        /// The last time the AP was heard from
-        /// </summary>
-        public DateTime LastSeenTimestamp { get; set; }
-
-        /// <summary>
-        /// The first time the AP was heard from
-        /// </summary>
-        public DateTime FirstSeenTimestamp { get { return _orignalData.MyTimestamp; } }
-
-        /// <summary>
-        /// The last time this AP was updated
-        /// </summary>
-        public DateTime Timestamp { get; set; }
-
-        /// <summary>
-        /// How many seconds it has been since the AP was last heard from
-        /// </summary>
-        public int Age { get { return (int)(Timestamp.Subtract(LastSeenTimestamp)).TotalSeconds; } }
-
-        /// <summary>
-        /// The alias of this AP. FOR FUTURE USE.
-        /// </summary>
-        public string Alias { get; set; }
+        public string NetworkType
+        {
+            get { return _orignalData.NetworkType; }
+        }
 
         /// <summary>
         /// Details about 802.11n features of this AP
         /// </summary>
-        public IeParser.TypeNSettings NSettings { get {return LastData.NSettings; } }
-
-        /// <summary>
-        /// The Maximum data rate supported by this AP
-        /// </summary>
-        public double MaxRate { get { return _orignalData.MaxRate; } }
+        public IeParser.TypeNSettings NSettings
+        {
+            get {return LastData.NSettings; }
+        }
 
         /// <summary>
         /// The security mode supported by this AP
         /// </summary>
-        public string Privacy { get { return _orignalData.Privacy; } }
-
-        /// <summary>
-        /// The channel used by this AP
-        /// </summary>
-        public uint Channel { get { return LastData.Channel; } }
-
-        /// <summary>
-        /// The last data added for this AP
-        /// </summary>
-        public NetworkData LastData { get { return MyNetworkDataCollection.Last(); } }
-
-        /// <summary>
-        /// Is this AP operating in 802.11N mode
-        /// </summary>
-        public bool IsN { get { return _orignalData.IsTypeN; } }
+        public string Privacy
+        {
+            get { return _orignalData.Privacy; }
+        }
 
         /// <summary>
         /// The basic(non-11N) rates supported by this AP
         /// </summary>
-        public List<double> Rates { get { return _orignalData.Rates; } }
-
-        /// <summary>
-        /// A slash delimited list of supported data rates
-        /// </summary>
-        public string SupportedRates { get { return LastData.SupportedRates; } }
-
-        /// <summary>
-        /// The GPS data for this AP.
-        /// </summary>
-        public GpsData GpsData { get; set; }
-
-        /// <summary>
-        /// Gets the network type of this AP
-        /// </summary>
-        public string NetworkType { get { return _orignalData.NetworkType; } }
+        public List<double> Rates
+        {
+            get { return _orignalData.Rates; }
+        }
 
         /// <summary>
         /// Gets the RSSI (receive signal strength indication).
@@ -180,14 +232,38 @@ namespace MetaGeek.WiFi
         }
 
         /// <summary>
-        /// Gets the connection status of this AP
+        /// The SSID of the AP
         /// </summary>
-        public bool Connected
+        public string Ssid
         {
-            get { return LastData.Connected; }
+            get { return LastData.Ssid; }
         }
 
-        #endregion Members and Properties
+        /// <summary>
+        /// A slash delimited list of supported data rates
+        /// </summary>
+        public string SupportedRates
+        {
+            get { return LastData.SupportedRates; }
+        }
+
+        /// <summary>
+        /// The last time this AP was updated
+        /// </summary>
+        public DateTime Timestamp
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// The AP vendor
+        /// </summary>
+        public string Vendor
+        {
+            get; set;
+        }
+
+        #endregion Properties
 
         #region Constructors
 
@@ -204,9 +280,9 @@ namespace MetaGeek.WiFi
             LastSeenTimestamp = dataItem.MyTimestamp;
         }
 
-        #endregion
+        #endregion Constructors
 
-        #region Methods
+        #region Public Methods
 
         /// <summary>
         /// Clones and then adds data to this AP
@@ -280,30 +356,6 @@ namespace MetaGeek.WiFi
                                                             (int) (time - LastSeenTimestamp).TotalSeconds));
             }
             Timestamp = time;
-
-        }
-
-        /// <summary>
-        /// Checks if this AP passes the filter
-        /// </summary>
-        /// <param name="f">The filter to test against</param>
-        /// <returns>truf is it passed, otherwise false</returns>
-        public bool Pass(Filter f)
-        {
-            return f.Eval(this);
-        }
-
-        /// <summary>
-        /// Returns network data up until the specified time
-        /// </summary>
-        /// <param name="time">The earliest time to get data</param>
-        /// <returns></returns>
-        public NetworkData[] GetDataUntilTime(DateTime time)
-        {
-            lock (MyNetworkDataCollection)
-            {
-                return MyNetworkDataCollection.Where(nd => nd.MyTimestamp > time).ToArray();
-            }
         }
 
         /// <summary>
@@ -316,6 +368,12 @@ namespace MetaGeek.WiFi
             {
                 MyNetworkDataCollection.RemoveAll(nd => nd.MyTimestamp < date);
             }
+        }
+
+        public override bool Equals(object obj)
+        {
+            AccessPoint point = obj as AccessPoint;
+            return ((point != null) && point.MyNetworkDataCollection.Equals(MyNetworkDataCollection));
         }
 
         public object[] GetData()
@@ -346,10 +404,17 @@ namespace MetaGeek.WiFi
                        };
         }
 
-        public override bool Equals(object obj)
+        /// <summary>
+        /// Returns network data up until the specified time
+        /// </summary>
+        /// <param name="time">The earliest time to get data</param>
+        /// <returns></returns>
+        public NetworkData[] GetDataUntilTime(DateTime time)
         {
-            AccessPoint point = obj as AccessPoint;
-            return ((point != null) && point.MyNetworkDataCollection.Equals(MyNetworkDataCollection));
+            lock (MyNetworkDataCollection)
+            {
+                return MyNetworkDataCollection.Where(nd => nd.MyTimestamp > time).ToArray();
+            }
         }
 
         public override int GetHashCode()
@@ -357,7 +422,16 @@ namespace MetaGeek.WiFi
             return MyNetworkDataCollection.First().GetHashCode();
         }
 
-        #endregion Methods
+        /// <summary>
+        /// Checks if this AP passes the filter
+        /// </summary>
+        /// <param name="f">The filter to test against</param>
+        /// <returns>truf is it passed, otherwise false</returns>
+        public bool Pass(Filter f)
+        {
+            return f.Eval(this);
+        }
+
+        #endregion Public Methods
     }
 }
-

@@ -1,42 +1,48 @@
 ////////////////////////////////////////////////////////////////
+
+#region Header
+
 //
 // Copyright (c) 2007-2010 MetaGeek, LLC
 //
-// Licensed under the Apache License, Version 2.0 (the "License"); 
-// you may not use this file except in compliance with the License. 
-// You may obtain a copy of the License at 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//	http://www.apache.org/licenses/LICENSE-2.0 
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
-// Unless required by applicable law or agreed to in writing, software 
-// distributed under the License is distributed on an "AS IS" BASIS, 
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-// See the License for the specific language governing permissions and 
-// limitations under the License. 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
-////////////////////////////////////////////////////////////////
 
+#endregion Header
+
+
+////////////////////////////////////////////////////////////////
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.IO;
 using System.Reflection;
-
+using System.Text.RegularExpressions;
 
 namespace MetaGeek.WiFi
 {
     public class AdapterVendors
     {
-        #region Members and Properties
+        #region Fields
 
         // vendor dictonary - maps mac address to vendor names
         private Dictionary<string, string> _vendors = new Dictionary<string, string>();
-        
-        #endregion Members and Properties
 
-        #region Methods
+        #endregion Fields
 
-        public string GetVendor(MacAddress mac) {
+        #region Public Methods
+
+        public string GetVendor(MacAddress mac)
+        {
             // format the key name
             string key = mac[0].ToString("X2") + "-" +
                          mac[1].ToString("X2") + "-" +
@@ -51,8 +57,8 @@ namespace MetaGeek.WiFi
             }
         }
 
-        public void LoadFromOui() {
-
+        public void LoadFromOui()
+        {
             _vendors = new Dictionary<string, string>();
 
             // create a regular expression that will match the vendor's mac address
@@ -96,6 +102,6 @@ namespace MetaGeek.WiFi
             }
         }
 
-        #endregion Methods
+        #endregion Public Methods
     }
 }
