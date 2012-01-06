@@ -133,6 +133,9 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\lib\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -408,6 +411,14 @@
     <None Include="Resources\wifiStop.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\offtrack\chanunified\MetaGeek.Diagnostics\MetaGeek.Diagnostics\MetaGeek.Diagnostics.csproj">
+      <Project>{B530C01F-329D-4904-9452-3D01FA158102}</Project>
+      <Name>MetaGeek.Diagnostics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\offtrack\NetFilterFramework\FilterFramework\FilterFramework.csproj">
+      <Project>{AF41C440-B1FD-4E3F-B8B6-4E55FCBC365B}</Project>
+      <Name>FilterFramework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IoctlNdis\IoctlNdis.csproj">
       <Project>{27BBAED2-FCF5-4A9E-BCFA-DE6D50F4CDBC}</Project>
       <Name>IoctlNdis</Name>
@@ -415,6 +426,10 @@
     <ProjectReference Include="..\ManagedWifi\ManagedWifi.csproj">
       <Project>{B290695E-0DD1-4912-88DE-7AA6DC7AF0A5}</Project>
       <Name>ManagedWifi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetaGeek.Filters\MetaGeek.Filters.csproj">
+      <Project>{129af630-2e23-46fd-a3f2-a67dc5e9d6ed}</Project>
+      <Name>MetaGeek.Filters</Name>
     </ProjectReference>
     <ProjectReference Include="..\MetaGeek.Gps\MetaGeek.Gps.csproj">
       <Project>{92A74448-AA21-49EF-90F6-B4AA05D092B8}</Project>

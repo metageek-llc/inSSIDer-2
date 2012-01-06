@@ -30,7 +30,9 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-
+using FilterFramework;
+using MetaGeek.Filters.Controllers;
+using MetaGeek.WiFi;
 using inSSIDer.FileIO;
 using inSSIDer.HTML;
 using inSSIDer.Localization;
@@ -39,9 +41,7 @@ using inSSIDer.Properties;
 using inSSIDer.Scanning;
 using inSSIDer.UI.Controls;
 using inSSIDer.Version;
-
 using Microsoft.Win32;
-
 using Timer = System.Timers.Timer;
 
 namespace inSSIDer.UI.Forms
@@ -54,7 +54,7 @@ namespace inSSIDer.UI.Forms
 
         //private GpxDataLogger _logger;
         private FormWindowState _lastState;
-        private ScanController _scanner = new ScanController();
+        private ScanController _scanner;
 
         #endregion Fields
 
@@ -68,7 +68,7 @@ namespace inSSIDer.UI.Forms
 
         //Flag to signal interface switching
         //private bool switching = false;
-        public FormMain()
+        public FormMain(ScanController scanner)
         {
             // This is for testing localization...
             String culture = String.Empty;
@@ -89,6 +89,13 @@ namespace inSSIDer.UI.Forms
             }
 
             InitializeComponent();
+            var filterHandler = new FilterHandler<NetworkData>();
+            var filtersViewController = new FiltersViewController<NetworkData>(filtersView1, filterHandler);
+
+            _scanner = scanner;
+            _scanner.ItsFilterHandler = filterHandler;
+            _scanner.ItsFilterViewController = filtersViewController;
+            _scanner.InitializeFilters();
             ToolStripManager.Renderer = new GrayToolStripRenderer();
 
             SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;

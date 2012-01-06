@@ -24,15 +24,14 @@
 ////////////////////////////////////////////////////////////////
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Timers;
-
+using FilterFramework;
 using inSSIDer.FileIO;
 using inSSIDer.Misc;
 using inSSIDer.Properties;
-
+using MetaGeek.Filters.Controllers;
 using MetaGeek.Gps;
 using MetaGeek.WiFi;
 
@@ -54,6 +53,26 @@ namespace inSSIDer.Scanning
         private NetworkInterface _interface;
         private readonly Timer _tNullScan = new Timer(1000);
         private readonly List<NullNetData> _usedData = new List<NullNetData>();
+        public FiltersViewController<NetworkData> ItsFilterViewController { get; set; }
+        public FilterHandler<NetworkData> ItsFilterHandler { get; set; }
+        private IEnumerable<NetworkData> _networkData;
+
+        public void InitializeFilters()
+        {
+            HookUpEvents();
+        }
+        private void HookUpEvents()
+        {
+            ItsFilterViewController.FiltersUpdatedEvent.ItsEvent += FiltersViewController_FiltersUpdatedEvent;
+        }
+
+        private void FiltersViewController_FiltersUpdatedEvent(object sender, EventArgs e)
+        {
+            if (ScanComplete != null)
+            {
+                ScanComplete(this, new ScanCompleteEventArgs(GetFilteredNetworkData(),  GpsControl.GetCurrentGpsData()));
+            }
+        }
 
         #endregion Fields
 
@@ -105,6 +124,12 @@ namespace inSSIDer.Scanning
             GpsControl.Stop();
             Log.WriteLine("Null out GpsControl", "Scanner.Dispose()");
             GpsControl = null;
+            UnHookEvents();
+        }
+
+        private void UnHookEvents()
+        {
+            ItsFilterViewController.FiltersUpdatedEvent.ItsEvent -= FiltersViewController_FiltersUpdatedEvent;
         }
 
         #endregion Dispose
@@ -214,10 +239,13 @@ namespace inSSIDer.Scanning
             if (e.Data == null || Cache == null || GpsControl == null) return;
 
             //Add data to the cache
-            Cache.AddData(e.Data.ToArray(), GpsControl.GetCurrentGpsData());
+            _networkData = e.Data;
+            Cache.AddData(GetFilteredNetworkData(), GpsControl.GetCurrentGpsData());
+            //TODO: cleanup
+            Cache.UpdateFilter();
 
             //Fire scan complete event
-            OnScanComplete(e.Data.ToArray(), GpsControl.GetCurrentGpsData());
+            OnScanComplete(e.Data, GpsControl.GetCurrentGpsData());
         }
 
         private class NullNetData
@@ -228,9 +256,22 @@ namespace inSSIDer.Scanning
             public int Rssi;
         }
 
-        private void OnScanComplete(NetworkData[] data,GpsData gpsData)
+        private void OnScanComplete(IEnumerable<NetworkData> data,GpsData gpsData)
         {
-            if (ScanComplete != null) ScanComplete(this, new ScanCompleteEventArgs(data, gpsData));
+            if (ScanComplete != null)
+            {
+                ScanComplete(this, new ScanCompleteEventArgs(GetFilteredNetworkData(), gpsData));
+            }
+        }
+
+        private NetworkData[] GetFilteredNetworkData()
+        {
+            var data = _networkData; 
+            if(ItsFilterHandler == null || !ItsFilterHandler.HasFilters())
+                return data.ToArray();
+
+            var filteredData = ItsFilterHandler.ApplyFilter(data as IEnumerable<NetworkData>);
+            return filteredData.ToArray() as NetworkData[];
         }
 
         private void StartScanning(NetworkInterface intf)

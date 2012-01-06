@@ -28,7 +28,6 @@ using System.Drawing;
 using System.Linq;
 
 using ManagedWifi;
-
 using MetaGeek.Gps;
 
 namespace MetaGeek.WiFi
@@ -434,4 +433,5 @@ namespace MetaGeek.WiFi
 
         #endregion Public Methods
     }
+
 }

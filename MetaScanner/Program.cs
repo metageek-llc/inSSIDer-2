@@ -227,7 +227,7 @@ namespace inSSIDer
                     case Utilities.SwitchMode.ToMain:
                         //We're switching to the main form
                         Debug.WriteLine("Switch to main form");
-                        form = new FormMain();
+                        form = new FormMain(scanner);
                         SettingsMgr.ApplyMainFormSettings((Form)form);
                         break;
                     case Utilities.SwitchMode.ToMini:

@@ -169,6 +169,11 @@ namespace inSSIDer.Scanning
             OnFilterChanged();
         }
 
+        public void UpdateFilter()
+        {
+            OnFilterChanged();
+        }
+
         /// <summary>
         /// Erases ALL data stored in the cache
         /// </summary>
