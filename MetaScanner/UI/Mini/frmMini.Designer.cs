@@ -30,7 +30,6 @@ namespace inSSIDer.UI.Mini
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMini));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,17 +66,15 @@ namespace inSSIDer.UI.Mini
             this.channelView5Low = new inSSIDer.UI.Controls.ChannelView();
             this.tab28ChanHigh = new System.Windows.Forms.TabPage();
             this.channelView5High = new inSSIDer.UI.Controls.ChannelView();
-            this.tabFilters = new System.Windows.Forms.TabPage();
-            this.filterMgr1 = new inSSIDer.UI.Controls.FilterManager();
             this.tabGps = new System.Windows.Forms.TabPage();
             this.gpsMon1 = new inSSIDer.UI.Controls.GpsMon();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.apCountLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.gpsToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.locationToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.loggingToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.sdlgLog = new System.Windows.Forms.SaveFileDialog();
             this.networkInterfaceSelector1 = new inSSIDer.UI.Controls.NetworkInterfaceSelector();
-            this.apCountLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1.SuspendLayout();
             this.detailsTabControl.SuspendLayout();
             this.tabGrid.SuspendLayout();
@@ -85,7 +82,6 @@ namespace inSSIDer.UI.Mini
             this.tab24Chan.SuspendLayout();
             this.tab58ChanLow.SuspendLayout();
             this.tab28ChanHigh.SuspendLayout();
-            this.tabFilters.SuspendLayout();
             this.tabGps.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -118,57 +114,57 @@ namespace inSSIDer.UI.Mini
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "&File";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(187, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(199, 6);
             // 
             // configreGPSToolStripMenuItem
             // 
             this.configreGPSToolStripMenuItem.Name = "configreGPSToolStripMenuItem";
-            this.configreGPSToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.configreGPSToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.configreGPSToolStripMenuItem.Text = "Configre GPS";
             this.configreGPSToolStripMenuItem.Click += new System.EventHandler(this.ConfigreGpsToolStripMenuItemClick);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(187, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(199, 6);
             // 
             // changeLogFilenameToolStripMenuItem
             // 
             this.changeLogFilenameToolStripMenuItem.Name = "changeLogFilenameToolStripMenuItem";
-            this.changeLogFilenameToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.changeLogFilenameToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.changeLogFilenameToolStripMenuItem.Text = "Change log filename";
             this.changeLogFilenameToolStripMenuItem.Click += new System.EventHandler(this.ChangeLogFilenameToolStripMenuItemClick);
             // 
             // startStopLoggingToolStripMenuItem
             // 
             this.startStopLoggingToolStripMenuItem.Name = "startStopLoggingToolStripMenuItem";
-            this.startStopLoggingToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.startStopLoggingToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.startStopLoggingToolStripMenuItem.Text = "Start Logging";
             this.startStopLoggingToolStripMenuItem.Click += new System.EventHandler(this.StartStopGpxLoggingToolStripMenuItemClick);
             // 
             // convertGPXLogToKMLToolStripMenuItem
             // 
             this.convertGPXLogToKMLToolStripMenuItem.Name = "convertGPXLogToKMLToolStripMenuItem";
-            this.convertGPXLogToKMLToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.convertGPXLogToKMLToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.convertGPXLogToKMLToolStripMenuItem.Text = "Convert GPX log to KML";
             this.convertGPXLogToKMLToolStripMenuItem.Click += new System.EventHandler(this.ConvertGpxLogToKmlToolStripMenuItemClick);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(187, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(199, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItemClick);
             // 
@@ -179,7 +175,7 @@ namespace inSSIDer.UI.Mini
             this.switchToFullModeToolStripMenuItem,
             this.fullScreenToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(42, 20);
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "&View";
             // 
             // miniModeToolStripMenuItem
@@ -188,14 +184,14 @@ namespace inSSIDer.UI.Mini
             this.miniModeToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.miniModeToolStripMenuItem.Enabled = false;
             this.miniModeToolStripMenuItem.Name = "miniModeToolStripMenuItem";
-            this.miniModeToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.miniModeToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.miniModeToolStripMenuItem.Text = "Mini Mode";
             // 
             // switchToFullModeToolStripMenuItem
             // 
             this.switchToFullModeToolStripMenuItem.Name = "switchToFullModeToolStripMenuItem";
             this.switchToFullModeToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F10;
-            this.switchToFullModeToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.switchToFullModeToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.switchToFullModeToolStripMenuItem.Text = "&Normal Mode";
             this.switchToFullModeToolStripMenuItem.Click += new System.EventHandler(this.SwitchToFullModeToolStripMenuItemClick);
             // 
@@ -203,7 +199,7 @@ namespace inSSIDer.UI.Mini
             // 
             this.fullScreenToolStripMenuItem.Enabled = false;
             this.fullScreenToolStripMenuItem.Name = "fullScreenToolStripMenuItem";
-            this.fullScreenToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.fullScreenToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.fullScreenToolStripMenuItem.Text = "Full Screen";
             // 
             // helpToolStripMenuItem
@@ -215,37 +211,37 @@ namespace inSSIDer.UI.Mini
             this.toolStripSeparator4,
             this.aboutInSSIDerToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "&Help";
             // 
             // inSSIDerForumsToolStripMenuItem
             // 
             this.inSSIDerForumsToolStripMenuItem.Name = "inSSIDerForumsToolStripMenuItem";
-            this.inSSIDerForumsToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.inSSIDerForumsToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.inSSIDerForumsToolStripMenuItem.Text = "inSSIDer Forums";
             this.inSSIDerForumsToolStripMenuItem.Click += new System.EventHandler(this.InSsiDerForumsToolStripMenuItemClick);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(158, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(167, 6);
             // 
             // checkForUpdatesToolStripMenuItem
             // 
             this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
-            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.checkForUpdatesToolStripMenuItem.Text = "Check for updates";
             this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.CheckForUpdatesToolStripMenuItemClick);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(158, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(167, 6);
             // 
             // aboutInSSIDerToolStripMenuItem
             // 
             this.aboutInSSIDerToolStripMenuItem.Name = "aboutInSSIDerToolStripMenuItem";
-            this.aboutInSSIDerToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.aboutInSSIDerToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.aboutInSSIDerToolStripMenuItem.Text = "About inSSIDer";
             this.aboutInSSIDerToolStripMenuItem.Click += new System.EventHandler(this.AboutInSsiDerToolStripMenuItemClick);
             // 
@@ -255,7 +251,7 @@ namespace inSSIDer.UI.Mini
             this.nextTabToolStripMenuItem,
             this.prevTabToolStripMenuItem});
             this.shortcutsToolStripMenuItem.Name = "shortcutsToolStripMenuItem";
-            this.shortcutsToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
+            this.shortcutsToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
             this.shortcutsToolStripMenuItem.Text = "Shortcuts";
             this.shortcutsToolStripMenuItem.Visible = false;
             // 
@@ -263,16 +259,16 @@ namespace inSSIDer.UI.Mini
             // 
             this.nextTabToolStripMenuItem.Name = "nextTabToolStripMenuItem";
             this.nextTabToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Tab)));
-            this.nextTabToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.nextTabToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
             this.nextTabToolStripMenuItem.Text = "Next Tab";
             this.nextTabToolStripMenuItem.Click += new System.EventHandler(this.NextTabToolStripMenuItemClick);
             // 
             // prevTabToolStripMenuItem
             // 
             this.prevTabToolStripMenuItem.Name = "prevTabToolStripMenuItem";
-            this.prevTabToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
-                        | System.Windows.Forms.Keys.Tab)));
-            this.prevTabToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.prevTabToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.Tab)));
+            this.prevTabToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
             this.prevTabToolStripMenuItem.Text = "Prev Tab";
             this.prevTabToolStripMenuItem.Click += new System.EventHandler(this.PrevTabToolStripMenuItemClick);
             // 
@@ -282,23 +278,22 @@ namespace inSSIDer.UI.Mini
             this.gpsStatToolStripMenuItem.Image = global::inSSIDer.Properties.Resources.wifiPlay;
             this.gpsStatToolStripMenuItem.Margin = new System.Windows.Forms.Padding(0, 0, 186, 0);
             this.gpsStatToolStripMenuItem.Name = "gpsStatToolStripMenuItem";
-            this.gpsStatToolStripMenuItem.Size = new System.Drawing.Size(82, 20);
+            this.gpsStatToolStripMenuItem.Size = new System.Drawing.Size(83, 20);
             this.gpsStatToolStripMenuItem.Text = "Start GPS";
+            this.gpsStatToolStripMenuItem.Click += new System.EventHandler(this.GpsStatToolStripMenuItemClick);
             this.gpsStatToolStripMenuItem.LocationChanged += new System.EventHandler(this.GpsStatToolStripMenuItemLocationChanged);
             this.gpsStatToolStripMenuItem.TextChanged += new System.EventHandler(this.GpsStatToolStripMenuItemTextChanged);
-            this.gpsStatToolStripMenuItem.Click += new System.EventHandler(this.GpsStatToolStripMenuItemClick);
             // 
             // detailsTabControl
             // 
-            this.detailsTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.detailsTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.detailsTabControl.Controls.Add(this.tabGrid);
             this.detailsTabControl.Controls.Add(this.tabTimeGraph);
             this.detailsTabControl.Controls.Add(this.tab24Chan);
             this.detailsTabControl.Controls.Add(this.tab58ChanLow);
             this.detailsTabControl.Controls.Add(this.tab28ChanHigh);
-            this.detailsTabControl.Controls.Add(this.tabFilters);
             this.detailsTabControl.Controls.Add(this.tabGps);
             this.detailsTabControl.ItemSize = new System.Drawing.Size(41, 18);
             this.detailsTabControl.Location = new System.Drawing.Point(0, 24);
@@ -428,26 +423,6 @@ namespace inSSIDer.UI.Mini
             this.channelView5High.Size = new System.Drawing.Size(527, 190);
             this.channelView5High.TabIndex = 2;
             // 
-            // tabFilters
-            // 
-            this.tabFilters.BackColor = System.Drawing.Color.Black;
-            this.tabFilters.Controls.Add(this.filterMgr1);
-            this.tabFilters.ForeColor = System.Drawing.Color.Lime;
-            this.tabFilters.Location = new System.Drawing.Point(4, 22);
-            this.tabFilters.Name = "tabFilters";
-            this.tabFilters.Size = new System.Drawing.Size(527, 190);
-            this.tabFilters.TabIndex = 6;
-            this.tabFilters.Text = "Filters";
-            // 
-            // filterMgr1
-            // 
-            this.filterMgr1.BackColor = System.Drawing.Color.Black;
-            this.filterMgr1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.filterMgr1.Location = new System.Drawing.Point(0, 0);
-            this.filterMgr1.Name = "filterMgr1";
-            this.filterMgr1.Size = new System.Drawing.Size(527, 190);
-            this.filterMgr1.TabIndex = 0;
-            // 
             // tabGps
             // 
             this.tabGps.BackColor = System.Drawing.Color.Black;
@@ -481,6 +456,15 @@ namespace inSSIDer.UI.Mini
             this.statusStrip1.TabIndex = 3;
             this.statusStrip1.Text = "statusStrip1";
             // 
+            // apCountLabel
+            // 
+            this.apCountLabel.AutoSize = false;
+            this.apCountLabel.BackColor = System.Drawing.SystemColors.Control;
+            this.apCountLabel.Name = "apCountLabel";
+            this.apCountLabel.Size = new System.Drawing.Size(100, 17);
+            this.apCountLabel.Text = "0 / 0 AP(s)";
+            this.apCountLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // gpsToolStripStatusLabel
             // 
             this.gpsToolStripStatusLabel.AutoSize = false;
@@ -504,7 +488,7 @@ namespace inSSIDer.UI.Mini
             // 
             this.loggingToolStripStatusLabel.BackColor = System.Drawing.Color.Transparent;
             this.loggingToolStripStatusLabel.Name = "loggingToolStripStatusLabel";
-            this.loggingToolStripStatusLabel.Size = new System.Drawing.Size(78, 17);
+            this.loggingToolStripStatusLabel.Size = new System.Drawing.Size(86, 15);
             this.loggingToolStripStatusLabel.Text = "Logging Status";
             // 
             // sdlgLog
@@ -525,15 +509,6 @@ namespace inSSIDer.UI.Mini
             this.networkInterfaceSelector1.TabIndex = 2;
             this.networkInterfaceSelector1.SizeChanged += new System.EventHandler(this.NetworkInterfaceSelector1SizeChanged);
             // 
-            // apCountLabel
-            // 
-            this.apCountLabel.AutoSize = false;
-            this.apCountLabel.BackColor = System.Drawing.SystemColors.Control;
-            this.apCountLabel.Name = "apCountLabel";
-            this.apCountLabel.Size = new System.Drawing.Size(100, 17);
-            this.apCountLabel.Text = "0 / 0 AP(s)";
-            this.apCountLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // FormMini
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -551,8 +526,8 @@ namespace inSSIDer.UI.Mini
             this.Name = "FormMini";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "inSSIDer 2.0 - Mini";
-            this.SizeChanged += new System.EventHandler(this.FormMiniSizeChanged);
             this.LocationChanged += new System.EventHandler(this.FormMiniLocationChanged);
+            this.SizeChanged += new System.EventHandler(this.FormMiniSizeChanged);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.detailsTabControl.ResumeLayout(false);
@@ -561,7 +536,6 @@ namespace inSSIDer.UI.Mini
             this.tab24Chan.ResumeLayout(false);
             this.tab58ChanLow.ResumeLayout(false);
             this.tab28ChanHigh.ResumeLayout(false);
-            this.tabFilters.ResumeLayout(false);
             this.tabGps.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
@@ -591,8 +565,6 @@ namespace inSSIDer.UI.Mini
         private System.Windows.Forms.ToolStripMenuItem shortcutsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem nextTabToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem prevTabToolStripMenuItem;
-        private System.Windows.Forms.TabPage tabFilters;
-        private FilterManager filterMgr1;
         private GpsMon gpsMon1;
         private System.Windows.Forms.ToolStripMenuItem gpsStatToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;

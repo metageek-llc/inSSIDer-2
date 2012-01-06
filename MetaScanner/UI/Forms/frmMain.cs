@@ -31,8 +31,6 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using FilterFramework;
-using MetaGeek.Filters.Controllers;
-using MetaGeek.WiFi;
 using inSSIDer.FileIO;
 using inSSIDer.HTML;
 using inSSIDer.Localization;
@@ -41,6 +39,8 @@ using inSSIDer.Properties;
 using inSSIDer.Scanning;
 using inSSIDer.UI.Controls;
 using inSSIDer.Version;
+using MetaGeek.Filters.Controllers;
+using MetaGeek.WiFi;
 using Microsoft.Win32;
 using Timer = System.Timers.Timer;
 
@@ -89,13 +89,9 @@ namespace inSSIDer.UI.Forms
             }
 
             InitializeComponent();
-            var filterHandler = new FilterHandler<NetworkData>();
-            var filtersViewController = new FiltersViewController<NetworkData>(filtersView1, filterHandler);
-
+            var filtersViewController = new FiltersViewController<AccessPoint>(filtersView1);
             _scanner = scanner;
-            _scanner.ItsFilterHandler = filterHandler;
-            _scanner.ItsFilterViewController = filtersViewController;
-            _scanner.InitializeFilters();
+            _scanner.InitializeCache(filtersViewController);
             ToolStripManager.Renderer = new GrayToolStripRenderer();
 
             SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
@@ -118,7 +114,6 @@ namespace inSSIDer.UI.Forms
             scannerView.RequireRefresh += ScannerViewRequireRefresh;
             chanView24.SetScanner(ref _scanner);
             chanView58.SetScanner(ref _scanner);
-            filterMgr1.SetScanner(ref _scanner);
             networkInterfaceSelector1.Initialize(ref _scanner);
             //networkInterfaceSelector1.NetworkScanStartEvent += NetworkInterfaceSelectorNetworkScanStartEvent;
             //networkInterfaceSelector1.NetworkScanStopEvent += NetworkInterfaceSelectorNetworkScanStopEvent;
@@ -577,8 +572,6 @@ namespace inSSIDer.UI.Forms
             //networkInterfaceSelector1.NetworkScanStopEvent -= NetworkInterfaceSelectorNetworkScanStopEvent;
 
             //Release control events too
-            filterMgr1.ReleaseEvents();
-
             gpsMon1.ReleaseEvents();
         }
 

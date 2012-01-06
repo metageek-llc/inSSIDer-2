@@ -23,7 +23,6 @@
 
 ////////////////////////////////////////////////////////////////
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -33,7 +32,6 @@ using inSSIDer.UI.Controls;
 using inSSIDer.UI.Mini;
 
 using MetaGeek.Gps;
-using MetaGeek.WiFi;
 
 namespace inSSIDer
 {
@@ -231,66 +229,66 @@ namespace inSSIDer
                 return false;
             }
         }
-
-        /// <summary>
-        /// Gets the list of filters from settings
-        /// </summary>
-        /// <returns>The list of last use filters</returns>
-        public static Filter[] GetFilterList()
-        {
-            if(string.IsNullOrEmpty(Settings.Default.lastFilters)) return new Filter[0];
-            //The format is:
-            //<filterExpr>|<filterExpr>|<filterExpr>|etc.
-
-            try
-            {
-                string[] parts = Settings.Default.lastFilters.Split('|');
-                List<Filter> filters = new List<Filter>();
-                foreach (string s in parts)
-                {
-                    filters.Add(new Filter(s));
-                }
-                return filters.ToArray();
-            }
-            catch
-            {
-                return new Filter[0];
-            }
-        }
-
-        /// <summary>
-        /// Saves a list of filters to the last filters list
-        /// </summary>
-        /// <param name="filters">The filters to save</param>
-        public static void SaveFilterList(Filter[] filters)
-        {
-            if (filters != null && filters.Length > 0)
-            {
-                StringBuilder sbOut = new StringBuilder();
-                //The format is:
-                //<filterExpr>|<filterExpr>|<filterExpr>|etc.
-                try
-                {
-                    string pipe = "";
-                    foreach (Filter f in filters)
-                    {
-                        sbOut.Append(pipe);
-                        sbOut.Append(f.ToString());
-                        pipe = "|";
-                    }
-                }
-                catch (Exception)
-                {
-                    //No nothing.
-                }
-                Settings.Default.lastFilters = sbOut.ToString();
-            }
-            else
-            {
-                //Clear the last filters
-                Settings.Default.lastFilters = string.Empty;
-            }
-        }
+//
+//        /// <summary>
+//        /// Gets the list of filters from settings
+//        /// </summary>
+//        /// <returns>The list of last use filters</returns>
+//        public static Filter[] GetFilterList()
+//        {
+//            if(string.IsNullOrEmpty(Settings.Default.lastFilters)) return new Filter[0];
+//            //The format is:
+//            //<filterExpr>|<filterExpr>|<filterExpr>|etc.
+//
+//            try
+//            {
+//                string[] parts = Settings.Default.lastFilters.Split('|');
+//                List<Filter> filters = new List<Filter>();
+//                foreach (string s in parts)
+//                {
+//                    filters.Add(new Filter(s));
+//                }
+//                return filters.ToArray();
+//            }
+//            catch
+//            {
+//                return new Filter[0];
+//            }
+//        }
+//
+//        /// <summary>
+//        /// Saves a list of filters to the last filters list
+//        /// </summary>
+//        /// <param name="filters">The filters to save</param>
+//        public static void SaveFilterList(Filter[] filters)
+//        {
+//            if (filters != null && filters.Length > 0)
+//            {
+//                StringBuilder sbOut = new StringBuilder();
+//                //The format is:
+//                //<filterExpr>|<filterExpr>|<filterExpr>|etc.
+//                try
+//                {
+//                    string pipe = "";
+//                    foreach (Filter f in filters)
+//                    {
+//                        sbOut.Append(pipe);
+//                        sbOut.Append(f.ToString());
+//                        pipe = "|";
+//                    }
+//                }
+//                catch (Exception)
+//                {
+//                    //No nothing.
+//                }
+//                Settings.Default.lastFilters = sbOut.ToString();
+//            }
+//            else
+//            {
+//                //Clear the last filters
+//                Settings.Default.lastFilters = string.Empty;
+//            }
+//        }
 
         /// <summary>
         /// Saves settings from GPS Controller

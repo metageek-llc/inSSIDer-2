@@ -85,8 +85,6 @@ namespace inSSIDer.UI.Mini
             channelView5Low.SetScanner(ref _scanner);
             channelView5High.SetScanner(ref _scanner);
 
-            filterMgr1.SetScanner(ref _scanner);
-
             gpsMon1.SetScanner(ref _scanner);
 
             networkInterfaceSelector1.Initialize(ref _scanner);
@@ -399,8 +397,6 @@ namespace inSSIDer.UI.Mini
 
             //networkInterfaceSelector1.NetworkScanStartEvent -= NetworkInterfaceSelector1NetworkScanStartEvent;
             //networkInterfaceSelector1.NetworkScanStopEvent -= NetworkInterfaceSelector1NetworkScanStopEvent;
-
-            filterMgr1.ReleaseEvents();
         }
 
         private void ScannerScanComplete(object sender, ScanCompleteEventArgs e)

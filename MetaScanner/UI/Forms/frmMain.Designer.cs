@@ -80,8 +80,6 @@ namespace inSSIDer.UI.Forms
             this.chanView24 = new inSSIDer.UI.Controls.ChannelView();
             this.tab58Chan = new System.Windows.Forms.TabPage();
             this.chanView58 = new inSSIDer.UI.Controls.ChannelView();
-            this.tabFilters = new System.Windows.Forms.TabPage();
-            this.filterMgr1 = new inSSIDer.UI.Controls.FilterManager();
             this.tabGps = new System.Windows.Forms.TabPage();
             this.gpsMon1 = new inSSIDer.UI.Controls.GpsMon();
             this.networkInterfaceSelector1 = new inSSIDer.UI.Controls.NetworkInterfaceSelector();
@@ -95,7 +93,6 @@ namespace inSSIDer.UI.Forms
             this.tabTimeGraph.SuspendLayout();
             this.tab24Chan.SuspendLayout();
             this.tab58Chan.SuspendLayout();
-            this.tabFilters.SuspendLayout();
             this.tabGps.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -443,7 +440,6 @@ namespace inSSIDer.UI.Forms
             this.detailsTabControl.Controls.Add(this.tabTimeGraph);
             this.detailsTabControl.Controls.Add(this.tab24Chan);
             this.detailsTabControl.Controls.Add(this.tab58Chan);
-            this.detailsTabControl.Controls.Add(this.tabFilters);
             this.detailsTabControl.Controls.Add(this.tabGps);
             this.detailsTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.detailsTabControl.Location = new System.Drawing.Point(0, 0);
@@ -558,27 +554,6 @@ namespace inSSIDer.UI.Forms
             this.chanView58.Size = new System.Drawing.Size(1000, 237);
             this.chanView58.TabIndex = 1;
             // 
-            // tabFilters
-            // 
-            this.tabFilters.BackColor = System.Drawing.Color.Black;
-            this.tabFilters.Controls.Add(this.filterMgr1);
-            this.tabFilters.ForeColor = System.Drawing.Color.Lime;
-            this.tabFilters.Location = new System.Drawing.Point(4, 22);
-            this.tabFilters.Name = "tabFilters";
-            this.tabFilters.Size = new System.Drawing.Size(1000, 237);
-            this.tabFilters.TabIndex = 2;
-            this.tabFilters.Text = "Filters";
-            this.tabFilters.UseVisualStyleBackColor = true;
-            // 
-            // filterMgr1
-            // 
-            this.filterMgr1.BackColor = System.Drawing.Color.Black;
-            this.filterMgr1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.filterMgr1.Location = new System.Drawing.Point(0, 0);
-            this.filterMgr1.Name = "filterMgr1";
-            this.filterMgr1.Size = new System.Drawing.Size(1000, 237);
-            this.filterMgr1.TabIndex = 4;
-            // 
             // tabGps
             // 
             this.tabGps.BackColor = System.Drawing.Color.Black;
@@ -643,7 +618,6 @@ namespace inSSIDer.UI.Forms
             this.tabTimeGraph.ResumeLayout(false);
             this.tab24Chan.ResumeLayout(false);
             this.tab58Chan.ResumeLayout(false);
-            this.tabFilters.ResumeLayout(false);
             this.tabGps.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -656,30 +630,17 @@ namespace inSSIDer.UI.Forms
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private GripSplitContainer gripContainer1;
-        private System.Windows.Forms.TabControl detailsTabControl;
-        private System.Windows.Forms.TabPage tabTimeGraph;
-        private System.Windows.Forms.TabPage tab24Chan;
-        private TimeGraph timeGraph1;
-        private ChannelView chanView24;
         private ScannerView scannerView;
         private NetworkInterfaceSelector networkInterfaceSelector1;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
-        private System.Windows.Forms.TabPage tabFilters;
-        private FilterManager filterMgr1;
-        private System.Windows.Forms.TabPage tabGps;
-        private GpsMon gpsMon1;
         private System.Windows.Forms.SaveFileDialog sdlgLog;
         private System.Windows.Forms.ToolStripMenuItem fullscreenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportToNS1ToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog sdlgNs1;
-        private System.Windows.Forms.TabPage tab58Chan;
-        private ChannelView chanView58;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem shortcutsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem nextTabToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem prevTabToolStripMenuItem;
-        private System.Windows.Forms.TabPage tabNews;
-        private HtmlControl htmlControl;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutInSSIDerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem inSSIDerForumsToolStripMenuItem;
@@ -705,5 +666,16 @@ namespace inSSIDer.UI.Forms
         private System.Windows.Forms.ToolStripMenuItem stopNullScanningToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel apCountLabel;
         private MetaGeek.Filters.Views.FiltersView filtersView1;
+        private System.Windows.Forms.TabControl detailsTabControl;
+        private System.Windows.Forms.TabPage tabNews;
+        private HtmlControl htmlControl;
+        private System.Windows.Forms.TabPage tabTimeGraph;
+        private TimeGraph timeGraph1;
+        private System.Windows.Forms.TabPage tab24Chan;
+        private ChannelView chanView24;
+        private System.Windows.Forms.TabPage tab58Chan;
+        private ChannelView chanView58;
+        private System.Windows.Forms.TabPage tabGps;
+        private GpsMon gpsMon1;
     }
 }

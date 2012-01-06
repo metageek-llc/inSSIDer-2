@@ -25,7 +25,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using FilterFramework;
+using MetaGeek.Filters.Controllers;
 using inSSIDer.Misc;
 
 using MetaGeek.Gps;
@@ -33,15 +34,15 @@ using MetaGeek.WiFi;
 
 namespace inSSIDer.Scanning
 {
-    public class NetworkDataCacheN
+    public class NetworkDataCacheN : IDisposable
     {
         #region Fields
 
         private readonly AdapterVendors _av;
+        private FilterHandler<AccessPoint> _filterHandler { get; set; }
 
         //This is a list of AccessPointN2 objects
         private readonly Dictionary<MacAddress, AccessPoint> _cache = new Dictionary<MacAddress, AccessPoint>();
-        private readonly List<Filter> _filters = new List<Filter>();
 
         #endregion Fields
 
@@ -55,13 +56,6 @@ namespace inSSIDer.Scanning
             get { return GetAccessPoints().Length; }
         }
 
-        /// <summary>
-        /// Gets the array of filters used by this data cache
-        /// </summary>
-        public IEnumerable<Filter> Filters
-        {
-            get { return _filters.ToArray(); }
-        }
 
         /// <summary>
         /// The newest timestamp in the cache
@@ -93,18 +87,22 @@ namespace inSSIDer.Scanning
 
         public event EventHandler DataReset;
 
-        public event EventHandler FiltersChanged;
-
         #endregion Events
 
         #region Constructors
 
         public NetworkDataCacheN()
         {
-            _filters = new List<Filter>();
             _av = new AdapterVendors();
-            //OUI lookup
-            _av.LoadFromOui();
+        }
+
+        private AccessPoint[] GetFilteredNetworkData(IEnumerable<AccessPoint> data)
+        {
+            if(_filterHandler == null || !_filterHandler.HasFilters())
+                return data.ToArray();
+
+            var filteredData = _filterHandler.ApplyFilter(data);
+            return filteredData.ToArray();
         }
 
         #endregion Constructors
@@ -159,21 +157,24 @@ namespace inSSIDer.Scanning
             }
         }
 
-        /// <summary>
-        /// Add a filter to the list
-        /// </summary>
-        /// <param name="filter"></param>
-        public void AddFilter(Filter filter)
+        public FiltersViewController<AccessPoint> ItsFilterViewController { get; set; }
+        public void Initialize()
         {
-            _filters.Add(filter);
-            OnFilterChanged();
+            //OUI lookup
+            _av.LoadFromOui();
+            _filterHandler = ItsFilterViewController.ItsFilterHandler;
+            HookUpEvents();
         }
 
-        public void UpdateFilter()
+        private void UnHookEvents()
         {
-            OnFilterChanged();
+            ItsFilterViewController.FiltersUpdatedEvent.ItsEvent -= FiltersViewController_FiltersUpdatedEvent;
         }
 
+        private void HookUpEvents()
+        {
+            ItsFilterViewController.FiltersUpdatedEvent.ItsEvent += FiltersViewController_FiltersUpdatedEvent;
+        }
         /// <summary>
         /// Erases ALL data stored in the cache
         /// </summary>
@@ -186,6 +187,9 @@ namespace inSSIDer.Scanning
             }
         }
 
+        private void FiltersViewController_FiltersUpdatedEvent(object sender, EventArgs e)
+        {
+        }
         /// <summary>
         /// Gets an AP by its ID number
         /// </summary>
@@ -220,45 +224,9 @@ namespace inSSIDer.Scanning
         {
             lock (_cache)
             {
-                return _cache.Values.Where(RunFilters).ToArray();
+                var v = GetFilteredNetworkData(_cache.Values);
+                return v;
             }
-        }
-
-        /// <summary>
-        /// Gets the filter with the specified ID
-        /// </summary>
-        /// <param name="id">The ID if the filter to retrieve</param>
-        /// <returns>The FilterN object if found, otherwise FilterN.Empty</returns>
-        public Filter GetFilterById(Guid id)
-        {
-            try
-            {
-                lock (_filters)
-                {
-                    return _filters.First(f => f.Id == id);
-                }
-            }
-            catch (InvalidOperationException) //If there isn't a filter by that id, this is thrown
-            {
-                return Filter.Empty;
-            }
-        }
-
-        /// <summary>
-        /// Removes a filter with the specified ID
-        /// </summary>
-        /// <param name="id">The ID of the filter to remove</param>
-        public void RemoveFilterById(Guid id)
-        {
-            for (int i = 0; i < _filters.Count; i++)
-            {
-                if (_filters[i].Id == id)
-                {
-                    _filters.RemoveAt(i);
-                    break;
-                }
-            }
-            OnFilterChanged();
         }
 
         #endregion Public Methods
@@ -286,27 +254,11 @@ namespace inSSIDer.Scanning
             if (DataReset != null) DataReset(this, EventArgs.Empty);
         }
 
-        /// <summary>
-        /// Fire the FilterChanged event if it's hooked
-        /// </summary>
-        private void OnFilterChanged()
-        {
-            if (FiltersChanged != null) FiltersChanged(this, EventArgs.Empty);
-        }
-
-        /// <summary>
-        /// Determines if the AP should be filtered out. APs must pass ALL filters for this to return true
-        /// </summary>
-        /// <param name="ap">The AP to filter</param>
-        /// <returns>true if the AP passes, otherwise false</returns>
-        private bool RunFilters(AccessPoint ap)
-        {
-            lock (_filters)
-            {
-                return _filters.Where(f => f.Enabled).All(f => f.Eval(ap));
-            }
-        }
-
         #endregion Private Methods
+
+        public void Dispose()
+        {
+            UnHookEvents();
+        }
     }
 }

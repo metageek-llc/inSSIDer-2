@@ -217,7 +217,7 @@ namespace MetaGeek.WiFi
                 lock (MyNetworkDataCollection)
                 {
                     // Grab up to the first MaxDataPoint number of RSSI readings
-                    int[] sparks = new int[Math.Min(_networkData.Count, MaxDataPoints)];
+                    var sparks = new int[Math.Min(_networkData.Count, MaxDataPoints)];
 
                     //TODO: Could we invert the loop to make it go backwards? Shouldn't that remove the sparks.Length - 1?
                     for (int i = 0; i < sparks.Length; i++)
@@ -419,16 +419,6 @@ namespace MetaGeek.WiFi
         public override int GetHashCode()
         {
             return MyNetworkDataCollection.First().GetHashCode();
-        }
-
-        /// <summary>
-        /// Checks if this AP passes the filter
-        /// </summary>
-        /// <param name="f">The filter to test against</param>
-        /// <returns>truf is it passed, otherwise false</returns>
-        public bool Pass(Filter f)
-        {
-            return f.Eval(this);
         }
 
         #endregion Public Methods

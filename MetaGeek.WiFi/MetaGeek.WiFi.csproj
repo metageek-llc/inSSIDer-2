@@ -114,8 +114,6 @@
   <ItemGroup>
     <Compile Include="AccessPoint.cs" />
     <Compile Include="AdapterVendors.cs" />
-    <Compile Include="Extensions.cs" />
-    <Compile Include="Filter.cs" />
     <Compile Include="IncomingDataEventArgs.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="MacAddress.cs" />
@@ -133,10 +131,6 @@
     <ProjectReference Include="..\ManagedWifi\ManagedWifi.csproj">
       <Project>{B290695E-0DD1-4912-88DE-7AA6DC7AF0A5}</Project>
       <Name>ManagedWifi</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MetaGeek.Filters\MetaGeek.Filters.csproj">
-      <Project>{129AF630-2E23-46FD-A3F2-A67DC5E9D6ED}</Project>
-      <Name>MetaGeek.Filters</Name>
     </ProjectReference>
     <ProjectReference Include="..\MetaGeek.Gps\MetaGeek.Gps.csproj">
       <Project>{92A74448-AA21-49EF-90F6-B4AA05D092B8}</Project>

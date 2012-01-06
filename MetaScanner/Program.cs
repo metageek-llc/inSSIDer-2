@@ -6,9 +6,7 @@
 
 using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Net.NetworkInformation;
-using System.Threading;
 using System.Windows.Forms;
 
 using inSSIDer.Localization;
@@ -140,12 +138,12 @@ namespace inSSIDer
             debugThread.Start();
             #endif
 
-            //Initalize the scanner object before passing it to any interface
+            //Initialize the scanner object before passing it to any interface
             ScanController scanner = new ScanController();
             Exception error;
 
-            Debug.WriteLine("Initalize ScanController");
-            scanner.Initalize(out error);
+            Debug.WriteLine("Initialize ScanController");
+            scanner.Initialize(out error);
             if (error != null)
             {
                 //An error!
@@ -269,7 +267,6 @@ namespace inSSIDer
             Settings.Default.gpsEnabled = scanner.GpsControl.Enabled;
 
             // Save Filters
-            SettingsMgr.SaveFilterList(scanner.Cache.Filters.ToArray());
 
             //Save settings before exit
             Settings.Default.Save();
