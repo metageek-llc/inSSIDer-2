@@ -133,6 +133,10 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FilterFramework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\FilterFramework.dll</HintPath>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\lib\log4net.dll</HintPath>
     </Reference>
@@ -399,10 +403,6 @@
     <None Include="Resources\wifiStop.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\offtrack\NetFilterFramework\FilterFramework\FilterFramework.csproj">
-      <Project>{AF41C440-B1FD-4E3F-B8B6-4E55FCBC365B}</Project>
-      <Name>FilterFramework</Name>
-    </ProjectReference>
     <ProjectReference Include="..\IoctlNdis\IoctlNdis.csproj">
       <Project>{27BBAED2-FCF5-4A9E-BCFA-DE6D50F4CDBC}</Project>
       <Name>IoctlNdis</Name>
