@@ -70,7 +70,6 @@ namespace inSSIDer.UI.Forms
             this.loggingToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.gripContainer1 = new inSSIDer.UI.Controls.GripSplitContainer();
             this.scannerView = new inSSIDer.UI.Controls.ScannerView();
-            this.filtersView1 = new MetaGeek.Filters.Views.FiltersView();
             this.detailsTabControl = new System.Windows.Forms.TabControl();
             this.tabNews = new System.Windows.Forms.TabPage();
             this.htmlControl = new inSSIDer.HTML.HtmlControl();
@@ -83,6 +82,7 @@ namespace inSSIDer.UI.Forms
             this.tabGps = new System.Windows.Forms.TabPage();
             this.gpsMon1 = new inSSIDer.UI.Controls.GpsMon();
             this.networkInterfaceSelector1 = new inSSIDer.UI.Controls.NetworkInterfaceSelector();
+            this.filtersView1 = new MetaGeek.Filters.Views.FiltersView();
             this.mainMenu.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.gripContainer1.Panel1.SuspendLayout();
@@ -419,20 +419,10 @@ namespace inSSIDer.UI.Forms
             // scannerView
             // 
             this.scannerView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scannerView.Location = new System.Drawing.Point(0, 30);
+            this.scannerView.Location = new System.Drawing.Point(0, 37);
             this.scannerView.Name = "scannerView";
-            this.scannerView.Size = new System.Drawing.Size(1008, 216);
+            this.scannerView.Size = new System.Drawing.Size(1008, 209);
             this.scannerView.TabIndex = 0;
-            // 
-            // filtersView1
-            // 
-            this.filtersView1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.filtersView1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.filtersView1.Location = new System.Drawing.Point(0, 0);
-            this.filtersView1.Name = "filtersView1";
-            this.filtersView1.Padding = new System.Windows.Forms.Padding(3, 3, 0, 3);
-            this.filtersView1.Size = new System.Drawing.Size(1008, 30);
-            this.filtersView1.TabIndex = 1;
             // 
             // detailsTabControl
             // 
@@ -585,6 +575,16 @@ namespace inSSIDer.UI.Forms
             this.networkInterfaceSelector1.Size = new System.Drawing.Size(181, 25);
             this.networkInterfaceSelector1.TabIndex = 2;
             this.networkInterfaceSelector1.SizeChanged += new System.EventHandler(this.NetworkInterfaceSelector1SizeChanged);
+            // 
+            // filtersView1
+            // 
+            this.filtersView1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.filtersView1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.filtersView1.Location = new System.Drawing.Point(0, 0);
+            this.filtersView1.Name = "filtersView1";
+            this.filtersView1.Padding = new System.Windows.Forms.Padding(3, 3, 0, 3);
+            this.filtersView1.Size = new System.Drawing.Size(1008, 37);
+            this.filtersView1.TabIndex = 1;
             // 
             // FormMain
             // 
