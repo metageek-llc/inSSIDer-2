@@ -1,0 +1,5 @@
+C:\Users\Ashok Gelal\develop\repo\ontrack\inSSIDer-2\IoctlNdis\bin\x86\Debug\Metageek.IoctlNdis.dll
+C:\Users\Ashok Gelal\develop\repo\ontrack\inSSIDer-2\IoctlNdis\bin\x86\Debug\Metageek.IoctlNdis.pdb
+C:\Users\Ashok Gelal\develop\repo\ontrack\inSSIDer-2\IoctlNdis\obj\x86\Debug\IoctlNdis.csprojResolveAssemblyReference.cache
+C:\Users\Ashok Gelal\develop\repo\ontrack\inSSIDer-2\IoctlNdis\obj\x86\Debug\Metageek.IoctlNdis.dll
+C:\Users\Ashok Gelal\develop\repo\ontrack\inSSIDer-2\IoctlNdis\obj\x86\Debug\Metageek.IoctlNdis.pdb
