@@ -38,7 +38,7 @@ namespace inSSIDer.Misc
                                                                   {"alias", "Alias"},
                                                                   {"channel", "Channel"},
                                                                   {"istypen", "IsTypeN"},
-                                                                  {"is40mhz", "Is40MHz"},
+                                                                  {"is40mhz", "Is40Mhz"},
                                                                   {"macaddress", "MacAddress"},
                                                                   {"maxrate", "MaxRate"},
                                                                   {"networktype", "NetworkType"},

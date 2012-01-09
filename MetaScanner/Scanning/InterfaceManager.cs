@@ -23,16 +23,12 @@
 
 ////////////////////////////////////////////////////////////////
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Net.NetworkInformation;
-using System.Text;
-
 using inSSIDer.Localization;
 using inSSIDer.Misc;
 using inSSIDer.Properties;
-
 using ManagedWifi;
 
 namespace inSSIDer.Scanning
@@ -169,8 +165,8 @@ namespace inSSIDer.Scanning
                 return;
             }
 
-            WlanClient.InterfaceArrivedEvent += WlanClient_InterfaceArrivedEvent;
-            WlanClient.InterfaceRemovedEvent += WlanClient_InterfaceRemovedEvent;
+            WlanClient.InterfaceArrivedEvent.ItsEvent += WlanClient_InterfaceArrivedEvent;
+            WlanClient.InterfaceRemovedEvent.ItsEvent += WlanClient_InterfaceRemovedEvent;
         }
 
         #endregion Public Methods
@@ -195,12 +191,12 @@ namespace inSSIDer.Scanning
 
         private void WlanClient_InterfaceArrivedEvent(object sender, InterfaceNotificationEventsArgs e)
         {
-            OnInterfaceAdded(e.MyGuid);
+            OnInterfaceAdded(e.ItsGuid);
         }
 
         private void WlanClient_InterfaceRemovedEvent(object sender, InterfaceNotificationEventsArgs e)
         {
-            OnInterfaceRemoved(e.MyGuid);
+            OnInterfaceRemoved(e.ItsGuid);
         }
 
         #endregion Private Methods

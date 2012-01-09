@@ -1,5 +1,0 @@
-C:\Users\Ashok Gelal\develop\repo\ontrack\inSSIDer-2\ManagedWifi\bin\x86\Debug\ManagedWifi.dll
-C:\Users\Ashok Gelal\develop\repo\ontrack\inSSIDer-2\ManagedWifi\bin\x86\Debug\ManagedWifi.pdb
-C:\Users\Ashok Gelal\develop\repo\ontrack\inSSIDer-2\ManagedWifi\obj\x86\Debug\ManagedWifi.csprojResolveAssemblyReference.cache
-C:\Users\Ashok Gelal\develop\repo\ontrack\inSSIDer-2\ManagedWifi\obj\x86\Debug\ManagedWifi.dll
-C:\Users\Ashok Gelal\develop\repo\ontrack\inSSIDer-2\ManagedWifi\obj\x86\Debug\ManagedWifi.pdb

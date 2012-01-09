@@ -28,11 +28,9 @@ using System.Drawing;
 using System.Net.NetworkInformation;
 using System.Timers;
 using System.Windows.Forms;
-
 using inSSIDer.Localization;
 using inSSIDer.Misc;
 using inSSIDer.Scanning;
-
 using ManagedWifi;
 
 namespace inSSIDer.UI.Controls
@@ -373,7 +371,7 @@ namespace inSSIDer.UI.Controls
         {
             UpdateInterfaceList();
             //If we are not scanning and a new interface is added, use it!
-            if (!_scanner.NetworkScanner.IsScanning && _scanner.SetInterface(e.MyGuid))
+            if (!_scanner.NetworkScanner.IsScanning && _scanner.SetInterface(e.ItsGuid))
             {
                 try
                 {
@@ -395,7 +393,7 @@ namespace inSSIDer.UI.Controls
 
         private void WlanClient_InterfaceRemoveEvent(object sender, InterfaceNotificationEventsArgs e)
         {
-            if (e.MyGuid == new Guid(_scanner.Interface.Id))
+            if (e.ItsGuid == new Guid(_scanner.Interface.Id))
             {
                 //If we were using the interface that got removed, stop scanning!
                 if (InvokeRequired)

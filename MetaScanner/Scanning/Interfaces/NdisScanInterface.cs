@@ -28,11 +28,8 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Timers;
-
 using inSSIDer.Misc;
-
 using ManagedWifi;
-
 using MetaGeek.IoctlNdis;
 using MetaGeek.WiFi;
 

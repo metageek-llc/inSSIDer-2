@@ -27,11 +27,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
-
 using inSSIDer.Misc;
-
 using ManagedWifi;
-
 using MetaGeek.WiFi;
 
 namespace inSSIDer.Scanning.Interfaces

@@ -1,0 +1,6 @@
+[submodule "ManagedWifi"]
+	path = ManagedWifi
+	url = git@github.com:metageek-llc/ManagedWifi.git
+[submodule "IoctlNdis"]
+	path = IoctlNdis
+	url = git@github.com:metageek-llc/IoctlNdis.git

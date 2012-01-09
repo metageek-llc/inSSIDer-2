@@ -26,11 +26,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
-
 using inSSIDer.Localization;
-
 using ManagedWifi;
-
 using MetaGeek.IoctlNdis;
 using MetaGeek.WiFi;
 

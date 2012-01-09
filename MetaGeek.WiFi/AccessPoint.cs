@@ -26,7 +26,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
-
 using ManagedWifi;
 using MetaGeek.Gps;
 
@@ -387,7 +386,7 @@ namespace MetaGeek.WiFi
                            MacAddress.ToString(),
                            Ssid,
                            Spark,
-                           IsN && NSettings != null && NSettings.Is40MHz
+                           IsN && NSettings != null && NSettings.Is40Mhz
                                ? NSettings.SecondaryChannelLower
                                      ? Channel + " + " + (Channel - 4)
                                      : Channel + " + " + (Channel + 4)

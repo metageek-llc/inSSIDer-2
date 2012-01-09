@@ -143,7 +143,7 @@ namespace inSSIDer.UI.Mini
 
                                 //Update the channel
                                 row.Cells["channelColumn"].Value = ap.IsN && ap.NSettings != null &&
-                                                                   ap.NSettings.Is40MHz
+                                                                   ap.NSettings.Is40Mhz
                                                                        ? ap.NSettings.SecondaryChannelLower
                                                                              ? ap.Channel + " + " + (ap.Channel - 4)
                                                                              : ap.Channel + " + " + (ap.Channel + 4)
