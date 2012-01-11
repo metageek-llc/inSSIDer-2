@@ -159,12 +159,12 @@ namespace inSSIDer.UI.Controls
                                 //Connection State
                                 if (ap.Connected)
                                 {
-                                    newrow.DefaultCellStyle.BackColor = Color.Green;
-                                    newrow.DefaultCellStyle.SelectionBackColor = Color.DarkGreen;
+                                    row.DefaultCellStyle.Font = new Font(Font.FontFamily, Font.Size, FontStyle.Bold);
                                 }
                             }
                             else
                             {
+                                row.DefaultCellStyle.Font = new Font(Font.FontFamily, Font.Size, FontStyle.Regular);
                                 //Update vendor if null. This has happend before
                                 if (row.Cells["vendorColumn"].Value == null)
                                     row.Cells["vendorColumn"].Value = ap.Vendor;
@@ -198,11 +198,11 @@ namespace inSSIDer.UI.Controls
                                 //Connection State
                                 if (ap.Connected)
                                 {
-                                    row.DefaultCellStyle.BackColor = Color.Green;
-                                    row.DefaultCellStyle.SelectionBackColor = Color.Green;
+                                    row.DefaultCellStyle.Font = new Font(Font.FontFamily, Font.Size, FontStyle.Bold);
                                 }
                                 else
                                 {
+                                    row.DefaultCellStyle.Font = new Font(Font.FontFamily, Font.Size, FontStyle.Regular);
                                     if (row.Index % 2 == 0)
                                     {
                                         row.DefaultCellStyle.BackColor = scannerGrid.DefaultCellStyle.BackColor;
