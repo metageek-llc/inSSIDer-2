@@ -71,7 +71,7 @@ namespace inSSIDer.UI.Forms
             this.gripContainer1 = new inSSIDer.UI.Controls.GripSplitContainer();
             this.scannerView = new inSSIDer.UI.Controls.ScannerView();
             this.filtersView1 = new MetaGeek.Filters.Views.FiltersView();
-            this.detailsTabControl = new System.Windows.Forms.TabControl();
+            this.detailsTabControl = new CustomTabControl();
             this.tabNews = new System.Windows.Forms.TabPage();
             this.htmlControl = new inSSIDer.HTML.HtmlControl();
             this.tabTimeGraph = new System.Windows.Forms.TabPage();
@@ -442,8 +442,8 @@ namespace inSSIDer.UI.Forms
             this.detailsTabControl.Controls.Add(this.tab58Chan);
             this.detailsTabControl.Controls.Add(this.tabGps);
             this.detailsTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.detailsTabControl.ItemSize = new System.Drawing.Size(0, 25);
             this.detailsTabControl.Location = new System.Drawing.Point(0, 0);
-            this.detailsTabControl.Margin = new System.Windows.Forms.Padding(0);
             this.detailsTabControl.Name = "detailsTabControl";
             this.detailsTabControl.SelectedIndex = 0;
             this.detailsTabControl.Size = new System.Drawing.Size(1008, 263);

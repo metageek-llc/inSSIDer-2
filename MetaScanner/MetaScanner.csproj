@@ -185,6 +185,9 @@
     <Compile Include="Scanning\Interfaces\ManagedScanInterface.cs" />
     <Compile Include="Scanning\NetworkScannerN.cs" />
     <Compile Include="Scanning\ScanInterfaces.cs" />
+    <Compile Include="UI\Controls\CustomTabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\Controls\GpsGraph.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -193,12 +196,7 @@
     </Compile>
     <Compile Include="UI\Controls\SparkLineCell.cs" />
     <Compile Include="UI\Controls\SparkLineColumn.cs" />
-    <Compile Include="UI\Controls\TabControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Controls\TabControl.Designer.cs">
-      <DependentUpon>TabControl.cs</DependentUpon>
-    </Compile>
+    <Compile Include="UI\Controls\TabHeaderRightClickedEventArgs.cs" />
     <Compile Include="UI\Forms\frmAbout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -279,9 +277,6 @@
     <Compile Include="FileIO\NS1Writer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="UI\Controls\TabControl.resx">
-      <DependentUpon>TabControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\frmAbout.resx">
       <DependentUpon>frmAbout.cs</DependentUpon>
       <SubType>Designer</SubType>
