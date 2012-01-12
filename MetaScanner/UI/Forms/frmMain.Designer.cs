@@ -63,7 +63,7 @@ namespace inSSIDer.UI.Forms
             this.stopNullScanningToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sdlgLog = new System.Windows.Forms.SaveFileDialog();
             this.sdlgNs1 = new System.Windows.Forms.SaveFileDialog();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.apCountLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.gpsToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.locationToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -71,7 +71,7 @@ namespace inSSIDer.UI.Forms
             this.gripContainer1 = new inSSIDer.UI.Controls.GripSplitContainer();
             this.scannerView = new inSSIDer.UI.Controls.ScannerView();
             this.filtersView1 = new MetaGeek.Filters.Views.FiltersView();
-            this.detailsTabControl = new CustomTabControl();
+            this.detailsTabControl = new inSSIDer.UI.Controls.CustomTabControl();
             this.tabNews = new System.Windows.Forms.TabPage();
             this.htmlControl = new inSSIDer.HTML.HtmlControl();
             this.tabTimeGraph = new System.Windows.Forms.TabPage();
@@ -84,7 +84,7 @@ namespace inSSIDer.UI.Forms
             this.gpsMon1 = new inSSIDer.UI.Controls.GpsMon();
             this.networkInterfaceSelector1 = new inSSIDer.UI.Controls.NetworkInterfaceSelector();
             this.mainMenu.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
+            this.statusStrip.SuspendLayout();
             this.gripContainer1.Panel1.SuspendLayout();
             this.gripContainer1.Panel2.SuspendLayout();
             this.gripContainer1.SuspendLayout();
@@ -349,24 +349,26 @@ namespace inSSIDer.UI.Forms
             this.sdlgNs1.SupportMultiDottedExtensions = true;
             this.sdlgNs1.Title = "Select where to place the output NS1 file";
             // 
-            // statusStrip1
+            // statusStrip
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusStrip.BackColor = System.Drawing.SystemColors.Control;
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.apCountLabel,
             this.gpsToolStripStatusLabel,
             this.locationToolStripStatusLabel,
             this.loggingToolStripStatusLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 540);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1008, 22);
-            this.statusStrip1.TabIndex = 1;
-            this.statusStrip1.Text = "statusStrip1";
+            this.statusStrip.Location = new System.Drawing.Point(0, 538);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.ManagerRenderMode;
+            this.statusStrip.Size = new System.Drawing.Size(1008, 24);
+            this.statusStrip.TabIndex = 1;
+            this.statusStrip.Text = "statusStrip1";
             // 
             // apCountLabel
             // 
             this.apCountLabel.AutoSize = false;
             this.apCountLabel.Name = "apCountLabel";
-            this.apCountLabel.Size = new System.Drawing.Size(100, 17);
+            this.apCountLabel.Size = new System.Drawing.Size(100, 19);
             this.apCountLabel.Text = "0 / 0 AP(s)";
             this.apCountLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -375,7 +377,7 @@ namespace inSSIDer.UI.Forms
             this.gpsToolStripStatusLabel.AutoSize = false;
             this.gpsToolStripStatusLabel.Margin = new System.Windows.Forms.Padding(0, 3, 5, 2);
             this.gpsToolStripStatusLabel.Name = "gpsToolStripStatusLabel";
-            this.gpsToolStripStatusLabel.Size = new System.Drawing.Size(118, 17);
+            this.gpsToolStripStatusLabel.Size = new System.Drawing.Size(118, 19);
             this.gpsToolStripStatusLabel.Text = "GPS Status";
             this.gpsToolStripStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -383,14 +385,14 @@ namespace inSSIDer.UI.Forms
             // 
             this.locationToolStripStatusLabel.AutoSize = false;
             this.locationToolStripStatusLabel.Name = "locationToolStripStatusLabel";
-            this.locationToolStripStatusLabel.Size = new System.Drawing.Size(320, 17);
+            this.locationToolStripStatusLabel.Size = new System.Drawing.Size(320, 19);
             this.locationToolStripStatusLabel.Text = "Location";
             this.locationToolStripStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // loggingToolStripStatusLabel
             // 
             this.loggingToolStripStatusLabel.Name = "loggingToolStripStatusLabel";
-            this.loggingToolStripStatusLabel.Size = new System.Drawing.Size(86, 17);
+            this.loggingToolStripStatusLabel.Size = new System.Drawing.Size(86, 19);
             this.loggingToolStripStatusLabel.Text = "Logging Status";
             // 
             // gripContainer1
@@ -411,17 +413,18 @@ namespace inSSIDer.UI.Forms
             // 
             this.gripContainer1.Panel2.Controls.Add(this.detailsTabControl);
             this.gripContainer1.Panel2MinSize = 150;
-            this.gripContainer1.Size = new System.Drawing.Size(1008, 516);
-            this.gripContainer1.SplitterDistance = 246;
+            this.gripContainer1.Size = new System.Drawing.Size(1008, 514);
+            this.gripContainer1.SplitterDistance = 245;
             this.gripContainer1.SplitterWidth = 7;
             this.gripContainer1.TabIndex = 1;
             // 
             // scannerView
             // 
             this.scannerView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scannerView.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.scannerView.Location = new System.Drawing.Point(0, 33);
             this.scannerView.Name = "scannerView";
-            this.scannerView.Size = new System.Drawing.Size(1008, 213);
+            this.scannerView.Size = new System.Drawing.Size(1008, 212);
             this.scannerView.TabIndex = 0;
             // 
             // filtersView1
@@ -445,8 +448,9 @@ namespace inSSIDer.UI.Forms
             this.detailsTabControl.ItemSize = new System.Drawing.Size(0, 25);
             this.detailsTabControl.Location = new System.Drawing.Point(0, 0);
             this.detailsTabControl.Name = "detailsTabControl";
+            this.detailsTabControl.Padding = new System.Drawing.Point(0, 0);
             this.detailsTabControl.SelectedIndex = 0;
-            this.detailsTabControl.Size = new System.Drawing.Size(1008, 263);
+            this.detailsTabControl.Size = new System.Drawing.Size(1008, 262);
             this.detailsTabControl.TabIndex = 0;
             this.detailsTabControl.TabStop = false;
             this.detailsTabControl.MouseDown += new System.Windows.Forms.MouseEventHandler(this.detailsTabControl_MouseDown);
@@ -454,9 +458,9 @@ namespace inSSIDer.UI.Forms
             // tabNews
             // 
             this.tabNews.Controls.Add(this.htmlControl);
-            this.tabNews.Location = new System.Drawing.Point(4, 22);
+            this.tabNews.Location = new System.Drawing.Point(4, 29);
             this.tabNews.Name = "tabNews";
-            this.tabNews.Size = new System.Drawing.Size(1000, 237);
+            this.tabNews.Size = new System.Drawing.Size(1000, 229);
             this.tabNews.TabIndex = 5;
             this.tabNews.Text = "News";
             this.tabNews.UseVisualStyleBackColor = true;
@@ -470,7 +474,7 @@ namespace inSSIDer.UI.Forms
             this.htmlControl.MinimumSize = new System.Drawing.Size(20, 20);
             this.htmlControl.Name = "htmlControl";
             this.htmlControl.OpenWebLinks = false;
-            this.htmlControl.Size = new System.Drawing.Size(1000, 237);
+            this.htmlControl.Size = new System.Drawing.Size(1000, 229);
             this.htmlControl.TabIndex = 0;
             this.htmlControl.UpdateIntervalDays = 1F;
             this.htmlControl.UpdateUrl = "http://www.metageek.net/blog/feed";
@@ -482,9 +486,9 @@ namespace inSSIDer.UI.Forms
             this.tabTimeGraph.BackColor = System.Drawing.Color.Black;
             this.tabTimeGraph.Controls.Add(this.timeGraph1);
             this.tabTimeGraph.ForeColor = System.Drawing.Color.Lime;
-            this.tabTimeGraph.Location = new System.Drawing.Point(4, 22);
+            this.tabTimeGraph.Location = new System.Drawing.Point(4, 29);
             this.tabTimeGraph.Name = "tabTimeGraph";
-            this.tabTimeGraph.Size = new System.Drawing.Size(1000, 237);
+            this.tabTimeGraph.Size = new System.Drawing.Size(1000, 230);
             this.tabTimeGraph.TabIndex = 0;
             this.tabTimeGraph.Text = "Time Graph";
             this.tabTimeGraph.UseVisualStyleBackColor = true;
@@ -492,6 +496,7 @@ namespace inSSIDer.UI.Forms
             // timeGraph1
             // 
             this.timeGraph1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.timeGraph1.ForeColor = System.Drawing.Color.DimGray;
             this.timeGraph1.Location = new System.Drawing.Point(0, 0);
             this.timeGraph1.MaxAmplitude = -10F;
             this.timeGraph1.MaxTime = new System.DateTime(2010, 7, 28, 12, 8, 7, 739);
@@ -499,7 +504,7 @@ namespace inSSIDer.UI.Forms
             this.timeGraph1.Name = "timeGraph1";
             this.timeGraph1.RightMargin = 32;
             this.timeGraph1.ShowSSIDs = true;
-            this.timeGraph1.Size = new System.Drawing.Size(1000, 237);
+            this.timeGraph1.Size = new System.Drawing.Size(1000, 230);
             this.timeGraph1.TabIndex = 0;
             this.timeGraph1.TimeSpan = System.TimeSpan.Parse("00:05:00");
             // 
@@ -508,9 +513,9 @@ namespace inSSIDer.UI.Forms
             this.tab24Chan.BackColor = System.Drawing.Color.Black;
             this.tab24Chan.Controls.Add(this.chanView24);
             this.tab24Chan.ForeColor = System.Drawing.Color.Lime;
-            this.tab24Chan.Location = new System.Drawing.Point(4, 22);
+            this.tab24Chan.Location = new System.Drawing.Point(4, 29);
             this.tab24Chan.Name = "tab24Chan";
-            this.tab24Chan.Size = new System.Drawing.Size(1000, 237);
+            this.tab24Chan.Size = new System.Drawing.Size(1000, 230);
             this.tab24Chan.TabIndex = 1;
             this.tab24Chan.Text = "2.4 GHz Channels";
             this.tab24Chan.UseVisualStyleBackColor = true;
@@ -518,6 +523,7 @@ namespace inSSIDer.UI.Forms
             // chanView24
             // 
             this.chanView24.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chanView24.ForeColor = System.Drawing.Color.DimGray;
             this.chanView24.Location = new System.Drawing.Point(0, 0);
             this.chanView24.MaxAmplitude = -10F;
             this.chanView24.MaxFrequency = 2495F;
@@ -525,7 +531,7 @@ namespace inSSIDer.UI.Forms
             this.chanView24.MinFrequency = 2400F;
             this.chanView24.Name = "chanView24";
             this.chanView24.RightMargin = 20;
-            this.chanView24.Size = new System.Drawing.Size(1000, 237);
+            this.chanView24.Size = new System.Drawing.Size(1000, 230);
             this.chanView24.TabIndex = 0;
             // 
             // tab58Chan
@@ -533,9 +539,9 @@ namespace inSSIDer.UI.Forms
             this.tab58Chan.BackColor = System.Drawing.Color.Black;
             this.tab58Chan.Controls.Add(this.chanView58);
             this.tab58Chan.ForeColor = System.Drawing.Color.Lime;
-            this.tab58Chan.Location = new System.Drawing.Point(4, 22);
+            this.tab58Chan.Location = new System.Drawing.Point(4, 29);
             this.tab58Chan.Name = "tab58Chan";
-            this.tab58Chan.Size = new System.Drawing.Size(1000, 237);
+            this.tab58Chan.Size = new System.Drawing.Size(1000, 230);
             this.tab58Chan.TabIndex = 4;
             this.tab58Chan.Text = "5 GHz Channels";
             this.tab58Chan.UseVisualStyleBackColor = true;
@@ -544,6 +550,7 @@ namespace inSSIDer.UI.Forms
             // 
             this.chanView58.Band = inSSIDer.UI.Controls.ChannelView.BandType.Band5000MHz;
             this.chanView58.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chanView58.ForeColor = System.Drawing.Color.DimGray;
             this.chanView58.Location = new System.Drawing.Point(0, 0);
             this.chanView58.MaxAmplitude = -10F;
             this.chanView58.MaxFrequency = 5850F;
@@ -551,7 +558,7 @@ namespace inSSIDer.UI.Forms
             this.chanView58.MinFrequency = 5150F;
             this.chanView58.Name = "chanView58";
             this.chanView58.RightMargin = 20;
-            this.chanView58.Size = new System.Drawing.Size(1000, 237);
+            this.chanView58.Size = new System.Drawing.Size(1000, 230);
             this.chanView58.TabIndex = 1;
             // 
             // tabGps
@@ -559,9 +566,9 @@ namespace inSSIDer.UI.Forms
             this.tabGps.BackColor = System.Drawing.Color.Black;
             this.tabGps.Controls.Add(this.gpsMon1);
             this.tabGps.ForeColor = System.Drawing.Color.Lime;
-            this.tabGps.Location = new System.Drawing.Point(4, 22);
+            this.tabGps.Location = new System.Drawing.Point(4, 29);
             this.tabGps.Name = "tabGps";
-            this.tabGps.Size = new System.Drawing.Size(1000, 237);
+            this.tabGps.Size = new System.Drawing.Size(1000, 230);
             this.tabGps.TabIndex = 3;
             this.tabGps.Text = "GPS";
             this.tabGps.UseVisualStyleBackColor = true;
@@ -573,7 +580,7 @@ namespace inSSIDer.UI.Forms
             this.gpsMon1.ForeColor = System.Drawing.Color.Lime;
             this.gpsMon1.Location = new System.Drawing.Point(0, 0);
             this.gpsMon1.Name = "gpsMon1";
-            this.gpsMon1.Size = new System.Drawing.Size(1000, 237);
+            this.gpsMon1.Size = new System.Drawing.Size(1000, 230);
             this.gpsMon1.TabIndex = 0;
             // 
             // networkInterfaceSelector1
@@ -593,7 +600,7 @@ namespace inSSIDer.UI.Forms
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1008, 562);
             this.Controls.Add(this.gripContainer1);
-            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.networkInterfaceSelector1);
             this.Controls.Add(this.mainMenu);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -608,8 +615,8 @@ namespace inSSIDer.UI.Forms
             this.SizeChanged += new System.EventHandler(this.FormMainSizeChanged);
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
             this.gripContainer1.Panel1.ResumeLayout(false);
             this.gripContainer1.Panel2.ResumeLayout(false);
             this.gripContainer1.ResumeLayout(false);
@@ -655,7 +662,7 @@ namespace inSSIDer.UI.Forms
         private System.Windows.Forms.ToolStripMenuItem startStopLoggingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem convertLogToKMLToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel gpsToolStripStatusLabel;
         private System.Windows.Forms.ToolStripStatusLabel loggingToolStripStatusLabel;
         private System.Windows.Forms.ToolStripStatusLabel locationToolStripStatusLabel;
@@ -666,7 +673,6 @@ namespace inSSIDer.UI.Forms
         private System.Windows.Forms.ToolStripMenuItem stopNullScanningToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel apCountLabel;
         private MetaGeek.Filters.Views.FiltersView filtersView1;
-        private System.Windows.Forms.TabControl detailsTabControl;
         private System.Windows.Forms.TabPage tabNews;
         private HtmlControl htmlControl;
         private System.Windows.Forms.TabPage tabTimeGraph;
@@ -677,5 +683,6 @@ namespace inSSIDer.UI.Forms
         private ChannelView chanView58;
         private System.Windows.Forms.TabPage tabGps;
         private GpsMon gpsMon1;
+        private CustomTabControl detailsTabControl;
     }
 }
