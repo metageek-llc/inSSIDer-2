@@ -33,11 +33,23 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.scannerGrid = new System.Windows.Forms.DataGridView();
+            this.idColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.checkColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.macColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ssidColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.rssiColumn = new inSSIDer.UI.Controls.SparkLineColumn();
+            this.channelColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.vendorColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.privacyColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.maxrateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.networktypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.firstseenColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ageColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.latColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lonColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cmsColumns = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mACAddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sSIDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,20 +63,6 @@
             this.lastSeenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.latitudeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.longitudeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.idColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.checkColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.macColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ssidColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.rssiColumn = new SparkLineColumn();
-            this.channelColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.vendorColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.privacyColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.maxrateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.networktypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.firstseenColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ageColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.latColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lonColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.scannerGrid)).BeginInit();
             this.cmsColumns.SuspendLayout();
             this.SuspendLayout();
@@ -85,7 +83,7 @@
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(202)))), ((int)(((byte)(202)))));
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(202)))), ((int)(((byte)(202)))));
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.LightGray;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.scannerGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
@@ -108,7 +106,7 @@
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle5.BackColor = System.Drawing.Color.Black;
             dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Lime;
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(210)))), ((int)(((byte)(210)))));
             dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.DimGray;
             dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
@@ -129,126 +127,12 @@
             this.scannerGrid.Size = new System.Drawing.Size(972, 329);
             this.scannerGrid.TabIndex = 4;
             this.scannerGrid.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.scannerView_CellMouseClick);
-            this.scannerGrid.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.scannerView_SortCompare);
-            this.scannerGrid.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.ScannerGridColumnHeaderMouseClick);
             this.scannerGrid.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.scannerView_CellPainting);
+            this.scannerGrid.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.ScannerGridColumnHeaderMouseClick);
             this.scannerGrid.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.ScannerViewColumnWidthChanged);
             this.scannerGrid.SelectionChanged += new System.EventHandler(this.scannerView_SelectionChanged);
+            this.scannerGrid.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.scannerView_SortCompare);
             this.scannerGrid.VisibleChanged += new System.EventHandler(this.ScannerViewVisibleChanged);
-            // 
-            // cmsColumns
-            // 
-            this.cmsColumns.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mACAddressToolStripMenuItem,
-            this.sSIDToolStripMenuItem,
-            this.rSSIToolStripMenuItem,
-            this.channelToolStripMenuItem,
-            this.vendorToolStripMenuItem,
-            this.privacyToolStripMenuItem,
-            this.maxRateToolStripMenuItem,
-            this.networkTypeToolStripMenuItem,
-            this.firstSeenToolStripMenuItem,
-            this.lastSeenToolStripMenuItem,
-            this.latitudeToolStripMenuItem,
-            this.longitudeToolStripMenuItem});
-            this.cmsColumns.Name = "cmsColumns";
-            this.cmsColumns.Size = new System.Drawing.Size(149, 268);
-            // 
-            // mACAddressToolStripMenuItem
-            // 
-            this.mACAddressToolStripMenuItem.CheckOnClick = true;
-            this.mACAddressToolStripMenuItem.Name = "mACAddressToolStripMenuItem";
-            this.mACAddressToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
-            this.mACAddressToolStripMenuItem.Text = "MAC Address";
-            this.mACAddressToolStripMenuItem.Click += new System.EventHandler(this.MacAddressToolStripMenuItemClick);
-            // 
-            // sSIDToolStripMenuItem
-            // 
-            this.sSIDToolStripMenuItem.CheckOnClick = true;
-            this.sSIDToolStripMenuItem.Name = "sSIDToolStripMenuItem";
-            this.sSIDToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
-            this.sSIDToolStripMenuItem.Text = "SSID";
-            this.sSIDToolStripMenuItem.Click += new System.EventHandler(this.MacAddressToolStripMenuItemClick);
-            // 
-            // rSSIToolStripMenuItem
-            // 
-            this.rSSIToolStripMenuItem.CheckOnClick = true;
-            this.rSSIToolStripMenuItem.Name = "rSSIToolStripMenuItem";
-            this.rSSIToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
-            this.rSSIToolStripMenuItem.Text = "RSSI";
-            this.rSSIToolStripMenuItem.Click += new System.EventHandler(this.MacAddressToolStripMenuItemClick);
-            // 
-            // channelToolStripMenuItem
-            // 
-            this.channelToolStripMenuItem.CheckOnClick = true;
-            this.channelToolStripMenuItem.Name = "channelToolStripMenuItem";
-            this.channelToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
-            this.channelToolStripMenuItem.Text = "Channel";
-            this.channelToolStripMenuItem.Click += new System.EventHandler(this.MacAddressToolStripMenuItemClick);
-            // 
-            // vendorToolStripMenuItem
-            // 
-            this.vendorToolStripMenuItem.CheckOnClick = true;
-            this.vendorToolStripMenuItem.Name = "vendorToolStripMenuItem";
-            this.vendorToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
-            this.vendorToolStripMenuItem.Text = "Vendor";
-            this.vendorToolStripMenuItem.Click += new System.EventHandler(this.MacAddressToolStripMenuItemClick);
-            // 
-            // privacyToolStripMenuItem
-            // 
-            this.privacyToolStripMenuItem.CheckOnClick = true;
-            this.privacyToolStripMenuItem.Name = "privacyToolStripMenuItem";
-            this.privacyToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
-            this.privacyToolStripMenuItem.Text = "Privacy";
-            this.privacyToolStripMenuItem.Click += new System.EventHandler(this.MacAddressToolStripMenuItemClick);
-            // 
-            // maxRateToolStripMenuItem
-            // 
-            this.maxRateToolStripMenuItem.CheckOnClick = true;
-            this.maxRateToolStripMenuItem.Name = "maxRateToolStripMenuItem";
-            this.maxRateToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
-            this.maxRateToolStripMenuItem.Text = "Max Rate";
-            this.maxRateToolStripMenuItem.Click += new System.EventHandler(this.MacAddressToolStripMenuItemClick);
-            // 
-            // networkTypeToolStripMenuItem
-            // 
-            this.networkTypeToolStripMenuItem.CheckOnClick = true;
-            this.networkTypeToolStripMenuItem.Name = "networkTypeToolStripMenuItem";
-            this.networkTypeToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
-            this.networkTypeToolStripMenuItem.Text = "Network Type";
-            this.networkTypeToolStripMenuItem.Click += new System.EventHandler(this.MacAddressToolStripMenuItemClick);
-            // 
-            // firstSeenToolStripMenuItem
-            // 
-            this.firstSeenToolStripMenuItem.CheckOnClick = true;
-            this.firstSeenToolStripMenuItem.Name = "firstSeenToolStripMenuItem";
-            this.firstSeenToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
-            this.firstSeenToolStripMenuItem.Text = "First Seen";
-            this.firstSeenToolStripMenuItem.Click += new System.EventHandler(this.MacAddressToolStripMenuItemClick);
-            // 
-            // lastSeenToolStripMenuItem
-            // 
-            this.lastSeenToolStripMenuItem.CheckOnClick = true;
-            this.lastSeenToolStripMenuItem.Name = "lastSeenToolStripMenuItem";
-            this.lastSeenToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
-            this.lastSeenToolStripMenuItem.Text = "Last Seen";
-            this.lastSeenToolStripMenuItem.Click += new System.EventHandler(this.MacAddressToolStripMenuItemClick);
-            // 
-            // latitudeToolStripMenuItem
-            // 
-            this.latitudeToolStripMenuItem.CheckOnClick = true;
-            this.latitudeToolStripMenuItem.Name = "latitudeToolStripMenuItem";
-            this.latitudeToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
-            this.latitudeToolStripMenuItem.Text = "Latitude";
-            this.latitudeToolStripMenuItem.Click += new System.EventHandler(this.MacAddressToolStripMenuItemClick);
-            // 
-            // longitudeToolStripMenuItem
-            // 
-            this.longitudeToolStripMenuItem.CheckOnClick = true;
-            this.longitudeToolStripMenuItem.Name = "longitudeToolStripMenuItem";
-            this.longitudeToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
-            this.longitudeToolStripMenuItem.Text = "Longitude";
-            this.longitudeToolStripMenuItem.Click += new System.EventHandler(this.MacAddressToolStripMenuItemClick);
             // 
             // idColumn
             // 
@@ -384,6 +268,120 @@
             this.lonColumn.MinimumWidth = 70;
             this.lonColumn.Name = "lonColumn";
             this.lonColumn.ReadOnly = true;
+            // 
+            // cmsColumns
+            // 
+            this.cmsColumns.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mACAddressToolStripMenuItem,
+            this.sSIDToolStripMenuItem,
+            this.rSSIToolStripMenuItem,
+            this.channelToolStripMenuItem,
+            this.vendorToolStripMenuItem,
+            this.privacyToolStripMenuItem,
+            this.maxRateToolStripMenuItem,
+            this.networkTypeToolStripMenuItem,
+            this.firstSeenToolStripMenuItem,
+            this.lastSeenToolStripMenuItem,
+            this.latitudeToolStripMenuItem,
+            this.longitudeToolStripMenuItem});
+            this.cmsColumns.Name = "cmsColumns";
+            this.cmsColumns.Size = new System.Drawing.Size(149, 268);
+            // 
+            // mACAddressToolStripMenuItem
+            // 
+            this.mACAddressToolStripMenuItem.CheckOnClick = true;
+            this.mACAddressToolStripMenuItem.Name = "mACAddressToolStripMenuItem";
+            this.mACAddressToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.mACAddressToolStripMenuItem.Text = "MAC Address";
+            this.mACAddressToolStripMenuItem.Click += new System.EventHandler(this.MacAddressToolStripMenuItemClick);
+            // 
+            // sSIDToolStripMenuItem
+            // 
+            this.sSIDToolStripMenuItem.CheckOnClick = true;
+            this.sSIDToolStripMenuItem.Name = "sSIDToolStripMenuItem";
+            this.sSIDToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.sSIDToolStripMenuItem.Text = "SSID";
+            this.sSIDToolStripMenuItem.Click += new System.EventHandler(this.MacAddressToolStripMenuItemClick);
+            // 
+            // rSSIToolStripMenuItem
+            // 
+            this.rSSIToolStripMenuItem.CheckOnClick = true;
+            this.rSSIToolStripMenuItem.Name = "rSSIToolStripMenuItem";
+            this.rSSIToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.rSSIToolStripMenuItem.Text = "RSSI";
+            this.rSSIToolStripMenuItem.Click += new System.EventHandler(this.MacAddressToolStripMenuItemClick);
+            // 
+            // channelToolStripMenuItem
+            // 
+            this.channelToolStripMenuItem.CheckOnClick = true;
+            this.channelToolStripMenuItem.Name = "channelToolStripMenuItem";
+            this.channelToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.channelToolStripMenuItem.Text = "Channel";
+            this.channelToolStripMenuItem.Click += new System.EventHandler(this.MacAddressToolStripMenuItemClick);
+            // 
+            // vendorToolStripMenuItem
+            // 
+            this.vendorToolStripMenuItem.CheckOnClick = true;
+            this.vendorToolStripMenuItem.Name = "vendorToolStripMenuItem";
+            this.vendorToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.vendorToolStripMenuItem.Text = "Vendor";
+            this.vendorToolStripMenuItem.Click += new System.EventHandler(this.MacAddressToolStripMenuItemClick);
+            // 
+            // privacyToolStripMenuItem
+            // 
+            this.privacyToolStripMenuItem.CheckOnClick = true;
+            this.privacyToolStripMenuItem.Name = "privacyToolStripMenuItem";
+            this.privacyToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.privacyToolStripMenuItem.Text = "Privacy";
+            this.privacyToolStripMenuItem.Click += new System.EventHandler(this.MacAddressToolStripMenuItemClick);
+            // 
+            // maxRateToolStripMenuItem
+            // 
+            this.maxRateToolStripMenuItem.CheckOnClick = true;
+            this.maxRateToolStripMenuItem.Name = "maxRateToolStripMenuItem";
+            this.maxRateToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.maxRateToolStripMenuItem.Text = "Max Rate";
+            this.maxRateToolStripMenuItem.Click += new System.EventHandler(this.MacAddressToolStripMenuItemClick);
+            // 
+            // networkTypeToolStripMenuItem
+            // 
+            this.networkTypeToolStripMenuItem.CheckOnClick = true;
+            this.networkTypeToolStripMenuItem.Name = "networkTypeToolStripMenuItem";
+            this.networkTypeToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.networkTypeToolStripMenuItem.Text = "Network Type";
+            this.networkTypeToolStripMenuItem.Click += new System.EventHandler(this.MacAddressToolStripMenuItemClick);
+            // 
+            // firstSeenToolStripMenuItem
+            // 
+            this.firstSeenToolStripMenuItem.CheckOnClick = true;
+            this.firstSeenToolStripMenuItem.Name = "firstSeenToolStripMenuItem";
+            this.firstSeenToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.firstSeenToolStripMenuItem.Text = "First Seen";
+            this.firstSeenToolStripMenuItem.Click += new System.EventHandler(this.MacAddressToolStripMenuItemClick);
+            // 
+            // lastSeenToolStripMenuItem
+            // 
+            this.lastSeenToolStripMenuItem.CheckOnClick = true;
+            this.lastSeenToolStripMenuItem.Name = "lastSeenToolStripMenuItem";
+            this.lastSeenToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.lastSeenToolStripMenuItem.Text = "Last Seen";
+            this.lastSeenToolStripMenuItem.Click += new System.EventHandler(this.MacAddressToolStripMenuItemClick);
+            // 
+            // latitudeToolStripMenuItem
+            // 
+            this.latitudeToolStripMenuItem.CheckOnClick = true;
+            this.latitudeToolStripMenuItem.Name = "latitudeToolStripMenuItem";
+            this.latitudeToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.latitudeToolStripMenuItem.Text = "Latitude";
+            this.latitudeToolStripMenuItem.Click += new System.EventHandler(this.MacAddressToolStripMenuItemClick);
+            // 
+            // longitudeToolStripMenuItem
+            // 
+            this.longitudeToolStripMenuItem.CheckOnClick = true;
+            this.longitudeToolStripMenuItem.Name = "longitudeToolStripMenuItem";
+            this.longitudeToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.longitudeToolStripMenuItem.Text = "Longitude";
+            this.longitudeToolStripMenuItem.Click += new System.EventHandler(this.MacAddressToolStripMenuItemClick);
             // 
             // ScannerView
             // 
