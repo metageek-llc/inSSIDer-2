@@ -47,19 +47,14 @@ namespace inSSIDer.UI.Controls
         //Fonts
         private readonly Font _boldFont;
         private readonly ContextMenuStrip _cmsCopy;
-        private readonly Color _graphBackColor = Color.Black;
         private int _graphHeight;
 
         //Graph size
         private int _graphWidth;
 
-        //Colors
-        private readonly Color _gridColor = Color.FromArgb(100, Color.Gray);
-
         //Time boundries
         private DateTime _maxTime = DateTime.Now;
         private DateTime _minTime = DateTime.MinValue;
-        private readonly Color _outlineColor = Color.DimGray;
 
         //Pixel multipilers
         private float _pixelsPerDbm = 1;
@@ -67,7 +62,6 @@ namespace inSSIDer.UI.Controls
         private readonly System.Timers.Timer _rTimer = new System.Timers.Timer(1000) { AutoReset = true };
         internal ScanController _scanner;
         private TimeSpan _secPerTick = TimeSpan.FromSeconds(60);
-        private readonly Color _tickColor = Color.LightGray;
         private TimeSpan _timeSpan = TimeSpan.FromMinutes(5);
 
         #endregion Fields
@@ -197,7 +191,7 @@ namespace inSSIDer.UI.Controls
 
             _boldFont = new Font(Font, FontStyle.Bold);
 
-            ToolStripMenuItem copyItem = new ToolStripMenuItem("Copy to clipboard");
+            var copyItem = new ToolStripMenuItem("Copy to clipboard");
             copyItem.Click += CopyItemClick;
 
             _cmsCopy = new ContextMenuStrip();
@@ -261,7 +255,7 @@ namespace inSSIDer.UI.Controls
             try
             {
                 //copy image to clipboard
-                using (Bitmap bitClip = new Bitmap(Width, Height))
+                using (var bitClip = new Bitmap(Width, Height))
                 {
                     using (Graphics g = Graphics.FromImage(bitClip))
                     {
@@ -288,19 +282,19 @@ namespace inSSIDer.UI.Controls
 
         private void DrawGrid(Graphics graphics)
         {
-            Pen pen = new Pen(_outlineColor);
-            SolidBrush brush = new SolidBrush(_graphBackColor);
+            var pen = new Pen(DefaultColorScheme.GraphOutlineColor);
+            var brush = new SolidBrush(DefaultColorScheme.GraphBackColor);
 
             graphics.FillRectangle(brush, LeftMargin - 1, TopMargin - 1, _graphWidth + 1, _graphHeight);
 
             graphics.DrawRectangle(pen, LeftMargin - 1, TopMargin - 1, _graphWidth + 1, _graphHeight + 1);
 
-            brush.Color = ForeColor;
+            brush.Color = DefaultColorScheme.GraphForeColor;
 
             //Draw rotated line and text
-            float y = (_graphHeight / 2f) + graphics.MeasureString(Localizer.GetString("AmplitudedBm"), Font).Width / 2 + TopMargin;
-            PointF rotationPoint = new PointF(8, y);
-            Matrix matrix = new Matrix();
+            var y = (_graphHeight / 2f) + graphics.MeasureString(Localizer.GetString("AmplitudedBm"), Font).Width / 2 + TopMargin;
+            var rotationPoint = new PointF(8, y);
+            var matrix = new Matrix();
             matrix.RotateAt(270, rotationPoint);
             graphics.Transform = matrix;
             graphics.DrawString(Localizer.GetString("AmplitudedBm"), Font, brush, 8, y);
@@ -313,7 +307,7 @@ namespace inSSIDer.UI.Controls
 
             StringFormat sfAmp = new StringFormat { Alignment = StringAlignment.Far };
 
-            brush.Color = ColorFactory.AxisColor;
+            brush.Color = DefaultColorScheme.GraphAxisLabelColor;
             while (labelAmplitude < maxAmpToLabel)
             {
                 //Get the color
@@ -324,7 +318,7 @@ namespace inSSIDer.UI.Controls
                 graphics.DrawString(labelAmplitude.ToString(), Font, brush, LeftMargin - 5, y - 7,sfAmp);
 
                 // Tick marks next to amplitude labels
-                pen.Color = _tickColor;
+                pen.Color = DefaultColorScheme.GraphTickColor;
                 pen.DashStyle = DashStyle.Solid;
                 graphics.DrawLine(pen, LeftMargin - 3, y, LeftMargin + 1, y);
 
@@ -335,24 +329,25 @@ namespace inSSIDer.UI.Controls
                 //y = TopMargin + _graphHeight - ((labelAmplitude - MinAmplitude) * _pixelsPerDbm);
                 graphics.DrawString(labelAmplitude.ToString(), Font, brush, Width - RightMargin + 3, y - 7, sfAmp);
 
+                // draw the horizontal graph lines
+                pen.Color = DefaultColorScheme.GraphHorizontalDottedLineColor;
+                pen.DashStyle = DashStyle.Dot;
+                graphics.DrawLine(pen, LeftMargin, y, LeftMargin + _graphWidth, y);
+
                 // Tick marks next to amplitude labels
-                pen.Color = _tickColor;
+                pen.Color = DefaultColorScheme.GraphTickColor;
                 pen.DashStyle = DashStyle.Solid;
                 graphics.DrawLine(pen, Width - RightMargin + 2, y, Width - RightMargin - 2, y);
 
                 //Neutral
 
-                // draw the horizontal graph lines
-                pen.Color = _gridColor;
-                pen.DashStyle = DashStyle.Dot;
-                graphics.DrawLine(pen, LeftMargin, y, LeftMargin + _graphWidth, y);
 
                 labelAmplitude += _amplitudeLabelSpacing;
             }
 
             //Draw floor label and tick
             y = DbToY((int)MinAmplitude);
-            pen.Color = _tickColor;
+            pen.Color = DefaultColorScheme.GraphTickColor;
             pen.DashStyle = DashStyle.Solid;
 
             //Left
@@ -367,6 +362,7 @@ namespace inSSIDer.UI.Controls
             sfAmp.Alignment = StringAlignment.Near;
             //Tick
             graphics.DrawLine(pen, Width - RightMargin + 2, y, Width - RightMargin - 2, y);
+            pen.Color = DefaultColorScheme.GraphAxisLabelColor;
             //label
             graphics.DrawString(MinAmplitude.ToString(), Font, brush, Width - RightMargin + 3, y - 7, sfAmp);
 
@@ -379,20 +375,20 @@ namespace inSSIDer.UI.Controls
             if(_scanner == null) return;
             if(_scanner.Cache.Count < 1) return;
 
-            Brush brush = new SolidBrush(Color.FromArgb(29,29,29));
-            Pen pen = new Pen(_outlineColor);
+            var brush = new SolidBrush(DefaultColorScheme.GraphForeColor);
+            var pen = new Pen(DefaultColorScheme.GraphOutlineColor);
 
-            SizeF szString = new SizeF(0,0);
-            SizeF szBox = new Size(0,0);
+            var szString = new SizeF(0,0);
+            var szBox = new Size(0,0);
 
-            foreach (AccessPoint ap in _scanner.Cache.GetAccessPoints())
+            foreach (var ap in _scanner.Cache.GetAccessPoints())
             {
                 if (!ap.Graph) continue;
                 //Meassure the SSIDs to find the longest
                 SizeF tempSz = graphics.MeasureString(ap.Ssid, ap.Highlight ? _boldFont : Font);
                 if (tempSz.Width > szString.Width) szString.Width = tempSz.Width;
                 if (tempSz.Height > szString.Height) szString.Height = tempSz.Height;
-                szBox.Height += tempSz.Height + 2;
+                szBox.Height += (int)tempSz.Height + 2;
             }
 
             szBox.Height += 5;
@@ -403,14 +399,15 @@ namespace inSSIDer.UI.Controls
             UpdateGraphDimensions();
 
             //Background
+            brush.Color = DefaultColorScheme.GraphLegendBackColor;
             graphics.FillRectangle(brush, Width - RightMargin + 30, TopMargin - 1, szString.Width + 15, szBox.Height);
             //Outline
             graphics.DrawRectangle(pen, Width - RightMargin + 30, TopMargin - 1, szString.Width + 15, szBox.Height);
 
-            Brush b = new SolidBrush(ForeColor);
-            int y = TopMargin + 5;
-            int x = Width - RightMargin + 30;
-            foreach (AccessPoint ap in _scanner.Cache.GetAccessPoints())
+            var b = new SolidBrush(DefaultColorScheme.GraphForeColor);
+            var y = TopMargin + 5;
+            var x = Width - RightMargin + 30;
+            foreach (var ap in _scanner.Cache.GetAccessPoints())
             {
                 if (!ap.Graph) continue;
                 if (y + szString.Height > Height - BottomMargin - TopMargin)
@@ -422,6 +419,9 @@ namespace inSSIDer.UI.Controls
                 graphics.FillRectangle(new SolidBrush(ap.MyColor), x + 5, y + 5, 5, 3);
                 y += (int)szString.Height + 2;
             }
+
+            brush.Dispose();
+            pen.Dispose();
         }
 
         private void DrawNetworks(Graphics graphics)
@@ -429,11 +429,11 @@ namespace inSSIDer.UI.Controls
             if (_scanner == null) return;
             if (_scanner.Cache.Count < 1) return;
 
-            Pen pen = new Pen(Color.White);
-            List<Point> tPoints = new List<Point>();
+            var pen = new Pen(Color.White);
+            var tPoints = new List<Point>();
             NetworkData[] data;
 
-                foreach (AccessPoint ap in _scanner.Cache.GetAccessPoints())
+                foreach (var ap in _scanner.Cache.GetAccessPoints())
                 {
                     tPoints.Clear();
                     if (ap.MyNetworkDataCollection.Count < 2) continue;
@@ -471,14 +471,14 @@ namespace inSSIDer.UI.Controls
                     try
                     {
                         pen.Width = ap.Highlight ? 4 : 1;
-                        List<Point> psl = new List<Point>();
-                        foreach (NetworkData nd in data)
+                        var psl = new List<Point>();
+                        foreach (var nd in data)
                         {
                             psl.Add(new Point(TimeToX(nd.MyTimestamp)+1, DbToY(nd.Rssi)));
                         }
-                        Point[] ps = psl.ToArray();
+                        var ps = psl.ToArray();
 
-                        LinearGradientBrush lgb = new LinearGradientBrush(new Point(ps[0].X, 0), new Point(ps[ps.Length -1].X, 0), Color.White,
+                        var lgb = new LinearGradientBrush(new Point(ps[0].X, 0), new Point(ps[ps.Length -1].X, 0), Color.White,
                                                                           Color.White)
                                                       {
                                                           InterpolationColors =
@@ -499,8 +499,8 @@ namespace inSSIDer.UI.Controls
 
         private void DrawTimeLabels(Graphics graphics)
         {
-            Pen pen = new Pen(_tickColor);
-            Brush bLabel = new SolidBrush(ForeColor);
+            var pen = new Pen(DefaultColorScheme.GraphTickColor);
+            Brush bLabel = new SolidBrush(DefaultColorScheme.GraphForeColor);
 
             SizeF szString;
             int x, y;

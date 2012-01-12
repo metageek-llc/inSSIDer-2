@@ -24,7 +24,6 @@
 ////////////////////////////////////////////////////////////////
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
@@ -52,22 +51,15 @@ namespace inSSIDer.UI.Controls
 
         //The copy context menu
         private readonly ContextMenuStrip _cmsCopy;
-        private readonly Color _graphBackColor = Color.Black;
         private int _graphHeight;
 
         //Graph size
         private int _graphWidth;
 
-        //Colors
-        private readonly Color _gridColor = Color.FromArgb(100, Color.Gray);
-        private readonly Color _highChannelForeColor = Color.FromArgb(255, 80, 80, 80);
-        private readonly Color _outlineColor = Color.DimGray;
-
         //Pixel multipilers
         private float _pixelsPerDbm = 1f;
         private float _pixelsPerMHz = 1f;
         private ScanController _sc;
-        private readonly Color _tickColor = Color.LightGray;
 
         #endregion Fields
 
@@ -297,20 +289,20 @@ namespace inSSIDer.UI.Controls
 
         private void DrawGrid(Graphics graphics)
         {
-            Pen pen = new Pen(_outlineColor);
-            SolidBrush brush = new SolidBrush(_graphBackColor);
+            var pen = new Pen(DefaultColorScheme.GraphOutlineColor);
+            var brush = new SolidBrush(DefaultColorScheme.GraphBackColor);
 
             graphics.FillRectangle(brush, LeftMargin - 1, TopMargin - 1, _graphWidth + 1, _graphHeight);
 
             graphics.DrawRectangle(pen, LeftMargin - 1, TopMargin - 1, _graphWidth + 1, _graphHeight + 1);
 
-            brush.Color = ForeColor;
+            brush.Color = DefaultColorScheme.GraphForeColor;
             //graphics.DrawString(Localizer.GetString("ChannelView"), this.Font, brush, _leftMargin, 3);
 
             //Draw rotated line and text
-            float y = (_graphHeight / 2f) + graphics.MeasureString(Localizer.GetString("AmplitudedBm"), Font).Width / 2 + TopMargin;
-            PointF rotationPoint = new PointF(8, y);
-            Matrix matrix = new Matrix();
+            var y = (_graphHeight / 2f) + graphics.MeasureString(Localizer.GetString("AmplitudedBm"), Font).Width / 2 + TopMargin;
+            var rotationPoint = new PointF(8, y);
+            var matrix = new Matrix();
             matrix.RotateAt(270, rotationPoint);
             graphics.Transform = matrix;
             graphics.DrawString("Amplitude [dB]"/*Localizer.GetString("AmplitudedBm")*/, Font, brush, 8, y);
@@ -318,14 +310,14 @@ namespace inSSIDer.UI.Controls
             graphics.Transform = matrix;
 
             // Y axis
-            float maxAmpToLabel = MaxAmplitude - (_amplitudeLabelSpacing / 3f);
-            int labelAmplitude = (int)(MinAmplitude - (MinAmplitude % _amplitudeLabelSpacing) + _amplitudeLabelSpacing);
+            var maxAmpToLabel = MaxAmplitude - (_amplitudeLabelSpacing / 3f);
+            var labelAmplitude = (int)(MinAmplitude - (MinAmplitude % _amplitudeLabelSpacing) + _amplitudeLabelSpacing);
 
-            StringFormat sfAmp = new StringFormat {Alignment = StringAlignment.Far};
+            var sfAmp = new StringFormat {Alignment = StringAlignment.Far};
 
             //sfAmp.LineAlignment = StringAlignment.Center;
 
-            brush.Color = ColorFactory.AxisColor;
+            brush.Color = DefaultColorScheme.GraphAxisLabelColor;
             while (labelAmplitude < maxAmpToLabel)
             {
                 // amplitude label
@@ -333,12 +325,12 @@ namespace inSSIDer.UI.Controls
                 graphics.DrawString(labelAmplitude.ToString(), Font, brush, LeftMargin - 5, y - 7,sfAmp);
 
                 // draw the horizontal graph lines
-                pen.Color = _gridColor;
+                pen.Color = DefaultColorScheme.GraphHorizontalDottedLineColor;
                 pen.DashStyle = DashStyle.Dot;
                 graphics.DrawLine(pen, LeftMargin, y, LeftMargin + _graphWidth, y);
 
                 // Tick marks next to amplitude labels
-                pen.Color = _tickColor;
+                pen.Color = DefaultColorScheme.GraphTickColor;
                 pen.DashStyle = DashStyle.Solid;
                 graphics.DrawLine(pen, LeftMargin - 3, y, LeftMargin + 1, y);
 
@@ -348,20 +340,22 @@ namespace inSSIDer.UI.Controls
 
             //Draw floor label and tick
             y = DbToY((int) MinAmplitude);
-            pen.Color = _tickColor;
+            pen.Color = DefaultColorScheme.GraphTickColor;
             pen.DashStyle = DashStyle.Solid;
             //Tick
             graphics.DrawLine(pen, LeftMargin - 3, y, LeftMargin + 1, y);
+            pen.Color = DefaultColorScheme.GraphAxisLabelColor;
             //label
             graphics.DrawString(MinAmplitude.ToString(), Font, brush, LeftMargin - 5, y - 7, sfAmp);
 
             pen.Dispose();
+            brush.Dispose();
         }
 
         // Draw channel labels
         private void DrawLabels(Graphics graphics)
         {
-            SolidBrush brush = new SolidBrush(ForeColor);
+            var brush = new SolidBrush(DefaultColorScheme.GraphForeColor);
 
             float x;
             int freq;
@@ -380,7 +374,7 @@ namespace inSSIDer.UI.Controls
                     }
 
                     x = LeftMargin + (int)(_pixelsPerMHz * (freq - MinFrequency) + (_pixelsPerMHz * 0.5f));	// 11 for middle of channel, 1 for 2401 MHz offset
-                    brush.Color = ForeColor;
+                    brush.Color = DefaultColorScheme.GraphForeColor;
 
                     if (channel < 9)
                     {
@@ -401,12 +395,12 @@ namespace inSSIDer.UI.Controls
                     x = LeftMargin + (int)(_pixelsPerMHz * (freq - MinFrequency) + (_pixelsPerMHz * 0.5f));
                     if (channel <= 64 || channel >= 149)
                     {
-                        brush.Color = ForeColor;
+                        brush.Color = DefaultColorScheme.GraphAxisLabelColor;
                         graphics.DrawString((channel).ToString(), Font, brush, x - (channel > 99 ? 8 : 4), y);
                     }
                     else
                     {
-                        brush.Color = _highChannelForeColor;
+                        brush.Color = DefaultColorScheme.GraphAxisLabelDimColor;
                         graphics.DrawString((channel).ToString(), Font, brush, x - (channel > 99 ? 8 : 4), y);
                     }
 

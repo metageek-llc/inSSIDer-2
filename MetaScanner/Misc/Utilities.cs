@@ -40,21 +40,18 @@ namespace inSSIDer.Misc
         // access point color map
         public static Color[] ApColors = 
         {
-            Color.Red,
-            Color.LimeGreen,
-            Color.RoyalBlue,
-            Color.Orange,
-            Color.Tan,
-            Color.Gray,
-            Color.Pink,
-            Color.Maroon,
-            Color.Salmon,
-            Color.Turquoise,
-            Color.Honeydew,
-            Color.Tomato,
-            Color.Yellow,
-            Color.OliveDrab,
-            Color.DarkKhaki,
+            Color.FromArgb(255, 47,255,5),
+            Color.FromArgb(255, 36,170,231),
+            Color.FromArgb(255, 252,253,50),
+            Color.FromArgb(255, 253,153,51),
+            Color.FromArgb(255, 101,205,252),
+            Color.FromArgb(255, 150,50,206),
+            Color.FromArgb(255, 99,206,49),
+            Color.FromArgb(255, 31,101,199),
+            Color.FromArgb(255, 253,102,55),
+            Color.FromArgb(255, 204,255,105),
+            Color.FromArgb(255, 252,52,255),
+            Color.FromArgb(255, 148,255,255),
         };
         private static readonly CultureInfo ci = (CultureInfo) CultureInfo.CurrentCulture.Clone();
 

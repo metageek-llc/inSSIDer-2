@@ -28,7 +28,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
-
+using inSSIDer.Misc;
 using inSSIDer.Scanning;
 
 using MetaGeek.WiFi;
@@ -75,6 +75,7 @@ namespace inSSIDer.UI.Controls
         public ScannerView()
         {
             InitializeComponent();
+            ForeColor = DefaultColorScheme.TableForeColor;
             id = Guid.NewGuid();
         }
 
@@ -252,14 +253,14 @@ namespace inSSIDer.UI.Controls
             //If there are more rows than APs, we need to remove the bogas one(s)
             if (scannerGrid.RowCount <= _sc.Cache.Count) return;
 
-            List<string> macs = new List<string>();
+            var macs = new List<string>();
             _sc.Cache.GetAccessPoints().ToList().ForEach(ap => macs.Add(ap.MacAddress.ToString().ToUpper()));
             //macs.AddRange();
 
-            foreach (AccessPoint ap in _sc.Cache.GetAccessPoints())
+            foreach (var ap in _sc.Cache.GetAccessPoints())
                 macs.Add(ap.MacAddress.ToString().ToUpper());
 
-            List<DataGridViewRow> rowsToRemove = new List<DataGridViewRow>();
+            var rowsToRemove = new List<DataGridViewRow>();
 
             foreach (DataGridViewRow row in scannerGrid.Rows)
                 if(!macs.Contains(row.Cells["macColumn"].Value.ToString().ToUpper()))
@@ -326,8 +327,6 @@ namespace inSSIDer.UI.Controls
                 case "longitudeToolStripMenuItem":
                     scannerGrid.Columns["lonColumn"].Visible = longitudeToolStripMenuItem.Checked;
                     break;
-                default:
-                    break;
             }
         }
 
@@ -357,7 +356,7 @@ namespace inSSIDer.UI.Controls
         {
             if (scannerGrid == null || selectAllNetworksCheckBox == null || scannerGrid.Columns == null) return;
 
-            Rectangle rect = scannerGrid.GetColumnDisplayRectangle(scannerGrid.Columns["checkColumn"].Index, true);
+            var rect = scannerGrid.GetColumnDisplayRectangle(scannerGrid.Columns["checkColumn"].Index, true);
             selectAllNetworksCheckBox.Size = new Size(13, 13);
             rect.X += 3;
             rect.Y += 5;
