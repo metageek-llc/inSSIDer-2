@@ -30,11 +30,12 @@
         {
             this.SuspendLayout();
             // 
-            // TimeGraphN
+            // TimeGraph
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Name = "TimeGraphN";
+            this.ForeColor = System.Drawing.Color.DimGray;
+            this.Name = "TimeGraph";
             this.SizeChanged += new System.EventHandler(this.TimeGraphN_SizeChanged);
             this.ResumeLayout(false);
 

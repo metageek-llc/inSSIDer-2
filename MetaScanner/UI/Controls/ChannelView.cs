@@ -60,7 +60,7 @@ namespace inSSIDer.UI.Controls
 
         //Colors
         private readonly Color _gridColor = Color.FromArgb(100, Color.Gray);
-        private readonly Color _highChannelForeColor = Color.Green;
+        private readonly Color _highChannelForeColor = Color.FromArgb(255, 80, 80, 80);
         private readonly Color _outlineColor = Color.DimGray;
 
         //Pixel multipilers
@@ -325,9 +325,9 @@ namespace inSSIDer.UI.Controls
 
             //sfAmp.LineAlignment = StringAlignment.Center;
 
+            brush.Color = ColorFactory.AxisColor;
             while (labelAmplitude < maxAmpToLabel)
             {
-                brush.Color = SignalColor.GetColor(labelAmplitude);
                 // amplitude label
                 y = TopMargin + _graphHeight - ((labelAmplitude - MinAmplitude) * _pixelsPerDbm);
                 graphics.DrawString(labelAmplitude.ToString(), Font, brush, LeftMargin - 5, y - 7,sfAmp);
@@ -345,7 +345,6 @@ namespace inSSIDer.UI.Controls
                 labelAmplitude += _amplitudeLabelSpacing;
             }
 
-            brush.Color = SignalColor.GetColor(-100);
 
             //Draw floor label and tick
             y = DbToY((int) MinAmplitude);

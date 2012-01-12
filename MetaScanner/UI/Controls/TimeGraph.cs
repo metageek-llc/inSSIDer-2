@@ -313,10 +313,10 @@ namespace inSSIDer.UI.Controls
 
             StringFormat sfAmp = new StringFormat { Alignment = StringAlignment.Far };
 
+            brush.Color = ColorFactory.AxisColor;
             while (labelAmplitude < maxAmpToLabel)
             {
                 //Get the color
-                brush.Color = SignalColor.GetColor(labelAmplitude);
                 //Left side
                 sfAmp.Alignment = StringAlignment.Far;
                 // amplitude label
@@ -350,7 +350,6 @@ namespace inSSIDer.UI.Controls
                 labelAmplitude += _amplitudeLabelSpacing;
             }
 
-            brush.Color = SignalColor.GetColor(-100);
             //Draw floor label and tick
             y = DbToY((int)MinAmplitude);
             pen.Color = _tickColor;

@@ -34,6 +34,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ForeColor = System.Drawing.Color.DimGray;
             this.Name = "ChannelView";
             this.Size = new System.Drawing.Size(200, 200);
             this.SizeChanged += new System.EventHandler(this.ChannelView_SizeChanged);

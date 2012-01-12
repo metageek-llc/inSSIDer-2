@@ -173,6 +173,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Misc\ColorFactory.cs" />
     <Compile Include="Misc\Settings.cs" />
     <Compile Include="Misc\SignalBars.cs" />
     <Compile Include="Misc\SignalColor.cs" />
