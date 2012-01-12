@@ -92,7 +92,7 @@ namespace inSSIDer.Misc
             //Create the main placemark element
             XmlElement xeMain = document.CreateElement("Placemark");
 
-            string color = KmlWriter.EncryptionColor(wp.Extensions.Privacy);
+            string color = KmlWriter.EncryptionColor(wp.Extensions.Security);
 
             //Visibility is default true
             xeMain.AppendChild(CreateElementWithText(document, "visibility", visible ? "1" : "0"));
@@ -148,7 +148,7 @@ namespace inSSIDer.Misc
             //Create the main placemark element
             XmlElement xeMain = document.CreateElement("Placemark");
 
-            string color = KmlWriter.EncryptionColor(wp.Extensions.Privacy);
+            string color = KmlWriter.EncryptionColor(wp.Extensions.Security);
 
             //Visibility is default true
             xeMain.AppendChild(CreateElementWithText(document, "visibility", visible ? "1" : "0"));

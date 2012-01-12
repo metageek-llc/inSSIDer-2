@@ -110,7 +110,7 @@ namespace inSSIDer.Scanning.Interfaces
                         item.Ssid = ssid;
                         item.Channel = Utilities.ConvertToChannel(entry.BaseEntry.chCenterFrequency);
                         item.NetworkType = Utilities.ConvertToString(entry.BaseEntry.dot11BssType);
-                        item.Privacy = Utilities.CreatePrivacyString(foundNetwork.dot11DefaultAuthAlgorithm,
+                        item.Security = Utilities.CreateSecurityString(foundNetwork.dot11DefaultAuthAlgorithm,
                                                                      foundNetwork.dot11DefaultCipherAlgorithm);
                         item.SignalQuality = foundNetwork.wlanSignalQuality;
 

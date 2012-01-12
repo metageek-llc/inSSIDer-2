@@ -84,7 +84,7 @@ namespace inSSIDer.FileIO
             outpoint.Extensions.Ssid = XmlHelper.CleanString(data.Ssid);
             outpoint.Extensions.Rssi = data.Rssi;
             outpoint.Extensions.Channel = data.Channel;
-            outpoint.Extensions.Privacy = data.Privacy;
+            outpoint.Extensions.Security = data.Security;
             outpoint.Extensions.SignalQuality = data.SignalQuality;
             outpoint.Extensions.NetworkType = data.NetworkType;
             outpoint.Extensions.Rates = data.SupportedRates;
@@ -207,8 +207,8 @@ namespace inSSIDer.FileIO
                                                 wp.Extensions.Channel = Convert.ToUInt32(xtr.ReadString());
                                                 xtr.Read();
                                                 break;
-                                            case "privacy":
-                                                wp.Extensions.Privacy = xtr.ReadString();
+                                            case "security":
+                                                wp.Extensions.Security = xtr.ReadString();
                                                 xtr.Read();
                                                 break;
                                             case "signalQuality":
@@ -394,9 +394,9 @@ namespace inSSIDer.FileIO
                         xtw.WriteString(wp.Extensions.Channel.ToString());
                         xtw.WriteEndElement();
 
-                        //Privacy
-                        xtw.WriteStartElement("privacy");
-                        xtw.WriteString(wp.Extensions.Privacy);
+                        //Security
+                        xtw.WriteStartElement("security");
+                        xtw.WriteString(wp.Extensions.Security);
                         xtw.WriteEndElement();
 
                         //Signal Quality
@@ -557,8 +557,8 @@ namespace inSSIDer.FileIO
                                             wp.Extensions.Channel = Convert.ToUInt32(xtr.ReadString());
                                             xtr.Read();
                                             break;
-                                        case "privacy":
-                                            wp.Extensions.Privacy = xtr.ReadString();
+                                        case "security":
+                                            wp.Extensions.Security = xtr.ReadString();
                                             xtr.Read();
                                             break;
                                         case "signalQuality":
@@ -664,7 +664,7 @@ namespace inSSIDer.FileIO
         {
             //Generates the description string
             return Extensions.Ssid + " [" + Extensions.MacAddress + "]" + Environment.NewLine
-             + Extensions.Privacy + Environment.NewLine
+             + Extensions.Security + Environment.NewLine
              + Extensions.Rssi + "dBm" +Environment.NewLine
              + "Channel " + Extensions.Channel + Environment.NewLine
              + "GPS" + Environment.NewLine
@@ -685,7 +685,7 @@ namespace inSSIDer.FileIO
             public string Ssid = string.Empty;
             public int Rssi = -100;
             public uint Channel;
-            public string Privacy = string.Empty;
+            public string Security = string.Empty;
             public uint SignalQuality;
             public string NetworkType = string.Empty;
             public string Rates = string.Empty;

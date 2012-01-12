@@ -184,7 +184,7 @@ namespace inSSIDer.UI.Mini
                 rSSIToolStripMenuItem.Checked = scannerGrid.Columns["rssiColumn"].Visible;
                 channelToolStripMenuItem.Checked = scannerGrid.Columns["channelColumn"].Visible;
                 vendorToolStripMenuItem.Checked = scannerGrid.Columns["vendorColumn"].Visible;
-                privacyToolStripMenuItem.Checked = scannerGrid.Columns["privacyColumn"].Visible;
+                securityToolStripMenuItem.Checked = scannerGrid.Columns["securityColumn"].Visible;
                 maxRateToolStripMenuItem.Checked = scannerGrid.Columns["maxrateColumn"].Visible;
                 networkTypeToolStripMenuItem.Checked = scannerGrid.Columns["networktypeColumn"].Visible;
                 firstSeenToolStripMenuItem.Checked = scannerGrid.Columns["firstseenColumn"].Visible;
@@ -273,8 +273,8 @@ namespace inSSIDer.UI.Mini
                 case "vendorToolStripMenuItem":
                     scannerGrid.Columns["vendorColumn"].Visible = vendorToolStripMenuItem.Checked;
                     break;
-                case "privacyToolStripMenuItem":
-                    scannerGrid.Columns["privacyColumn"].Visible = privacyToolStripMenuItem.Checked;
+                case "securityToolStripMenuItem":
+                    scannerGrid.Columns["securityColumn"].Visible = securityToolStripMenuItem.Checked;
                     break;
                 case "maxRateToolStripMenuItem":
                     scannerGrid.Columns["maxrateColumn"].Visible = maxRateToolStripMenuItem.Checked;

@@ -43,7 +43,7 @@
             this.rssiColumn = new inSSIDer.UI.Controls.SparkLineColumn();
             this.channelColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.vendorColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.privacyColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.securityColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.maxrateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.networktypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.firstseenColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -56,7 +56,7 @@
             this.rSSIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.channelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vendorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.privacyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.securityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.maxRateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.networkTypeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.firstSeenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -96,7 +96,7 @@
             this.rssiColumn,
             this.channelColumn,
             this.vendorColumn,
-            this.privacyColumn,
+            this.securityColumn,
             this.maxrateColumn,
             this.networktypeColumn,
             this.firstseenColumn,
@@ -207,14 +207,14 @@
             this.vendorColumn.Name = "vendorColumn";
             this.vendorColumn.ReadOnly = true;
             // 
-            // privacyColumn
+            // securityColumn
             // 
-            this.privacyColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.privacyColumn.FillWeight = 80F;
-            this.privacyColumn.HeaderText = "Privacy";
-            this.privacyColumn.MinimumWidth = 80;
-            this.privacyColumn.Name = "privacyColumn";
-            this.privacyColumn.ReadOnly = true;
+            this.securityColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.securityColumn.FillWeight = 80F;
+            this.securityColumn.HeaderText = "Security";
+            this.securityColumn.MinimumWidth = 80;
+            this.securityColumn.Name = "securityColumn";
+            this.securityColumn.ReadOnly = true;
             // 
             // maxrateColumn
             // 
@@ -277,7 +277,7 @@
             this.rSSIToolStripMenuItem,
             this.channelToolStripMenuItem,
             this.vendorToolStripMenuItem,
-            this.privacyToolStripMenuItem,
+            this.securityToolStripMenuItem,
             this.maxRateToolStripMenuItem,
             this.networkTypeToolStripMenuItem,
             this.firstSeenToolStripMenuItem,
@@ -327,13 +327,13 @@
             this.vendorToolStripMenuItem.Text = "Vendor";
             this.vendorToolStripMenuItem.Click += new System.EventHandler(this.MacAddressToolStripMenuItemClick);
             // 
-            // privacyToolStripMenuItem
+            // securityToolStripMenuItem
             // 
-            this.privacyToolStripMenuItem.CheckOnClick = true;
-            this.privacyToolStripMenuItem.Name = "privacyToolStripMenuItem";
-            this.privacyToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
-            this.privacyToolStripMenuItem.Text = "Privacy";
-            this.privacyToolStripMenuItem.Click += new System.EventHandler(this.MacAddressToolStripMenuItemClick);
+            this.securityToolStripMenuItem.CheckOnClick = true;
+            this.securityToolStripMenuItem.Name = "securityToolStripMenuItem";
+            this.securityToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.securityToolStripMenuItem.Text = "Security";
+            this.securityToolStripMenuItem.Click += new System.EventHandler(this.MacAddressToolStripMenuItemClick);
             // 
             // maxRateToolStripMenuItem
             // 
@@ -405,7 +405,7 @@
         private System.Windows.Forms.ToolStripMenuItem rSSIToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem channelToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem vendorToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem privacyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem securityToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem maxRateToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem networkTypeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem firstSeenToolStripMenuItem;
@@ -419,7 +419,7 @@
         private SparkLineColumn rssiColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn channelColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn vendorColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn privacyColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn securityColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn maxrateColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn networktypeColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn firstseenColumn;

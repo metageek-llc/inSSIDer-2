@@ -74,7 +74,7 @@ namespace inSSIDer.FileIO
                 bData.AddRange(BitConverter.GetBytes(0).Reverse());
 
                 //802.11 capability flags. This just shows if the AP uses WEP and/or is AdHoc
-                if(ap.Privacy.ToLower() != "none")
+                if(ap.Security.ToLower() != "open")
                 {
                     if(ap.NetworkType != "Infrastructure") bData.AddRange(new byte[] { 0x12, 0x00, 0x00, 0x00 });
                     else bData.AddRange(new byte[] { 0x11, 0x00, 0x00, 0x00 });

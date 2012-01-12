@@ -27,10 +27,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Timers;
-using MetaGeek.Filters.Controllers;
 using inSSIDer.FileIO;
 using inSSIDer.Misc;
 using inSSIDer.Properties;
+using MetaGeek.Filters.Controllers;
 using MetaGeek.Gps;
 using MetaGeek.WiFi;
 
@@ -267,7 +267,7 @@ namespace inSSIDer.Scanning
             {
                 NetworkData ndTemp = new NetworkData(DateTime.Now,
                                                      _usedData[i].Mac,
-                                                     "RSNA-CCMP",
+                                                     "WPA2-Enterprise",
                                                      _usedData[i].Ssid,
                                                      _usedData[i].Channel,
                                                      _usedData[i].Rssi,
@@ -291,7 +291,7 @@ namespace inSSIDer.Scanning
         public void InitializeCache(FiltersViewController<AccessPoint> filtersViewController)
         {
             filtersViewController.ItsSsidPropertyString = "Ssid";
-            filtersViewController.ItsPrivacyPropertyString = "Privacy";
+            filtersViewController.ItsPrivacyPropertyString = "Security";
             filtersViewController.ItsChannelPropertyString = "Channel";
             Cache = new NetworkDataCacheN {ItsFilterViewController = filtersViewController};
             Cache.Initialize();

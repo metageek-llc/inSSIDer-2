@@ -238,18 +238,20 @@ namespace inSSIDer.Misc
         /// </summary>
         /// <param name="authentication">authentication used</param>
         /// <param name="encryption">encryption used</param>
-        /// <returns>a string representing the privacy mode</returns>
-        public static string CreatePrivacyString(Wlan.Dot11AuthAlgorithm authentication,
+        /// <returns>a string representing the security mode</returns>
+        public static string CreateSecurityString(Wlan.Dot11AuthAlgorithm authentication,
             Wlan.Dot11CipherAlgorithm encryption)
         {
             String text = authentication + "-" + encryption;
             text = text.Replace("_PSK", "");
             text = text.Replace("IEEE80211_", "");
             text = text.Replace("Open", "");
+            text = text.Replace("WEP40", "WEP");
+            text = text.Replace("WEP104", "WEP");
             text = text.Trim(new[] { '-' });
             if (null == text || text.Equals(String.Empty))
             {
-                text = "None";
+                text = "Open";
             }
             return text;
         }

@@ -475,9 +475,9 @@ namespace inSSIDer.UI.Controls
                                 pen.Width = 4;
                             }
 
-                            switch (ap.Privacy)
+                            switch (ap.Security)
                             {
-                                case "None":
+                                case "Open":
                                     pen.DashStyle = DashStyle.Dot;
                                     break;
 

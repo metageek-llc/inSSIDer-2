@@ -180,8 +180,8 @@ namespace inSSIDer.FileIO
                 ext.AppendChild(_doc.CreateTextNode(ap.Channel.ToString()));
                 ne.AppendChild(ext);
 
-                ext = _doc.CreateElement("privacy");
-                ext.AppendChild(_doc.CreateTextNode(ap.Privacy));
+                ext = _doc.CreateElement("Security");
+                ext.AppendChild(_doc.CreateTextNode(ap.Security));
                 ne.AppendChild(ext);
 
                 ext = _doc.CreateElement("signalQuality");

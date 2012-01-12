@@ -191,9 +191,9 @@ namespace MetaGeek.WiFi
         /// <summary>
         /// The security mode supported by this AP
         /// </summary>
-        public string Privacy
+        public string Security
         {
-            get { return _orignalData.Privacy; }
+            get { return _orignalData.Security; }
         }
 
         /// <summary>
@@ -344,7 +344,7 @@ namespace MetaGeek.WiFi
             {
                 MyNetworkDataCollection.Add(new NetworkData(time,
                                                             MacAddress.Bytes,
-                                                            Privacy,
+                                                            Security,
                                                             Ssid,
                                                             Channel,
                                                             LastData.Rssi,
@@ -392,7 +392,7 @@ namespace MetaGeek.WiFi
                                      : Channel + " + " + (Channel + 4)
                                : Channel.ToString(),
                            Vendor,
-                           Privacy,
+                           Security,
                            MaxRate + (IsN ? " (N)" : ""),
                            NetworkType,
                            FirstSeenTimestamp.ToLongTimeString(),

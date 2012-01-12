@@ -189,7 +189,7 @@ namespace inSSIDer.FileIO
             switch (groupby)
             {
                 case ApOrganization.EncryptionThenChannel:
-                    var grouped = points.GroupBy(wp => wp.Extensions.Privacy).OrderBy(gd => gd.Key);
+                    var grouped = points.GroupBy(wp => wp.Extensions.Security).OrderBy(gd => gd.Key);
 
                     foreach (IGrouping<string, Waypoint> waypoint in grouped)
                     {
@@ -227,7 +227,7 @@ namespace inSSIDer.FileIO
                         //Create folder element
                         xe = XmlHelper.CreateKmlFolderWithName(doc,"Channel " + waypoint.Key);//doc.CreateElement("Folder");
 
-                        var g2 = waypoint.GroupBy(wp => wp.Extensions.Privacy).OrderBy(ch => ch.Key);
+                        var g2 = waypoint.GroupBy(wp => wp.Extensions.Security).OrderBy(ch => ch.Key);
                         foreach (IGrouping<string, Waypoint> grouping in g2)
                         {
                             //Create sub-folder
@@ -264,7 +264,7 @@ namespace inSSIDer.FileIO
             {
                 case ApOrganization.EncryptionThenChannel:
                     //Group APs by encryption
-                    var priGroup = points.GroupBy(wp => wp.Extensions.Privacy).OrderBy(gd => gd.Key);
+                    var priGroup = points.GroupBy(wp => wp.Extensions.Security).OrderBy(gd => gd.Key);
 
                     //Loop through all security groups
                     foreach (IGrouping<string, Waypoint> priWp in priGroup)
@@ -314,7 +314,7 @@ namespace inSSIDer.FileIO
                         XmlElement xePriFolder = XmlHelper.CreateKmlFolderWithName(doc, "Channel " + priWp.Key);
 
                         //Group by Channel
-                        var secGroup = priWp.GroupBy(wp => wp.Extensions.Privacy).OrderBy(gd => gd.Key);
+                        var secGroup = priWp.GroupBy(wp => wp.Extensions.Security).OrderBy(gd => gd.Key);
 
                         //Loop through all channel groups
                         foreach (IGrouping<string, Waypoint> secWp in secGroup)
@@ -364,7 +364,7 @@ namespace inSSIDer.FileIO
                 case 2: //Yellow
                     return "ff00ffff";
                 case 3: //Orange
-                case 4: //WPA-TKIP is orange
+                case 4: //WPA-TKIP -> WPA-Personal is orange
                     return "ff00aaff";
                 case 5: //Red
                     return "ff0000ff";
@@ -379,7 +379,7 @@ namespace inSSIDer.FileIO
                 return 1;
             if (encryption.Contains("WEP"))
                 return 2;
-            if (encryption.Contains("WPA-TKIP"))
+            if (encryption.Contains("WPA-Personal"))
                 return 4;
             if (encryption.Contains("WPA2") || encryption.Contains("RSNA"))
                 return 5;

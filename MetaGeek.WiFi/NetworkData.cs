@@ -38,7 +38,7 @@ namespace MetaGeek.WiFi
 
         private double _maxRate;
         private string _networkType = string.Empty;
-        private string _privacy = string.Empty;
+        private string _security = string.Empty;
         private string _ssid;
         private string _supportedRates;
 
@@ -112,16 +112,16 @@ namespace MetaGeek.WiFi
             get; set;
         }
 
-        public string Privacy
+        public string Security
         {
             get
             {
-                return _privacy;
+                return _security;
             }
             set
             {
                 if (value != null)
-                    _privacy = value;
+                    _security = value;
             }
         }
 
@@ -185,13 +185,13 @@ namespace MetaGeek.WiFi
             MyMacAddress = new MacAddress(macAddress);
         }
 
-        public NetworkData(DateTime timestamp, byte[] macAddress, string privacy, string ssid, uint channel, int rssi, uint signalQuality, string supportedRates, string networkType)
+        public NetworkData(DateTime timestamp, byte[] macAddress, string security, string ssid, uint channel, int rssi, uint signalQuality, string supportedRates, string networkType)
         {
             Rates = new List<double>();
             MyTimestamp = timestamp;
             MyMacAddress = new MacAddress(macAddress);
 
-            Privacy = privacy;
+            Security = security;
             Ssid = ssid;
             Channel = channel;
             Rssi = rssi;
@@ -209,9 +209,9 @@ namespace MetaGeek.WiFi
             Age = 0;
         }
 
-        public NetworkData(DateTime timestamp, byte[] macAddress, string privacy, string ssid, uint channel, int rssi,
+        public NetworkData(DateTime timestamp, byte[] macAddress, string security, string ssid, uint channel, int rssi,
             uint signalQuality, string supportedRates, string networkType, int age)
-            : this(timestamp, macAddress, privacy, ssid, channel, rssi, signalQuality, supportedRates, networkType)
+            : this(timestamp, macAddress, security, ssid, channel, rssi, signalQuality, supportedRates, networkType)
         {
             Age = age;
         }
@@ -225,7 +225,7 @@ namespace MetaGeek.WiFi
             NetworkData data = new NetworkData(MyMacAddress.Bytes)
             {
                 NetworkType = NetworkType,
-                Privacy = Privacy,
+                Security = Security,
                 Rssi = Rssi,
                 SignalQuality = SignalQuality,
                 Ssid = Ssid,
