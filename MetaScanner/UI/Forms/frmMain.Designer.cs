@@ -422,9 +422,9 @@ namespace inSSIDer.UI.Forms
             // 
             this.scannerView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.scannerView.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.scannerView.Location = new System.Drawing.Point(0, 33);
+            this.scannerView.Location = new System.Drawing.Point(0, 94);
             this.scannerView.Name = "scannerView";
-            this.scannerView.Size = new System.Drawing.Size(1008, 212);
+            this.scannerView.Size = new System.Drawing.Size(1008, 151);
             this.scannerView.TabIndex = 0;
             // 
             // filtersView1
@@ -433,8 +433,8 @@ namespace inSSIDer.UI.Forms
             this.filtersView1.Dock = System.Windows.Forms.DockStyle.Top;
             this.filtersView1.Location = new System.Drawing.Point(0, 0);
             this.filtersView1.Name = "filtersView1";
-            this.filtersView1.Padding = new System.Windows.Forms.Padding(3, 3, 0, 3);
-            this.filtersView1.Size = new System.Drawing.Size(1008, 33);
+            this.filtersView1.Padding = new System.Windows.Forms.Padding(3);
+            this.filtersView1.Size = new System.Drawing.Size(1008, 94);
             this.filtersView1.TabIndex = 1;
             // 
             // detailsTabControl
@@ -488,7 +488,7 @@ namespace inSSIDer.UI.Forms
             this.tabTimeGraph.ForeColor = System.Drawing.Color.Lime;
             this.tabTimeGraph.Location = new System.Drawing.Point(4, 29);
             this.tabTimeGraph.Name = "tabTimeGraph";
-            this.tabTimeGraph.Size = new System.Drawing.Size(1000, 230);
+            this.tabTimeGraph.Size = new System.Drawing.Size(1000, 229);
             this.tabTimeGraph.TabIndex = 0;
             this.tabTimeGraph.Text = "Time Graph";
             this.tabTimeGraph.UseVisualStyleBackColor = true;
@@ -504,7 +504,7 @@ namespace inSSIDer.UI.Forms
             this.timeGraph1.Name = "timeGraph1";
             this.timeGraph1.RightMargin = 32;
             this.timeGraph1.ShowSSIDs = true;
-            this.timeGraph1.Size = new System.Drawing.Size(1000, 230);
+            this.timeGraph1.Size = new System.Drawing.Size(1000, 229);
             this.timeGraph1.TabIndex = 0;
             this.timeGraph1.TimeSpan = System.TimeSpan.Parse("00:05:00");
             // 
@@ -515,7 +515,7 @@ namespace inSSIDer.UI.Forms
             this.tab24Chan.ForeColor = System.Drawing.Color.Lime;
             this.tab24Chan.Location = new System.Drawing.Point(4, 29);
             this.tab24Chan.Name = "tab24Chan";
-            this.tab24Chan.Size = new System.Drawing.Size(1000, 230);
+            this.tab24Chan.Size = new System.Drawing.Size(1000, 229);
             this.tab24Chan.TabIndex = 1;
             this.tab24Chan.Text = "2.4 GHz Channels";
             this.tab24Chan.UseVisualStyleBackColor = true;
@@ -531,7 +531,7 @@ namespace inSSIDer.UI.Forms
             this.chanView24.MinFrequency = 2400F;
             this.chanView24.Name = "chanView24";
             this.chanView24.RightMargin = 20;
-            this.chanView24.Size = new System.Drawing.Size(1000, 230);
+            this.chanView24.Size = new System.Drawing.Size(1000, 229);
             this.chanView24.TabIndex = 0;
             // 
             // tab58Chan
@@ -541,7 +541,7 @@ namespace inSSIDer.UI.Forms
             this.tab58Chan.ForeColor = System.Drawing.Color.Lime;
             this.tab58Chan.Location = new System.Drawing.Point(4, 29);
             this.tab58Chan.Name = "tab58Chan";
-            this.tab58Chan.Size = new System.Drawing.Size(1000, 230);
+            this.tab58Chan.Size = new System.Drawing.Size(1000, 229);
             this.tab58Chan.TabIndex = 4;
             this.tab58Chan.Text = "5 GHz Channels";
             this.tab58Chan.UseVisualStyleBackColor = true;
@@ -558,7 +558,7 @@ namespace inSSIDer.UI.Forms
             this.chanView58.MinFrequency = 5150F;
             this.chanView58.Name = "chanView58";
             this.chanView58.RightMargin = 20;
-            this.chanView58.Size = new System.Drawing.Size(1000, 230);
+            this.chanView58.Size = new System.Drawing.Size(1000, 229);
             this.chanView58.TabIndex = 1;
             // 
             // tabGps
@@ -568,7 +568,7 @@ namespace inSSIDer.UI.Forms
             this.tabGps.ForeColor = System.Drawing.Color.Lime;
             this.tabGps.Location = new System.Drawing.Point(4, 29);
             this.tabGps.Name = "tabGps";
-            this.tabGps.Size = new System.Drawing.Size(1000, 230);
+            this.tabGps.Size = new System.Drawing.Size(1000, 229);
             this.tabGps.TabIndex = 3;
             this.tabGps.Text = "GPS";
             this.tabGps.UseVisualStyleBackColor = true;
@@ -580,7 +580,7 @@ namespace inSSIDer.UI.Forms
             this.gpsMon1.ForeColor = System.Drawing.Color.Lime;
             this.gpsMon1.Location = new System.Drawing.Point(0, 0);
             this.gpsMon1.Name = "gpsMon1";
-            this.gpsMon1.Size = new System.Drawing.Size(1000, 230);
+            this.gpsMon1.Size = new System.Drawing.Size(1000, 229);
             this.gpsMon1.TabIndex = 0;
             // 
             // networkInterfaceSelector1
