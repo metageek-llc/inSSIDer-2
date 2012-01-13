@@ -291,8 +291,10 @@ namespace inSSIDer.Scanning
         public void InitializeCache(FiltersViewController<AccessPoint> filtersViewController)
         {
             filtersViewController.ItsSsidPropertyString = "Ssid";
+            filtersViewController.ItsVendorPropertyString = "Vendor";
             filtersViewController.ItsSecurityPropertyString = "Security";
             filtersViewController.ItsChannelPropertyString = "Channel";
+            filtersViewController.ItsNetworkTypePropertyString = "NetworkType";
             Cache = new NetworkDataCacheN {ItsFilterViewController = filtersViewController};
             Cache.Initialize();
         }
