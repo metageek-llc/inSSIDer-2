@@ -422,9 +422,9 @@ namespace inSSIDer.UI.Forms
             // 
             this.scannerView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.scannerView.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.scannerView.Location = new System.Drawing.Point(0, 94);
+            this.scannerView.Location = new System.Drawing.Point(0, 66);
             this.scannerView.Name = "scannerView";
-            this.scannerView.Size = new System.Drawing.Size(1008, 151);
+            this.scannerView.Size = new System.Drawing.Size(1008, 179);
             this.scannerView.TabIndex = 0;
             // 
             // filtersView1
@@ -434,7 +434,7 @@ namespace inSSIDer.UI.Forms
             this.filtersView1.Location = new System.Drawing.Point(0, 0);
             this.filtersView1.Name = "filtersView1";
             this.filtersView1.Padding = new System.Windows.Forms.Padding(3);
-            this.filtersView1.Size = new System.Drawing.Size(1008, 94);
+            this.filtersView1.Size = new System.Drawing.Size(1008, 66);
             this.filtersView1.TabIndex = 1;
             // 
             // detailsTabControl
