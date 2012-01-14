@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# This file contains all of the configuration elements required for a specific project to run under CI
+
+AssemblyInfoPath=MetaScanner/Properties

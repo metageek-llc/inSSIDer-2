@@ -4,3 +4,6 @@
 [submodule "IoctlNdis"]
 	path = IoctlNdis
 	url = git@github.com:metageek-llc/IoctlNdis.git
+[submodule "tools"]
+	path = tools
+	url = git@codebasehq.com:metageek/nutbrown/toolsdir.git
