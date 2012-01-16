@@ -567,8 +567,8 @@ namespace inSSIDer.UI.Controls
                 if (value2.IndexOf(' ') > 0)
                     value2 = value2.Remove(value2.IndexOf(' '));
 
-                if (Convert.ToInt32(value1) > Convert.ToInt32(value2)) { e.SortResult = 1; }
-                else if (Convert.ToInt32(value1) < Convert.ToInt32(value2)) { e.SortResult = -1; }
+                if (Convert.ToSingle(value1) > Convert.ToSingle(value2)) { e.SortResult = 1; }
+                else if (Convert.ToSingle(value1) < Convert.ToSingle(value2)) { e.SortResult = -1; }
                 else { e.SortResult = 0; }
                 e.Handled = true;
             }

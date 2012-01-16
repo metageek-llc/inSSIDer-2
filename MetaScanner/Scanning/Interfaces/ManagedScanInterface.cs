@@ -107,6 +107,13 @@ namespace inSSIDer.Scanning.Interfaces
                         item.IsTypeN = entry.BaseEntry.dot11BssPhyType == Wlan.Dot11PhyType.Ht;
                         int num = Utilities.ComputeRssi(entry.BaseEntry.linkQuality);
                         item.Rssi = (entry.BaseEntry.rssi > num) ? entry.BaseEntry.rssi : num;
+
+                        // tyler's fix
+                        // Sometimes there is an issure where the RSSI will become overly positive
+                        // (e.g. going from -96 to +160), so subtracting 256 will fix it.
+                        if (item.Rssi > 0)
+                            item.Rssi -= 256;
+                                         
                         item.Ssid = ssid;
                         item.Channel = Utilities.ConvertToChannel(entry.BaseEntry.chCenterFrequency);
                         item.NetworkType = Utilities.ConvertToString(entry.BaseEntry.dot11BssType);

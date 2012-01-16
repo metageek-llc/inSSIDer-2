@@ -199,10 +199,7 @@ namespace MetaGeek.WiFi
             SignalQuality = signalQuality;
             try
             {
-                foreach(var rate in supportedRates.Split(new[] { '/' }))
-                {
-                    Rates.Add(Convert.ToDouble(rate, CultureInfo.InvariantCulture));         
-                }
+                Rates = supportedRates.Split(new[] { '/' }).ToList().ConvertAll(d => Convert.ToDouble(d, CultureInfo.InvariantCulture));
             }
             catch (FormatException)
             {
@@ -267,12 +264,12 @@ namespace MetaGeek.WiFi
 
         private string BuildRateString()
         {
-            var builder = new StringBuilder();
+            StringBuilder builder = new StringBuilder();
             string str = "";
             foreach (double num in Rates)
             {
                 builder.Append(str);
-                builder.Append(num.ToString(CultureInfo.InvariantCulture));
+                builder.Append(num);
                 str = "/";
             }
             return builder.ToString();
