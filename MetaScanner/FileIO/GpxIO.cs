@@ -47,17 +47,35 @@ namespace inSSIDer.FileIO
             outpoint.Longitude = gpsData.Longitude;
 
             outpoint.Elevation = gpsData.Altitude;
-            outpoint.Time = string.Format("{0}-{1}-{2}T{3}:{4}:{5}.{6}Z",
-                                          new object[]
-                                              {
-                                                  gpsData.SatelliteTime.Year,
-                                                  gpsData.SatelliteTime.Month.ToString("D2"),
-                                                  gpsData.SatelliteTime.Day.ToString("D2"),
-                                                  gpsData.SatelliteTime.Hour.ToString("D2"),
-                                                  gpsData.SatelliteTime.Minute.ToString("D2"),
-                                                  gpsData.SatelliteTime.Second,
-                                                  gpsData.SatelliteTime.Millisecond
-                                              });
+            if (gpsData.SatelliteTime.Year > 1)
+            {
+                outpoint.Time = string.Format("{0}-{1}-{2}T{3}:{4}:{5}.{6}Z",
+                                              new object[]
+                                                  {
+                                                      gpsData.SatelliteTime.Year,
+                                                      gpsData.SatelliteTime.Month.ToString("D2"),
+                                                      gpsData.SatelliteTime.Day.ToString("D2"),
+                                                      gpsData.SatelliteTime.Hour.ToString("D2"),
+                                                      gpsData.SatelliteTime.Minute.ToString("D2"),
+                                                      gpsData.SatelliteTime.Second,
+                                                      gpsData.SatelliteTime.Millisecond
+                                                  });
+            }
+            else
+            {
+                DateTime now = DateTime.Now.ToUniversalTime();
+                outpoint.Time = string.Format("{0}-{1}-{2}T{3}:{4}:{5}.{6}Z",
+                                              new object[]
+                                                  {
+                                                      now.Year,
+                                                      now.Month.ToString("D2"),
+                                                      now.Day.ToString("D2"),
+                                                      now.Hour.ToString("D2"),
+                                                      now.Minute.ToString("D2"),
+                                                      now.Second,
+                                                      now.Millisecond
+                                                  });
+            };
 
             outpoint.GeoidHeight = gpsData.GeoidSeperation;
             //The SSID must be cleaned
