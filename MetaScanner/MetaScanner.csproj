@@ -152,6 +152,10 @@
     <Reference Include="MetaGeek.Diagnostics">
       <HintPath>..\lib\MetaGeek.Diagnostics.dll</HintPath>
     </Reference>
+    <Reference Include="MetaGeek.Filters, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\MetaGeek.Filters.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -405,10 +409,6 @@
     <None Include="Resources\wifiStop.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MetaGeek.Filters\MetaGeek.Filters.csproj">
-      <Project>{129af630-2e23-46fd-a3f2-a67dc5e9d6ed}</Project>
-      <Name>MetaGeek.Filters</Name>
-    </ProjectReference>
     <ProjectReference Include="..\IoctlNdis\IoctlNdis.csproj">
       <Project>{27BBAED2-FCF5-4A9E-BCFA-DE6D50F4CDBC}</Project>
       <Name>IoctlNdis</Name>
