@@ -16,3 +16,5 @@ tools
 /SetupOutput
 /Package.bat
 /PackagerReadme.txt
+/TestProject/bin
+/TestProject/obj
