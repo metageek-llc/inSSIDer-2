@@ -70,7 +70,7 @@ namespace inSSIDer.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Amplitude [dB].
+        ///   Looks up a localized string similar to Amplitude [dBm].
         /// </summary>
         internal static string AmplitudedBm {
             get {

@@ -22,6 +22,7 @@
 
 
 ////////////////////////////////////////////////////////////////
+using System.Globalization;
 using System.Text;
 using System.Xml;
 
@@ -59,8 +60,8 @@ namespace inSSIDer.Misc
                             break;
                         // all other weird characters change directly to unicode
                         default:
-                            byte[] tempByte = Encoding.Unicode.GetBytes(new char[] { input[j] });
-                            string unicodeValue = System.Convert.ToString(tempByte[0] + (tempByte[1] << 8));
+                            byte[] tempByte = Encoding.Unicode.GetBytes(new[] { input[j] });
+                            string unicodeValue = System.Convert.ToString(tempByte[0] + (tempByte[1] << 8), CultureInfo.InvariantCulture);
                             string output = "&amp;#" + unicodeValue + ";";
                             input = input.Substring(0, j) + output + input.Substring(j + 1);
                             j += output.Length - 1;
@@ -111,7 +112,7 @@ namespace inSSIDer.Misc
             xeIconStyle.AppendChild(xeIcon);
 
             xeIconStyle.AppendChild(CreateElementWithText(document, "color", color));
-            xeIconStyle.AppendChild(CreateElementWithText(document, "scale", KmlWriter.IconScale(wp.Extensions.Rssi).ToString()));
+            xeIconStyle.AppendChild(CreateElementWithText(document, "scale", KmlWriter.IconScale(wp.Extensions.Rssi).ToString(CultureInfo.InvariantCulture)));
 
             //Add element
             xeStyle.AppendChild(xeIconStyle);
@@ -128,7 +129,7 @@ namespace inSSIDer.Misc
             xeMain.AppendChild(xeStyle);
 
             //Add name element
-            xeMain.AppendChild(CreateElementWithText(document, "name", ssidLabel ? wp.Extensions.Ssid + ": " + wp.Extensions.Rssi : wp.Extensions.Rssi.ToString()));
+            xeMain.AppendChild(CreateElementWithText(document, "name", ssidLabel ? wp.Extensions.Ssid + ": " + wp.Extensions.Rssi : wp.Extensions.Rssi.ToString(CultureInfo.InvariantCulture)));
 
             //Add description element
             xeMain.AppendChild(CreateElementWithText(document, "description", wp.BuildKmlDescription()));
@@ -136,8 +137,10 @@ namespace inSSIDer.Misc
             //KML requires Lon,Lat,Alt. It's backwards!
             XmlElement xePoint = document.CreateElement("Point");
             xePoint.AppendChild(CreateElementWithText(document, "coordinates",
-                                                      string.Format("{0},{1},{2}", wp.Longitude, wp.Latitude,
-                                                                    wp.Elevation)));
+                                            string.Format("{0},{1},{2}", 
+                                            wp.Longitude.ToString(CultureInfo.InvariantCulture.NumberFormat),
+                                            wp.Latitude.ToString(CultureInfo.InvariantCulture.NumberFormat),
+                                            wp.Elevation.ToString(CultureInfo.InvariantCulture.NumberFormat))));
             xeMain.AppendChild(xePoint);
 
             return xeMain;
@@ -197,7 +200,7 @@ namespace inSSIDer.Misc
             }
             else if (showLabel)
             {
-                tempName = wp.Extensions.Rssi.ToString();
+                tempName = wp.Extensions.Rssi.ToString(CultureInfo.InvariantCulture);
             }
             else if(ssidLabel)
             {
@@ -212,8 +215,10 @@ namespace inSSIDer.Misc
             //KML requires Lon,Lat,Alt. It's backwards!
             XmlElement xePoint = document.CreateElement("Point");
             xePoint.AppendChild(CreateElementWithText(document, "coordinates",
-                                                      string.Format("{0},{1},{2}", longitude, latitude,
-                                                                    elevation)));
+                                                    string.Format("{0},{1},{2}",
+                                                    longitude.ToString(CultureInfo.InvariantCulture.NumberFormat),
+                                                    latitude.ToString(CultureInfo.InvariantCulture.NumberFormat),
+                                                    elevation.ToString(CultureInfo.InvariantCulture.NumberFormat))));
             xeMain.AppendChild(xePoint);
 
             return xeMain;
