@@ -53,6 +53,7 @@ namespace inSSIDer.Scanning
         private readonly Timer _tNullScan = new Timer(1000);
         private readonly List<NullNetData> _usedData = new List<NullNetData>();
         private IEnumerable<NetworkData> _networkData;
+        public FiltersViewController<AccessPoint> ItsFiltersViewController { get; private set; }
 
         #endregion Fields
 
@@ -99,12 +100,6 @@ namespace inSSIDer.Scanning
             Log.WriteLine("Dispose _ns", "Scanner.Dispose()");
             NetworkScanner.Dispose();
             Log.WriteLine("Null out Cache", "Scanner.Dispose()");
-            Cache.Dispose();
-            Cache = null;
-            Log.WriteLine("Stop GpsControl", "Scanner.Dispose()");
-            GpsControl.Stop();
-            Log.WriteLine("Null out GpsControl", "Scanner.Dispose()");
-            GpsControl = null;
         }
 
         #endregion Dispose
@@ -297,6 +292,7 @@ namespace inSSIDer.Scanning
             filtersViewController.ItsNetworkTypePropertyString = "NetworkType";
             Cache = new NetworkDataCacheN {ItsFilterViewController = filtersViewController};
             Cache.Initialize();
+            ItsFiltersViewController = filtersViewController;
         }
     }
 }

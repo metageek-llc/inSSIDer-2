@@ -263,6 +263,7 @@ namespace inSSIDer
 
             Settings.Default.lastMini = form.GetType() == typeof(FormMini);
 
+            if(scanner.GpsControl != null)
             //GPS enabled setting
             Settings.Default.gpsEnabled = scanner.GpsControl.Enabled;
 

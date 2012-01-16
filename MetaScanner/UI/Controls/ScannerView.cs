@@ -35,7 +35,7 @@ using MetaGeek.WiFi;
 
 namespace inSSIDer.UI.Controls
 {
-    public partial class ScannerView : UserControl
+    public partial class ScannerView : UserControl, IDisposable
     {
         #region Fields
 
@@ -86,7 +86,28 @@ namespace inSSIDer.UI.Controls
         public void SetScanner(ref ScanController scanner)
         {
             _sc = scanner;
+            _sc.ItsFiltersViewController.FiltersUpdatedEvent.ItsEvent +=FiltersUpdatedEvent_ItsEvent;
             _sc.Cache.DataReset += Cache_DataReset;
+        }
+
+        private void FiltersUpdatedEvent_ItsEvent(object sender, EventArgs e)
+        {
+            lock (scannerGrid)
+            {
+                try{
+                    scannerGrid.Rows.Clear();
+                }
+                catch(ArgumentOutOfRangeException)
+                {
+                }
+            }
+        }
+
+        public new void Dispose()
+        {
+            _sc.ItsFiltersViewController.FiltersUpdatedEvent.ItsEvent -=FiltersUpdatedEvent_ItsEvent;
+            _sc.Cache.DataReset -= Cache_DataReset;
+            base.Dispose();
         }
 
         public void UpdateColumnList()
@@ -111,6 +132,7 @@ namespace inSSIDer.UI.Controls
 
         public void UpdateGrid()
         {
+            if (_sc == null) return;
             //if(this.Parent == null) Dispose();
             //return;
             //System.Diagnostics.Debug.WriteLineIf(Parent == null, "Orphaned Large control!");
@@ -129,7 +151,6 @@ namespace inSSIDer.UI.Controls
                 {
                     lock (scannerGrid)
                     {
-                        if (_sc == null) return;
 
                         //Clear non-existent rows
                         CleanRows();

@@ -43,6 +43,7 @@ namespace inSSIDer.Scanning
 
         //This is a list of AccessPointN2 objects
         private readonly Dictionary<MacAddress, AccessPoint> _cache = new Dictionary<MacAddress, AccessPoint>();
+        private bool _refreshColors;
 
         #endregion Fields
 
@@ -98,11 +99,27 @@ namespace inSSIDer.Scanning
 
         private AccessPoint[] GetFilteredNetworkData(IEnumerable<AccessPoint> data)
         {
-            if(_filterHandler == null || !_filterHandler.HasFilters())
-                return data.ToArray();
 
-            var filteredData = _filterHandler.ApplyFilter(data);
-            return filteredData.ToArray();
+            lock(_filterHandler)
+            {
+                if(_filterHandler == null || !_filterHandler.HasFilters())
+                    return data.ToArray();
+
+                var filteredData = _filterHandler.ApplyFilter(data).ToArray();
+                if (filteredData.Length < 1)
+                    return filteredData;
+
+                if(_refreshColors)
+                {
+                    Utilities.ResetColor();
+                    foreach (var accessPoint in filteredData)
+                    {
+                        accessPoint.MyColor = Utilities.GetColor();
+                    }
+                    _refreshColors = false;
+                }
+                return filteredData;
+            }
         }
 
         #endregion Constructors
@@ -189,6 +206,11 @@ namespace inSSIDer.Scanning
 
         private void FiltersViewController_FiltersUpdatedEvent(object sender, EventArgs e)
         {
+            lock(_cache)
+            {
+                _cache.Clear();
+                _refreshColors = true;
+            }
         }
         /// <summary>
         /// Gets an AP by its ID number

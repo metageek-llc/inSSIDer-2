@@ -64,6 +64,8 @@ namespace inSSIDer.UI.Controls
         /// </summary>
         public void ReleaseEvents()
         {
+            if (_scanner.GpsControl == null)
+                return;
             _scanner.GpsControl.GpsStatUpdated -= GpsControl_GpsStatUpdated;
             _scanner.GpsControl.GpsMessage -= GpsControl_GpsMessage;
         }

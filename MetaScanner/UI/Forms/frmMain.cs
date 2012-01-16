@@ -140,6 +140,8 @@ namespace inSSIDer.UI.Forms
             {
                 _scanner.StopScanning();
             }
+            scannerView.Dispose();
+            _scanner.Dispose();
             SettingsMgr.SaveScannerViewSettings(scannerView);
             Settings.Default.formTabIndex = detailsTabControl.SelectedIndex;
 
