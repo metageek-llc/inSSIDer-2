@@ -268,7 +268,10 @@ namespace inSSIDer.UI.Controls
 
             //If the first row gets removed, the next will be selected
             _ignoreSelection = true;
-            rowsToRemove.ForEach(r => scannerGrid.Rows.Remove(r));
+            if(rowsToRemove.Count==scannerGrid.RowCount)
+                scannerGrid.Rows.Clear();
+            else
+                rowsToRemove.ForEach(r => scannerGrid.Rows.Remove(r));
             macs.Clear();
             rowsToRemove.Clear();
         }
