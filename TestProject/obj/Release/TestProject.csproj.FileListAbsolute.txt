@@ -21,3 +21,26 @@ C:\Users\Ashok Gelal\develop\repo\ontrack\inSSIDer-2\TestProject\bin\Release\nun
 C:\Users\Ashok Gelal\develop\repo\ontrack\inSSIDer-2\TestProject\obj\Release\TestProject.csprojResolveAssemblyReference.cache
 C:\Users\Ashok Gelal\develop\repo\ontrack\inSSIDer-2\TestProject\obj\Release\TestProject.dll
 C:\Users\Ashok Gelal\develop\repo\ontrack\inSSIDer-2\TestProject\obj\Release\TestProject.pdb
+C:\cygwin\home\Develop\git\inssider\TestProject\bin\Release\HTML\Content\news.css
+C:\cygwin\home\Develop\git\inssider\TestProject\bin\Release\HTML\Content\news.html
+C:\cygwin\home\Develop\git\inssider\TestProject\bin\Release\TestProject.dll
+C:\cygwin\home\Develop\git\inssider\TestProject\bin\Release\TestProject.pdb
+C:\cygwin\home\Develop\git\inssider\TestProject\bin\Release\FilterFramework.dll
+C:\cygwin\home\Develop\git\inssider\TestProject\bin\Release\inSSIDer.exe
+C:\cygwin\home\Develop\git\inssider\TestProject\bin\Release\log4net.dll
+C:\cygwin\home\Develop\git\inssider\TestProject\bin\Release\ManagedWifi.dll
+C:\cygwin\home\Develop\git\inssider\TestProject\bin\Release\MetaGeek.Diagnostics.dll
+C:\cygwin\home\Develop\git\inssider\TestProject\bin\Release\MetaGeek.Filters.dll
+C:\cygwin\home\Develop\git\inssider\TestProject\bin\Release\MetaGeek.Gps.dll
+C:\cygwin\home\Develop\git\inssider\TestProject\bin\Release\Metageek.IoctlNdis.dll
+C:\cygwin\home\Develop\git\inssider\TestProject\bin\Release\MetaGeek.WiFi.dll
+C:\cygwin\home\Develop\git\inssider\TestProject\bin\Release\PopupControl.dll
+C:\cygwin\home\Develop\git\inssider\TestProject\bin\Release\nunit.framework.dll
+C:\cygwin\home\Develop\git\inssider\TestProject\bin\Release\Metageek.IoctlNdis.pdb
+C:\cygwin\home\Develop\git\inssider\TestProject\bin\Release\MetaGeek.Gps.pdb
+C:\cygwin\home\Develop\git\inssider\TestProject\bin\Release\MetaGeek.WiFi.pdb
+C:\cygwin\home\Develop\git\inssider\TestProject\bin\Release\inSSIDer.pdb
+C:\cygwin\home\Develop\git\inssider\TestProject\bin\Release\nunit.framework.xml
+C:\cygwin\home\Develop\git\inssider\TestProject\obj\Release\ResolveAssemblyReference.cache
+C:\cygwin\home\Develop\git\inssider\TestProject\obj\Release\TestProject.dll
+C:\cygwin\home\Develop\git\inssider\TestProject\obj\Release\TestProject.pdb
