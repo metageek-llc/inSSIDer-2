@@ -25,6 +25,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using ManagedWifi;
@@ -198,7 +199,10 @@ namespace MetaGeek.WiFi
             SignalQuality = signalQuality;
             try
             {
-                Rates = supportedRates.Split(new char[] { '/' }).ToList<string>().ConvertAll<double>(Convert.ToDouble);
+                foreach(var rate in supportedRates.Split(new[] { '/' }))
+                {
+                    Rates.Add(Convert.ToDouble(rate, CultureInfo.InvariantCulture));         
+                }
             }
             catch (FormatException)
             {
@@ -263,12 +267,12 @@ namespace MetaGeek.WiFi
 
         private string BuildRateString()
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
             string str = "";
             foreach (double num in Rates)
             {
                 builder.Append(str);
-                builder.Append(num);
+                builder.Append(num.ToString(CultureInfo.InvariantCulture));
                 str = "/";
             }
             return builder.ToString();
