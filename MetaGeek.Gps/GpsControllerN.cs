@@ -308,7 +308,6 @@ namespace MetaGeek.Gps
             catch (ObjectDisposedException) { }
 
             HasTalked = false;
-            return;
         }
 
         private bool OpenPort()
@@ -321,6 +320,9 @@ namespace MetaGeek.Gps
                                 ReadTimeout = 500
                             };
                 _port.Open();
+                // Some GPSes require this (GPS2Blue)
+               _port.DtrEnable = true;
+               _port.RtsEnable = true;
                 HasTalked = false;
                 return true;
             }
