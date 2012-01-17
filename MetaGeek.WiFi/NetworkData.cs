@@ -152,7 +152,14 @@ namespace MetaGeek.WiFi
             }
             set
             {
-                _ssid = value.Equals("\0") ? "" : value;
+                if(String.IsNullOrEmpty(value) || value.Equals("\0"))
+                {
+                    _ssid = "[Unknown]";
+                }
+                else
+                {
+                    _ssid = value;
+                }
             }
         }
 

@@ -381,6 +381,15 @@ namespace inSSIDer.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to [Unknown].
+        /// </summary>
+        internal static string UnknownSsid {
+            get {
+                return ResourceManager.GetString("UnknownSsid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to VDOP: {0}.
         /// </summary>
         internal static string VDOPPlusValue {

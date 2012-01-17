@@ -184,6 +184,8 @@ namespace inSSIDer.UI.Controls
         private void PaintTabBackground(Graphics graph, int index, GraphicsPath path)
         {
             Rectangle rect = GetTabRect(index);
+            if (rect.Width == 0 || rect.Height == 0)
+                return;
             Brush buttonBrush =
                 new LinearGradientBrush(
                     rect,
