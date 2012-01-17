@@ -187,7 +187,7 @@ namespace inSSIDer.UI.Controls
 
             //recId = new RectangleF(x, Height - BottomMargin, barWidth, BottomMargin);
 
-            g.DrawString("ID:", Font, Brushes.Lime, new RectangleF(0, Height - BottomMargin, LeftMargin, BottomMargin),
+            g.DrawString("ID:", Font, Brushes.White, new RectangleF(0, Height - BottomMargin, LeftMargin, BottomMargin),
                          sfCenter);
 
             for (int i = 0; i < numBars; i++)
@@ -207,12 +207,12 @@ namespace inSSIDer.UI.Controls
                     g.FillRectangle(new SolidBrush(Color.FromArgb(145, Color.Gray)), x, (Height - BottomMargin) - (float)(satTemp.Snr * _pxPerAmp), barWidth, (float)(satTemp.Snr * _pxPerAmp));
                 }
 
-                g.DrawString(satTemp.Snr.ToString("F0"), Font, satTemp.IsUsed ? Brushes.Lime : Brushes.DarkGray, recBar, sfCenter);
+                g.DrawString(satTemp.Snr.ToString("F0"), Font, satTemp.IsUsed ? Brushes.White : Brushes.DarkGray, recBar, sfCenter);
 
                 recId = new RectangleF(x, Height - BottomMargin, barWidth, BottomMargin);
 
                 //Draw ID
-                g.DrawString(satTemp.Id.ToString(), Font, satTemp.IsUsed ? Brushes.Lime : Brushes.DarkGray, recId, sfCenter);
+                g.DrawString(satTemp.Id.ToString(), Font, satTemp.IsUsed ? Brushes.White : Brushes.DarkGray, recId, sfCenter);
 
                 //Tyler: I did this becuase there is no DrawRectangle method that accepts a RectangleF
                 g.DrawRectangles(Pens.DimGray, new[] { recBar });
@@ -240,7 +240,7 @@ namespace inSSIDer.UI.Controls
                 y = Height - BottomMargin - (i * _pxPerAmp);
                 g.DrawLine(Pens.Gray, x, y, x + 4, y);
 
-                g.DrawString(i.ToString(), Font, Brushes.Lime, x - 2, y-6,sfRight);
+                g.DrawString(i.ToString(), Font, Brushes.White, x - 2, y-6,sfRight);
             }
 
             //Draw rotated line and text
@@ -249,7 +249,7 @@ namespace inSSIDer.UI.Controls
             Matrix matrix = new Matrix();
             matrix.RotateAt(270, rotationPoint);
             g.Transform = matrix;
-            g.DrawString("Signal-to-Noise Ratio [dB]"/*Localizer.GetString("AmplitudedBm")*/, Font, Brushes.Lime, 8, y);
+            g.DrawString("Signal-to-Noise Ratio [dB]"/*Localizer.GetString("AmplitudedBm")*/, Font, Brushes.White, 8, y);
             matrix.RotateAt(90, rotationPoint);
             g.Transform = matrix;
 

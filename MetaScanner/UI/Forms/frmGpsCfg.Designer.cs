@@ -102,6 +102,7 @@ namespace inSSIDer.UI.Forms
             // 
             // label4
             // 
+            this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(6, 82);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(66, 21);
@@ -111,6 +112,7 @@ namespace inSSIDer.UI.Forms
             // 
             // label7
             // 
+            this.label7.ForeColor = System.Drawing.Color.White;
             this.label7.Location = new System.Drawing.Point(169, 82);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(53, 21);
@@ -120,6 +122,7 @@ namespace inSSIDer.UI.Forms
             // 
             // label6
             // 
+            this.label6.ForeColor = System.Drawing.Color.White;
             this.label6.Location = new System.Drawing.Point(166, 55);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(56, 21);
@@ -129,6 +132,7 @@ namespace inSSIDer.UI.Forms
             // 
             // label5
             // 
+            this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Location = new System.Drawing.Point(16, 55);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(56, 21);
@@ -195,8 +199,8 @@ namespace inSSIDer.UI.Forms
             // 
             // pSpacer
             // 
-            this.pSpacer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pSpacer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pSpacer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pSpacer.Location = new System.Drawing.Point(6, 48);
             this.pSpacer.Name = "pSpacer";
@@ -240,6 +244,7 @@ namespace inSSIDer.UI.Forms
             // 
             // label3
             // 
+            this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Location = new System.Drawing.Point(166, 24);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(56, 20);
@@ -250,6 +255,7 @@ namespace inSSIDer.UI.Forms
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(14, 26);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(58, 13);
@@ -259,6 +265,7 @@ namespace inSSIDer.UI.Forms
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(6, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(119, 13);
@@ -274,7 +281,7 @@ namespace inSSIDer.UI.Forms
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.gbSerialPort);
-            this.ForeColor = System.Drawing.Color.Lime;
+            this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;

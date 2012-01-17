@@ -45,6 +45,7 @@
             // lblLat
             // 
             this.lblLat.AutoSize = true;
+            this.lblLat.ForeColor = System.Drawing.Color.White;
             this.lblLat.Location = new System.Drawing.Point(33, 28);
             this.lblLat.Name = "lblLat";
             this.lblLat.Size = new System.Drawing.Size(48, 13);
@@ -55,6 +56,7 @@
             // lblLon
             // 
             this.lblLon.AutoSize = true;
+            this.lblLon.ForeColor = System.Drawing.Color.White;
             this.lblLon.Location = new System.Drawing.Point(24, 41);
             this.lblLon.Name = "lblLon";
             this.lblLon.Size = new System.Drawing.Size(57, 13);
@@ -65,6 +67,7 @@
             // lblSpeed
             // 
             this.lblSpeed.AutoSize = true;
+            this.lblSpeed.ForeColor = System.Drawing.Color.White;
             this.lblSpeed.Location = new System.Drawing.Point(6, 54);
             this.lblSpeed.Name = "lblSpeed";
             this.lblSpeed.Size = new System.Drawing.Size(75, 13);
@@ -75,6 +78,7 @@
             // lblAlt
             // 
             this.lblAlt.AutoSize = true;
+            this.lblAlt.ForeColor = System.Drawing.Color.White;
             this.lblAlt.Location = new System.Drawing.Point(36, 67);
             this.lblAlt.Name = "lblAlt";
             this.lblAlt.Size = new System.Drawing.Size(45, 13);
@@ -85,6 +89,7 @@
             // lblPdop
             // 
             this.lblPdop.AutoSize = true;
+            this.lblPdop.ForeColor = System.Drawing.Color.White;
             this.lblPdop.Location = new System.Drawing.Point(41, 80);
             this.lblPdop.Name = "lblPdop";
             this.lblPdop.Size = new System.Drawing.Size(40, 13);
@@ -95,6 +100,7 @@
             // lblHdop
             // 
             this.lblHdop.AutoSize = true;
+            this.lblHdop.ForeColor = System.Drawing.Color.White;
             this.lblHdop.Location = new System.Drawing.Point(40, 93);
             this.lblHdop.Name = "lblHdop";
             this.lblHdop.Size = new System.Drawing.Size(41, 13);
@@ -105,6 +111,7 @@
             // lblVdop
             // 
             this.lblVdop.AutoSize = true;
+            this.lblVdop.ForeColor = System.Drawing.Color.White;
             this.lblVdop.Location = new System.Drawing.Point(41, 106);
             this.lblVdop.Name = "lblVdop";
             this.lblVdop.Size = new System.Drawing.Size(40, 13);
@@ -115,6 +122,7 @@
             // lblFixType
             // 
             this.lblFixType.AutoSize = true;
+            this.lblFixType.ForeColor = System.Drawing.Color.White;
             this.lblFixType.Location = new System.Drawing.Point(31, 119);
             this.lblFixType.Name = "lblFixType";
             this.lblFixType.Size = new System.Drawing.Size(50, 13);
@@ -125,6 +133,7 @@
             // lblPortName
             // 
             this.lblPortName.AutoSize = true;
+            this.lblPortName.ForeColor = System.Drawing.Color.White;
             this.lblPortName.Location = new System.Drawing.Point(5, 5);
             this.lblPortName.Margin = new System.Windows.Forms.Padding(5);
             this.lblPortName.Name = "lblPortName";
@@ -147,6 +156,7 @@
             // lblSatCount
             // 
             this.lblSatCount.AutoSize = true;
+            this.lblSatCount.ForeColor = System.Drawing.Color.White;
             this.lblSatCount.Location = new System.Drawing.Point(0, 132);
             this.lblSatCount.Name = "lblSatCount";
             this.lblSatCount.Size = new System.Drawing.Size(81, 13);
@@ -156,10 +166,10 @@
             // 
             // gpsGraph1
             // 
-            this.gpsGraph1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.gpsGraph1.BottomMargin = 30;
+            this.gpsGraph1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gpsGraph1.ForeColor = System.Drawing.Color.White;
             this.gpsGraph1.Location = new System.Drawing.Point(192, 0);
             this.gpsGraph1.Name = "gpsGraph1";
             this.gpsGraph1.Size = new System.Drawing.Size(608, 196);
