@@ -121,9 +121,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="oui.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\IoctlNdis\IoctlNdis.csproj">
       <Project>{27BBAED2-FCF5-4A9E-BCFA-DE6D50F4CDBC}</Project>
       <Name>IoctlNdis</Name>
@@ -153,6 +150,11 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="oui.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
