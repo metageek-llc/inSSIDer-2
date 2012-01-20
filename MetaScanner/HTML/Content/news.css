@@ -1,87 +1,54 @@
-/* CSS Document */ 
-body  
-{
-    background-color: #000; 
-    color: #bbb; 
-    font-family: "tahoma","sans-serif"; 
-    margin-top: 5px; 
-    margin-bottom: 0px; 
-    
-    border: none;
-    padding: 0;
-}
+/* CSS for inSSIDer 2 */ 
 
-.page { width:725px; margin-left:auto; margin-right:auto; }
+body  { background-color: #000; color: #bbb; font-family: "Tahoma", "Helvetica", "Arial", "sans-serif"; margin-top: 5px; margin-bottom: 5px; border: none; }
 
-a:link {color: #2CB22C; } a:visited { color: #bbb; } a:hover { color: #e6e6e6}
+.page  { width: 725px; margin-left: auto; margin-right: auto; }
 
-img { border-style: none; }
+p  { font-family: "Tahoma", "Helvetica", "Arial", "sans-serif"; font-size: 90%; margin: 15px auto 15px auto; letter-spacing: 0.7px; }
 
-.navbar p { color: #e6e6e6; text-align:center; font-size:80%; margin-bottom: 
-10px; }
+a:link  {color: #ff8933; text-decoration: none; } 
 
-.navbar a:link { color: gray; }
+a:visited  { color: #ff8933; text-decoration: none; } 
 
-.navbar a:visited { color: gray; }
+a:hover  { color: #24aae7; text-decoration: none; }
 
-.navbar a:hover { color: #F02801; }
+img  { border-style: none; }
 
-h2 { margin: 5px auto 5px auto; text-align:center; }
+.navbar p  { color: #e6e6e6; text-align: center; font-size: 80%; margin-bottom: 10px; }
 
-h2 a:link { color: #e6e6e6; }
+.navbar a:link  { color: gray; }
 
-h2 a:visited { color: #e6e6e6; }
+.navbar a:visited  { color: gray; }
 
-h2 a:hover { color: #F02801; }
+.navbar a:hover  { color: #ff8933; }
 
-ul { margin-top: 5px; }
+h1  { color: #ffffff; font-size: 100%; font-weight: normal; margin: 10px auto 10px auto; letter-spacing: 0.7px; }
 
-p { margin: 6px auto 0px auto; }
+h2  { color: #ffffff; font-size: 90%; margin: 10px auto 10px auto; text-align: left; text-transform: uppercase; letter-spacing: 2px; }
 
-.downlearn div { margin-top: 10px; float:left; padding-left:25px; }
+h2 a:link  { color: #ff8933; }
 
-.downlearn a img { border: none; }
+h2 a:visited  { color: #ff8933; }
 
-.description  
-{
-    height:230px; 
-    margin-bottom:5px; 
-    margin-left:20px; 
-    overflow:hidden; 
-    font-size:0.875em;
-    } 
+h2 a:hover  { color: #ff8933; }
 
-.description .left  
-{
-    float:left; 
-    margin-right: 20px; 
-} 
+ul  { margin-top: 5px; }
 
-.description ul { list-style:None; }
+li  { margin-top: 10px; }
 
-.items h1 
-{ 
-    font-size: medium; 
-    border: 1px #555 solid;
-    border-width: 1px /*0 0 1px*/;
-    padding: 4px;
-    background-color: #222;    
-    font-weight: bold;
-    margin-top: 1em;
-}
+.downlearn div  { margin-top: 10px; float: left; padding-left: 25px; }
+
+.downlearn a img  { border: none; }
+
+.description  { height: 230px; margin-bottom: 5px; margin-left: 20px; overflow: hidden; } 
+
+.description .left  { float: left; margin-right: 20px; } 
+
+.description ul  { list-style: None; }
+
+.items h1  { border: 1px #555 solid; border-width: 1px /*0 0 1px*/; padding: 4px 0 4px 7px; background-color: #323232; margin-top: .5em; vertical-align: middle; }
   
-.post-description {
-    margin-left: 20px;
-}
+.post-description  { font-size: 80%; letter-spacing: 0.4px; margin-left: 20px; margin-bottom: 20px; }
 
-#products { width: 625px; margin-left: auto; margin-right: auto; }
-
-#products div { float:left; width:125px; text-align:center; height:132px; }
-
-#products a img { border: solid #808080 2px; } 
-#products a.current img { border: solid #F02801 2px; } 
-#products a:hover img { border: solid #e6e6e6 2px; }
-
-
-img.arrows { margin-left: 20px; margin-right: 20px;}
+img.arrows  { margin-left: 20px; margin-right: 20px; }
 
