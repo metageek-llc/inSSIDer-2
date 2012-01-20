@@ -143,8 +143,7 @@
     <Reference Include="MetaGeek.Diagnostics">
       <HintPath>..\lib\MetaGeek.Diagnostics.dll</HintPath>
     </Reference>
-    <Reference Include="MetaGeek.Filters, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="MetaGeek.Filters">
       <HintPath>..\lib\MetaGeek.Filters.dll</HintPath>
     </Reference>
     <Reference Include="System" />
