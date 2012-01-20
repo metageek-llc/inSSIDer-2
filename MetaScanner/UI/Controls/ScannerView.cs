@@ -96,7 +96,7 @@ namespace inSSIDer.UI.Controls
             lock (scannerGrid)
             {
                 try{
-                    scannerGrid.Rows.Clear();
+                    scannerGrid.Rows.Clear();                    // all rows are cleared; all the rows will be checked so enable the SelectAll checkbox                    selectAllNetworksCheckBox.CheckState = CheckState.Checked;
                 }
                 catch(ArgumentOutOfRangeException)
                 {
