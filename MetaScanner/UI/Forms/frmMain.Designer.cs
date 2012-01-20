@@ -70,7 +70,7 @@ namespace inSSIDer.UI.Forms
             this.loggingToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.gripContainer1 = new inSSIDer.UI.Controls.GripSplitContainer();
             this.scannerView = new inSSIDer.UI.Controls.ScannerView();
-            this.filtersView1 = new MetaGeek.Filters.Views.FiltersView();
+            this.filtersView = new MetaGeek.Filters.Views.FiltersView();
             this.detailsTabControl = new inSSIDer.UI.Controls.CustomTabControl();
             this.tabNews = new System.Windows.Forms.TabPage();
             this.htmlControl = new inSSIDer.HTML.HtmlControl();
@@ -407,7 +407,8 @@ namespace inSSIDer.UI.Forms
             // gripContainer1.Panel1
             // 
             this.gripContainer1.Panel1.Controls.Add(this.scannerView);
-            this.gripContainer1.Panel1.Controls.Add(this.filtersView1);
+            this.gripContainer1.Panel1.Controls.Add(this.filtersView);
+            this.gripContainer1.Panel1MinSize = 69;
             // 
             // gripContainer1.Panel2
             // 
@@ -427,15 +428,16 @@ namespace inSSIDer.UI.Forms
             this.scannerView.Size = new System.Drawing.Size(1008, 179);
             this.scannerView.TabIndex = 0;
             // 
-            // filtersView1
+            // filtersView
             // 
-            this.filtersView1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.filtersView1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.filtersView1.Location = new System.Drawing.Point(0, 0);
-            this.filtersView1.Name = "filtersView1";
-            this.filtersView1.Padding = new System.Windows.Forms.Padding(3);
-            this.filtersView1.Size = new System.Drawing.Size(1008, 66);
-            this.filtersView1.TabIndex = 1;
+            this.filtersView.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.filtersView.Dock = System.Windows.Forms.DockStyle.Top;
+            this.filtersView.Location = new System.Drawing.Point(0, 0);
+            this.filtersView.MaximumSize = new System.Drawing.Size(0, 66);
+            this.filtersView.Name = "filtersView";
+            this.filtersView.Padding = new System.Windows.Forms.Padding(3);
+            this.filtersView.Size = new System.Drawing.Size(1008, 66);
+            this.filtersView.TabIndex = 1;
             // 
             // detailsTabControl
             // 
@@ -672,7 +674,7 @@ namespace inSSIDer.UI.Forms
         private System.Windows.Forms.ToolStripMenuItem startNullScanningToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stopNullScanningToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel apCountLabel;
-        private MetaGeek.Filters.Views.FiltersView filtersView1;
+        private MetaGeek.Filters.Views.FiltersView filtersView;
         private System.Windows.Forms.TabPage tabNews;
         private HtmlControl htmlControl;
         private System.Windows.Forms.TabPage tabTimeGraph;

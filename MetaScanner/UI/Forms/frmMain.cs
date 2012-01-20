@@ -88,7 +88,7 @@ namespace inSSIDer.UI.Forms
             }
 
             InitializeComponent();
-            var filtersViewController = new FiltersViewController<AccessPoint>(filtersView1);
+            var filtersViewController = new FiltersViewController<AccessPoint>(filtersView);
             _scanner = scanner;
             _scanner.InitializeCache(filtersViewController);
             ToolStripManager.Renderer = new GrayToolStripRenderer();
