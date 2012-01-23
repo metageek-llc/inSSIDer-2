@@ -93,17 +93,20 @@ namespace inSSIDer.Scanning.Interfaces
                     {
 
                         NetworkData item = new NetworkData(entry.BaseEntry.dot11Bssid);
-
-                        Utilities.ConvertToMbs(entry.BaseEntry.wlanRateSet.Rates, item.Rates);
-                        if (entry.NSettings != null)
+                        item.IsTypeN = (entry.BaseEntry.dot11BssPhyType == Wlan.Dot11PhyType.Ht);
+                        if (item.IsTypeN && entry.IEs != null && entry.IEs.Length > 0)
                         {
-                            item.NSettings = new IeParser.TypeNSettings(entry.NSettings);
+                            item.NSettings = IeParser.Parse(entry.IEs);
+                            if (item.NSettings == null)
+                                return null;
 
                             //Add the extended 802.11N rates
                             item.Rates.AddRange(item.NSettings.Rates.Where(f => !item.Rates.Contains(f)));
                             item.Rates.Sort();
                         }
 
+                        Utilities.ConvertToMbs(entry.BaseEntry.wlanRateSet.Rates, item.Rates);
+                        
                         item.IsTypeN = entry.BaseEntry.dot11BssPhyType == Wlan.Dot11PhyType.Ht;
                         int num = Utilities.ComputeRssi(entry.BaseEntry.linkQuality);
                         item.Rssi = (entry.BaseEntry.rssi > num) ? entry.BaseEntry.rssi : num;

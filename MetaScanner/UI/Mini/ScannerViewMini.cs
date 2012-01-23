@@ -123,7 +123,7 @@ namespace inSSIDer.UI.Mini
                                 newrow.Cells["ageColumn"].Value = ap.Age + " sec";
 
                                 //Check for indeterminate state of checkbox
-                                if(_selectAllNetworksCheckBox.CheckState == CheckState.Indeterminate)
+                                if (_selectAllNetworksCheckBox.CheckState == CheckState.Indeterminate)
                                 {
                                     //If at least one AP is unchecked, don't check this one
                                     newrow.Cells["checkColumn"].Value = false;
@@ -139,7 +139,7 @@ namespace inSSIDer.UI.Mini
                                 //It is possible that the SSID of the AP has changed
                                 row.Cells["ssidColumn"].Value = ap.Ssid;
 
-                                row.Cells["maxrateColumn"].Value = ap.MaxRate + (ap.IsN ? " (N)" : "");
+                                row.Cells["maxrateColumn"].Value = ap.MaxRate;
 
                                 //Update the channel
                                 row.Cells["channelColumn"].Value = ap.IsN && ap.NSettings != null &&
@@ -162,7 +162,7 @@ namespace inSSIDer.UI.Mini
                         }
                     }
                 }
-                catch(Exception)
+                catch (Exception)
                 {
 
                 }
@@ -230,7 +230,7 @@ namespace inSSIDer.UI.Mini
             List<DataGridViewRow> rowsToRemove = new List<DataGridViewRow>();
 
             foreach (DataGridViewRow row in scannerGrid.Rows)
-                if(!macs.Contains(row.Cells["macColumn"].Value.ToString().ToUpper()))
+                if (!macs.Contains(row.Cells["macColumn"].Value.ToString().ToUpper()))
                     rowsToRemove.Add(row);
 
             //If the first row gets removed, the next will be selected
@@ -254,7 +254,7 @@ namespace inSSIDer.UI.Mini
 
         private void MacAddressToolStripMenuItemClick(object sender, EventArgs e)
         {
-            if(sender as ToolStripMenuItem == null || scannerGrid == null) return;
+            if (sender as ToolStripMenuItem == null || scannerGrid == null) return;
 
             switch ((sender as ToolStripMenuItem).Name)
             {
@@ -301,7 +301,7 @@ namespace inSSIDer.UI.Mini
 
         private void OnRequireRefresh()
         {
-            if(RequireRefresh != null)
+            if (RequireRefresh != null)
             {
                 RequireRefresh(this, EventArgs.Empty);
             }
@@ -309,7 +309,7 @@ namespace inSSIDer.UI.Mini
 
         private void ScannerGridColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if(e.Button == MouseButtons.Right)
+            if (e.Button == MouseButtons.Right)
             {
                 UpdateColumnList();
                 cmsColumns.Show(Cursor.Position);
@@ -333,16 +333,16 @@ namespace inSSIDer.UI.Mini
             //    return;
             //}
 
-            switch(e.ColumnIndex)
+            switch (e.ColumnIndex)
             {
                 case 1:
-                    if(e.Button == MouseButtons.Left)
+                    if (e.Button == MouseButtons.Left)
                     {
                         //if((int) scannerView.Rows[e.RowIndex].Cells["idColumn"].Value > 20)
                         //    Console.WriteLine("Hi");
                         AccessPoint ap =
                             _sc.Cache.GetAccessPointByMacAddress(scannerGrid.Rows[e.RowIndex].Cells["macColumn"].Value.ToString());
-                        if(ap == null) break;
+                        if (ap == null) break;
                         ap.Graph = !ap.Graph;
 
                         scannerGrid.Rows[e.RowIndex].Cells["checkColumn"].Value = ap.Graph;
@@ -353,7 +353,7 @@ namespace inSSIDer.UI.Mini
             //Console.WriteLine(scannerView.Rows[e.RowIndex].Cells["checkColumn"].Value);
 
             //Console.WriteLine(scannerView.Rows[e.RowIndex].Selected);
-            if(scannerGrid.Rows[e.RowIndex].Selected && _selectedRow != e.RowIndex)
+            if (scannerGrid.Rows[e.RowIndex].Selected && _selectedRow != e.RowIndex)
             {
                 _selectedRow = e.RowIndex;
             }
@@ -410,7 +410,7 @@ namespace inSSIDer.UI.Mini
         private void ScannerViewSelectionChanged(object sender, EventArgs e)
         {
             //if(scannerView.SelectedRows.Count > 0) Console.WriteLine(scannerView.SelectedRows[0]);
-            if(_ignoreSelection)
+            if (_ignoreSelection)
             {
                 //scannerView.SelectedRows.Clear();
                 foreach (DataGridViewRow row in scannerGrid.Rows)
@@ -422,12 +422,12 @@ namespace inSSIDer.UI.Mini
 
             foreach (DataGridViewRow row in scannerGrid.Rows)
             {
-            //    if(row.Selected)
-            //    {
-            //        _sc.Cache.GetAccessPointByMacAddress(row.Cells["macColumn"].Value.ToString()).Highlight = true;
-            //    }
-                AccessPoint apTemp = _sc.Cache.GetAccessPointById((long) row.Cells["idColumn"].Value);
-                if(apTemp == null) continue;
+                //    if(row.Selected)
+                //    {
+                //        _sc.Cache.GetAccessPointByMacAddress(row.Cells["macColumn"].Value.ToString()).Highlight = true;
+                //    }
+                AccessPoint apTemp = _sc.Cache.GetAccessPointById((long)row.Cells["idColumn"].Value);
+                if (apTemp == null) continue;
 
                 apTemp.Highlight = row.Selected;
             }
@@ -442,7 +442,7 @@ namespace inSSIDer.UI.Mini
             {
                 //Remove anything after a space
                 string value1 = e.CellValue1.ToString();
-                if(value1.IndexOf(' ') > 0)
+                if (value1.IndexOf(' ') > 0)
                     value1 = value1.Remove(value1.IndexOf(' '));
 
                 string value2 = e.CellValue2.ToString();
@@ -482,7 +482,7 @@ namespace inSSIDer.UI.Mini
         private void ScannerViewVisibleChanged(object sender, EventArgs e)
         {
             if (!scannerGrid.Visible) return;
-            if(_selectAllNetworksCheckBox == null)
+            if (_selectAllNetworksCheckBox == null)
             {
                 _selectAllNetworksCheckBox = new CheckBox
                                                 {

@@ -98,7 +98,7 @@ namespace inSSIDer.UI.Controls
 
         public void UpdateColumnList()
         {
-            if(scannerGrid != null)
+            if (scannerGrid != null)
             {
                 mACAddressToolStripMenuItem.Checked = scannerGrid.Columns["macColumn"].Visible;
                 sSIDToolStripMenuItem.Checked = scannerGrid.Columns["ssidColumn"].Visible;
@@ -177,7 +177,7 @@ namespace inSSIDer.UI.Controls
                                 //It is possible that the SSID of the AP has changed
                                 row.Cells["ssidColumn"].Value = ap.Ssid;
 
-                                row.Cells["maxrateColumn"].Value = ap.MaxRate + (ap.IsN ? " (N)" : "");
+                                row.Cells["maxrateColumn"].Value = ap.MaxRate;
 
                                 //Update the channel
                                 row.Cells["channelColumn"].Value = ap.IsN && ap.NSettings != null &&
@@ -268,12 +268,12 @@ namespace inSSIDer.UI.Controls
             var rowsToRemove = new List<DataGridViewRow>();
 
             foreach (DataGridViewRow row in scannerGrid.Rows)
-                if(!macs.Contains(row.Cells["macColumn"].Value.ToString().ToUpper()))
+                if (!macs.Contains(row.Cells["macColumn"].Value.ToString().ToUpper()))
                     rowsToRemove.Add(row);
 
             //If the first row gets removed, the next will be selected
             _ignoreSelection = true;
-            if(rowsToRemove.Count==scannerGrid.RowCount)
+            if (rowsToRemove.Count == scannerGrid.RowCount)
                 scannerGrid.Rows.Clear();
             else
                 rowsToRemove.ForEach(r => scannerGrid.Rows.Remove(r));
@@ -295,7 +295,7 @@ namespace inSSIDer.UI.Controls
 
         private void MacAddressToolStripMenuItemClick(object sender, EventArgs e)
         {
-            if(sender as ToolStripMenuItem == null || scannerGrid == null) return;
+            if (sender as ToolStripMenuItem == null || scannerGrid == null) return;
 
             switch ((sender as ToolStripMenuItem).Name)
             {
@@ -340,7 +340,7 @@ namespace inSSIDer.UI.Controls
 
         private void OnRequireRefresh()
         {
-            if(RequireRefresh != null)
+            if (RequireRefresh != null)
             {
                 RequireRefresh(this, EventArgs.Empty);
             }
@@ -348,7 +348,7 @@ namespace inSSIDer.UI.Controls
 
         private void ScannerGridColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if(e.Button == MouseButtons.Right)
+            if (e.Button == MouseButtons.Right)
             {
                 UpdateColumnList();
                 cmsColumns.Show(Cursor.Position);
@@ -377,7 +377,7 @@ namespace inSSIDer.UI.Controls
         private void ScannerViewVisibleChanged(object sender, EventArgs e)
         {
             if (!scannerGrid.Visible) return;
-            if(selectAllNetworksCheckBox == null)
+            if (selectAllNetworksCheckBox == null)
             {
                 selectAllNetworksCheckBox = new CheckBox
                                                 {
@@ -417,16 +417,16 @@ namespace inSSIDer.UI.Controls
             //    return;
             //}
 
-            switch(e.ColumnIndex)
+            switch (e.ColumnIndex)
             {
                 case 1:
-                    if(e.Button == MouseButtons.Left)
+                    if (e.Button == MouseButtons.Left)
                     {
                         //if((int) scannerView.Rows[e.RowIndex].Cells["idColumn"].Value > 20)
                         //    Console.WriteLine("Hi");
                         AccessPoint ap =
                             _sc.Cache.GetAccessPointByMacAddress(scannerGrid.Rows[e.RowIndex].Cells["macColumn"].Value.ToString());
-                        if(ap == null) break;
+                        if (ap == null) break;
                         ap.Graph = !ap.Graph;
 
                         scannerGrid.Rows[e.RowIndex].Cells["checkColumn"].Value = ap.Graph;
@@ -437,7 +437,7 @@ namespace inSSIDer.UI.Controls
             //Console.WriteLine(scannerView.Rows[e.RowIndex].Cells["checkColumn"].Value);
 
             //Console.WriteLine(scannerView.Rows[e.RowIndex].Selected);
-            if(scannerGrid.Rows[e.RowIndex].Selected && _selectedRow != e.RowIndex)
+            if (scannerGrid.Rows[e.RowIndex].Selected && _selectedRow != e.RowIndex)
             {
                 _selectedRow = e.RowIndex;
             }
@@ -510,7 +510,7 @@ namespace inSSIDer.UI.Controls
         private void scannerView_SelectionChanged(object sender, EventArgs e)
         {
             //if(scannerView.SelectedRows.Count > 0) Console.WriteLine(scannerView.SelectedRows[0]);
-            if(_ignoreSelection)
+            if (_ignoreSelection)
             {
                 //scannerView.SelectedRows.Clear();
                 foreach (DataGridViewRow row in scannerGrid.Rows)
@@ -522,12 +522,12 @@ namespace inSSIDer.UI.Controls
 
             foreach (DataGridViewRow row in scannerGrid.Rows)
             {
-            //    if(row.Selected)
-            //    {
-            //        _sc.Cache.GetAccessPointByMacAddress(row.Cells["macColumn"].Value.ToString()).Highlight = true;
-            //    }
-                AccessPoint apTemp = _sc.Cache.GetAccessPointById((long) row.Cells["idColumn"].Value);
-                if(apTemp == null) continue;
+                //    if(row.Selected)
+                //    {
+                //        _sc.Cache.GetAccessPointByMacAddress(row.Cells["macColumn"].Value.ToString()).Highlight = true;
+                //    }
+                AccessPoint apTemp = _sc.Cache.GetAccessPointById((long)row.Cells["idColumn"].Value);
+                if (apTemp == null) continue;
 
                 apTemp.Highlight = row.Selected;
             }
@@ -568,7 +568,7 @@ namespace inSSIDer.UI.Controls
                     e.Handled = true;
                 }
             }
-                
+
             //Location sorting, they are doubles, not ints
             else if (e.Column == scannerGrid.Columns["latColumn"] || e.Column == scannerGrid.Columns["lonColumn"])
             {
