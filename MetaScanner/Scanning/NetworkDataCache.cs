@@ -206,11 +206,8 @@ namespace inSSIDer.Scanning
 
         private void FiltersViewController_FiltersUpdatedEvent(object sender, EventArgs e)
         {
-            lock(_cache)
-            {
-                _cache.Clear();
-                _refreshColors = true;
-            }
+            _refreshColors = true;
+            Clear();
         }
         /// <summary>
         /// Gets an AP by its ID number

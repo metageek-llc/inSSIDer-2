@@ -87,26 +87,11 @@ namespace inSSIDer.UI.Controls
         public void SetScanner(ref ScanController scanner)
         {
             _sc = scanner;
-            _sc.ItsFiltersViewController.FiltersUpdatedEvent.ItsEvent +=FiltersUpdatedEvent_ItsEvent;
             _sc.Cache.DataReset += Cache_DataReset;
-        }
-
-        private void FiltersUpdatedEvent_ItsEvent(object sender, EventArgs e)
-        {
-            lock (scannerGrid)
-            {
-                try{
-                    scannerGrid.Rows.Clear();                    // all rows are cleared; all the rows will be checked so enable the SelectAll checkbox                    selectAllNetworksCheckBox.CheckState = CheckState.Checked;
-                }
-                catch(ArgumentOutOfRangeException)
-                {
-                }
-            }
         }
 
         public new void Dispose()
         {
-            _sc.ItsFiltersViewController.FiltersUpdatedEvent.ItsEvent -=FiltersUpdatedEvent_ItsEvent;
             _sc.Cache.DataReset -= Cache_DataReset;
             base.Dispose();
         }
@@ -134,9 +119,6 @@ namespace inSSIDer.UI.Controls
         public void UpdateGrid()
         {
             if (_sc == null) return;
-            //if(this.Parent == null) Dispose();
-            //return;
-            //System.Diagnostics.Debug.WriteLineIf(Parent == null, "Orphaned Large control!");
             if (InvokeRequired)
             {
                 try
@@ -267,6 +249,7 @@ namespace inSSIDer.UI.Controls
                 return;
             }
             scannerGrid.Rows.Clear();
+            selectAllNetworksCheckBox.CheckState = CheckState.Checked;
             _ignoreSelection = true;
         }
 
