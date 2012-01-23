@@ -240,8 +240,12 @@ namespace inSSIDer.Misc
             Wlan.Dot11CipherAlgorithm encryption)
         {
             String text = authentication + "-" + encryption;
-            text = text.Replace("_PSK", "");
+            text = text.Replace("RSNA", "WPA2");
+            text = text.Replace("_PSK-CCMP", "-Personal");
+            text = text.Replace("_PSK-TKIP", "-Personal");
+            text = text.Replace("CCMP", "Enterprise");
             text = text.Replace("IEEE80211_", "");
+            text = text.Replace("None", "");
             text = text.Replace("Open", "");
             text = text.Replace("WEP40", "WEP");
             text = text.Replace("WEP104", "WEP");

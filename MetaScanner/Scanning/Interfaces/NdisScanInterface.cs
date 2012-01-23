@@ -115,7 +115,7 @@ namespace inSSIDer.Scanning.Interfaces
                         str = str.Trim();
                     }
                     item.Ssid = str;
-                    item.Security = Ndis.GetSecurityString(ex);
+                    item.Security = Ndis.GetPrivacyString(ex);
                     item.NetworkType = Utilities.FindValueString(Utilities.InfrastructureText, (int)ex.InfrastructureMode);
 
                     //Check to see if this AP is the connected one

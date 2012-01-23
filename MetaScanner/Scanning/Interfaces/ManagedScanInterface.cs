@@ -109,7 +109,7 @@ namespace inSSIDer.Scanning.Interfaces
                         item.Rssi = (entry.BaseEntry.rssi > num) ? entry.BaseEntry.rssi : num;
 
                         // tyler's fix
-                        // Sometimes there is an issure where the RSSI will become overly positive
+                        // Sometimes there is an issue where the RSSI will become overly positive
                         // (e.g. going from -96 to +160), so subtracting 256 will fix it.
                         if (item.Rssi > 0)
                             item.Rssi -= 256;
