@@ -91,7 +91,7 @@ namespace inSSIDer.UI.Forms
             this.contributorsTextBox.Name = "contributorsTextBox";
             this.contributorsTextBox.ReadOnly = true;
             // 
-            // formAbout
+            // FormAbout
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
