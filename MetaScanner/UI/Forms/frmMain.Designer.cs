@@ -602,7 +602,7 @@ namespace inSSIDer.UI.Forms
             this.MinimumSize = new System.Drawing.Size(700, 500);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "inSSIDer 2.0";
+            this.Text = "inSSIDer 2.1";
             this.LocationChanged += new System.EventHandler(this.FormMainLocationChanged);
             this.SizeChanged += new System.EventHandler(this.FormMainSizeChanged);
             this.mainMenu.ResumeLayout(false);
