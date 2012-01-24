@@ -125,18 +125,19 @@ namespace inSSIDer.Misc
         /// <returns>the WIFI channel at the given frequency</returns>
         public static uint ConvertToChannel(uint frequency)
         {
+            uint retVal = 0;
             // 2.4 GHz
             if ((frequency > 2400000) && (frequency < 2484000))
-                return (frequency - 2407000) / 5000;
+                retVal = (frequency - 2407000) / 5000;
 
             if ((frequency >= 2484000) && (frequency <= 2495000))
-                return 14;
+                retVal = 14;
 
             // 5 GHz
             if ((frequency > 5000000) && (frequency < 5900000))
-                return (frequency - 5000000) / 5000;
-            // Unknown
-            return 0;
+                retVal = (frequency - 5000000) / 5000;
+
+            return retVal;
         }
 
         /// <summary>

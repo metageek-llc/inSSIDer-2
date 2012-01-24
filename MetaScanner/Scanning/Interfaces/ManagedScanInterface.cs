@@ -182,7 +182,7 @@ namespace inSSIDer.Scanning.Interfaces
                 foreach (Wlan.WlanAvailableNetwork network in networks)
                 {
                     string str = Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, (int)network.dot11Ssid.SSIDLength);
-                    if (!string.IsNullOrEmpty(str) && str.Equals(ssid))
+                    if (!string.IsNullOrEmpty(str) && str.Equals(ssid) )
                     {
                         foundNetwork = network;
                         return true;
