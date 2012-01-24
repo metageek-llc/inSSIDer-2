@@ -31,10 +31,11 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             this.scannerGrid = new System.Windows.Forms.DataGridView();
             this.idColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.checkColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -63,6 +64,19 @@
             this.lastSeenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.latitudeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.longitudeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sparkLineColumn1 = new inSSIDer.UI.Controls.SparkLineColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.scannerGrid)).BeginInit();
             this.cmsColumns.SuspendLayout();
             this.SuspendLayout();
@@ -103,14 +117,14 @@
             this.ageColumn,
             this.latColumn,
             this.lonColumn});
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(210)))), ((int)(((byte)(210)))));
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.DimGray;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.scannerGrid.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.75F);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(210)))), ((int)(((byte)(210)))));
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.DimGray;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.scannerGrid.DefaultCellStyle = dataGridViewCellStyle4;
             this.scannerGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.scannerGrid.EnableHeadersVisualStyles = false;
             this.scannerGrid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
@@ -120,8 +134,8 @@
             this.scannerGrid.ReadOnly = true;
             this.scannerGrid.RowHeadersVisible = false;
             this.scannerGrid.RowHeadersWidth = 50;
-            dataGridViewCellStyle6.NullValue = "null!";
-            this.scannerGrid.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle5.NullValue = "null!";
+            this.scannerGrid.RowsDefaultCellStyle = dataGridViewCellStyle5;
             this.scannerGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.scannerGrid.ShowEditingIcon = false;
             this.scannerGrid.Size = new System.Drawing.Size(972, 329);
@@ -155,9 +169,7 @@
             // macColumn
             // 
             this.macColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.macColumn.DefaultCellStyle = dataGridViewCellStyle3;
-            this.macColumn.FillWeight = 130F;
+            this.macColumn.FillWeight = 70F;
             this.macColumn.HeaderText = "MAC Address";
             this.macColumn.MinimumWidth = 130;
             this.macColumn.Name = "macColumn";
@@ -177,8 +189,8 @@
             // rssiColumn
             // 
             this.rssiColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.rssiColumn.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.rssiColumn.DefaultCellStyle = dataGridViewCellStyle3;
             this.rssiColumn.FillWeight = 40F;
             this.rssiColumn.HeaderText = "RSSI";
             this.rssiColumn.MinimumWidth = 50;
@@ -383,6 +395,116 @@
             this.longitudeToolStripMenuItem.Text = "Longitude";
             this.longitudeToolStripMenuItem.Click += new System.EventHandler(this.MacAddressToolStripMenuItemClick);
             // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.Visible = false;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle6;
+            this.dataGridViewTextBoxColumn2.FillWeight = 130F;
+            this.dataGridViewTextBoxColumn2.HeaderText = "MAC Address";
+            this.dataGridViewTextBoxColumn2.MinimumWidth = 130;
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.Width = 130;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn3.FillWeight = 150F;
+            this.dataGridViewTextBoxColumn3.HeaderText = "SSID";
+            this.dataGridViewTextBoxColumn3.MaxInputLength = 32;
+            this.dataGridViewTextBoxColumn3.MinimumWidth = 70;
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            // 
+            // sparkLineColumn1
+            // 
+            this.sparkLineColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.sparkLineColumn1.DefaultCellStyle = dataGridViewCellStyle7;
+            this.sparkLineColumn1.FillWeight = 40F;
+            this.sparkLineColumn1.HeaderText = "RSSI";
+            this.sparkLineColumn1.MinimumWidth = 50;
+            this.sparkLineColumn1.Name = "sparkLineColumn1";
+            this.sparkLineColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.sparkLineColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.sparkLineColumn1.Width = 82;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
+            this.dataGridViewTextBoxColumn4.FillWeight = 50F;
+            this.dataGridViewTextBoxColumn4.HeaderText = "Channel";
+            this.dataGridViewTextBoxColumn4.MinimumWidth = 50;
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn5.FillWeight = 80F;
+            this.dataGridViewTextBoxColumn5.HeaderText = "Vendor";
+            this.dataGridViewTextBoxColumn5.MinimumWidth = 80;
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            // 
+            // dataGridViewTextBoxColumn6
+            // 
+            this.dataGridViewTextBoxColumn6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn6.FillWeight = 80F;
+            this.dataGridViewTextBoxColumn6.HeaderText = "Security";
+            this.dataGridViewTextBoxColumn6.MinimumWidth = 80;
+            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            // 
+            // dataGridViewTextBoxColumn7
+            // 
+            this.dataGridViewTextBoxColumn7.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn7.FillWeight = 60F;
+            this.dataGridViewTextBoxColumn7.HeaderText = "Max Rate";
+            this.dataGridViewTextBoxColumn7.MinimumWidth = 60;
+            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            // 
+            // dataGridViewTextBoxColumn8
+            // 
+            this.dataGridViewTextBoxColumn8.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
+            this.dataGridViewTextBoxColumn8.HeaderText = "Network Type";
+            this.dataGridViewTextBoxColumn8.MinimumWidth = 100;
+            this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
+            // 
+            // dataGridViewTextBoxColumn9
+            // 
+            this.dataGridViewTextBoxColumn9.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn9.FillWeight = 70F;
+            this.dataGridViewTextBoxColumn9.HeaderText = "First Seen";
+            this.dataGridViewTextBoxColumn9.MinimumWidth = 70;
+            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
+            // 
+            // dataGridViewTextBoxColumn10
+            // 
+            this.dataGridViewTextBoxColumn10.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn10.FillWeight = 70F;
+            this.dataGridViewTextBoxColumn10.HeaderText = "Last Seen";
+            this.dataGridViewTextBoxColumn10.MinimumWidth = 70;
+            this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
+            // 
+            // dataGridViewTextBoxColumn11
+            // 
+            this.dataGridViewTextBoxColumn11.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn11.FillWeight = 70F;
+            this.dataGridViewTextBoxColumn11.HeaderText = "Latitude";
+            this.dataGridViewTextBoxColumn11.MinimumWidth = 70;
+            this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
+            // 
+            // dataGridViewTextBoxColumn12
+            // 
+            this.dataGridViewTextBoxColumn12.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn12.FillWeight = 70F;
+            this.dataGridViewTextBoxColumn12.HeaderText = "Longitude";
+            this.dataGridViewTextBoxColumn12.MinimumWidth = 70;
+            this.dataGridViewTextBoxColumn12.Name = "dataGridViewTextBoxColumn12";
+            // 
             // ScannerView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -426,5 +548,18 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ageColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn latColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn lonColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private SparkLineColumn sparkLineColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
     }
 }

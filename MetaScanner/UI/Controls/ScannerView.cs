@@ -166,10 +166,13 @@ namespace inSSIDer.UI.Controls
                                 {
                                     row.DefaultCellStyle.Font = new Font(Font.FontFamily, Font.Size, FontStyle.Bold);
                                 }
+                                else
+                                {
+                                    row.DefaultCellStyle.Font = new Font(Font.FontFamily, Font.Size, FontStyle.Regular);
+                                }
                             }
                             else
                             {
-                                row.DefaultCellStyle.Font = new Font(Font.FontFamily, Font.Size, FontStyle.Regular);
                                 //Update vendor if null. This has happend before
                                 if (row.Cells["vendorColumn"].Value == null)
                                     row.Cells["vendorColumn"].Value = ap.Vendor;
