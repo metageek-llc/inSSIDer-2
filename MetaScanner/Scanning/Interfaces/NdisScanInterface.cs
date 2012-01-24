@@ -79,6 +79,10 @@ namespace inSSIDer.Scanning.Interfaces
                     NetworkData data2 = new NetworkData(ex.MacAddress);
                     data2.Channel = Utilities.ConvertToChannel(ex.Configuration.DSConfig);
                     NetworkData item = data2;
+
+                    if (item.MyMacAddress.MyValue == 0)
+                        continue;
+
                     if ((ex.IELength <= ex.IEs.Length) && (ex.IELength > 28))
                     {
                         byte[] ies = new byte[ex.IELength];
