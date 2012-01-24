@@ -138,13 +138,13 @@ namespace inSSIDer.UI.Controls
                         //Clear non-existent rows
                         CleanRows();
 
-                        foreach (AccessPoint ap in _sc.Cache.GetAccessPoints())
+                        foreach (var ap in _sc.Cache.GetAccessPoints())
                         {
-                            DataGridViewRow row = FindRow(ap);
+                            var row = FindRow(ap);
                             if (row == null)
                             {
                                 //Add a new Row
-                                DataGridViewRow newrow = new DataGridViewRow();
+                                var newrow = new DataGridViewRow();
                                 newrow.CreateCells(scannerGrid, ap.GetData());
 
                                 scannerGrid.Rows.Add(newrow);
@@ -243,19 +243,26 @@ namespace inSSIDer.UI.Controls
             {
                 try
                 {
-                    Invoke(new DelInvokeEvent(Cache_DataReset), new object[] { sender, e });
+                    Invoke(new DelInvokeEvent(Cache_DataReset), new[] { sender, e });
                 }
                 catch (InvalidOperationException) { }
                 return;
             }
-            scannerGrid.Rows.Clear();
-            selectAllNetworksCheckBox.CheckState = CheckState.Checked;
-            _ignoreSelection = true;
+            try
+            {
+                scannerGrid.Rows.Clear();
+            }
+            catch(ArgumentOutOfRangeException) { }
+            finally
+            {
+                selectAllNetworksCheckBox.CheckState = CheckState.Checked;
+                _ignoreSelection = true;
+            }
         }
 
         private void CleanRows()
         {
-            //If there are more rows than APs, we need to remove the bogas one(s)
+            //If there are more rows than APs, we need to remove the bogus one(s)
             if (scannerGrid.RowCount <= _sc.Cache.Count) return;
 
             var macs = new List<string>();
