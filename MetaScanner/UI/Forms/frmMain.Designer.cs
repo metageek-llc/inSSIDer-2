@@ -45,7 +45,6 @@ namespace inSSIDer.UI.Forms
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.crashToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.switchToMiniModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.normalModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fullscreenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcutsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -198,20 +197,11 @@ namespace inSSIDer.UI.Forms
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.switchToMiniModeToolStripMenuItem,
             this.normalModeToolStripMenuItem,
             this.fullscreenToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "View";
-            // 
-            // switchToMiniModeToolStripMenuItem
-            // 
-            this.switchToMiniModeToolStripMenuItem.Name = "switchToMiniModeToolStripMenuItem";
-            this.switchToMiniModeToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F10;
-            this.switchToMiniModeToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
-            this.switchToMiniModeToolStripMenuItem.Text = "Mini Mode";
-            this.switchToMiniModeToolStripMenuItem.Click += new System.EventHandler(this.SwitchToMiniModeToolStripMenuItemClick);
             // 
             // normalModeToolStripMenuItem
             // 
@@ -219,7 +209,7 @@ namespace inSSIDer.UI.Forms
             this.normalModeToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.normalModeToolStripMenuItem.Enabled = false;
             this.normalModeToolStripMenuItem.Name = "normalModeToolStripMenuItem";
-            this.normalModeToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.normalModeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.normalModeToolStripMenuItem.Text = "Normal Mode";
             this.normalModeToolStripMenuItem.Click += new System.EventHandler(this.NormalModeToolStripMenuItemClick);
             // 
@@ -227,7 +217,7 @@ namespace inSSIDer.UI.Forms
             // 
             this.fullscreenToolStripMenuItem.Name = "fullscreenToolStripMenuItem";
             this.fullscreenToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F11;
-            this.fullscreenToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.fullscreenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.fullscreenToolStripMenuItem.Text = "Fullscreen";
             this.fullscreenToolStripMenuItem.Click += new System.EventHandler(this.FullscreenToolStripMenuItemClick);
             // 
@@ -669,7 +659,6 @@ namespace inSSIDer.UI.Forms
         private System.Windows.Forms.ToolStripStatusLabel loggingToolStripStatusLabel;
         private System.Windows.Forms.ToolStripStatusLabel locationToolStripStatusLabel;
         private System.Windows.Forms.ToolStripMenuItem normalModeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem switchToMiniModeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem developerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem startNullScanningToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stopNullScanningToolStripMenuItem;

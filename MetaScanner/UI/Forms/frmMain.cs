@@ -420,7 +420,7 @@ namespace inSSIDer.UI.Forms
             normalModeToolStripMenuItem.Enabled = true;
 
             // Only allow switch to mini mode from normal mode
-            switchToMiniModeToolStripMenuItem.Enabled = false;
+//            switchToMiniModeToolStripMenuItem.Enabled = false;
         }
 
         private void GpsStatTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -500,20 +500,6 @@ namespace inSSIDer.UI.Forms
             gpsStatToolStripMenuItem.Margin = new Padding(0, 0, networkInterfaceSelector1.Width + 5, 0);
         }
 
-        private void NetworkInterfaceSelectorNetworkScanStartEvent(object sender, EventArgs e)
-        {
-            if(_scanner.Interface == null)
-            {
-
-            }
-            _scanner.StartScanning();
-        }
-
-        private void NetworkInterfaceSelectorNetworkScanStopEvent(object sender, EventArgs e)
-        {
-            _scanner.StopScanning();
-        }
-
         private void NetworkScanner_InterfaceError(object sender, EventArgs e)
         {
             MessageBox.Show(Localizer.GetString("InterfaceError"),
@@ -537,7 +523,6 @@ namespace inSSIDer.UI.Forms
 
             fullscreenToolStripMenuItem.Enabled = true;
             normalModeToolStripMenuItem.Enabled = false;
-            switchToMiniModeToolStripMenuItem.Enabled = true;
         }
 
         private void PrevTabToolStripMenuItemClick(object sender, EventArgs e)
@@ -568,9 +553,6 @@ namespace inSSIDer.UI.Forms
             _scanner.ScanComplete -= ScannerScanComplete;
             scannerView.RequireRefresh -= ScannerViewRequireRefresh;
             _gpsStatTimer.Stop();
-
-            //networkInterfaceSelector1.NetworkScanStartEvent -= NetworkInterfaceSelectorNetworkScanStartEvent;
-            //networkInterfaceSelector1.NetworkScanStopEvent -= NetworkInterfaceSelectorNetworkScanStopEvent;
 
             //Release control events too
             gpsMon1.ReleaseEvents();
@@ -615,7 +597,7 @@ namespace inSSIDer.UI.Forms
         {
             if (_scanner.Logger == null)
             {
-                _scanner.Logger = new GpxDataLogger() {AutoSave = true, AutoSaveInterval = TimeSpan.FromSeconds(10)};
+                _scanner.Logger = new GpxDataLogger {AutoSave = true, AutoSaveInterval = TimeSpan.FromSeconds(10)};
             }
 
             if (!_scanner.Logger.Enabled) //If the logger is null, it can't be enabled
@@ -648,13 +630,6 @@ namespace inSSIDer.UI.Forms
         private void StopNullScanningToolStripMenuItemClick(object sender, EventArgs e)
         {
             _scanner.StopNullScanning();
-        }
-
-        private void SwitchToMiniModeToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            //switch to the mini form and preserve the scanner
-            Program.Switching = Utilities.SwitchMode.ToMini;
-            Close();
         }
 
         /// <summary>
