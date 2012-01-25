@@ -163,13 +163,7 @@ namespace inSSIDer.UI.Controls
 
                                 //Connection State
                                 if (ap.Connected)
-                                {
                                     row.DefaultCellStyle.Font = new Font(Font.FontFamily, Font.Size, FontStyle.Bold);
-                                }
-                                else
-                                {
-                                    row.DefaultCellStyle.Font = new Font(Font.FontFamily, Font.Size, FontStyle.Regular);
-                                }
                             }
                             else
                             {
