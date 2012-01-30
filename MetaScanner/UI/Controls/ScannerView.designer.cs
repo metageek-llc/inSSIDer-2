@@ -1,6 +1,6 @@
 ﻿namespace inSSIDer.UI.Controls
 {
-    partial class ScannerView
+    sealed partial class ScannerView
     {
         /// <summary> 
         /// Required designer variable.

@@ -36,7 +36,7 @@ using MetaGeek.WiFi;
 
 namespace inSSIDer.UI.Controls
 {
-    public partial class ScannerView : UserControl, IDisposable
+    public sealed partial class ScannerView : UserControl, IDisposable
     {
         #region Fields
 
@@ -76,6 +76,7 @@ namespace inSSIDer.UI.Controls
         public ScannerView()
         {
             InitializeComponent();
+            scannerGrid.Font = new Font(Font.FontFamily, Font.Size, FontStyle.Regular);
             ForeColor = DefaultColorScheme.TableForeColor;
             id = Guid.NewGuid();
         }
