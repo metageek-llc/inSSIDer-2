@@ -19,3 +19,5 @@ tools
 /TestProject/bin
 /TestProject/obj
 MetaScanner.v11.suo
+Installer/*.msi
+Installer/*.exe
