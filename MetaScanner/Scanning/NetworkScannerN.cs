@@ -25,11 +25,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Net.NetworkInformation;
-using System.Text;
 using System.Threading;
-
+using System.Windows.Forms;
 using inSSIDer.Misc;
 using inSSIDer.Scanning.Interfaces;
 
@@ -47,7 +45,7 @@ namespace inSSIDer.Scanning
         private Thread MyScanThread;
         private WaitHandle[] MyWaitHandleArray;
         private IScanningInterface scanInterface;
-        private Timer SpeedTimer = new Timer(1000) {AutoReset = false};
+        private Timer SpeedTimer = new Timer(1000) { AutoReset = false };
         private WaitHandle[] SpeedWait;
 
         #endregion Fields
@@ -59,7 +57,8 @@ namespace inSSIDer.Scanning
         /// </summary>
         public bool IsScanning
         {
-            get; private set;
+            get;
+            private set;
         }
 
         /// <summary>
@@ -68,7 +67,8 @@ namespace inSSIDer.Scanning
         /// <remarks>Must be a WiFi adapter</remarks>
         public NetworkInterface NetworkInterface
         {
-            get; set;
+            get;
+            set;
         }
 
         #endregion Properties
@@ -106,10 +106,10 @@ namespace inSSIDer.Scanning
         public NetworkScannerN()
         {
             MyWaitHandleArray = new WaitHandle[] { MyTerminateEvent, MyScanCompleteEvent };
-            SpeedWait = new WaitHandle[] {MyScanThrottleEvent};
+            SpeedWait = new WaitHandle[] { MyScanThrottleEvent };
             SpeedTimer.Elapsed += SpeedTimer_Elapsed;
 
-            if(Utilities.IsXp())
+            if (Utilities.IsXp())
             {
                 scanInterface = new NdisScanInterface();
             }
@@ -151,7 +151,7 @@ namespace inSSIDer.Scanning
             //Set the interface used
             NetworkInterface = networkInterface;
 
-            if(error != null) return false;
+            if (error != null) return false;
 
             MyTerminateEvent.Reset();
 
@@ -216,12 +216,19 @@ namespace inSSIDer.Scanning
             {
                 //Wait for the terminate signal, the scan complete signal, or 3 seconds
                 //WaitHandle.WaitAll()
-                int num = WaitHandle.WaitAny(MyWaitHandleArray, 3000);
-
-                if (num != WaitHandle.WaitTimeout && (num != 1))
+                try
                 {
-                    //Stop the scanning loop
-                    break;
+                    int num = WaitHandle.WaitAny(MyWaitHandleArray, 3000);
+                    if (num != WaitHandle.WaitTimeout && (num != 1))
+                    {
+                        //Stop the scanning loop
+                        break;
+                    }
+                }
+                catch (MissingMethodException)
+                {
+                    MessageBox.Show("Could not start scanning, please check for .NET Framework service pack update");
+                    return;
                 }
 
                 //Scan speed throttling
