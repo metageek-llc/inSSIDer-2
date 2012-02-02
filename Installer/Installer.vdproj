@@ -15,6 +15,18 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_25664515F0234C6E6EF8C152D9453DC9"
+        "OwnerKey" = "8:_3A7B1567A2E453F024E9EA8EA9A7893B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_25664515F0234C6E6EF8C152D9453DC9"
+        "OwnerKey" = "8:_D6F346BC133C4DF2A34F5B74629F4ACE"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_3A7B1567A2E453F024E9EA8EA9A7893B"
         "OwnerKey" = "8:_D6F346BC133C4DF2A34F5B74629F4ACE"
         "MsmSig" = "8:_UNDEFINED"
@@ -35,6 +47,18 @@
         {
         "MsmKey" = "8:_3EE30CC307EB750380E2302E0101E2FF"
         "OwnerKey" = "8:_3A7B1567A2E453F024E9EA8EA9A7893B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_45B1027EDB1690A02E572724E2CF5210"
+        "OwnerKey" = "8:_3EE30CC307EB750380E2302E0101E2FF"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_45B1027EDB1690A02E572724E2CF5210"
+        "OwnerKey" = "8:_D6F346BC133C4DF2A34F5B74629F4ACE"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -160,7 +184,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_25664515F0234C6E6EF8C152D9453DC9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_3EE30CC307EB750380E2302E0101E2FF"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_45B1027EDB1690A02E572724E2CF5210"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -286,11 +322,42 @@
         }
         "File"
         {
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_25664515F0234C6E6EF8C152D9453DC9"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:nunit.framework, Version=2.5.8.10295, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_25664515F0234C6E6EF8C152D9453DC9"
+                    {
+                    "Name" = "8:nunit.framework.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:nunit.framework.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_D090D03BD69940418107A0FE149BB92D"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_3A7B1567A2E453F024E9EA8EA9A7893B"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:MetaGeek.Filters, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:MetaGeek.Filters, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_3A7B1567A2E453F024E9EA8EA9A7893B"
@@ -331,6 +398,37 @@
                     }
                 }
             "SourcePath" = "8:MetaGeek.Diagnostics.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_D090D03BD69940418107A0FE149BB92D"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_45B1027EDB1690A02E572724E2CF5210"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Ninject, Version=2.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_45B1027EDB1690A02E572724E2CF5210"
+                    {
+                    "Name" = "8:Ninject.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Ninject.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_D090D03BD69940418107A0FE149BB92D"
@@ -651,9 +749,9 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:inSSIDer 2.1"
+        "ProductName" = "8:inSSIDer"
         "ProductCode" = "8:{BF6379E6-9936-46B0-B6AC-C56EE3987D2E}"
-        "PackageCode" = "8:{E89B4F86-E9C7-4948-9844-5CFC3D609982}"
+        "PackageCode" = "8:{861C80E6-7959-4418-AA35-1BA884C054C0}"
         "UpgradeCode" = "8:{B23D6476-E629-452B-B3DE-F11012FF064C}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -664,7 +762,7 @@
         "Manufacturer" = "8:MetaGeek"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://www.metageek.net"
-        "Title" = "8:inSSIDer 2.1"
+        "Title" = "8:inSSIDer"
         "Subject" = "8:"
         "ARPCONTACT" = "8:MetaGeek, LLC"
         "Keywords" = "8:"
