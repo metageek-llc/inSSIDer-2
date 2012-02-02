@@ -814,7 +814,7 @@
         {
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_24A77C3F0C104FF28053F27A806E4DE9"
             {
-            "Name" = "8:inSSIDer 2.0"
+            "Name" = "8:inSSIDer"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -828,7 +828,7 @@
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_FB0CB9CE3CE146A7B882954336C12F47"
             {
-            "Name" = "8:inSSIDer 2.0"
+            "Name" = "8:inSSIDer"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
