@@ -242,7 +242,7 @@ namespace inSSIDer.UI.Forms
             // prevTabToolStripMenuItem
             // 
             this.prevTabToolStripMenuItem.Name = "prevTabToolStripMenuItem";
-            this.prevTabToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.prevTabToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
             | System.Windows.Forms.Keys.Tab)));
             this.prevTabToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
             this.prevTabToolStripMenuItem.Text = "Prev Tab";
@@ -477,7 +477,7 @@ namespace inSSIDer.UI.Forms
             // 
             this.tabTimeGraph.BackColor = System.Drawing.Color.Black;
             this.tabTimeGraph.Controls.Add(this.timeGraph1);
-            this.tabTimeGraph.ForeColor = System.Drawing.Color.Lime;
+            this.tabTimeGraph.ForeColor = System.Drawing.Color.DimGray;
             this.tabTimeGraph.Location = new System.Drawing.Point(4, 29);
             this.tabTimeGraph.Name = "tabTimeGraph";
             this.tabTimeGraph.Size = new System.Drawing.Size(1000, 229);
@@ -504,7 +504,7 @@ namespace inSSIDer.UI.Forms
             // 
             this.tab24Chan.BackColor = System.Drawing.Color.Black;
             this.tab24Chan.Controls.Add(this.chanView24);
-            this.tab24Chan.ForeColor = System.Drawing.Color.Lime;
+            this.tab24Chan.ForeColor = System.Drawing.Color.DimGray;
             this.tab24Chan.Location = new System.Drawing.Point(4, 29);
             this.tab24Chan.Name = "tab24Chan";
             this.tab24Chan.Size = new System.Drawing.Size(1000, 229);
@@ -530,7 +530,7 @@ namespace inSSIDer.UI.Forms
             // 
             this.tab58Chan.BackColor = System.Drawing.Color.Black;
             this.tab58Chan.Controls.Add(this.chanView58);
-            this.tab58Chan.ForeColor = System.Drawing.Color.Lime;
+            this.tab58Chan.ForeColor = System.Drawing.Color.DimGray;
             this.tab58Chan.Location = new System.Drawing.Point(4, 29);
             this.tab58Chan.Name = "tab58Chan";
             this.tab58Chan.Size = new System.Drawing.Size(1000, 229);
@@ -557,7 +557,7 @@ namespace inSSIDer.UI.Forms
             // 
             this.tabGps.BackColor = System.Drawing.Color.Black;
             this.tabGps.Controls.Add(this.gpsMon1);
-            this.tabGps.ForeColor = System.Drawing.Color.Lime;
+            this.tabGps.ForeColor = System.Drawing.Color.DimGray;
             this.tabGps.Location = new System.Drawing.Point(4, 29);
             this.tabGps.Name = "tabGps";
             this.tabGps.Size = new System.Drawing.Size(1000, 229);
@@ -569,7 +569,7 @@ namespace inSSIDer.UI.Forms
             // 
             this.gpsMon1.BackColor = System.Drawing.Color.Black;
             this.gpsMon1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gpsMon1.ForeColor = System.Drawing.Color.Lime;
+            this.gpsMon1.ForeColor = System.Drawing.Color.DimGray;
             this.gpsMon1.Location = new System.Drawing.Point(0, 0);
             this.gpsMon1.Name = "gpsMon1";
             this.gpsMon1.Size = new System.Drawing.Size(1000, 229);

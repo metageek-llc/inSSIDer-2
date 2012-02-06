@@ -127,7 +127,7 @@ namespace inSSIDer.UI.Forms
             this.grayGroupBox3.Controls.Add(this.chGPSFixLost);
             this.grayGroupBox3.Controls.Add(this.chGPSLockup);
             this.grayGroupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grayGroupBox3.ForeColor = System.Drawing.Color.Lime;
+            this.grayGroupBox3.ForeColor = System.Drawing.Color.White;
             this.grayGroupBox3.Location = new System.Drawing.Point(12, 248);
             this.grayGroupBox3.Name = "grayGroupBox3";
             this.grayGroupBox3.Padding = new System.Windows.Forms.Padding(3, 6, 3, 3);
@@ -167,7 +167,7 @@ namespace inSSIDer.UI.Forms
             // 
             this.numMaxSignal.BackColor = System.Drawing.Color.Black;
             this.numMaxSignal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.numMaxSignal.ForeColor = System.Drawing.Color.Lime;
+            this.numMaxSignal.ForeColor = System.Drawing.Color.White;
             this.numMaxSignal.Location = new System.Drawing.Point(174, 132);
             this.numMaxSignal.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
             this.numMaxSignal.Maximum = new decimal(new int[] {
@@ -193,7 +193,7 @@ namespace inSSIDer.UI.Forms
             // 
             this.numMaxSpeed.BackColor = System.Drawing.Color.Black;
             this.numMaxSpeed.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.numMaxSpeed.ForeColor = System.Drawing.Color.Lime;
+            this.numMaxSpeed.ForeColor = System.Drawing.Color.White;
             this.numMaxSpeed.Location = new System.Drawing.Point(159, 106);
             this.numMaxSpeed.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
             this.numMaxSpeed.Maximum = new decimal(new int[] {
@@ -209,7 +209,7 @@ namespace inSSIDer.UI.Forms
             // 
             this.numSatCount.BackColor = System.Drawing.Color.Black;
             this.numSatCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.numSatCount.ForeColor = System.Drawing.Color.Lime;
+            this.numSatCount.ForeColor = System.Drawing.Color.White;
             this.numSatCount.Location = new System.Drawing.Point(84, 83);
             this.numSatCount.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
             this.numSatCount.Minimum = new decimal(new int[] {
@@ -251,7 +251,7 @@ namespace inSSIDer.UI.Forms
             // lbldataq
             // 
             this.lbldataq.AutoSize = true;
-            this.lbldataq.ForeColor = System.Drawing.Color.Lime;
+            this.lbldataq.ForeColor = System.Drawing.Color.White;
             this.lbldataq.Location = new System.Drawing.Point(6, 0);
             this.lbldataq.Name = "lbldataq";
             this.lbldataq.Size = new System.Drawing.Size(65, 13);
@@ -312,7 +312,7 @@ namespace inSSIDer.UI.Forms
             this.grayGroupBox2.Controls.Add(this.lblVis);
             this.grayGroupBox2.Controls.Add(this.chShowRssiMarkers);
             this.grayGroupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grayGroupBox2.ForeColor = System.Drawing.Color.Lime;
+            this.grayGroupBox2.ForeColor = System.Drawing.Color.White;
             this.grayGroupBox2.Location = new System.Drawing.Point(12, 189);
             this.grayGroupBox2.Name = "grayGroupBox2";
             this.grayGroupBox2.Padding = new System.Windows.Forms.Padding(3, 6, 3, 3);
@@ -324,7 +324,7 @@ namespace inSSIDer.UI.Forms
             // lblVis
             // 
             this.lblVis.AutoSize = true;
-            this.lblVis.ForeColor = System.Drawing.Color.Lime;
+            this.lblVis.ForeColor = System.Drawing.Color.White;
             this.lblVis.Location = new System.Drawing.Point(6, 0);
             this.lblVis.Name = "lblVis";
             this.lblVis.Size = new System.Drawing.Size(65, 13);
@@ -359,7 +359,7 @@ namespace inSSIDer.UI.Forms
             this.grayGroupBox1.Controls.Add(this.txtOutDir);
             this.grayGroupBox1.Controls.Add(this.txtInFiles);
             this.grayGroupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grayGroupBox1.ForeColor = System.Drawing.Color.Lime;
+            this.grayGroupBox1.ForeColor = System.Drawing.Color.White;
             this.grayGroupBox1.Location = new System.Drawing.Point(12, 12);
             this.grayGroupBox1.Name = "grayGroupBox1";
             this.grayGroupBox1.Padding = new System.Windows.Forms.Padding(3, 6, 3, 3);
@@ -402,7 +402,7 @@ namespace inSSIDer.UI.Forms
             // lblFiles
             // 
             this.lblFiles.AutoSize = true;
-            this.lblFiles.ForeColor = System.Drawing.Color.Lime;
+            this.lblFiles.ForeColor = System.Drawing.Color.White;
             this.lblFiles.Location = new System.Drawing.Point(6, 0);
             this.lblFiles.Name = "lblFiles";
             this.lblFiles.Size = new System.Drawing.Size(28, 13);
@@ -412,7 +412,7 @@ namespace inSSIDer.UI.Forms
             // chExportEachAp
             // 
             this.chExportEachAp.AutoSize = true;
-            this.chExportEachAp.ForeColor = System.Drawing.Color.Lime;
+            this.chExportEachAp.ForeColor = System.Drawing.Color.White;
             this.chExportEachAp.Location = new System.Drawing.Point(9, 88);
             this.chExportEachAp.Name = "chExportEachAp";
             this.chExportEachAp.Size = new System.Drawing.Size(230, 17);
@@ -449,7 +449,7 @@ namespace inSSIDer.UI.Forms
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.ForeColor = System.Drawing.Color.Lime;
+            this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(22, 15);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(55, 13);
@@ -473,7 +473,7 @@ namespace inSSIDer.UI.Forms
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.ForeColor = System.Drawing.Color.Lime;
+            this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(6, 39);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(71, 13);
@@ -486,7 +486,7 @@ namespace inSSIDer.UI.Forms
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.txtOutDir.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(29)))), ((int)(((byte)(29)))));
             this.txtOutDir.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtOutDir.ForeColor = System.Drawing.Color.Lime;
+            this.txtOutDir.ForeColor = System.Drawing.Color.White;
             this.txtOutDir.Location = new System.Drawing.Point(83, 39);
             this.txtOutDir.Name = "txtOutDir";
             this.txtOutDir.Size = new System.Drawing.Size(226, 20);
@@ -498,7 +498,7 @@ namespace inSSIDer.UI.Forms
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.txtInFiles.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(29)))), ((int)(((byte)(29)))));
             this.txtInFiles.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtInFiles.ForeColor = System.Drawing.Color.Lime;
+            this.txtInFiles.ForeColor = System.Drawing.Color.White;
             this.txtInFiles.Location = new System.Drawing.Point(83, 13);
             this.txtInFiles.Name = "txtInFiles";
             this.txtInFiles.ReadOnly = true;

@@ -166,8 +166,8 @@
             // 
             // gpsGraph1
             // 
-            this.gpsGraph1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.gpsGraph1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gpsGraph1.ForeColor = System.Drawing.Color.White;
             this.gpsGraph1.Location = new System.Drawing.Point(192, 0);
@@ -192,7 +192,7 @@
             this.Controls.Add(this.lblSpeed);
             this.Controls.Add(this.lblLon);
             this.Controls.Add(this.lblLat);
-            this.ForeColor = System.Drawing.Color.Lime;
+            this.ForeColor = System.Drawing.Color.White;
             this.Name = "GpsMon";
             this.Size = new System.Drawing.Size(800, 196);
             this.ResumeLayout(false);
