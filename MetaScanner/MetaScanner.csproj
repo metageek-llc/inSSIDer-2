@@ -312,12 +312,6 @@
     <EmbeddedResource Include="UI\Forms\frmTest.resx">
       <DependentUpon>frmTest.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Mini\frmMini.resx">
-      <DependentUpon>frmMini.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Mini\ScannerViewMini.resx">
-      <DependentUpon>ScannerViewMini.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UnhandledException\UnhandledExDlgForm.resx">
       <DependentUpon>UnhandledExDlgForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -356,18 +350,6 @@
     </Compile>
     <Compile Include="UI\Forms\frmTest.Designer.cs">
       <DependentUpon>frmTest.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Mini\frmMini.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Mini\frmMini.Designer.cs">
-      <DependentUpon>frmMini.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Mini\ScannerViewMini.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Mini\ScannerViewMini.designer.cs">
-      <DependentUpon>ScannerViewMini.cs</DependentUpon>
     </Compile>
     <Compile Include="UnhandledException\MapiMailMessage.cs" />
     <Compile Include="UnhandledException\PathRemover.cs" />
