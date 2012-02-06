@@ -57,7 +57,8 @@ namespace MetaGeek.WiFi
         /// </summary>
         public string Alias
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -89,7 +90,8 @@ namespace MetaGeek.WiFi
         /// </summary>
         public GpsData GpsData
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -97,7 +99,8 @@ namespace MetaGeek.WiFi
         /// </summary>
         public bool Graph
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -105,7 +108,8 @@ namespace MetaGeek.WiFi
         /// </summary>
         public bool Highlight
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -113,7 +117,8 @@ namespace MetaGeek.WiFi
         /// </summary>
         public long Index
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -137,7 +142,8 @@ namespace MetaGeek.WiFi
         /// </summary>
         public DateTime LastSeenTimestamp
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -161,7 +167,8 @@ namespace MetaGeek.WiFi
         /// </summary>
         public Color MyColor
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -185,7 +192,7 @@ namespace MetaGeek.WiFi
         /// </summary>
         public IeParser.TypeNSettings NSettings
         {
-            get {return LastData.NSettings; }
+            get { return LastData.NSettings; }
         }
 
         /// <summary>
@@ -250,7 +257,8 @@ namespace MetaGeek.WiFi
         /// </summary>
         public DateTime Timestamp
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -258,7 +266,8 @@ namespace MetaGeek.WiFi
         /// </summary>
         public string Vendor
         {
-            get; set;
+            get;
+            set;
         }
 
         #endregion Properties
@@ -291,7 +300,7 @@ namespace MetaGeek.WiFi
             if (data == null) throw new ArgumentNullException("data");
             lock (MyNetworkDataCollection)
             {
-                MyNetworkDataCollection.Add((NetworkData) data.Clone());
+                MyNetworkDataCollection.Add((NetworkData)data.Clone());
             }
             Timestamp = data.MyTimestamp;
 
@@ -351,7 +360,7 @@ namespace MetaGeek.WiFi
                                                             0,
                                                             _orignalData.SupportedRates,
                                                             _orignalData.NetworkType,
-                                                            (int) (time - LastSeenTimestamp).TotalSeconds));
+                                                            (int)(time - LastSeenTimestamp).TotalSeconds));
             }
             Timestamp = time;
         }
@@ -393,7 +402,7 @@ namespace MetaGeek.WiFi
                                : Channel.ToString(),
                            Vendor,
                            Security,
-                           MaxRate + (IsN ? " (N)" : ""),
+                           MaxRate,
                            NetworkType,
                            FirstSeenTimestamp.ToLongTimeString(),
                            LastSeenTimestamp.ToLongTimeString(),
