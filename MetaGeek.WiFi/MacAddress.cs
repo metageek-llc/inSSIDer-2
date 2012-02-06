@@ -103,7 +103,7 @@ namespace MetaGeek.WiFi
 
             foreach (byte b in _bytes)
             {
-                _myValue = _myValue << 4;
+                _myValue = _myValue << 8;
                 _myValue |= b;
             }
         }
