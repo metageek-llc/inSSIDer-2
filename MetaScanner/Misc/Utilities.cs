@@ -53,14 +53,14 @@ namespace inSSIDer.Misc
             Color.FromArgb(255, 252,52,255),
             Color.FromArgb(255, 148,255,255),
         };
-        private static readonly CultureInfo ci = (CultureInfo) CultureInfo.CurrentCulture.Clone();
+        private static readonly CultureInfo ci = (CultureInfo)CultureInfo.CurrentCulture.Clone();
 
         /// <summary>
         /// Infrastructure mode strings.
         /// </summary>
         public static readonly ValueString[] InfrastructureText = new[]{
             new ValueString( (int)NetworkInfrastructure.Ndis80211Infrastructure, "Infrastructure" ),
-            new ValueString( (int)NetworkInfrastructure.Ndis80211Ibss, "Ad Hoc" ),
+            new ValueString( (int)NetworkInfrastructure.Ndis80211Ibss, "Adhoc" ),
             new ValueString( (int)NetworkInfrastructure.Ndis80211AutoUnknown, "Auto or unknown" )
          };
 
@@ -309,9 +309,9 @@ namespace inSSIDer.Misc
         public static byte[] StringToByteArray(String hex)
         {
             int numberChars = hex.Length;
-            byte[] bytes = new byte[numberChars/2];
+            byte[] bytes = new byte[numberChars / 2];
             for (int i = 0; i < numberChars; i += 2)
-                bytes[i/2] = Convert.ToByte(hex.Substring(i, 2), 16);
+                bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
             return bytes;
         }
 
