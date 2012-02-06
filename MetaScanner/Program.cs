@@ -14,7 +14,6 @@ using inSSIDer.Misc;
 using inSSIDer.Properties;
 using inSSIDer.Scanning;
 using inSSIDer.UI.Forms;
-using inSSIDer.UI.Mini;
 using inSSIDer.UnhandledException;
 
 using MetaGeek.Utils;
@@ -109,9 +108,9 @@ namespace inSSIDer
         {
             Debug.WriteLine("inSSIDer 2 version " + Application.ProductVersion + " Starting");
             //TODO: Make conmmand line option to enable logging on debug builds. Like /log
-            #if DEBUG && LOG
+#if DEBUG && LOG
             Log.Start();
-            #endif
+#endif
             Debug.WriteLine("Hook exception handlers");
             // Create new instance of UnhandledExceptionDlg:
             // NOTE: this hooks up the exception handler functions
@@ -120,23 +119,23 @@ namespace inSSIDer
 
             Debug.WriteLine("Check .NET configuration system");
             //Check for config system condition here
-            if(!Settings.Default.CheckSettingsSystem())
+            if (!Settings.Default.CheckSettingsSystem())
             {
                 //The settings system is broken, notify and exit
                 MessageBox.Show(
                     Localizer.GetString("ConfigSystemError"),
-                    "Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            #if DEBUG && LOG
+#if DEBUG && LOG
             frmTest ft = new frmTest();
             Thread debugThread = new Thread(() => Application.Run(ft));
             debugThread.Start();
-            #endif
+#endif
 
             //Initialize the scanner object before passing it to any interface
             ScanController scanner = new ScanController();
@@ -198,19 +197,6 @@ namespace inSSIDer
 
             Switching = Settings.Default.lastMini ? Utilities.SwitchMode.ToMini : Utilities.SwitchMode.ToMain;
 
-            //if(Settings.Default.lastMini)
-            //{
-            //    Switching = Utilities.SwitchMode.ToMini;
-            //    form = new FormMini();
-            //    SettingsMgr.ApplyMiniFormSettings((Form)form);
-            //}
-            //else
-            //{
-            //    Switching = Utilities.SwitchMode.ToMain;
-            //    form = new FormMain();
-            //    SettingsMgr.ApplyMainFormSettings((Form)form);
-            //}
-
             //Apply settings now
             SettingsMgr.ApplyGpsSettings(scanner.GpsControl);
 
@@ -227,12 +213,6 @@ namespace inSSIDer
                         Debug.WriteLine("Switch to main form");
                         form = new FormMain(scanner);
                         SettingsMgr.ApplyMainFormSettings((Form)form);
-                        break;
-                    case Utilities.SwitchMode.ToMini:
-                        //We're switching to the mini form
-                        Debug.WriteLine("Switch to mini form");
-                        form = new FormMini();
-                        SettingsMgr.ApplyMiniFormSettings((Form)form);
                         break;
                 }
                 LastSwitch = Switching;
@@ -261,11 +241,10 @@ namespace inSSIDer
 
             } while (Switching != Utilities.SwitchMode.None);
 
-            Settings.Default.lastMini = form.GetType() == typeof(FormMini);
 
-            if(scanner.GpsControl != null)
-            //GPS enabled setting
-            Settings.Default.gpsEnabled = scanner.GpsControl.Enabled;
+            if (scanner.GpsControl != null)
+                //GPS enabled setting
+                Settings.Default.gpsEnabled = scanner.GpsControl.Enabled;
 
             // Save Filters
 

@@ -162,9 +162,9 @@ namespace inSSIDer.UI.Forms
             // This allows us to update the news file
             bool copied = CopyHtmlToTemp();
 
-            #if(DEBUG)
+#if(DEBUG)
             copied = true;
-            #endif
+#endif
             // Force update if we just copied the file over
             bool newsDisplayedProperly = htmlControl.UpdateFile(copied);
             if (!newsDisplayedProperly)
@@ -173,20 +173,20 @@ namespace inSSIDer.UI.Forms
                 detailsTabControl.Controls.Remove(tabNews);
             }
 
-            #if CRASH
+#if CRASH
             crashToolStripMenuItem.Enabled = true;
             crashToolStripMenuItem.Visible = true;
-            #endif
+#endif
 
-            #if DEBUG
+#if DEBUG
             developerToolStripMenuItem.Visible = true;
-            #endif
+#endif
             detailsTabControl.SelectedIndex = Settings.Default.formTabIndex;
 
             RefreshAll();
 
             //Continue scanning if we just switched and were scanning
-            if(Program.WasScanning) networkInterfaceSelector1.StartScan();
+            if (Program.WasScanning) networkInterfaceSelector1.StartScan();
 
             //Hook the interface error event
             _scanner.NetworkScanner.InterfaceError += NetworkScanner_InterfaceError;
@@ -318,9 +318,9 @@ namespace inSSIDer.UI.Forms
 
         private void CrashToolStripMenuItemClick(object sender, EventArgs e)
         {
-            #if CRASH
+#if CRASH
             throw new NullReferenceException("You crashed it!");
-            #endif
+#endif
         }
 
         private void detailsTabControl_MouseDown(object sender, MouseEventArgs e)
@@ -339,18 +339,18 @@ namespace inSSIDer.UI.Forms
 
         private void ExportToNs1ToolStripMenuItemClick(object sender, EventArgs e)
         {
-            if(sdlgNs1.ShowDialog(this) == DialogResult.OK)
+            if (sdlgNs1.ShowDialog(this) == DialogResult.OK)
             {
                 //Write the file
-                Ns1Writer.Write(sdlgNs1.FileName,_scanner.Cache.GetAccessPoints());
-                MessageBox.Show(Localizer.GetString("ExportComplete"),Localizer.GetString("Finished"), MessageBoxButtons.OK);
+                Ns1Writer.Write(sdlgNs1.FileName, _scanner.Cache.GetAccessPoints());
+                MessageBox.Show(Localizer.GetString("ExportComplete"), Localizer.GetString("Finished"), MessageBoxButtons.OK);
             }
         }
 
         private static string FormatSizeString(long sizeInBytes)
         {
             string output = "0B";
-            if(sizeInBytes >= 1024)//Greater than or equal to a kilobyte
+            if (sizeInBytes >= 1024)//Greater than or equal to a kilobyte
             {
                 if (sizeInBytes >= 1048576)//Greater than or equal to a megabyte
                 {
@@ -420,7 +420,7 @@ namespace inSSIDer.UI.Forms
             normalModeToolStripMenuItem.Enabled = true;
 
             // Only allow switch to mini mode from normal mode
-//            switchToMiniModeToolStripMenuItem.Enabled = false;
+            //            switchToMiniModeToolStripMenuItem.Enabled = false;
         }
 
         private void GpsStatTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -503,7 +503,7 @@ namespace inSSIDer.UI.Forms
         private void NetworkScanner_InterfaceError(object sender, EventArgs e)
         {
             MessageBox.Show(Localizer.GetString("InterfaceError"),
-                    "Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             networkInterfaceSelector1.StopScan();
         }
 
@@ -597,7 +597,7 @@ namespace inSSIDer.UI.Forms
         {
             if (_scanner.Logger == null)
             {
-                _scanner.Logger = new GpxDataLogger {AutoSave = true, AutoSaveInterval = TimeSpan.FromSeconds(10)};
+                _scanner.Logger = new GpxDataLogger { AutoSave = true, AutoSaveInterval = TimeSpan.FromSeconds(10) };
             }
 
             if (!_scanner.Logger.Enabled) //If the logger is null, it can't be enabled
@@ -649,21 +649,19 @@ namespace inSSIDer.UI.Forms
 
         private void UpdateButtonsStatus()
         {
-            if(InvokeRequired)
+            if (InvokeRequired)
             {
                 Invoke(new DelVoidCall(UpdateButtonsStatus));
                 return;
             }
 
-            if(_scanner.GpsControl.Enabled)
+            if (_scanner.GpsControl.Enabled)
             {
                 gpsStatToolStripMenuItem.Text = "Stop GPS";
-                //locationToolStripStatusLabel.Visible = true;
 
                 if (!_scanner.GpsControl.HasFix && _scanner.GpsControl.HasTalked)
                 {
                     gpsToolStripStatusLabel.Text = Localizer.GetString("GPSFixLost");
-                    //gPSStstusToolStripMenuItem.ForeColor = Color.Orange;
                 }
                 else if (!_scanner.GpsControl.HasFix && !_scanner.GpsControl.HasTalked && !_scanner.GpsControl.TimedOut)
                 {
@@ -676,20 +674,13 @@ namespace inSSIDer.UI.Forms
                 else
                 {
                     gpsToolStripStatusLabel.Text = Localizer.GetString("GPSOn");
-                    //gpsStatToolStripMenuItem.Text = "Stop GPS - GPS: Ok";
-                    //gPSStstusToolStripMenuItem.ForeColor = Color.LimeGreen;
                 }
                 gpsStatToolStripMenuItem.Image = Resources.wifiStop;
-                //turnOnOffGPSToolStripMenuItem.Text = Localizer.GetString("TurnGPSOff");
             }
             else
             {
-                //gpsStatToolStripMenuItem.Text = Localizer.GetString("GPSOff");
                 gpsStatToolStripMenuItem.Text = "Start GPS";
-                //locationToolStripStatusLabel.Visible = false;
                 locationToolStripStatusLabel.Text = string.Empty;
-                //gPSStstusToolStripMenuItem.ForeColor = Color.DarkRed;
-                //turnOnOffGPSToolStripMenuItem.Text = Localizer.GetString("TurnGPSOn");
                 gpsToolStripStatusLabel.Text = Localizer.GetString("GPSOff");
                 gpsStatToolStripMenuItem.Image = Resources.wifiPlay;
             }

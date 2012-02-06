@@ -29,7 +29,6 @@ using System.Windows.Forms;
 
 using inSSIDer.Properties;
 using inSSIDer.UI.Controls;
-using inSSIDer.UI.Mini;
 
 using MetaGeek.Gps;
 
@@ -140,40 +139,6 @@ namespace inSSIDer
             form.DesktopBounds = windowArea;
         }
 
-        /// <summary>
-        /// Applies saved settings to the ScannerViewMini
-        /// </summary>
-        /// <param name="view">The ScannerViewMini</param>
-        public static void ApplyScannerViewMiniSettings(ScannerViewMini view)
-        {
-            if (string.IsNullOrEmpty(Settings.Default.miniGridOrder)) return;
-            try
-            {
-                //The string is like this:
-                //<ColumnName>,<index>,<visible>|<ColumnName>,<index>,<visible>|<ColumnName>,<index>,<visible>|etc.
-                string[] parts;
-                foreach (string piece in Settings.Default.miniGridOrder.Split('|'))
-                {
-                    parts = piece.Split(',');
-                    view.scannerGrid.Columns[parts[0]].DisplayIndex = Convert.ToInt32(parts[1]);
-                    view.scannerGrid.Columns[parts[0]].Visible = parts[2] == "True";
-                }
-            }
-            catch (NullReferenceException)
-            {
-                //Something went wrong, ignore
-            }
-            catch (IndexOutOfRangeException)
-            {
-                //Something went wrong, ignore
-            }
-            catch (FormatException)
-            {
-                //Something went wrong, ignore
-            }
-            //refresh the context menu
-            view.UpdateColumnList();
-        }
 
         /// <summary>
         /// Applies saved settings to the ScannerView
@@ -316,34 +281,6 @@ namespace inSSIDer
             }
         }
 
-        /// <summary>
-        /// Saves the settings of the ScannerViewMini
-        /// </summary>
-        /// <param name="view">The ScannerViewMini</param>
-        public static void SaveScannerViewMiniSettings(ScannerViewMini view)
-        {
-            try
-            {
-                StringBuilder sbOut = new StringBuilder();
-                string pipe = "";
-                foreach (DataGridViewColumn col in view.scannerGrid.Columns)
-                {
-                    //Add the column name and order
-                    sbOut.Append(pipe);
-                    sbOut.Append(col.Name);
-                    sbOut.Append(",");
-                    sbOut.Append(col.DisplayIndex);
-                    sbOut.Append(",");
-                    sbOut.Append(col.Visible);
-                    pipe = "|";
-                }
-                Settings.Default.miniGridOrder = sbOut.ToString();
-            }
-            catch (Exception)
-            {
-                //Something went wrong, ignore
-            }
-        }
 
         /// <summary>
         /// Saves the settings of the ScannerView
