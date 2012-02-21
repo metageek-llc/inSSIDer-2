@@ -1,8 +1,5 @@
-Version:2.0.4.1015
+Version:2.1.1.1386
 URL:http://www.metageek.net/products/inssider
 Description: 
-Fixed crash at startup (in NetworkInterfaceSelector)
-Fixed MissingMethodException
-Added more detail to error reports
-
-(If a previous version of inSSIDer 2 is working for you, ignore this version)
+New filters UI
+Bug fixes
