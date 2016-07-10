@@ -140,6 +140,13 @@ namespace inSSIDer.UI.Forms
             {
                 _scanner.StopScanning();
             }
+
+            if (_scanner.GpsControl.Enabled)
+            {
+                _scanner.GpsControl.Stop();
+                _scanner.Logger.Stop();
+                _gpsStatTimer.Stop();
+            }
             scannerView.Dispose();
             _scanner.Dispose();
             SettingsMgr.SaveScannerViewSettings(scannerView);
